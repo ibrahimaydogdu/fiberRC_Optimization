@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "reference-resolver": {
+      "command": "python",
+      "args": ["F:\\My Drive\\MyProjects\\Makale Çalışmaları\\2027\\SedaDoktora3\\.agents\\tools\\reference_resolver.py"]
+    },
+    "filesystem": {
+      "command": "npx.cmd",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "F:\\My Drive\\MyProjects\\Makale Çalışmaları\\2027\\SedaDoktora3"]
+    },
+    "sequential-thinking": {
+      "command": "npx.cmd",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    }
+  }
+}

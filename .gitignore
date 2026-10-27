@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+~$*.docx
+~$*.xlsx
+*.tmp
+# Ucuncu taraf kaynaklar (telif/boyut)
+Papers/*
+!Papers/.gitkeep
+Evidence/*
+!Evidence/.gitkeep
+# Kosu klasorleri: buyuk ETABS/program ciktilari depoya girmez (run.json ve ozetler girer)
+03_Code_Execution/runs/**/*.EDB
+03_Code_Execution/runs/**/*.$et
+03_Code_Execution/runs/**/*.xlsx
+03_Code_Execution/runs/**/*.LOG
+03_Code_Execution/runs/**/*.OUT
+03_Code_Execution/runs/**/*.bak
+03_Code_Execution/runs/**/ErrorLog.txt
+03_Code_Execution/results/*.parquet
+# Dis YZ taramasi tam metinleri (buyuk, telifli)
+01_Literature/External_Scholar_*/PDFs/
+
+# Sources salt-okunur ve buyuk: depoya girmez
+Sources/
