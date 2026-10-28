@@ -33,3 +33,4 @@ Her oturum sonunda tabloya satır ekle: tarih · araç (Claude/Gemini) · yapıl
 | 2026-10-28 | Gemini | HANDOFF güncellendi, rebase ve push yapıldı, commit 309f3f6 | HANDOFF.md | - |
 | 2026-10-28 (6) | Gemini | GEMINI.md okundu; AciColumn.vb + T2 testi commit edildi (8526d8a); push tamam | RcCore/AciColumn.vb, RcCore.Tests/Program.vb, GEMINI.md, HANDOFF.md | Claude: SfrcBeam, Cost, Penalty modülleri |
 | 2026-10-28 (7) | Gemini | GEMINI.md okundu; SfrcBeam.vb + AciBeam FibreLimited + T3 commit edildi (bd1295e); push tamam | RcCore/SfrcBeam.vb, AciBeam.vb, RcCore.Tests/Program.vb, HANDOFF.md | Claude: VRd,F (kesme), Cost, Penalty |
+| 2026-10-28 (8) | Gemini | GEMINI.md okundu; SfrcBeam.VRdStirrup + T3 43/43 + CODE_PROVISIONS §3b commit edildi (2ce2582); push tamam | SfrcBeam.vb, Tests/Program.vb, CODE_PROVISIONS_EVIDENCE.md, HANDOFF.md | Claude: Cost, Penalty modülleri |
