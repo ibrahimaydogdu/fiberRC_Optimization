@@ -1,6 +1,7 @@
 Option Strict On
 Imports System
 Imports RcCore
+Imports System.Collections.Generic
 
 ''' <summary>V1 birim testleri. Beklenen degerler: Evidence/DesignGuides/Examples/StructurePoint_SimplySupportedBeam_ACI318-14.pdf
 ''' (bagimsiz yeniden hesap: 01_Literature/TEST_EXAMPLES.md T1). Donusum: 1 in=25.4 mm, 1 ksi=6.894757 MPa, 1 kip=4448.222 N.</summary>
@@ -133,6 +134,52 @@ Module Program
         End If
     End Sub
 
+    ''' <summary>T4: maliyet. Beklenen degerler elle (PRICES_2026.md fiyatlariyla): C30 1 m3, kalip 6 m2, Ø<=12: 20 kg, Ø>12: 80 kg, lif 40 kg/m3.</summary>
+    Sub T4Cost()
+        Dim p As New PriceSet
+        Dim c As CostBreakdown = Cost.Member(p, 30.0, 1.0, 6.0, 20.0, 80.0, 40.0, 1.0)
+        Check("T4 beton 15.150.1006", c.Concrete, 3649.35, 0.0000001)
+        Check("T4 donati (24.2+46.48243)*20+(24.2+44.68118)*80", c.Rebar, 20.0 * (24.2 + 46.48243) + 80.0 * (24.2 + 44.68118), 0.0000001)
+        Check("T4 kalip 6 x 873.03", c.Formwork, 5238.18, 0.0000001)
+        Check("T4 lif 40 x 90", c.Fibre, 3600.0, 0.0000001)
+        Check("T4 toplam (TL)", c.Total, 19411.6730, 0.000001)
+        Check("T4 USD (kur 42.8843)", Cost.ToUsd(c.Total, p), 19411.673 / 42.8843, 0.000001)
+        ' lif fiyati duyarlilik: +50% -> yalniz lif kalemi 1.5 kat
+        Dim c15 As CostBreakdown = Cost.Member(p.WithFibreFactor(1.5), 30.0, 1.0, 6.0, 20.0, 80.0, 40.0, 1.0)
+        Check("T4 lif +50%", c15.Fibre, 5400.0, 0.0000001)
+        Check("T4 diger kalemler degismez", c15.Total - c15.Fibre, c.Total - c.Fibre, 0.0000001)
+        Dim c0 As CostBreakdown = Cost.Member(p, 30.0, 1.0, 6.0, 20.0, 80.0, 0.0, 0.0)
+        Check("T4 goreli (lifsiz=100)", Cost.Relative(c0.Total, c0.Total), 100.0, 0.0000001)
+    End Sub
+
+    ''' <summary>T5: ceza. Elle: g1={-0.1,0.2,0.05}->0.2 ; g2={-0.3,-0.2}->0 ; g3={0.1}->0.1 ; T=0.3 ; F=1000 -> 1000*1.3^2 = 1690.</summary>
+    Sub T5Penalty()
+        Dim g1 As Double() = New Double() {-0.1, 0.2, 0.05}
+        Dim g2 As Double() = New Double() {-0.3, -0.2}
+        Dim g3 As Double() = New Double() {0.1}
+        Dim groups As New List(Of IEnumerable(Of Double))
+        groups.Add(g1)
+        groups.Add(g2)
+        groups.Add(g3)
+        Dim t As Double = Penalty.Total(groups)
+        Check("T5 T toplam", t, 0.3, 0.0000001)
+        Check("T5 F_ceza epsilon=2", Penalty.Apply(1000.0, t), 1690.0, 0.0000001)
+        Check("T5 epsilon=3", Penalty.Apply(1000.0, t, 3.0), 1000.0 * 1.3 * 1.3 * 1.3, 0.0000001)
+        Check("T5 uygun cozum F ayni", Penalty.Apply(1000.0, 0.0), 1000.0, 0.0000001)
+        ' olcek (para birimi) degisimi: F*k -> F_ceza*k (optimum siralamasi degismez)
+        Check("T5 olcek bagimsiz", Penalty.Apply(1000.0 / 42.8843, t), Penalty.Apply(1000.0, t) / 42.8843, 0.0000001)
+        Check("T5 normalize D/C-1", Penalty.Normalized(1.25, 1.0), 0.25, 0.0000001)
+        total += 1
+        Dim nanGrp As New List(Of IEnumerable(Of Double))
+        nanGrp.Add(New Double() {0.0, Double.NaN})
+        If Double.IsInfinity(Penalty.Apply(1000.0, Penalty.Total(nanGrp))) Then
+            Console.WriteLine("OK    T5 NaN kisit = uygunsuz (N/A gecmez)")
+        Else
+            fails += 1
+            Console.WriteLine("HATA  T5 NaN")
+        End If
+    End Sub
+
     Function Main() As Integer
         Dim fc As Double = 4.35 * Ksi
         Dim fy As Double = 60.0 * Ksi
@@ -161,6 +208,8 @@ Module Program
         End If
         T2Column()
         T3Sfrc()
+        T4Cost()
+        T5Penalty()
         Console.WriteLine("{0}/{1} test gecti", total - fails, total)
         Return If(fails = 0, 0, 1)
     End Function

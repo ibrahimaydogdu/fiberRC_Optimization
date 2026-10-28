@@ -36,3 +36,22 @@ Sayfa sütunu "PDF n / basılı m".
 4. **Etriye** Ø8–12 sınıfına girer (P-S1/P-L1); boyuna donatı çapına göre P-S1/P-S2 ve P-L1/P-L2 ayrımı gerekir (Ø8–12 ile Ø14–28 ayrı işçilik fiyatı). Ø28–32 aralığı: malzeme P-S2, işçilik 15.160.1005 (Ø28 üstü: 43.749,93 TL/ton; metin katmanından, görüntüde doğrulanmadı) — katalogda Ø>28 yoksa gerekmez.
 5. Zaman duyarlılığı için 2025 listesi (aynı poz düzeni; örn. 10.300.4014 = 75,00 TL/kg, 10.130.1704/1705 = 21,00 TL/kg, 15.160.1003 = 39.429,35 TL/ton, 15.180.1002 = 705,75 TL/m²) metin katmanından alındı, **görüntüyle doğrulanmadı** → duyarlılık analizi öncesi doğrulanmalı.
 6. Tez fiyatları (2024) bu dosyadaki 2026 fiyatlarıyla karşılaştırılacak (WP5); farklar fiyat güncellemesi olarak raporlanır.
+
+## Kur (USD gösterimi için; Hakem kararı 2026-10-28: KOŞULLU KABUL)
+Karar: Optimizasyon ve ana tablolar **TL**; USD yalnız bilgi amaçlı ek sütun; ayrıca göreli maliyet (lifsiz = 100). Tek sabit kur; yıl ortalaması kullanılmaz. Tüm kalemler aynı kurla çarpıldığı sürece optimum değişmez (Penalty çarpımsal kalmalı: Method ajanı teyidi bekler). ST'nin yıl karışımı/ortalama kur Excel'i kullanılmaz.
+
+Birincil kaynak: TCMB günlük kur bülteni (XML), `https://www.tcmb.gov.tr/kurlar/YYYYMM/GGAAYYYY.xml`; paracevirici.com ikincil/ticari olduğu için atıf kaynağı değildir.
+| Dosya | Bayt | SHA-256 | İçerik |
+|---|---|---|---|
+| `Evidence/Kur/TCMB_kur_31122025.xml` | 9 489 | c2d74ec39e8373e030e2a29c1f97d6680af58333aa4749d0e36edf41a63666ba | Bülten 2025/249, 31.12.2025; USD Döviz Alış 42,8457; Döviz Satış 42,9229; Efektif Alış 42,8157; Efektif Satış 42,9873 (TL) |
+| `Evidence/Kur/TCMB_kur_02012026.xml` | 9 092 | 5e18fa062e4e134d6f931522eb3e9ef9f4d3965058c323ddc96a7bca12ebe0df | 02.01.2026; USD Döviz Alış 42,8810; Döviz Satış 42,9582 (karşılaştırma) |
+- 01.01.2026 için TCMB bülteni yok (`/kurlar/202601/01012026.xml` → HTTP 404, erişim 2026-10-28) → liste tarihine en yakın önceki yayın günü **31.12.2025**.
+- Döviz Alış/Satış seçimi tek cümleyle makalede belirtilir. **Öneri: Döviz Alış, 31.12.2025 = 42,8457 TL/USD** (kullanıcı onayı bekler). Alış-satış farkı %0,18; sonucu etkilemez.
+- Lif fiyatının üreticide hangi para birimine endeksli olduğu DOĞRULANAMADI → lif fiyatı duyarlılık senaryosu şart.
+- Excel'de kur tek hücrede, tüm USD sütunları formülle (`=TL/Kur`) üretilir.
+
+## Kullanıcı kararları (2026-10-28) ve lif duyarlılığı
+1. **Beton:** 15.150 (pompa, nakil, döküm dahil) esas: C25/30 3.524,35 · C30/37 3.649,35 · C35/45 3.836,85 · C40/50 3.961,85 TL/m³ (PDF 189–190 / 175–176, görüntüden). 10.130 (yalnız malzeme) kullanılmaz; çift sayım yok.
+2. **Kur:** TCMB 31.12.2025 USD Döviz Alış ile Döviz Satış'ın aritmetik ortalaması = (42,8457 + 42,9229)/2 = **42,8843 TL/USD**; makalede "TCMB forex buying/selling mean" yazılır.
+3. **Lif fiyatı duyarlılık senaryosu (zorunlu):** baz 90,00 TL/kg (10.300.4014, 2026). Senaryolar çarpanla: ×0,50 · ×0,75 · ×1,00 · ×1,25 · ×1,50 · ×2,00 (`PriceSet.WithFibreFactor`). Adlandırılmış karşılaştırma noktaları: tutkalsız 10.300.4024 = 80,00 TL/kg (×0,889; görüntüden doğrulandı); 2025 listesi 10.300.4014 = 75,00 TL/kg (×0,833; metin katmanından, görüntüyle doğrulanmadı). Her çarpan için: optimum tasarım, lifli/lifsiz maliyet oranı ve lifin maliyet avantajını yitirdiği **başabaş lif fiyatı** raporlanır. Üretici fiyatı ÇŞİDB'den yüksekse (lif USD/EUR'a endeksli olabilir, DOĞRULANAMADI) ×2,00 senaryosu bunu kapsar.
+4. Kod: `RcCore/Cost.vb` (`PriceSet`, `Cost.Member`); test T4 (elle hesap). Başka yerde fiyat yazılmaz.
