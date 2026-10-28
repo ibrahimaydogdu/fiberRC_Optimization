@@ -6,13 +6,19 @@ Kaynak dosya SHA-256 (ilk 16 karakter): FemChain e2c5386d…, FemDesign 2914b5e5
 
 Çelik özel dosyalar (`FemDesign`, `FemDesignDriver`, `FemSeismic`) derlemede duruyor ama RC akışında kullanılmayacak.
 
-## Doğrulama (FemCore.Tests; analitik)
-| Test | Sonuç |
-|---|---|
-| T1 konsol kolon uç yükü: uç yerdeğiştirme PL³/3EI, mesnet kuvveti ve momenti | tutuyor (≤ %0,01) |
-| T2 iki ucu ankastre kiriş, yayılı yük: mesnet tepkisi wL/2, uç momenti wL²/12 | tutuyor |
-| T3 konsol + uç kütlesi: periyot 2π√(m/(3EI/L³)) | tutuyor (≤ %0,05) |
-Toplam 6/6. **Henüz test edilmedi:** P-Δ (`FemPDelta`), rijit diyafram, 3B (burulma), tepki spektrumu (CQC), çatlamış rijitlik `Modifier`, ETABS karşılaştırması.
+## Doğrulama (FemCore.Tests; analitik) — 16/16 kontrol geçti (2026-10-28)
+| Test | Beklenen (analitik) | Sonuç |
+|---|---|---|
+| T1 konsol kolon, uç yükü | PL³/3EI, tepki, mesnet momenti | tutuyor (≤ %0,01) |
+| T2 iki ucu ankastre kiriş, yayılı yük | wL/2, wL²/12 | tutuyor |
+| T3 konsol + uç kütlesi | T = 2π√(m/(3EI/L³)) | tutuyor |
+| T4 portal çerçeve, rijit kiriş | H h³/(24EI), H h/4 | tutuyor (≤ %0,01; kolon eksenel şekil değiştirmesi dışlanarak) |
+| T5 tek katlı 3B, rijit diyafram, 4 kolon | H h³/(4·3EI), diyafram eşit Ux, Rz = 0 | tutuyor |
+| T6 P-Δ (kütle esaslı, ETABS ön ayarı) | H/(k − m g/z) | tutuyor |
+| T7 tepki spektrumu, tek serbestlik | taban kesmesi m Sa g, yerdeğiştirme Sa g/ω² | tutuyor |
+| T8 iki katlı kayma binası, modal | ω² = (k/m)(3 ∓ √5)/2 | T1, T2 ≤ %0,003 |
+Not: T4 ilk koşuda %1 sapma verdi; neden kolonların eksenel şekil değiştirmesiyle kirişin dönmesi (gerçek davranış), testte kolon alanı büyütülerek ayrıldı. VB büyük/küçük harf duyarsız: `I` (atalet) ile döngü değişkeni `i` çakıştı → `Iz` olarak yeniden adlandırıldı. Google Drive eşzamanlama gecikmesi nedeniyle dosya bir kez eski sürümle okundu; koşu öncesi içerik doğrulanıyor.
+**Henüz test edilmedi:** 3B burulma (merkezkaç yük), CQC çok modlu karşılaştırma, çatlamış rijitlik `Modifier`, P-Δ iteratif çözüm, ETABS karşılaştırması (V2).
 
 ## Sıradaki
 1. 2 katlı 2B çerçeve + 3B tek kat: elle/ETABS karşılaştırması (V2 başlangıcı).
