@@ -100,8 +100,9 @@ Module Program
         Dim sB = Sec(b, h, E) : sB.I33 = 1000000.0 * sB.I33 : sB.I22 = 1000000.0 * sB.I22 : sB.A = 1000.0 * sB.A
         Dim m4 As New FemModel
         AddNode(m4, "A", 0, 0, 0, True) : AddNode(m4, "B", 5, 0, 0, True) : AddNode(m4, "C", 0, 0, 3, False) : AddNode(m4, "D", 5, 0, 3, False)
-        m4.Sections.Add(s) : m4.Sections.Add(sB)
-        AddEl(m4, "C1", 0, 2, s) : AddEl(m4, "C2", 1, 3, s) : AddEl(m4, "B1", 2, 3, sB)
+        Dim sC = Sec(b, h, E) : sC.A = 1000.0 * sC.A      'axial deformation of the columns (rocking of the beam) excluded from the check
+        m4.Sections.Add(sC) : m4.Sections.Add(sB)
+        AddEl(m4, "C1", 0, 2, sC) : AddEl(m4, "C2", 1, 3, sC) : AddEl(m4, "B1", 2, 3, sB)
         Dim p4 As New FemPattern With {.Name = "H", .SelfWeightMultiplier = 0.0}
         Dim nl4 As New FemNodalLoad With {.Node = 2} : nl4.F(0) = 20.0 : p4.NodalLoads.Add(nl4) : m4.Patterns.Add(p4)
         Dim r4 = New FemStatic(m4).Solve()
@@ -139,6 +140,42 @@ Module Program
         Dim r6 = fs6.Solve()
         Dim k6 = 3.0 * E * Iz / 27.0
         Check("T6 P-Delta (mass based) amplified tip displacement", Math.Abs(r6.U(0)(6)), 10.0 / (k6 - 5.0 * 9.80665 / 3.0), 0.0005)
+
+        'T7: response spectrum, SDOF cantilever (tip mass 5), Sa = 0.5 g constant, scale = g: base shear = m Sa g
+        Dim m7 As New FemModel
+        AddNode(m7, "A", 0, 0, 0, True) : AddNode(m7, "B", 0, 0, 3, False)
+        m7.Nodes(1).AddedMass = {5.0, 5.0, 0.0}
+        m7.Nodes(1).Restraint(1) = True : m7.Nodes(1).Restraint(3) = True : m7.Nodes(1).Restraint(5) = True
+        m7.Sections.Add(s) : AddEl(m7, "C1", 0, 1, s)
+        m7.Patterns.Add(New FemPattern With {.Name = "D", .SelfWeightMultiplier = 0.0})
+        m7.MassSource.SelfMass = False
+        m7.Spectra.Add(New FemSpectrum With {.Name = "SP", .T = {0.0, 10.0}, .Sa = {0.5, 0.5}})
+        Dim rs7 As New FemRSCase With {.Name = "EX", .Direction = 0, .Spectrum = "SP", .ScaleFactor = 9.80665}
+        Dim fs7 As New FemStatic(m7)
+        Dim md7 = fs7.ModalSolve(1)
+        Dim rr7 = fs7.ResponseSpectrum(md7, rs7)
+        Check("T7 RS base shear = m Sa g", rr7.BaseForce(0), 5.0 * 0.5 * 9.80665, 0.0005)
+        Check("T7 RS tip displacement = Sa g / w2", rr7.U(6), 0.5 * 9.80665 / (3.0 * E * Iz / 27.0 / 5.0), 0.0005)
+
+        'T8: two-storey shear building (rigid beams, 2 columns per storey, k = 2 x 12EI/h3, masses m = 20 per floor): w2 = (k/m)(3 -/+ sqrt5)/2
+        Dim sC8 = Sec(b, h, E) : sC8.A = 1000.0 * sC8.A
+        Dim sB8 = Sec(b, h, E) : sB8.I33 = 1000000.0 * sB8.I33 : sB8.I22 = 1000000.0 * sB8.I22 : sB8.A = 1000.0 * sB8.A
+        Dim m8 As New FemModel
+        AddNode(m8, "A0", 0, 0, 0, True) : AddNode(m8, "B0", 5, 0, 0, True)
+        AddNode(m8, "A1", 0, 0, 3, False) : AddNode(m8, "B1", 5, 0, 3, False)
+        AddNode(m8, "A2", 0, 0, 6, False) : AddNode(m8, "B2", 5, 0, 6, False)
+        For i = 2 To 5 : m8.Nodes(i).Restraint(1) = True : m8.Nodes(i).Restraint(3) = True : m8.Nodes(i).Restraint(5) = True : Next
+        For i = 2 To 5 : m8.Nodes(i).AddedMass = {10.0, 10.0, 0.0} : Next
+        m8.Sections.Add(sC8) : m8.Sections.Add(sB8)
+        AddEl(m8, "C11", 0, 2, sC8) : AddEl(m8, "C12", 1, 3, sC8) : AddEl(m8, "C21", 2, 4, sC8) : AddEl(m8, "C22", 3, 5, sC8)
+        AddEl(m8, "B1", 2, 3, sB8) : AddEl(m8, "B2", 4, 5, sB8)
+        m8.Patterns.Add(New FemPattern With {.Name = "D", .SelfWeightMultiplier = 0.0})
+        m8.MassSource.SelfMass = False
+        Dim md8 = New FemStatic(m8).ModalSolve(2)
+        Dim k8 = 2.0 * 12.0 * E * Iz / 27.0
+        Dim w2a = k8 / 20.0 * (3.0 - Math.Sqrt(5.0)) / 2.0, w2b = k8 / 20.0 * (3.0 + Math.Sqrt(5.0)) / 2.0
+        Check("T8 shear building T1", md8.Period(0), 2.0 * Math.PI / Math.Sqrt(w2a), 0.003)
+        Check("T8 shear building T2", md8.Period(1), 2.0 * Math.PI / Math.Sqrt(w2b), 0.003)
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
 End Module
