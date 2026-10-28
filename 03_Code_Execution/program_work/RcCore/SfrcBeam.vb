@@ -88,6 +88,49 @@ Public Module SfrcBeam
         Return r
     End Function
 
+    ' ---- Kesme: fib Bulletin 56 (MC2010 first complete draft) Vol.2, 7.7.3.2 (PDF s.179-181, gorselden okundu). NIHAI METINLE KARSILASTIRILMADI. ----
+
+    ''' <summary>Tablo 5.1-1 (Vol.1, PDF 157): fctk,min = 0.7 fctm, fctm = 0.30 fck^(2/3) (fck &lt;= 50 MPa). C30 icin 2.0 MPa dogrulandi.</summary>
+    Public Function FctkMin(fck As Double) As Double
+        Return 0.7 * 0.3 * Math.Pow(fck, 2.0 / 3.0)
+    End Function
+
+    ''' <summary>fFtuk kesme icin wu = 1.5 mm ile (Eq. 7.7-4, 7.7-8 metni); lineer model (5.6-6).</summary>
+    Public Function FFtukShear(p As SfrcParams) As Double
+        Dim q As New SfrcParams
+        q.FR1 = p.FR1
+        q.FR3 = p.FR3
+        q.Linear = True
+        q.Cmod3 = p.Cmod3
+        Return q.FtuK(1.5)
+    End Function
+
+    ''' <summary>Eq. 7.7-4 (N): VRd,F = {0.18/gc k [100 rl (1+7.5 fFtuk/fctk) fck]^(1/3) + 0.15 scp} bw d ;
+    ''' k = 1+sqrt(200/d) &lt;= 2 ; rl = Asl/(bw d) ; scp = NEd/Ac &lt; 0.2 fcd (basinc +). Alt sinir Eq. 7.7-5.</summary>
+    Public Function VRdF(bw As Double, d As Double, Asl As Double, fck As Double, fctk As Double, fFtuk As Double,
+                         gammaC As Double, Optional sigmaCp As Double = 0.0) As Double
+        Dim k As Double = Math.Min(2.0, 1.0 + Math.Sqrt(200.0 / d))
+        Dim rl As Double = Asl / (bw * d)
+        Dim v1 As Double = (0.18 / gammaC) * k * Math.Pow(100.0 * rl * (1.0 + 7.5 * fFtuk / fctk) * fck, 1.0 / 3.0) + 0.15 * sigmaCp
+        Dim vmin As Double = 0.035 * Math.Pow(k, 1.5) * Math.Sqrt(fck) + 0.15 * sigmaCp
+        Return Math.Max(v1, vmin) * bw * d
+    End Function
+
+    ''' <summary>Etriyeli kesme: VRd = VRd,F(7.7-4: beton+lif tek terim) + Vs (ACI 22.5.10.5.3: Av fyt d / s).
+    ''' YORUM (DOGRULANAMADI): Bull.56 7.7-7 etriyeli VRd,F icin sayisal denklem vermez (CODE_PROVISIONS_EVIDENCE B20). Tez kodu da ayni
+    ''' yorumu kullaniyor (ETABSClass.vb:1089-1092). Lif katkisini ihmal eden muhafazakar sonuc icin fFtuk=0 verin.
+    ''' Vs ust siniri 0.66 sqrt(fc) bw d (ACI 22.5.1.2, A14) uygulanir.</summary>
+    Public Function VRdStirrup(bw As Double, d As Double, Asl As Double, fck As Double, fctk As Double, fFtuk As Double,
+                               gammaC As Double, Av As Double, fyt As Double, s As Double, Optional sigmaCp As Double = 0.0) As Double
+        Dim vsv As Double = Math.Min(Av * fyt * d / s, AciBeam.VsMax(bw, d, fck))
+        Return VRdF(bw, d, Asl, fck, fctk, fFtuk, gammaC, sigmaCp) + vsv
+    End Function
+
+    ''' <summary>Eq. 7.7-8: etriyesiz minimum donati muafiyeti icin fFtuk &gt;= sqrt(fck)/20</summary>
+    Public Function MinStirrupWaived(fFtuk As Double, fck As Double) As Boolean
+        Return fFtuk >= Math.Sqrt(fck) / 20.0
+    End Function
+
     ''' <summary>Denge: Cc - Fs - Ff (pozitif ise c cok buyuk)</summary>
     Private Function Balance(b As Double, h As Double, d As Double, As_ As Double, fc As Double, fy As Double,
                              p As SfrcParams, lcs As Double, c As Double) As Double

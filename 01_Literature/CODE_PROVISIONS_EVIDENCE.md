@@ -81,6 +81,18 @@ Sayfa sütunu biçimi: `PDF n / basılı m`.
 | B14 | Ortalama → karakteristik fR dönüşümü | — | — | 5.6'da fRk karakteristik değer olarak kullanılıyor ("characteristic flexural residual strength values", PDF 277 / 238); ortalamadan karakteristiğe istatistiksel dönüşüm formülü yok | BULUNAMADI | `Sfrc.Characteristic` |
 | B15 | 5.6.4–5.6.5 doğrusal olmayan SLS bünyesi (5.6-9…5.6-12) | PDF 282–283 / 243–244 | "For softening materials at SLS (CASE (I)) the same constitutive relationship adopted for plain concrete in uniaxial tension is used up to the peak strength fct." | SLS bilineer/dört dallı model; ULS için gerekli değil | KISMEN (çıkarıldı, denklemler kodda gerekirse render ile okunmalı) | `Sfrc.SlsLaw` (isteğe bağlı) |
 
+### 3b. Ek: fib Bulletin 56 (MC2010 "First complete draft") Vol. 2 — kesme (2026-10-28; PDF görselinden okundu)
+Belge: `Evidence/DesignGuides/FIBBUL-0056-...-vol2.pdf` (SHA-256 58c0e9a1…3511e3535). **TASLAK; nihai Bulletin 66 ile karşılaştırılmadı.** Basılı sayfa = PDF − 19 (PDF 179 → "160").
+
+| ID | Madde | Sayfa | Birebir alıntı (≤25 sözcük) | Formül | Durum | Kod |
+|---|---|---|---|---|---|---|
+| B16 | 7.7.3.2.2, Eq. (7.7-4) | PDF 179 / 160 (render) | "The design value for the shear resistance in members with conventional longitudinal reinforcement and without shear reinforcement is given by (in N):" | VRd,F = {0.18/γc·k·[100 ρl (1+7.5 fFtuk/fctk) fck]^(1/3) + 0.15σcp}·bw·d; k=1+√(200/d)≤2; ρl=Asl/(bw d); σcp<0.2fcd | DOĞRULANDI (taslak) | `SfrcBeam.VRdF` |
+| B17 | Eq. (7.7-5) | PDF 180 / 161 | "The shear resistance, VRd,F, is assumed to be not smaller than the minimum value, VRd,Fmin" | VRd,Fmin = (vmin+0.15σcp) bw d; vmin = 0.035 k^(3/2) fck^(1/2) | DOĞRULANDI (taslak) | `SfrcBeam.VRdF` |
+| B18 | fFtuk tanımı (7.7-4, 7.7-8, 7.7-9) | PDF 180–181 / 161–162 | "by considering wu = 1.5 mm according to Eq. (5.6-6)" | Kesme/burulma için fFtuk, wu = **1,5 mm** ile hesaplanır (eğilmede wu = lcs·εFu). **Tezin sabit wu=1,5 mm değeri bu kesme maddesinden gelmiş olabilir; eğilmeye de uygulanması standartla uyumsuz.** | DOĞRULANDI (taslak) | `SfrcBeam.FFtukShear` |
+| B19 | Eq. (7.7-8) min. etriye muafiyeti | PDF 181 / 162 (render) | "It is possible to prevent the use of the minimum amount of conventional shear reinforcement (stirrups) if the following condition is fulfilled:" | fFtuk ≥ √fck / 20 | DOĞRULANDI (taslak) | `SfrcBeam.MinStirrupWaived` |
+| B20 | Eq. (7.7-7) etriyeli kesme | PDF 180 / 161 | "In the case of FRC this equation is extended to:" | VRd = VRd,c + VRd,s + VRd,F; lif katkısı Eq. (5.6-5, 5.6-6, 5.6-19, 5.6-11) ile; **VRd,F için sayısal denklem bu taslakta verilmiyor** | KISMEN (etriyeli durum kodlanmadı) | — |
+| B21 | Tablo 5.1-1 (Vol. 1) fctk,min | PDF 157 (Vol.1) | "fctk,min" (C30: 2.0 MPa) | fctm = 0.30 fck^(2/3); fctk,min = 0.7 fctm (C30: 2.03 ≈ 2.0 ✓) | DOĞRULANDI (tablo değerleriyle) | `SfrcBeam.FctkMin` |
+
 ## 4. Bulunamayanlar ve kullanıcıdan istenenler
 
 1. **fib MC2010 Volume 2 (fib Bulletin 66)**: Bölüm 7.7 (FRC için ULS/SLS doğrulaması, 7.7.2 yapı seviyesi şartları, 7.7.3.1 eğilme, 7.7.3.2 kesme VRd,F ve γc) bu PDF'te yok. `SfrcBeam.Shear` yazılmadan önce Bulletin 66 PDF'i `Evidence/DesignGuides/` altına konmalı (lisans/erişim kullanıcıya ait; ERİŞİLEMEDİ).

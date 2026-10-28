@@ -101,6 +101,24 @@ Module Program
             Dim rs As FlexureResult = SfrcBeam.Flexure(b, h, d, As_, fc, fy, p, l)
             Console.WriteLine("      lcs={0,4:F0} wu={1:F2} phiMn={2,7:F1} limited={3}", l, p.Wu(l), rs.PhiMn / 1000000.0, rs.FibreLimited)
         Next
+        ' Kesme VRd,F (fib Bull.56 Vol.2 Eq. 7.7-4/7.7-5); beklenen: ayri Python hesabi (2026-10-28). fR1=3.0, fR3=2.4 -> fFtuk(wu=1.5)=0.9
+        Dim fctk As Double = SfrcBeam.FctkMin(fc)
+        Check("T3 fctk,min C30 (Tablo 5.1-1: 2.0)", fctk, 2.0275, 0.002)
+        Check("T3 fFtuk shear wu=1.5", SfrcBeam.FFtukShear(p), 0.9, 0.000001)
+        Check("T3 VRd,F (N)", SfrcBeam.VRdF(b, d, As_, fc, fctk, SfrcBeam.FFtukShear(p), 1.5), 123716.62, 0.0001)
+        Check("T3 VRd,c lifsiz (N)", SfrcBeam.VRdF(b, d, As_, fc, fctk, 0.0, 1.5), 75908.94, 0.0001)
+        Check("T3 VRd,F,min (N)", SfrcBeam.VRdF(b, d, 1.0, fc, fctk, 0.0, 1.5), 55684.66, 0.0001)
+        ' etriyeli: 2 kollu O8 (Av=100.5 mm2), fyt=420, s=200 -> Vs = 100.5*420*450/200 = 94 972.5 N (elle); lifsiz/lifli fark = VRd,F - VRd,c
+        Dim vst As Double = SfrcBeam.VRdStirrup(b, d, As_, fc, fctk, 0.9, 1.5, 100.5, 420.0, 200.0)
+        Check("T3 VRd etriyeli (N)", vst, 123716.62 + 100.5 * 420.0 * d / 200.0, 0.0001)
+        Check("T3 etriye tavani", SfrcBeam.VRdStirrup(b, d, As_, fc, fctk, 0.0, 1.5, 100000.0, 420.0, 100.0) - SfrcBeam.VRdF(b, d, As_, fc, fctk, 0.0, 1.5), AciBeam.VsMax(b, d, fc), 0.000001)
+        total += 1
+        If SfrcBeam.MinStirrupWaived(0.9, fc) AndAlso Not SfrcBeam.MinStirrupWaived(0.2, fc) Then
+            Console.WriteLine("OK    T3 7.7-8 etriye muafiyeti (0.9 evet, 0.2 hayir)")
+        Else
+            fails += 1
+            Console.WriteLine("HATA  T3 7.7-8")
+        End If
         ' lifsiz: SfrcBeam == AciBeam
         Dim p0 As New SfrcParams
         Dim r0 As FlexureResult = SfrcBeam.Flexure(b, h, d, As_, fc, fy, p0, 200.0)
