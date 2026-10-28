@@ -26,7 +26,8 @@
 - Veri riski: üretici fR verisi gizli; yayınlanmış veriler birincil.
 - Kaynak kodu D: sürücüsündeki program salt-okunur; çalışma kopyası `03_Code_Execution/program_work/`.
 
-## Onay isteyen kararlar
-1. Algoritma kümesi: ABC (YAKO), BBO (BTO), TSA (ATO) + isteğe bağlı VAO — Critic görüşü (VAO ayrı makalede ise çıkar).
-2. Ö1: özgün örnek (Critic önerisi); Kaveh 2011 yalnız kod doğrulaması.
-3. Çalışma kopyası konumu ve ETABS lisansının otomasyonda kullanılabilirliği (V0).
+## Onaylar (kullanıcı, 2026-10-27)
+1. Algoritma kümesi: ABC (YAKO), BBO (BTO), TSA (ATO) esas; VAO dahil olabilir — **karar iç Hakem'de** (WP0 sonrası, FEM tabanında VAO hazırsa maliyeti düşük → dahil; İVAO ayrı makale).
+2. Örnek 1: özgün örnek (onaylandı).
+3. ETABS lisansı otomasyonda kullanılabilir (onaylandı).
+4. **WP0 başlatıldı** (alt ajan; çıktı `WP0_ADAPTATION_MAP.md`).

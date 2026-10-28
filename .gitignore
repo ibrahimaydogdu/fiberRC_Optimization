@@ -26,3 +26,6 @@ Evidence/*
 
 # Sources salt-okunur ve buyuk: depoya girmez
 Sources/
+bin/
+obj/
+Evidence/*.pdf

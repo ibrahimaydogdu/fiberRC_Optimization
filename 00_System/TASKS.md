@@ -40,6 +40,28 @@
 | G5 | Gemini ilk özetini verdi (2026-10-27) | ✅ |
 | G6 | Her oturum sonunda HANDOFF.md güncellenmeden oturumu kapatma | ⬜ |
 
+## E. WP0 sonrası açık sorular (`WP0_ADAPTATION_MAP.md` §8; kullanıcı kararı gerekir)
+| # | Soru | Durum |
+|---|---|---|
+| S-1 | **KARAR: Ö2 = 3 kat × 3 açıklık, 21 eleman (5-6-5 m; kullanıcı, yanlış işaretlemeyi düzeltti). Makaledeki 'iki açıklık' düzeltilecek.** Eski not — ÇELİŞKİ: kullanıcı '3 kat × 2 açıklık (15 eleman)' seçti; ancak kaynak Duysak, Bekdaş & Niğdeli (2023) PDF'i **3 açıklıklı 3 katlı** çerçeve veriyor (kenar açıklıklar 5 m, iç açıklık 6 m; 30 kN/m ölü, 20 kN/m hareketli) = 21 eleman. Tez de 21 elemanlı model sonuçları veriyor. Öneri: 3×3 açıklık (5-6-5 m); kullanıcı yeniden teyit edecek. Eski not: **Ö2 geometrisi:** makale "2 açıklık 3 kat" diyor ama 21 eleman = 3 kat × **3 açıklık** (2 açıklık 15 eleman verir; Ö1=6 ve Ö3=42 aritmetiği tutuyor — elle doğrulandı). Açıklık sayısı ve Duysak vd. (2023) şeklini kontrol | ⬜ |
+| S-2 | **Yük kombinasyonu:** `1.4G+1.6Q` TS 500'e özgü; ACI 318-14'te 1.2D+1.6L. Makale ACI diyor → düzeltilmeli (Ö2 yalnız düşey yük) | ⬜ |
+| S-3 | **Karar: RS + TBDY-2018** (ACI 318-14 yalnız kesit tasarımı) | ✅ |
+| S-4…S-12 | P-Δ/narinlik, donatı kodlaması, lif/beton sınıfı, ceza, bütçe, kod yapısı (fork-ve-buda mı ince host mu), çatlamış rijitlik, Kaveh Şekil 5 yükleri, EDB→çubuk model | ⬜ |
+| H1 | VAO/İVAO makaleden **çıkarıldı** (kullanıcı onayı); algoritmalar YAKO, BTO, ATO | ✅ |
+| S-5 | **Karar: donatı iç döngüde en ucuz yeterli düzen** (optimizer kesit/malzeme/lif dozajını arar) | ✅ |
+| S-9 | **KARAR: ince yeni host** (FemCore + optimizasyon yöntemleri kütüphane; çelik katman taşınmaz) | ✅ |
+
+## F. Standart kanıtları (2026-10-28)
+| # | Konu | Durum |
+|---|---|---|
+| K1 | ACI 318M-14: 42 satır madde kanıtı (`CODE_PROVISIONS_EVIDENCE.md`); 18.3/18.4 (orta çerçeve) ve 18.7.6 KISMEN | 🔄 |
+| K2 | fib Cilt 2 eklendi: `FIBBUL-0056…-First-complete-draft-vol2.pdf` (**Bulletin 56 = MC2010 'first complete draft', nihai/yayımlanmış metin değil**). VRd,F Denklem (7.7-4)/(7.7-5) PDF s.179–180'de var; nihai metinle farkı DOĞRULANAMADI — makalede 'fib MC2010' atfı için nihai metin (Ernst & Sohn 2013) teyidi gerekir | 🔄 |
+| K3 | **v2 (`ETABSClass.vb:1061`): lineer model, wu = 1,5 mm SABİT** (fFts=0,45fR1; fFtu=fFts−(wu/CMOD3)(…), CMOD3=2,5). MC2010: lineerde wu = lcs·εFu (≤2,5 mm; εFu=%2), rijit-plastikte wu=CMOD3. 1,5 mm gerekçesi tezde/kodda DOĞRULANAMADI. **Öneri:** yeni kodda MC2010'a göre wu=min(lcs·εFu;2,5); tez yeniden üretiminde (WP5) 1,5 mm ile; fark duyarlılık olarak raporlanır | ⬜ kullanıcı onayı |
+| K3b | v2:1072 lif koşulundaki çift bölme: **CODE_REVIEW_v2.md F-13 ile zaten bulunmuş** (yeni bulgu değil); WP5'te doğrulanacak | ✅ (kayıtlı) |
+| K4 | Dramix 4D 65/60 BG veri sayfası eklendi | ✅ |
+| K5 | TBDY-2018 PDF eklendi; spektrum maddeleri çıkarılacak | ⬜ |
+| K6 | Test örnekleri: StructurePoint kiriş + kolon (`TEST_EXAMPLES.md`); SFRC örneği yok | 🔄 |
+
 ## D. Gemini görevleri
 *Not: Örnek 3, Tapao & Cheerarot 2017 geometrisini kullanır; eleman gruplaması **değiştirilmiştir** (kullanıcı beyanı) — makalede 'geometri Tapao ve Cheerarot (2017)'ten alınmış, gruplama bu çalışmada yeniden tanımlanmıştır' diye yazılır.*
 | # | Görev | Durum |
