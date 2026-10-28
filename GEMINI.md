@@ -16,5 +16,8 @@ Kullanıcı yalnızca **commit** yazarsa şunu uygula (dal: **master**, `main` y
 6. Kod/içerik dosyalarını değiştirme; yalnız git ve HANDOFF satırı.
 Sonunda kullanıcıya tek satır rapor ver: commit hash, dosya sayısı, push durumu.
 
+## Kısa komut: "G9 G10"
+Kullanıcı **G9 G10** yazarsa: önce yukarıdaki "commit" adımlarını uygula, sonra `00_System/GEMINI_TASK_G9_G10.md` dosyasını oku ve oradaki iki çıkarım görevini yap (çıktılar `01_Literature/TBDY_EXTRACT_G9.md` ve `TBDY_EXTRACT_G10.md`). Çıkarım dosyalarını commit ETME; Claude doğrulamasından sonra "commit" ile gider. Sonunda HANDOFF satırı ekle, tek satır rapor ver.
+
 İVAO = İyileştirilmiş Vahşi At Optimizasyonu (Vektör Arama değil).
 `Sources/` salt-okunurdur. Dil: Türkçe. Kullanıcı onayı olmadan sonraki aşamaya geçme.

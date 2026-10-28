@@ -42,3 +42,17 @@ Tezde: DD-2, SDS = 1,2, SD1 = 0,3, I = 1, D = 3, R = 8. **BULUNAMADI:** zemin s�
 1. Örnek 3'te deprem yok → **TBDY yalnız Ö1 (ve istenirse Ö2) için gerekli**; Ö3 rüzgâr+yerçekimi. Bu, TBDY çıkarımı işini küçültüyor.
 2. Örnek 3 kaynağı N&C 2022 olarak düzeltilecek (kaynakça + metin); 7 grup / 9 grup çelişkisi çözülmüş olur.
 3. Ö1 için geometri (5 m / 4+3 m mi, 6 m / 3+3 m mi), fc/fy/E ve kolon havuzu kullanıcıdan/EDB'den teyit.
+
+
+## CLAUDE DOĞRULAMA — Örnek 3 kaynağı (2026-10-28, sayfa görüntüsünden)
+Kaynak: Negrin & Chagoyén (2022), *Structures* 38, 64–75, `Sources/tez_sonuç tablo grafik/Referans örneklerin makaleleri/2022_referans örnek_3.pdf` (2 919 438 bayt; SHA-256 76f7e35b15cfb7392b631c24b104fd7b704df3c56c78b086843a6591bc27747a; 12 sayfa). PDF 2 = s.65, PDF 3 = s.66.
+| Kalem | N&C 2022 (görüntü) | Tezle karşılaştırma |
+|---|---|---|
+| Sistem | 3 boyutlu iskelet betonarme yapı (Şekil 1a), 2 kat; x yönü 5 m, y yönü 6 m açıklık; kat yüksekliği **3,5 m** (Şekil 1b) | Tez metni 3,3 m diyor; **3,5 m doğru** (şekil + N&C) |
+| Gruplar | B1–B4 (kiriş), C1–C3 (kolon) = 7 grup, 12 ayrık değişken | Tezdeki 7 grupla **uyuşuyor** (Tapao'nun 9 grubu değil) |
+| Yükler (Tablo 1) | Ölü 4,80 (kat) / 5,43 (çatı) kN/m²; hareketli 4,00 / 0,80; rüzgâr 0,92 (0–5 m), 1,01 (7 m) kN/m² | Tezle **aynı** |
+| Kombinasyon (Denk. 1–4) | 1,2D+1,6L; 1,2D+0,8W; 1,2D+1,4W+0,5L; 0,9D+1,4W; W hem x hem y → altı kombinasyon | Deprem **yok** |
+| Değişken aralıkları (Tablo 3) | B1,B2: h 300–600, b 200–400; B3,B4: h 250–500, b 200–400; C1–C3: x ve y 250–500 mm; fc kirişte ve kolonda 25–40 MPa (5 MPa adım); boyutlar 5 cm katı | Tez kiriş havuzunu (b 450/600?) bununla çelişkili aktarmış; **N&C aralıkları esas alınacak** |
+| Malzeme | Çelik fy = 420 MPa, E = 220 GPa (Tablo 2 notu); ACI 318-14 tasarım; SAP2000 API + MATLAB | E = 220 GPa standart dışı (N&C'nin kabulü), tezde 200 GPa kullanılmış olabilir → ETABS modelinde kontrol |
+| Maliyet | N&C kendi birim maliyetleri (USD); biz ÇŞİDB 2026 ile yeniden hesaplarız | |
+**Sonuç:** Örnek 3'ün kaynağı N&C 2022; makale ve kaynakçada "Tapao & Cheerarot (2017)" atfı düzeltilecek. Örnek 3'te kolonlar iki yönlü eğilme alır (açıklıklar x ve y'de farklı → yerçekimi ve rüzgâr iki eksende moment üretir) → `AciColumn.BiaxialDcr` gerekli (Hakem kararıyla uyumlu). Eleman sayısı 42 çıkarımı: 2×2 açıklık, 9 kolon × 2 kat = 18 kolon + 24 kiriş (Şekil 1a/1b ile uyumlu; ETABS modelinden teyit edilecek).
