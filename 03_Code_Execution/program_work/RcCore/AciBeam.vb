@@ -9,6 +9,7 @@ Public Structure FlexureResult
     Public Mn As Double       ' N.mm
     Public PhiMn As Double    ' N.mm
     Public EpsTOk As Boolean  ' A10: epsT >= 0.004
+    Public FibreLimited As Boolean ' SfrcBeam: alt lifte w > wu (lif etkisi kismen kesildi)
 End Structure
 
 ''' <summary>ACI 318M-14 dikdortgen kiris (tek donatili) egilme, minimum donati ve kesme. Birimler N, mm, MPa.</summary>

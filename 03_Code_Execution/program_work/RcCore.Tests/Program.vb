@@ -66,6 +66,55 @@ Module Program
         End If
     End Sub
 
+    ''' <summary>T3: SfrcBeam. BAGIMSIZ LITERATUR ORNEGI YOK (TEST_EXAMPLES bosluk). Beklenen degerler: analitik (parcali dogrusal
+    ''' alan integrali) ayri Python hesabi (kod gelistirmeden bagimsiz yazildi; 2026-10-28), sayisal toplama yerine kapali form.
+    ''' Girdi (ornek, gercek veri degil): b=300 h=500 d=450 mm, As=1000 mm2, fc=30, fy=420, fR1k=3.0, fR3k=2.4 MPa, lcs=200 mm.</summary>
+    Sub T3Sfrc()
+        Dim b As Double = 300.0, h As Double = 500.0, d As Double = 450.0, As_ As Double = 1000.0
+        Dim fc As Double = 30.0, fy As Double = 420.0
+        Dim p As New SfrcParams
+        p.FR1 = 3.0
+        p.FR3 = 2.4
+        ' elle: fFts=0.45*3=1.35 ; wu=min(200*0.02;2.5)=2.5 -> fFtu=1.35-(2.5/2.5)(1.35-1.2+0.6)=0.60 ; wu=1.5 -> 0.90
+        Check("T3 fFts,k", p.FtsK(), 1.35, 0.000001)
+        Check("T3 wu (lcs=200)", p.Wu(200.0), 2.5, 0.000001)
+        Check("T3 fFtu,k wu=2.5", p.FtuK(2.5), 0.6, 0.000001)
+        Check("T3 fFtu,k wu=1.5", p.FtuK(1.5), 0.9, 0.000001)
+        Dim r As FlexureResult = SfrcBeam.Flexure(b, h, d, As_, fc, fy, p, 200.0)
+        ' wu otesi (w>wu) katki vermez (Critic 2026-10-28); beklenen degerler sfrc_ref2.py (kapali form)
+        Check("T3 c (mm)", r.C, 75.2592, 0.001)
+        Check("T3 Mn (N.mm)", r.Mn, 186829260.3, 0.001)
+        Check("T3 phiMn (N.mm)", r.PhiMn, 168146334.3, 0.001)
+        total += 1
+        If r.FibreLimited Then
+            Console.WriteLine("OK    T3 alt lif w>wu isaretlendi (FibreLimited)")
+        Else
+            fails += 1
+            Console.WriteLine("HATA  T3 FibreLimited")
+        End If
+        p.WuOverride = 1.5
+        Dim r15 As FlexureResult = SfrcBeam.Flexure(b, h, d, As_, fc, fy, p, 200.0)
+        Check("T3 Mn wu=1.5 (thesis)", r15.Mn, 181462435.0, 0.001)
+        p.WuOverride = 0.0
+        Console.WriteLine("      lcs duyarlilik (phiMn kN.m, wu mm, FibreLimited):")
+        For Each l As Double In New Double() {100.0, 150.0, 200.0, 300.0, 400.0}
+            Dim rs As FlexureResult = SfrcBeam.Flexure(b, h, d, As_, fc, fy, p, l)
+            Console.WriteLine("      lcs={0,4:F0} wu={1:F2} phiMn={2,7:F1} limited={3}", l, p.Wu(l), rs.PhiMn / 1000000.0, rs.FibreLimited)
+        Next
+        ' lifsiz: SfrcBeam == AciBeam
+        Dim p0 As New SfrcParams
+        Dim r0 As FlexureResult = SfrcBeam.Flexure(b, h, d, As_, fc, fy, p0, 200.0)
+        Dim ra As FlexureResult = AciBeam.Flexure(b, d, As_, fc, fy)
+        Check("T3 lifsiz Mn = AciBeam", r0.Mn, ra.Mn, 0.0005)
+        total += 1
+        If r.Mn > r0.Mn AndAlso p.CanSubstituteRebar() Then
+            Console.WriteLine("OK    T3 lif kapasiteyi artirir; 5.6-3 saglanir")
+        Else
+            fails += 1
+            Console.WriteLine("HATA  T3 monotonluk/ikame")
+        End If
+    End Sub
+
     Function Main() As Integer
         Dim fc As Double = 4.35 * Ksi
         Dim fy As Double = 60.0 * Ksi
@@ -93,6 +142,7 @@ Module Program
             Console.WriteLine("HATA  T1 epsT/phi")
         End If
         T2Column()
+        T3Sfrc()
         Console.WriteLine("{0}/{1} test gecti", total - fails, total)
         Return If(fails = 0, 0, 1)
     End Function
