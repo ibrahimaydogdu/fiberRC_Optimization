@@ -26,3 +26,8 @@ Bkz. `PROJECT_STATE.md` §4.
 
 ## 5. Sıradaki adım
 `TASKS.md` B (D1–D8) kararlarını kullanıcıdan al; sonra Aşama 1 (Literatür) ve Aşama 3a (V0: programı derle, ETABS modelini aç, tez sonuçlarını yeniden üret) başlat.
+
+## 3d. Kararlar (2026-10-28, 3. tur)
+- **Yük koşulları:** Örnek 1 (özgün) depremli (TBDY-2018 spektrumu); Örnek 2 ve Örnek 3 kaynaklarındaki tanımlı yüklemeyle kalır, **deprem alınmaz** (Ö2: yalnız yerçekimi, ACI kombinasyonu 1,2D+1,6L; Ö3: yerçekimi + rüzgâr, N&C 2022 kombinasyonları). 
+- **Ö1 taşıyıcı sistem:** A11 (süneklik düzeyi yüksek; R=8, D=3) esas; TBDY Bölüm 7.3/7.4 şartları kısıt olarak eklenir. A31 (R=4, D=2,5) kullanıcı tarafından "kabul"; ancak TBDY 4.3.4.3 (PDF 54 / basılı 33) A31'i yalnız DTS=3 ve 4'te izinli kılar; tezdeki SDS=1,2 → DTS=1 ile **A31 uygulanamaz**. A31 yalnız düşük deprem bölgesi (SDS<0,5) senaryosu olarak koşulur; bu senaryonun SDS/SD1/zemin değerleri kullanıcıdan istenecek.
+- **Ö3 kaynağı:** Negrin & Chagoyén 2022 (Tapao değil); kaynakça ve metin düzeltilecek (THESIS_EXAMPLE_DATA.md).
