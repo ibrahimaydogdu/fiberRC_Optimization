@@ -57,6 +57,38 @@ Module Program
         Check("F2 sum Fz live", sumQ, wantQ, 0.0001)
         Check("F2 sum Fz snow", sumS, wantS, 0.0001)
         Check("F2 sum Fz dead (slab + wall + frame self weight)", sumG, wantGload + selfW, 0.0001)
+        'Seismic: mass source G + 0.30 Q + 0.30 S (TBDY Table 4.3), TBDY spectrum, modal + RS
+        Dim tp As New TbdyParams
+        m.MassSource.SelfMass = False
+        m.MassSource.Patterns.Add(New FemTerm With {.Name = "G", .Factor = 1.0})
+        m.MassSource.Patterns.Add(New FemTerm With {.Name = "Q", .Factor = 0.3})
+        m.MassSource.Patterns.Add(New FemTerm With {.Name = "S", .Factor = 0.3})
+        m.Spectra.Add(Tbdy.DesignSpectrum(tp, "SPD"))
+        Dim fs As New FemStatic(m)
+        Dim md = fs.ModalSolve(12)
+        Dim wantMass As Double = (wantGload + selfW + 0.3 * (wantQ + wantS)) / 9.80665
+        Console.WriteLine("mass X=" & md.TotalMass(0).ToString("F2") & " expected(self mass in G pattern counted once)=" & wantMass.ToString("F2") & " expected+selfW again=" & (wantMass + selfW / 9.80665).ToString("F2"))
+        For k As Integer = 0 To 5
+            Console.WriteLine("mode " & (k + 1) & " T=" & md.Period(k).ToString("F4") & " mx=" & md.MassRatio(k, 0).ToString("F3") & " my=" & md.MassRatio(k, 1).ToString("F3"))
+        Next
+        Dim sumX As Double = 0, sumY As Double = 0
+        For k As Integer = 0 To md.Period.Length - 1 : sumX += md.MassRatio(k, 0) : sumY += md.MassRatio(k, 1) : Next
+        Console.WriteLine("sum mass ratio X=" & sumX.ToString("F3") & " Y=" & sumY.ToString("F3"))
+        Dim rx = fs.ResponseSpectrum(md, New FemRSCase With {.Name = "EX", .Direction = 0, .Spectrum = "SPD", .ScaleFactor = 9.80665})
+        Dim ry = fs.ResponseSpectrum(md, New FemRSCase With {.Name = "EY", .Direction = 1, .Spectrum = "SPD", .ScaleFactor = 9.80665})
+        Console.WriteLine("Vbase X=" & rx.BaseForce(0).ToString("F1") & " kN  Y=" & ry.BaseForce(1).ToString("F1") & " kN  W=" & (md.TotalMass(0) * 9.80665).ToString("F1"))
+        Dim baseHalf As Double = 0.0
+        For Each e In m.Elements
+            If e.Story = 1 AndAlso Math.Abs(e.Axes(0, 2)) > 0.9 Then baseHalf += 0.5 * e.Section.UnitWeight * e.Section.A * e.Length
+        Next
+        Check("F3 total mass X = (G + 0.3Q + 0.3S - fixed-base half columns)/g", md.TotalMass(0), wantMass - baseHalf / 9.80665, 0.0001)
+        Check("F3 total mass X = Y", md.TotalMass(1), md.TotalMass(0), 0.0001)
+        Check("F3 cumulative mass ratio X (12 modes)", sumX, 1.0, 0.01)
+        Dim sarMax As Double = tp.SD1 / tp.TB / tp.R * 1.0     'plateau Sar = SDS / R for T >= TB
+        Check("F3 TBDY TA", tp.TA, 0.0630, 0.002)
+        Check("F3 TBDY TB", tp.TB, 0.3148, 0.002)
+        Check("F3 design Sar at T=0.5 s = SD1/(T R)", Tbdy.Sae(tp, 0.5) / Tbdy.Ra(tp, 0.5), 0.226 / 0.5 / 8.0, 0.0001)
+        Check("F3 RS base shear X <= mass x Sar,max (CQC, 80% mass)", If(rx.BaseForce(0) <= md.TotalMass(0) * 9.80665 * 0.226 / md.Period(1) / 8.0 * 1.0001, 1.0, 0.0), 1.0, 0.0)
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
 End Module
