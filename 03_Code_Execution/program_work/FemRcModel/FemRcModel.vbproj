@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>FemRcModel</RootNamespace>
+    <AssemblyName>FemRcModel</AssemblyName>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FemCore\FemCore.vbproj" />
+    <ProjectReference Include="..\RcCore\RcCore.vbproj" />
+  </ItemGroup>
+</Project>
