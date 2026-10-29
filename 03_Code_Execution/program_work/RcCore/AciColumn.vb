@@ -9,6 +9,7 @@ Public Class ColumnSection
     Public Fy As Double
     Public LayerY() As Double   ' ust lifden katman merkezi (mm)
     Public LayerAs() As Double  ' katman alani (mm2)
+    Public Beta1Override As Double = 0.0   ' >0 ise blok derinligi katsayisi (TS 500 k1 icin); 0 = ACI Beta1(Fc)
 
     Public ReadOnly Property Ast As Double
         Get
@@ -48,7 +49,7 @@ Public Module AciColumn
     Public Function AtC(s As ColumnSection, c As Double) As PmPoint
         Dim p As PmPoint
         p.C = c
-        Dim a As Double = Math.Min(Aci.Beta1(s.Fc) * c, s.H)
+        Dim a As Double = Math.Min(If(s.Beta1Override > 0.0, s.Beta1Override, Aci.Beta1(s.Fc)) * c, s.H)
         Dim cc As Double = 0.85 * s.Fc * s.B * a
         Dim pn As Double = cc
         Dim mn As Double = cc * (s.H / 2.0 - a / 2.0)

@@ -169,6 +169,35 @@ Module Program
         Check("F6 phiPn,max = 0.65 x 0.80 Po", RcCore.AciColumn.DesignPnMax(scH), 0.65 * 0.8 * RcCore.AciColumn.Po(scH), 0.0001)
         'D/C of the hand point: load (phiPn, phiMn) at c = 200 must give D/C = 1 (same eccentricity-independent, P fixed)
         Check("F6 D/C = 1 on the interaction curve", RcCore.AciColumn.DemandCapacityRatio(scH, ptH.PhiPn, Math.Abs(ptH.PhiMn)), 1.0, 0.005)
+        For Each g In fa.Gross.BeamGroups
+            Dim sx = secs(g)
+            Dim rp = BeamDesign.DesignGroup(fa, g, sx.Width * 1000.0, sx.Depth * 1000.0, 30.0, Nothing)
+            Dim sh = BeamShear.DesignGroup(fa, rp, Nothing, 0.0, 0.0)
+            Console.WriteLine("SHEAR " & g & "  Vdy=" & (sh.Vdy / 1000.0).ToString("F1") & " Vseis=" & (sh.Vseis / 1000.0).ToString("F1") & " Ve=" & (sh.Ve / 1000.0).ToString("F1") & " kN ln=" & sh.Ln.ToString("F0") & "  Vc=0:" & sh.ZeroVc & "  s_conf=" & sh.SConf.ToString("F0") & " s_mid=" & sh.SMid.ToString("F0") & " mm  g(7.10)=" & sh.G_Crush.ToString("F2") & " " & sh.Governing)
+        Next
+        'F7: hand calculation of the capacity-design shear for Bx_S12 (300 x 600, As = 540 / 540 mm2)
+        Dim rb = BeamDesign.DesignGroup(fa, "Bx_S12", 300.0, 600.0, 30.0, Nothing)
+        Dim shb = BeamShear.DesignGroup(fa, rb, Nothing, 0.0, 0.0)
+        Dim mrH As Double = RcCore.AciBeam.Flexure(300.0, 540.0, 540.0, 30.0 / 1.5, 420.0 / 1.15).Mn
+        Check("F7 Mr(top) = Mr(bottom) for equal steel", shb.MrTop, mrH, 0.0001)
+        Check("F7 Vseis = 1.4 (Mr,top + Mr,bot)/ln", shb.Vseis, 1.4 * 2.0 * mrH / shb.Ln, 0.0001)
+        Check("F7 Ve = Vdy + Vseis", shb.Ve, shb.Vdy + shb.Vseis, 0.0001)
+        Dim vc7 As Double = If(shb.ZeroVc, 0.0, RcCore.AciBeam.Vc(300.0, 540.0, 30.0))
+        Check("F7 Av/s in confinement zone = max((Ve/phi - Vc)/(fyt d), Av,min/s)", shb.AvConfPerS, Math.Max(Math.Max(shb.Ve / 0.75 - vc7, 0.0) / (420.0 * 540.0), RcCore.AciBeam.AvMinPerS(300.0, 30.0, 420.0)), 0.0001)
+        Console.WriteLine("F7 note: Vc = 0 switch ZeroVc=" & shb.ZeroVc & " (Vseis/Ve = " & (shb.Vseis / shb.Ve).ToString("F3") & "; rule is discontinuous at 0.5)")
+        Check("F8 phiMn at the axial load of a known curve point", ColumnShear.PhiMnAtP(scH, ptH.PhiPn), Math.Abs(ptH.PhiMn), 0.002)
+        Dim scT As New RcCore.ColumnSection With {.B = 400.0, .H = 400.0, .Fc = 30.0 / 1.5, .Fy = 420.0 / 1.15, .LayerY = {50.0, 350.0}, .LayerAs = {asL, asL}, .Beta1Override = Ts500.K1(30.0)}
+        Dim ptT = RcCore.AciColumn.AtC(scT, 200.0)
+        Check("F8 TS 500 Mr (no phi) at Pn of a known point = its Mn", ColumnShear.MrAtP(scT, ptT.Pn), Math.Abs(ptT.Mn), 0.002)
+        Check("F9 TS 500 k1 (C30) = 0.82", Ts500.K1(30.0), 0.82, 0.0001)
+        Check("F9 fcd (C30) = 20", Ts500.Fcd(30.0), 20.0, 0.0001)
+        Check("F9 fyd (420) = 365.22", Ts500.Fyd(420.0), 365.2174, 0.0001)
+        For Each gC In fa.Gross.ColumnGroups
+            Dim sc = secs(gC)
+            Dim cr = ColumnDesign.CheckGroup(fa, gC, sc.Width * 1000.0, sc.Depth * 1000.0, 30.0, 0.01, 20.0)
+            Dim cs2 = ColumnShear.Design(fa, cr)
+            Console.WriteLine("CSHEAR " & gC & " Ve(x)=" & (cs2.Ve(0) / 1000.0).ToString("F0") & " Ve(y)=" & (cs2.Ve(1) / 1000.0).ToString("F0") & " kN  legs=" & cs2.Legs(0) & "/" & cs2.Legs(1) & "  s_conf=" & cs2.SConf.ToString("F0") & " s_mid=" & cs2.SMid.ToString("F0") & " lk=" & cs2.Lk.ToString("F0") & " mm  g(7.7)=" & Math.Max(cs2.G_Crush(0), cs2.G_Crush(1)).ToString("F2") & " " & cs2.Governing)
+        Next
         Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub

@@ -89,3 +89,77 @@ Public Module BeamDesign
         Return r
     End Function
 End Module
+
+'Beam shear (TBDY-2018 7.4.5 capacity design; TS 500 Vc/Vr replaced by ACI 318M-14 / fib MC2010 as in the program). Units N, mm, MPa.
+Public Class BeamShearResult
+    Public Group As String
+    Public Ve, Vdy, Vseis As Double           'N: design shear, gravity (simple beam) part, capacity-design part 1.4 (Mr,top + Mr,bot)/ln
+    Public MrTop, MrBot, Ln As Double         'N.mm, N.mm, mm
+    Public ZeroVc As Boolean                  'TBDY 7.4.5.3: Vseis > Ve/2 -> Vc = 0 in the confinement zones
+    Public AvConfPerS, AvMidPerS As Double    'required Av/s, mm2/mm
+    Public SConf, SMid As Double              'chosen spacings, mm
+    Public G_Crush As Double                  'Eq. 7.10: Ve/(0.85 bw d sqrt(fck)) - 1
+    Public Governing As String
+End Class
+
+Public Module BeamShear
+    Public Const Phi As Double = 0.75           'ACI 21.2.1(b) [ASSUMPTION: TBDY/TS 500 use gamma factors instead]
+    Public Const StirrupDia As Double = 10.0    'mm, two legs [ASSUMPTION]
+    Public Const LongBarDia As Double = 20.0    'mm, for the 8 phi spacing limit [ASSUMPTION]
+
+    'TBDY Mr: moment at the beam face from fcd and fyd (TS 500 strengths, no phi; TBDY page 131 / printed 110). Nominal Mn of the section with fc := fcd, fy := fyd.
+    Private Function MrOf(r As BeamGroupResult, As_ As Double, fib As BeamFibre) As Double
+        Dim fcd As Double = Ts500.Fcd(r.Fc), fyd As Double = Ts500.Fyd(420.0)
+        If fib Is Nothing OrElse fib.Params Is Nothing Then Return RcCore.AciBeam.Flexure(r.B, r.D, As_, fcd, fyd).Mn
+        Return RcCore.SfrcBeam.Flexure(r.B, r.H, r.D, As_, fcd, fyd, fib.Params, 0.7 * r.H).Mn
+    End Function
+
+    'Vdy of one beam: simple-beam shear of the vertical loads of the seismic combination (G + Q + 0.2 S) = half of the vertical load on the clear span
+    Public Function VdySimple(fa As FrameAnalysis, ei As Integer) As Double
+        Dim m = fa.Gross.Model
+        Dim pg = m.PatternIndex("G"), pq = m.PatternIndex("Q"), ps = m.PatternIndex("S")
+        Dim w As Double = 0.0
+        For Each t In {Tuple.Create(pg, 1.0), Tuple.Create(pq, 1.0), Tuple.Create(ps, 0.2)}
+            Dim f = fa.Rg.FaceForce(t.Item1)(ei)
+            w += t.Item2 * (f(1) + f(7))
+        Next
+        Return Math.Abs(w) / 2.0 * 1000.0
+    End Function
+
+    Public Function DesignGroup(fa As FrameAnalysis, r As BeamGroupResult, fib As BeamFibre, fctk As Double, fFtuk As Double) As BeamShearResult
+        Dim o As New BeamShearResult With {.Group = r.Group}
+        o.MrTop = MrOf(r, r.AsTop, fib) : o.MrBot = MrOf(r, r.AsBot, fib)
+        Dim m = fa.Gross.Model
+        Dim worst As Double = -1.0
+        For ei As Integer = 0 To m.Elements.Count - 1
+            Dim e = m.Elements(ei)
+            If e.Group <> r.Group Then Continue For
+            Dim ln As Double = (e.Length - e.OffsetI - e.OffsetJ) * 1000.0
+            Dim vdy As Double = VdySimple(fa, ei)
+            Dim vs As Double = 1.4 * (o.MrTop + o.MrBot) / ln
+            If vdy + vs > worst Then worst = vdy + vs : o.Ve = vdy + vs : o.Vdy = vdy : o.Vseis = vs : o.Ln = ln
+        Next
+        o.ZeroVc = o.Vseis > 0.5 * o.Ve
+        o.G_Crush = o.Ve / (0.85 * r.B * r.D * Math.Sqrt(r.Fc)) - 1.0
+        Dim fyt As Double = 420.0
+        Dim av As Double = 2.0 * Math.PI * StirrupDia * StirrupDia / 4.0
+        'confinement zones: Vc = 0 (when Vseis > Ve/2); lifli kirişte lif katkısı da 0 alınır (Critic kararı bekliyor, A11 C1e)
+        Dim vcConf As Double = If(o.ZeroVc, 0.0, VcOf(r, fib, fctk, fFtuk))
+        o.AvConfPerS = Math.Max(o.Ve / Phi - vcConf, 0.0) / (fyt * r.D)
+        o.AvConfPerS = Math.Max(o.AvConfPerS, RcCore.AciBeam.AvMinPerS(r.B, r.Fc, fyt))
+        Dim sLimConf As Double = Math.Min(Math.Min(r.D / 4.0, 8.0 * LongBarDia), 150.0)
+        o.SConf = Math.Max(50.0, Math.Min(av / o.AvConfPerS, sLimConf))
+        'middle zone: Vc (plain) / VRd,F (SFRC) acts; spacing limit d/2, 300 mm [ASSUMPTION]
+        Dim vcMid As Double = VcOf(r, fib, fctk, fFtuk)
+        o.AvMidPerS = Math.Max(Math.Max(o.Ve / Phi - vcMid, 0.0) / (fyt * r.D), RcCore.AciBeam.AvMinPerS(r.B, r.Fc, fyt))
+        o.SMid = Math.Max(50.0, Math.Min(av / o.AvMidPerS, Math.Min(r.D / 2.0, 300.0)))
+        o.Governing = If(o.G_Crush > 0.0, "Ve > 0.85 bw d sqrt(fck)", If(av / o.AvConfPerS < 50.0, "stirrup spacing < 50 mm", "ok"))
+        Return o
+    End Function
+
+    'concrete (+ fibre) shear contribution, N
+    Private Function VcOf(r As BeamGroupResult, fib As BeamFibre, fctk As Double, fFtuk As Double) As Double
+        If fib Is Nothing OrElse fib.Params Is Nothing Then Return RcCore.AciBeam.Vc(r.B, r.D, r.Fc)
+        Return RcCore.SfrcBeam.VRdF(r.B, r.D, r.AsBot, r.Fc, fctk, fFtuk, 1.5)
+    End Function
+End Module

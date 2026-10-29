@@ -23,6 +23,7 @@ Public Class FrameAnalysis
     Public Combos As New List(Of ComboSet)
     Public Modal As ModalResults
     Public BaseShearX, BaseShearY, Weight As Double
+    Public Rg, Rc As StaticResults            'static results of the gross and cracked models (patterns G, Q, S)
 End Class
 
 Public Module RcCombos
@@ -116,6 +117,7 @@ Public Module RcCombos
         fa.Gross = RcFrameBuilder.Build(spec, MakeSections(spec, defs, False))
         Dim fsg As New FemStatic(fa.Gross.Model)
         Dim Rg = fsg.Solve()
+        fa.Rg = Rg
         If Rg.Failed Then Throw New InvalidOperationException("gross model: " & Rg.Message)
         Dim cg As New ComboSet With {.Name = "U1 1.4G+1.6(Q+S)"}
         cg.Forces.Add(Lin(Rg, fa.Gross.Model, {Tuple.Create("G", 1.4), Tuple.Create("Q", 1.6), Tuple.Create("S", 1.6)}))
@@ -128,6 +130,7 @@ Public Module RcCombos
         m.Spectra.Add(Tbdy.DesignSpectrum(tp, "SPD"))
         Dim fs As New FemStatic(m)
         Dim Rc = fs.Solve()
+        fa.Rc = Rc
         If Rc.Failed Then Throw New InvalidOperationException("cracked model: " & Rc.Message)
         fa.Modal = fs.ModalSolve(12)
         Dim ne As Integer = m.Elements.Count
