@@ -23,6 +23,7 @@ Public Class FrameAnalysis
     Public Combos As New List(Of ComboSet)
     Public Modal As ModalResults
     Public BaseShearX, BaseShearY, Weight As Double
+    Public RSx, RSy As RSResults
     Public Rg, Rc As StaticResults            'static results of the gross and cracked models (patterns G, Q, S)
 End Class
 
@@ -137,6 +138,7 @@ Public Module RcCombos
         Dim mx As Double()(), my As Double()(), mmx As Double()(), mmy As Double()()
         For d As Integer = 0 To 1
             Dim rr = fs.ResponseSpectrum(fa.Modal, New FemRSCase With {.Name = If(d = 0, "EX", "EY"), .Direction = d, .Spectrum = "SPD", .ScaleFactor = FrameModel.G, .Eccentricity = 0.05})
+            If d = 0 Then fa.RSx = rr Else fa.RSy = rr
             If d = 0 Then fa.BaseShearX = rr.BaseForce(0) : mx = Mag(rr, ne) : mmx = MagMid(fs, rr, m) Else fa.BaseShearY = rr.BaseForce(1) : my = Mag(rr, ne) : mmy = MagMid(fs, rr, m)
         Next
         'TBDY 4.4.2.1 (Eq. 4.9): Ed(H) = +-Ex +- 0.3 Ey  |  +-0.3 Ex +- Ey  (response spectrum results are magnitudes)

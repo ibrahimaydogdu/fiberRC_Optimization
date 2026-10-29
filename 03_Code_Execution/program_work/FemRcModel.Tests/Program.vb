@@ -1,3 +1,4 @@
+Imports System.Diagnostics
 Imports System
 Imports System.Collections.Generic
 Imports FemCore
@@ -198,6 +199,61 @@ Module Program
             Dim cs2 = ColumnShear.Design(fa, cr)
             Console.WriteLine("CSHEAR " & gC & " Ve(x)=" & (cs2.Ve(0) / 1000.0).ToString("F0") & " Ve(y)=" & (cs2.Ve(1) / 1000.0).ToString("F0") & " kN  legs=" & cs2.Legs(0) & "/" & cs2.Legs(1) & "  s_conf=" & cs2.SConf.ToString("F0") & " s_mid=" & cs2.SMid.ToString("F0") & " lk=" & cs2.Lk.ToString("F0") & " mm  g(7.7)=" & Math.Max(cs2.G_Crush(0), cs2.G_Crush(1)).ToString("F2") & " " & cs2.Governing)
         Next
+        Dim dd3 As New TbdyParams With {.SDS = 0.294, .SD1 = 0.091}
+        Dim dr = Checks.Drift(fa, spec, tp, dd3)
+        Console.WriteLine("DRIFT T1=" & dr.T1.ToString("F3") & " lambda=" & dr.Lambda.ToString("F3") & " max lambda*delta/h=" & dr.MaxRatio.ToString("F5") & " (story " & dr.Story & ", dir " & dr.Dir & ")  g=" & dr.G.ToString("F2"))
+        Dim colRes As New Dictionary(Of String, ColumnGroupResult), beamRes As New Dictionary(Of String, BeamGroupResult)
+        For Each gC In fa.Gross.ColumnGroups
+            Dim sc = secs(gC)
+            colRes(gC) = ColumnDesign.CheckGroup(fa, gC, sc.Width * 1000.0, sc.Depth * 1000.0, 30.0, 0.01, 20.0)
+        Next
+        For Each g In fa.Gross.BeamGroups
+            Dim sx = secs(g)
+            beamRes(g) = BeamDesign.DesignGroup(fa, g, sx.Width * 1000.0, sx.Depth * 1000.0, 30.0, Nothing)
+        Next
+        Dim jl = Checks.StrongColumn(fa, spec, colRes, beamRes, Nothing)
+        Dim gMax As Double = -99.0, nEx As Integer = 0
+        For Each jr In jl
+            If jr.Exempt Then nEx += 1
+            If Not jr.Exempt AndAlso jr.G > gMax Then gMax = jr.G
+        Next
+        Console.WriteLine("A5 joints=" & jl.Count & " exempt(Nd<=0.1 Ac fck)=" & nEx & " worst g (non-exempt)=" & gMax.ToString("F2") & "  (g > 0 = weak column)")
+        Dim csh As New Dictionary(Of String, ColumnShearResult)
+        For Each gC In fa.Gross.ColumnGroups : csh(gC) = ColumnShear.Design(fa, colRes(gC)) : Next
+        Dim jsl = JointShear.Check(fa, spec, colRes, csh, beamRes)
+        Dim jsMax As Double = -99.0, nConf As Integer = 0, jsName As String = ""
+        For Each js In jsl
+            If js.Confined Then nConf += 1
+            If js.G > jsMax Then jsMax = js.G : jsName = js.Name
+        Next
+        Console.WriteLine("JOINT SHEAR joints=" & jsl.Count & " confined=" & nConf & " worst g=" & jsMax.ToString("F2") & " at " & jsName)
+        'EVAL: Ex1 evaluator with the trial design (plain RC vs sample fibre)
+        Dim dsn As New Ex1Design
+        For Each pos In {"Corner", "Edge", "Inter"}
+            dsn.Columns("C" & pos & "_S12") = New ColumnDef With {.B = 500.0, .H = 500.0, .Rho = 0.012, .Fc = 30.0}
+            dsn.Columns("C" & pos & "_S34") = New ColumnDef With {.B = 400.0, .H = 400.0, .Rho = 0.012, .Fc = 30.0}
+        Next
+        For Each dd In {"x", "y"}
+            For Each sg In {"_S12", "_S34"}
+                dsn.Beams("B" & dd & sg) = New BeamDef With {.B = 300.0, .H = 600.0, .Fc = 30.0}
+            Next
+        Next
+        Dim pr As New RcCore.PriceSet
+        Dim ev0 = Ex1Evaluator.Evaluate(spec, dsn, tp, dd3, pr)
+        Console.WriteLine("EVAL plain: cost=" & ev0.Cost.Total.ToString("F0") & " TL (concrete " & ev0.Cost.Concrete.ToString("F0") & ", rebar " & ev0.Cost.Rebar.ToString("F0") & ", formwork " & ev0.Cost.Formwork.ToString("F0") & ", fibre " & ev0.Cost.Fibre.ToString("F0") & ")  T=" & ev0.T.ToString("F3") & "  Fpen=" & ev0.Fpen.ToString("F0") & "  steel=" & ev0.SteelKg.ToString("F0") & " kg concrete=" & ev0.ConcreteM3.ToString("F1") & " m3")
+        For Each v In ev0.Violations
+            If v.Item2 > 0.0 Then Console.WriteLine("   VIOLATED " & v.Item1 & " g=" & v.Item2.ToString("F3"))
+        Next
+        For Each dd In {"x", "y"}
+            For Each sg In {"_S12", "_S34"}
+                dsn.Beams("B" & dd & sg).Fibre = New BeamFibre With {.Params = New RcCore.SfrcParams With {.FR1 = 3.3, .FR3 = 3.0}, .DoseKgM3 = 25.0}
+            Next
+        Next
+        Dim ev1 = Ex1Evaluator.Evaluate(spec, dsn, tp, dd3, pr)
+        Console.WriteLine("EVAL sample fibre 25 kg/m3: cost=" & ev1.Cost.Total.ToString("F0") & " TL (fibre " & ev1.Cost.Fibre.ToString("F0") & ")  T=" & ev1.T.ToString("F3") & "  steel=" & ev1.SteelKg.ToString("F0") & " kg")
+        Dim swE = Stopwatch.StartNew()
+        For q As Integer = 1 To 3 : Ex1Evaluator.Evaluate(spec, dsn, tp, dd3, pr) : Next
+        Console.WriteLine("EVALTIME per evaluation = " & (swE.ElapsedMilliseconds / 3.0).ToString("F0") & " ms")
         Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
