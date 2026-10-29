@@ -31,7 +31,7 @@ Kar (düz çatı, kullanılmayan teras): Muratpaşa → kar bölgesi 1 (TS 498:2
 | Çatı (düz teras) | eğim betonu/koruma şapı ≈ 0,10 m × 21 = 2,1; yalıtım + su yalıtımı ≈ 0,15; tavan sıvası 0,29 | **≈ 2,5 kN/m²** (öz ağırlık hariç) | [VARSAYIM, kalınlıklar kaynak girilene dek makaleye alınmaz; ±%20 duyarlılık] |
 Yük aktarımı: kiriş yükü FEM'e kN/m olarak (iki yönlü döşeme: üçgen/trapez eşdeğeri, hesap tabloda); final ETABS modelinde alan yükü + membran döşeme + rijit diyafram. FEM ve ETABS toplam kat ağırlığı eşitlenir (kontrol kapısı). Birim ağırlıklar TS ISO 9194 aralıklarının orta değeridir; G için ±%20 duyarlılık koşulur.
 
-Birleşimler (TBDY/TS 498 biçimi): 1,4G + 1,6Q; G + Q ± E (E: x ve y, ±%5 ek dış merkezlik); 0,9G ± E; ACI kapasite hesabı + TBDY Bölüm 7 kısıtları. Deprem kütlesi: wG + 0,30 wQ (çatıda kar %30).
+Birleşimler (TBDY/TS 498 biçimi): 1,4G + 1,6Q; TBDY 4.4.4.1 [V, PDF 62 / basılı 41]: Denk. 4.11 G + Q + 0,2S + Ed(H) + 0,3Ed(Z); Denk. 4.12 0,9G + H + Ed(H) − 0,3Ed(Z); Ed(H) Denk. 4.9 (±Ex ± 0,3Ey | ±0,3Ex ± Ey); Ed(Z) ≈ (2/3)SDS·G Denk. 4.10 (4.4.3.2; Ö1'de 4.4.3.1 elemanı yok); %5 ek dış merkezlik. Kar katsayısı: birleşimde 0,2, kütlede 0,30 (4.5.9.2) [V]; ACI kapasite hesabı + TBDY Bölüm 7 kısıtları. Deprem kütlesi: wG + 0,30 wQ (çatıda kar %30).
 
 ## TBDY sınıflama (Claude görüntü doğrulaması)
 - **Tablo 3.3** (PDF 38 / basılı 17) [V]: HN = 4 × 3,0 = 12 m, DTS = 2 sütunu (1, 1a, 2, 2a): 10,5 < HN ≤ 17,5 → **BYS = 6**. Tablo 4.1 A11 için BYS ≥ 3 koşulu sağlanır.

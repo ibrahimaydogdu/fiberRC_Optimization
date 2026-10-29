@@ -5,10 +5,6 @@ Imports FemCore
 '3D reinforced-concrete frame builder for the FEM solver (EX1_SPEC v3). Units: kN, m. Section inputs in mm / MPa.
 'Sections: Ec = 4700 sqrt(fc') [assumption, ACI 318M-14 19.2.2.1.b], G = E / 2.4 (nu = 0.2).
 'Cracked stiffness (TBDY-2018 Table 4.2): applied through FemSection.Modifier (I22, I33) only when asked (earthquake combinations).
-Public Class RcSectionDef
-    Public B, H As Double      'mm; B = width (local axis 2 direction), H = depth along local axis 3 ... see Make
-    Public Fc As Double        'MPa
-End Class
 
 Public Class FrameSpec
     Public NxBays As Integer = 3, NyBays As Integer = 2, NStory As Integer = 4

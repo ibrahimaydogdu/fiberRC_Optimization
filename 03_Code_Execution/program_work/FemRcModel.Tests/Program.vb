@@ -89,6 +89,27 @@ Module Program
         Check("F3 TBDY TB", tp.TB, 0.3148, 0.002)
         Check("F3 design Sar at T=0.5 s = SD1/(T R)", Tbdy.Sae(tp, 0.5) / Tbdy.Ra(tp, 0.5), 0.226 / 0.5 / 8.0, 0.0001)
         Check("F3 RS base shear X <= mass x Sar,max (CQC, 80% mass)", If(rx.BaseForce(0) <= md.TotalMass(0) * 9.80665 * 0.226 / md.Period(1) / 8.0 * 1.0001, 1.0, 0.0), 1.0, 0.0)
+        'F4: combinations (ground-column axial force equilibrium for U1) + seismic envelope shape
+        Dim defs As New Dictionary(Of String, RcSectionDef)
+        For Each k In secs.Keys
+            Dim s0 = secs(k)
+            defs(k) = New RcSectionDef With {.B = s0.Width * 1000.0, .H = s0.Depth * 1000.0, .Fc = 30.0}
+        Next
+        Dim fa = RcCombos.Analyze(spec, defs, tp)
+        Dim sumP As Double = 0.0
+        For ei As Integer = 0 To fa.Gross.Model.Elements.Count - 1
+            Dim e = fa.Gross.Model.Elements(ei)
+            If e.Story = 1 AndAlso Math.Abs(e.Axes(0, 2)) > 0.9 Then sumP += fa.Combos(0).Forces(0)(ei)(0)
+        Next
+        Check("F4 U1 sum of ground column axial = 1.4G + 1.6(Q+S)", Math.Abs(sumP), 1.4 * (wantGload + selfW) + 1.6 * (wantQ + wantS), 0.0001)
+        Dim sumMid As Double = 0.0
+        For ei As Integer = 0 To fa.Cracked.Model.Elements.Count - 1
+            Dim e = fa.Cracked.Model.Elements(ei)
+            If e.Story = 1 AndAlso Math.Abs(e.Axes(0, 2)) > 0.9 Then sumMid += 0.5 * (fa.Combos(1).Forces(0)(ei)(0) + fa.Combos(1).Forces(1)(ei)(0))
+        Next
+        Dim ezT As Double = 0.3 * 2.0 / 3.0 * tp.SDS
+        Check("F4 Eq4.11 static part ground axial = (1+0.3*2/3*SDS)G + Q + 0.2S", Math.Abs(sumMid), (1.0 + ezT) * (wantGload + selfW) + wantQ + 0.2 * wantS, 0.0001)
+        Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
 End Module
