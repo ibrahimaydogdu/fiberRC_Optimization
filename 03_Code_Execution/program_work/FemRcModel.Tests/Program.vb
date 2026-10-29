@@ -199,6 +199,20 @@ Module Program
         Check("F10 5D C30 20 kg/m3 not measured", If(FibreTable.Lookup("5D", 30.0, 20.0, fa1, fa3), 1.0, 0.0), 0.0, 0.0001)
         Check("F10 4D C35 not measured", If(FibreTable.Lookup("4D", 35.0, 30.0, fa1, fa3), 1.0, 0.0), 0.0, 0.0001)
         Check("F10 5D C40 35 fR3 = 6.4", If(FibreTable.Lookup("5D", 40.0, 35.0, fa1, fa3), fa3, 0.0), 6.4, 0.0001)
+        'F11: optimisers on a shifted integer sphere (optimum 0 at x = 17), 12 variables in [0, 40]
+        Dim lbT(11) As Integer, ubT(11) As Integer
+        For i As Integer = 0 To 11 : ubT(i) = 40 : Next
+        Dim sphere As Func(Of Integer(), Double) = Function(xx) xx.Sum(Function(v) CDbl((v - 17) * (v - 17)))
+        For Each mth In {"YAKO", "BTO", "ATO"}
+            Dim r1 = Optimizers.Run(mth, sphere, lbT, ubT, 4000, 11)
+            Dim r2 = Optimizers.Run(mth, sphere, lbT, ubT, 4000, 11)
+            Dim r3 = Optimizers.Run(mth, sphere, lbT, ubT, 4000, 12)
+            Check("F11 " & mth & " uses exactly MaxFEs", r1.FEs, 4000.0, 0.0)
+            Check("F11 " & mth & " same seed reproducible", r1.BestF, r2.BestF, 0.0)
+            Check("F11 " & mth & " different seed differs", If(r1.BestF = r3.BestF AndAlso r1.History.Count = r3.History.Count, 0.0, 1.0), 1.0, 0.0)
+            Check("F11 " & mth & " beats random mean (~3700) by 10x", If(r1.BestF < 370.0, 1.0, 0.0), 1.0, 0.0)
+            Console.WriteLine("   " & mth & " best f=" & r1.BestF.ToString("F0"))
+        Next
         Check("F9 fcd (C30) = 20", Ts500.Fcd(30.0), 20.0, 0.0001)
         Check("F9 fyd (420) = 365.22", Ts500.Fyd(420.0), 365.2174, 0.0001)
         For Each gC In fa.Gross.ColumnGroups
@@ -262,6 +276,28 @@ Module Program
         Dim swE = Stopwatch.StartNew()
         For q As Integer = 1 To 3 : Ex1Evaluator.Evaluate(spec, dsn, tp, dd3, pr) : Next
         Console.WriteLine("EVALTIME per evaluation = " & (swE.ElapsedMilliseconds / 3.0).ToString("F0") & " ms")
+        'F12: Ex1Problem encoding, repair, thread safety and a short optimiser run
+        Dim prob As New Ex1Problem(spec, tp, dd3, pr, True)
+        Dim xT(prob.NVars - 1) As Integer
+        Dim kx As Integer = 0
+        For g As Integer = 0 To 5 : xT(kx) = 4 : xT(kx + 1) = 4 : xT(kx + 2) = 1 : xT(kx + 3) = 0 : kx += 4 : Next
+        For g As Integer = 0 To 3 : xT(kx) = 1 : xT(kx + 1) = 6 : xT(kx + 2) = 1 : xT(kx + 3) = 0 : xT(kx + 4) = 5 : kx += 5 : Next      'beams 300x600, C40, 4D, dose 40 (repaired to 35)
+        Dim dT = prob.Decode(xT)
+        Check("F12 NVars = 44", prob.NVars, 44.0, 0.0)
+        Check("F12 col b = 500", dT.Columns("CEdge_S12").B, 500.0, 0.0)
+        Check("F12 col rho = 1.25 %", dT.Columns("CEdge_S12").Rho, 0.0125, 1.0E-9)
+        Check("F12 beam h = 600", dT.Beams("By_S34").H, 600.0, 0.0)
+        Check("F12 dose repaired 40 -> 35 (4D C40)", dT.Beams("Bx_S12").Fibre.DoseKgM3, 35.0, 0.0)
+        Dim fT = prob.Evaluate(xT)
+        Console.WriteLine("F12 fibre trial: cost=" & fT.Cost.Total.ToString("F0") & " T=" & fT.T.ToString("F3") & " Fpen=" & fT.Fpen.ToString("F0"))
+        Dim par(7) As Double
+        System.Threading.Tasks.Parallel.For(0, 8, Sub(q) par(q) = prob.Objective(xT))
+        Check("F12 parallel evaluations identical", par.Max() - par.Min(), 0.0, 0.0)
+        Check("F12 parallel = serial", par(3), fT.Fpen, 1.0E-12)
+        Dim swO = Stopwatch.StartNew()
+        Dim ro = Optimizers.Run("ATO", AddressOf prob.Objective, prob.Lb, prob.Ub, 200, 5)
+        Console.WriteLine("F12 ATO 200 FEs: best Fpen=" & ro.BestF.ToString("F0") & " (" & swO.ElapsedMilliseconds & " ms)")
+        Check("F12 ATO used 200 FEs", ro.FEs, 200.0, 0.0)
         'stage profile
         Dim defsP As New Dictionary(Of String, RcSectionDef)
         For Each kv In dsn.Columns : defsP(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next

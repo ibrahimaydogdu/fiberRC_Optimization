@@ -52,12 +52,13 @@ Public Module FibreTable
     End Function
 
     'BeamFibre for the evaluator; Nothing for dose 0 (plain RC). ok = False if outside the grid.
-    Public Function MakeBeamFibre(fibreType As String, fck As Double, dose As Double, ByRef ok As Boolean) As BeamFibre
+    'fRScale multiplies the tabulated fR1 and fR3 (the sheet values are test means, not verified characteristic values: sensitivity factor, 1.0 = as tabulated)
+    Public Function MakeBeamFibre(fibreType As String, fck As Double, dose As Double, ByRef ok As Boolean, Optional fRScale As Double = 1.0) As BeamFibre
         ok = True
         If dose <= 0.0 Then Return Nothing
         Dim a As Double, b As Double
         ok = Lookup(fibreType, fck, dose, a, b)
         If Not ok Then Return Nothing
-        Return New BeamFibre With {.Params = New RcCore.SfrcParams With {.FR1 = a, .FR3 = b}, .DoseKgM3 = dose}
+        Return New BeamFibre With {.Params = New RcCore.SfrcParams With {.FR1 = a * fRScale, .FR3 = b * fRScale}, .DoseKgM3 = dose}
     End Function
 End Module
