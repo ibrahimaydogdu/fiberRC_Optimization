@@ -109,6 +109,11 @@ Module Program
         Next
         Dim ezT As Double = 0.3 * 2.0 / 3.0 * tp.SDS
         Check("F4 Eq4.11 static part ground axial = (1+0.3*2/3*SDS)G + Q + 0.2S", Math.Abs(sumMid), (1.0 + ezT) * (wantGload + selfW) + wantQ + 0.2 * wantS, 0.0001)
+        'F5: U1 midspan moment of an interior beam (fixed-end-ish): span sagging + support hogging, equilibrium with face moments and load
+        Dim bi As Integer = 48    'first beam
+        Dim eb = fa.Gross.Model.Elements(bi)
+        Dim ff = fa.Combos(0).Forces(0)(bi), mm = fa.Combos(0).Mid(0)(bi)
+        Console.WriteLine("beam " & eb.Name & " face M3 I=" & ff(5).ToString("F2") & " J=" & ff(11).ToString("F2") & " mid M3=" & mm(5).ToString("F2") & " mid V2=" & mm(1).ToString("F2") & " mid V3=" & mm(2).ToString("F2"))
         Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
