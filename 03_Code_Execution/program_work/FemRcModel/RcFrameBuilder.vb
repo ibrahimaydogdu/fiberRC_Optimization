@@ -115,6 +115,20 @@ Public Module RcFrameBuilder
                 Next
             Next
         Next
+        'rigid end zones: beam offsets = half of the column dimension along the beam (larger of the columns above and below), column offsets = half of the deepest beam at the joint
+        For Each e In m.Elements
+            Dim vertical As Boolean = Math.Abs(e.Axes(0, 2)) > 0.9
+            If vertical Then
+                Dim ni = m.Nodes(e.NI), nj = m.Nodes(e.NJ)
+                e.OffsetI = HalfBeamDepth(fm, ni, e.Story - 1)
+                e.OffsetJ = HalfBeamDepth(fm, nj, e.Story)
+            Else
+                Dim dirX As Boolean = Math.Abs(m.Nodes(e.NJ).X - m.Nodes(e.NI).X) > 0.001
+                e.OffsetI = HalfColumn(fm, m.Nodes(e.NI), e.Story, dirX)
+                e.OffsetJ = HalfColumn(fm, m.Nodes(e.NJ), e.Story, dirX)
+            End If
+            e.RigidZone = 1.0
+        Next
         'patterns
         Dim pG As New FemPattern With {.Name = "G", .SelfWeightMultiplier = 1.0}
         Dim pQ As New FemPattern With {.Name = "Q", .SelfWeightMultiplier = 0.0}
@@ -140,6 +154,33 @@ Public Module RcFrameBuilder
             End If
         Next
         Return fm
+    End Function
+
+    'half depth of the deepest beam framing into the node at level k (0 at the base)
+    Private Function HalfBeamDepth(fm As FrameModel, n As FemNode, level As Integer) As Double
+        If level < 1 Then Return 0.0
+        Dim best As Double = 0.0
+        For Each e In fm.Model.Elements
+            If Math.Abs(e.Axes(0, 2)) > 0.9 OrElse e.Story <> level Then Continue For
+            Dim a = fm.Model.Nodes(e.NI), b = fm.Model.Nodes(e.NJ)
+            If a Is n OrElse b Is n Then best = Math.Max(best, e.Section.Depth)
+        Next
+        Return best / 2.0
+    End Function
+
+    'half of the dimension, along the beam direction, of the columns meeting the node at level k (storey k below and storey k+1 above)
+    Private Function HalfColumn(fm As FrameModel, n As FemNode, level As Integer, beamAlongX As Boolean) As Double
+        Dim best As Double = 0.0
+        For Each e In fm.Model.Elements
+            If Math.Abs(e.Axes(0, 2)) <= 0.9 Then Continue For
+            If e.Story <> level AndAlso e.Story <> level + 1 Then Continue For
+            Dim top = fm.Model.Nodes(e.NJ), bot = fm.Model.Nodes(e.NI)
+            If (e.Story = level AndAlso top Is n) OrElse (e.Story = level + 1 AndAlso bot Is n) Then
+                'vertical member: local 2 = global X, section depth (Depth) along local 2, width along local 3 = global Y
+                best = Math.Max(best, If(beamAlongX, e.Section.Depth, e.Section.Width))
+            End If
+        Next
+        Return best / 2.0
     End Function
 
     Private Sub AddBeam(fm As FrameModel, sections As Dictionary(Of String, FemSection), name As String, ni As Integer, nj As Integer, dirX As Boolean, story As Integer)

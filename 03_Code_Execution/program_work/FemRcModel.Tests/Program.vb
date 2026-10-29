@@ -47,7 +47,11 @@ Module Program
         Dim wantGload As Double = areaFloor * ((spec.DeadFloor + slabSelf) * (spec.NStory - 1) + spec.DeadRoof + slabSelf) + perim * spec.WallLine * (spec.NStory - 1)
         'self weight of frame members
         Dim selfW As Double = 0.0
-        For Each e In m.Elements : selfW += e.Section.UnitWeight * e.Section.A * e.Length : Next
+        For Each e In m.Elements
+            Dim lw As Double = e.Length
+            If Math.Abs(e.Axes(0, 2)) <= 0.9 Then lw = e.Length - e.OffsetI - e.OffsetJ      'beams: clear length (as FemStatic self weight)
+            selfW += e.Section.UnitWeight * e.Section.A * lw
+        Next
         Dim sumQ As Double = 0.0, sumS As Double = 0.0, sumG As Double = 0.0
         For ni As Integer = 0 To m.Nodes.Count - 1
             If m.Nodes(ni).Restraint(2) Then
@@ -81,7 +85,7 @@ Module Program
         For Each e In m.Elements
             If e.Story = 1 AndAlso Math.Abs(e.Axes(0, 2)) > 0.9 Then baseHalf += 0.5 * e.Section.UnitWeight * e.Section.A * e.Length
         Next
-        Check("F3 total mass X = (G + 0.3Q + 0.3S - fixed-base half columns)/g", md.TotalMass(0), wantMass - baseHalf / 9.80665, 0.0001)
+        Check("F3 total mass X = (G + 0.3Q + 0.3S - fixed-base half columns)/g", md.TotalMass(0), wantMass - baseHalf / 9.80665, 0.003)   'tolerance: with rigid end zones the share of a base column's load at the (fixed) base end is not exactly one half
         Check("F3 total mass X = Y", md.TotalMass(1), md.TotalMass(0), 0.0001)
         Check("F3 cumulative mass ratio X (12 modes)", sumX, 1.0, 0.01)
         Dim sarMax As Double = tp.SD1 / tp.TB / tp.R * 1.0     'plateau Sar = SDS / R for T >= TB
@@ -114,6 +118,37 @@ Module Program
         Dim eb = fa.Gross.Model.Elements(bi)
         Dim ff = fa.Combos(0).Forces(0)(bi), mm = fa.Combos(0).Mid(0)(bi)
         Console.WriteLine("beam " & eb.Name & " face M3 I=" & ff(5).ToString("F2") & " J=" & ff(11).ToString("F2") & " mid M3=" & mm(5).ToString("F2") & " mid V2=" & mm(1).ToString("F2") & " mid V3=" & mm(2).ToString("F2"))
+        For Each g In fa.Gross.BeamGroups
+            Dim sx = secs(g)
+            Dim rp = BeamDesign.DesignGroup(fa, g, sx.Width * 1000.0, sx.Depth * 1000.0, 30.0, Nothing)
+            Dim sf As New BeamFibre With {.Params = New RcCore.SfrcParams With {.FR1 = 3.3, .FR3 = 3.0}, .DoseKgM3 = 25.0}
+            Dim rf = BeamDesign.DesignGroup(fa, g, sx.Width * 1000.0, sx.Depth * 1000.0, 30.0, sf)
+            Console.WriteLine("BEAM " & g & "  MuTop=" & (rp.MuTop / 1.0E6).ToString("F1") & " MuBot=" & (rp.MuBot / 1.0E6).ToString("F1") & " kNm | plain AsTop=" & rp.AsTop.ToString("F0") & " AsBot=" & rp.AsBot.ToString("F0") & " (" & rp.Governing & ")  | SFRC AsTop=" & rf.AsTop.ToString("F0") & " AsBot=" & rf.AsBot.ToString("F0") & " (" & rf.Governing & ")")
+        Next
+        Dim gS = fa.Gross.BeamGroups(0)
+        For Each hh In {300.0, 350.0, 400.0}
+            Dim sf2 As New BeamFibre With {.Params = New RcCore.SfrcParams With {.FR1 = 3.3, .FR3 = 3.0}, .DoseKgM3 = 25.0}
+            Dim a1 = BeamDesign.DesignGroup(fa, gS, 250.0, hh, 30.0, Nothing), a2 = BeamDesign.DesignGroup(fa, gS, 250.0, hh, 30.0, sf2)
+            Console.WriteLine("SMALL 250x" & hh & " plain AsTop=" & a1.AsTop.ToString("F0") & " AsBot=" & a1.AsBot.ToString("F0") & " (" & a1.Governing & ") | SFRC AsTop=" & a2.AsTop.ToString("F0") & " AsBot=" & a2.AsBot.ToString("F0") & " (" & a2.Governing & ")")
+        Next
+        'F5: hand calculation of the beam flexure design: b = 300, d = 540, C30, fy = 420, Mu = 250 kNm
+        Dim muH As Double = 250.0E6, bH As Double = 300.0, dH As Double = 540.0
+        Dim aH As Double = dH - Math.Sqrt(dH * dH - 2.0 * muH / (0.9 * 0.85 * 30.0 * bH))
+        Dim asH As Double = 0.85 * 30.0 * bH * aH / 420.0
+        Check("F5 hand As (phi 0.9)", asH, 1312.5, 0.002)
+        Check("F5 RequiredAs equals hand As", RcCore.AciBeam.RequiredAs(muH, bH, dH, 30.0, 420.0), asH, 0.0005)
+        Dim flexH = RcCore.AciBeam.Flexure(bH, dH, asH, 30.0, 420.0)
+        Check("F5 phiMn at hand As = Mu", flexH.PhiMn, muH, 0.002)
+        Check("F5 epsT >= 0.005 (tension-controlled)", If(flexH.EpsT >= 0.005, 1.0, 0.0), 1.0, 0.0)
+        Dim p0 As New RcCore.SfrcParams With {.FR1 = 0.0, .FR3 = 0.0}
+        Check("F5 SFRC with fR = 0 equals plain RC", RcCore.SfrcBeam.Flexure(bH, 600.0, dH, asH, 30.0, 420.0, p0, 600.0).PhiMn, flexH.PhiMn, 0.002)
+        For Each gC In fa.Gross.ColumnGroups
+            Dim sc = secs(gC)
+            For Each rh In {0.01, 0.02}
+                Dim cr = ColumnDesign.CheckGroup(fa, gC, sc.Width * 1000.0, sc.Depth * 1000.0, 30.0, rh, 20.0)
+                Console.WriteLine("COLUMN " & gC & " " & (sc.Width * 1000).ToString("F0") & "x" & (sc.Depth * 1000).ToString("F0") & " rho=" & rh.ToString("P0") & " n=" & cr.NBars & " Ø20 Nd=" & (cr.NdMax / 1000.0).ToString("F0") & " kN  D/C=" & cr.DcrMax.ToString("F2") & "  g(A2)=" & cr.G_Axial.ToString("F2") & "  " & cr.Governing)
+            Next
+        Next
         Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
