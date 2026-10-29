@@ -254,6 +254,33 @@ Module Program
         Dim swE = Stopwatch.StartNew()
         For q As Integer = 1 To 3 : Ex1Evaluator.Evaluate(spec, dsn, tp, dd3, pr) : Next
         Console.WriteLine("EVALTIME per evaluation = " & (swE.ElapsedMilliseconds / 3.0).ToString("F0") & " ms")
+        'stage profile
+        Dim defsP As New Dictionary(Of String, RcSectionDef)
+        For Each kv In dsn.Columns : defsP(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next
+        For Each kv In dsn.Beams : defsP(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next
+        Dim swP = Stopwatch.StartNew()
+        Dim faP = RcCombos.Analyze(spec, defsP, tp)
+        Console.WriteLine("PROFILE analyze = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
+        Dim crP As New Dictionary(Of String, ColumnGroupResult), csP As New Dictionary(Of String, ColumnShearResult)
+        For Each g In faP.Gross.ColumnGroups
+            Dim c = dsn.Columns(g)
+            crP(g) = ColumnDesign.CheckGroup(faP, g, c.B, c.H, c.Fc, c.Rho, c.BarDia)
+        Next
+        Console.WriteLine("PROFILE col CheckGroup = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
+        For Each g In faP.Gross.ColumnGroups : csP(g) = ColumnShear.Design(faP, crP(g)) : Next
+        Console.WriteLine("PROFILE col shear = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
+        Dim brP As New Dictionary(Of String, BeamGroupResult)
+        For Each g In faP.Gross.BeamGroups
+            Dim b = dsn.Beams(g)
+            brP(g) = BeamDesign.DesignGroup(faP, g, b.B, b.H, b.Fc, b.Fibre)
+        Next
+        Console.WriteLine("PROFILE beam flexure = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
+        Dim dP = Checks.Drift(faP, spec, tp, dd3)
+        Console.WriteLine("PROFILE drift = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
+        Dim jP = Checks.StrongColumn(faP, spec, crP, brP, Nothing)
+        Console.WriteLine("PROFILE strong column = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
+        Dim jsP = JointShear.Check(faP, spec, crP, csP, brP)
+        Console.WriteLine("PROFILE joint shear = " & swP.ElapsedMilliseconds & " ms")
         Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
