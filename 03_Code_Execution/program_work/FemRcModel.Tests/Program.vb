@@ -149,6 +149,26 @@ Module Program
                 Console.WriteLine("COLUMN " & gC & " " & (sc.Width * 1000).ToString("F0") & "x" & (sc.Depth * 1000).ToString("F0") & " rho=" & rh.ToString("P0") & " n=" & cr.NBars & " Ø20 Nd=" & (cr.NdMax / 1000.0).ToString("F0") & " kN  D/C=" & cr.DcrMax.ToString("F2") & "  g(A2)=" & cr.G_Axial.ToString("F2") & "  " & cr.Governing)
             Next
         Next
+        'F6: column P-M hand calculation: 400 x 400, C30, fy 420, layers at y = 50 and 350, 3 Ø20 each (942.48 mm2), c = 200 mm
+        Dim asL As Double = 3.0 * Math.PI * 100.0
+        Dim scH As New RcCore.ColumnSection With {.B = 400.0, .H = 400.0, .Fc = 30.0, .Fy = 420.0, .LayerY = {50.0, 350.0}, .LayerAs = {asL, asL}}
+        Dim b1H As Double = 0.85 - 0.05 * 2.0 / 7.0
+        Dim cH As Double = 200.0, aHc As Double = b1H * cH
+        Dim ccH As Double = 0.85 * 30.0 * 400.0 * aHc
+        Dim ftop As Double = asL * (420.0 - 0.85 * 30.0)               'compression steel, yielded (eps 0.00225 > 0.0021)
+        Dim fbot As Double = asL * 420.0                               'tension steel, yielded
+        Dim pnH As Double = ccH + ftop - fbot
+        Dim mnH As Double = ccH * (200.0 - aHc / 2.0) + ftop * 150.0 + fbot * 150.0
+        Dim epsTH As Double = 0.003 * (350.0 - cH) / cH
+        Dim phiH As Double = 0.65 + 0.25 * (epsTH - 420.0 / 200000.0) / (0.005 - 420.0 / 200000.0)
+        Dim ptH = RcCore.AciColumn.AtC(scH, cH)
+        Check("F6 Pn at c = 200", ptH.Pn, pnH, 0.001)
+        Check("F6 Mn at c = 200", Math.Abs(ptH.Mn), mnH, 0.001)
+        Check("F6 phi at c = 200 (transition zone)", ptH.Phi, phiH, 0.001)
+        Check("F6 Po = 0.85 fc (Ag - Ast) + fy Ast", RcCore.AciColumn.Po(scH), 0.85 * 30.0 * (160000.0 - 2.0 * asL) + 420.0 * 2.0 * asL, 0.0001)
+        Check("F6 phiPn,max = 0.65 x 0.80 Po", RcCore.AciColumn.DesignPnMax(scH), 0.65 * 0.8 * RcCore.AciColumn.Po(scH), 0.0001)
+        'D/C of the hand point: load (phiPn, phiMn) at c = 200 must give D/C = 1 (same eccentricity-independent, P fixed)
+        Check("F6 D/C = 1 on the interaction curve", RcCore.AciColumn.DemandCapacityRatio(scH, ptH.PhiPn, Math.Abs(ptH.PhiMn)), 1.0, 0.005)
         Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub
