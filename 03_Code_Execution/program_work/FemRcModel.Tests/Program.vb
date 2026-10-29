@@ -191,6 +191,14 @@ Module Program
         Dim ptT = RcCore.AciColumn.AtC(scT, 200.0)
         Check("F8 TS 500 Mr (no phi) at Pn of a known point = its Mn", ColumnShear.MrAtP(scT, ptT.Pn), Math.Abs(ptT.Mn), 0.002)
         Check("F9 TS 500 k1 (C30) = 0.82", Ts500.K1(30.0), 0.82, 0.0001)
+        Dim fa1 As Double, fa3 As Double
+        Check("F10 4D C30 dose 22.5 in grid", If(FibreTable.Lookup("4D", 30.0, 22.5, fa1, fa3), 1.0, 0.0), 1.0, 0.0001)
+        Check("F10 4D C30 22.5 fR1 = 3.0", fa1, 3.0, 0.0001)
+        Check("F10 4D C30 22.5 fR3 = 3.75", fa3, 3.75, 0.0001)
+        Check("F10 4D C40 40 kg/m3 not measured", If(FibreTable.Lookup("4D", 40.0, 40.0, fa1, fa3), 1.0, 0.0), 0.0, 0.0001)
+        Check("F10 5D C30 20 kg/m3 not measured", If(FibreTable.Lookup("5D", 30.0, 20.0, fa1, fa3), 1.0, 0.0), 0.0, 0.0001)
+        Check("F10 4D C35 not measured", If(FibreTable.Lookup("4D", 35.0, 30.0, fa1, fa3), 1.0, 0.0), 0.0, 0.0001)
+        Check("F10 5D C40 35 fR3 = 6.4", If(FibreTable.Lookup("5D", 40.0, 35.0, fa1, fa3), fa3, 0.0), 6.4, 0.0001)
         Check("F9 fcd (C30) = 20", Ts500.Fcd(30.0), 20.0, 0.0001)
         Check("F9 fyd (420) = 365.22", Ts500.Fyd(420.0), 365.2174, 0.0001)
         For Each gC In fa.Gross.ColumnGroups

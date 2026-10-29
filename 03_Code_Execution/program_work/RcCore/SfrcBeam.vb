@@ -60,7 +60,7 @@ Public Module SfrcBeam
         Dim b1 As Double = Aci.Beta1(fc)
         Dim lo As Double = 0.0001 * d
         Dim hi As Double = h
-        For i As Integer = 0 To 199
+        For i As Integer = 0 To 59
             Dim mid As Double = 0.5 * (lo + hi)
             If Balance(b, h, d, As_, fc, fy, p, lcs, mid) > 0.0 Then hi = mid Else lo = mid
         Next
@@ -74,13 +74,9 @@ Public Module SfrcBeam
         Dim fs As Double = Math.Min(fy, Aci.Es * r.EpsT)
         Dim fsForce As Double = As_ * fs
         Dim m As Double = fsForce * (d - r.A / 2.0)
-        Dim n As Integer = 400
-        Dim dy As Double = (h - c) / n
-        For k As Integer = 0 To n - 1
-            Dim y As Double = (k + 0.5) * dy
-            Dim sg As Double = p.SigmaD(lcs * Aci.EpsCu * y / c, lcs)
-            m += sg * b * dy * (c + y - r.A / 2.0)
-        Next
+        Dim f1 As Double, f2 As Double
+        TensionBlock(p, lcs, c, h, f1, f2)
+        m += b * ((c - r.A / 2.0) * f1 + f2)
         r.Mn = m
         r.Phi = Aci.Phi(r.EpsT, fy)
         r.PhiMn = r.Phi * r.Mn
@@ -136,13 +132,29 @@ Public Module SfrcBeam
                              p As SfrcParams, lcs As Double, c As Double) As Double
         Dim cc As Double = 0.85 * fc * b * Math.Min(Aci.Beta1(fc) * c, h)
         Dim fs As Double = Math.Min(fy, Aci.Es * Aci.EpsCu * (d - c) / c)
-        Dim ff As Double = 0.0
-        Dim n As Integer = 400
-        Dim dy As Double = (h - c) / n
-        For k As Integer = 0 To n - 1
-            Dim y As Double = (k + 0.5) * dy
-            ff += p.SigmaD(lcs * Aci.EpsCu * y / c, lcs) * b * dy
-        Next
-        Return cc - As_ * fs - ff
+        Dim f1 As Double, f2 As Double
+        TensionBlock(p, lcs, c, h, f1, f2)
+        Return cc - As_ * fs - f1 * b
     End Function
+
+    ''' <summary>Cekme bolgesi lif gerilmesinin tarafsiz eksenden y mesafesi boyunca kapali form integralleri (hizli):
+    ''' f1 = integral sigma dy (N/mm), f2 = integral sigma y dy (N). sigma(y) = SigmaD(lcs epsCu y / c), y = 0..h-c (dogrusal: yu = wu c/(lcs epsCu) ile kesilir).</summary>
+    Private Sub TensionBlock(p As SfrcParams, lcs As Double, c As Double, h As Double, ByRef f1 As Double, ByRef f2 As Double)
+        Dim ymax As Double = h - c
+        f1 = 0.0 : f2 = 0.0
+        If ymax <= 0.0 Then Return
+        Dim wuV As Double = p.Wu(lcs)
+        Dim ftu As Double = p.FtuK(wuV)
+        If Not p.Linear Then
+            Dim s As Double = ftu / p.GammaF
+            f1 = s * ymax : f2 = s * ymax * ymax / 2.0
+            Return
+        End If
+        Dim yu As Double = wuV * c / (lcs * Aci.EpsCu)
+        Dim l As Double = Math.Min(ymax, yu)
+        Dim fts As Double = p.FtsK()
+        Dim k As Double = (fts - ftu) / yu
+        f1 = (fts * l - k * l * l / 2.0) / p.GammaF
+        f2 = (fts * l * l / 2.0 - k * l * l * l / 3.0) / p.GammaF
+    End Sub
 End Module

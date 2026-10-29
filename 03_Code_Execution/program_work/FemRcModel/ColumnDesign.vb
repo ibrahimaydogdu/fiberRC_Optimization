@@ -117,7 +117,7 @@ Public Module ColumnShear
     Public Function MrAtP(s As ColumnSection, Pu As Double) As Double
         Dim lo As Double = 0.5, hi As Double = 20.0 * s.H
         If AciColumn.AtC(s, hi).Pn < Pu Then Return 0.0
-        For i As Integer = 0 To 199
+        For i As Integer = 0 To 59
             Dim mid As Double = 0.5 * (lo + hi)
             If AciColumn.AtC(s, mid).Pn < Pu Then lo = mid Else hi = mid
         Next
@@ -128,7 +128,7 @@ Public Module ColumnShear
     Public Function PhiMnAtP(s As ColumnSection, Pu As Double) As Double
         If Pu >= AciColumn.DesignPnMax(s) Then Return Math.Abs(AciColumn.AtC(s, 0.5 * s.H).PhiMn) * 0.0
         Dim lo As Double = 0.5, hi As Double = 20.0 * s.H
-        For i As Integer = 0 To 199
+        For i As Integer = 0 To 59
             Dim mid As Double = 0.5 * (lo + hi)
             Dim pPhi As Double = Math.Min(AciColumn.AtC(s, mid).PhiPn, AciColumn.DesignPnMax(s))
             If pPhi < Pu Then lo = mid Else hi = mid

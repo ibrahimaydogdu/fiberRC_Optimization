@@ -93,7 +93,7 @@ Public Module AciColumn
     Public Function PureBending(s As ColumnSection) As PmPoint
         Dim lo As Double = 1.0
         Dim hi As Double = s.H
-        For i As Integer = 0 To 199
+        For i As Integer = 0 To 59
             Dim mid As Double = 0.5 * (lo + hi)
             If AtC(s, mid).Pn > 0.0 Then hi = mid Else lo = mid
         Next
@@ -124,7 +124,7 @@ Public Module AciColumn
         ' Pu sabit iken c'yi ara: PhiPn(c) = Pu  (PhiPn c ile artar), sonra PhiMn al
         Dim lo As Double = 0.5
         Dim hi As Double = 20.0 * s.H
-        For i As Integer = 0 To 199
+        For i As Integer = 0 To 59
             Dim mid As Double = 0.5 * (lo + hi)
             Dim pt As PmPoint = AtC(s, mid)
             Dim pPhi As Double = Math.Min(pt.PhiPn, DesignPnMax(s))
