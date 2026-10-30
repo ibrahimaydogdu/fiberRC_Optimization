@@ -116,6 +116,28 @@ Module DesignProbe
             If Not cracked Then Chk(m.Analyze.SetRunCaseFlag("Modal", False, False), "run flag Modal off")
             Chk(m.Analyze.RunAnalysis(), "RunAnalysis")
             Chk(m.DesignConcrete.SetCode("ACI 318-14"), "DesignConcrete.SetCode")
+            'Z8: dump of the ETABS design preferences (1-18) and the overwrites (1-13) of one column and one beam, as the program uses them (not changed by the probe)
+            Dim pv As Double, pdv As Boolean
+            Dim pn() As String = {"", "Number of interaction curves", "Number of interaction points", "Consider minimum eccentricity", "Design for B/C capacity ratio", "Seismic design category", "Design system Omega0", "Design system Rho", "Design system Sds", "Consider ICC_ESR 2017", "Phi tension controlled", "Phi compression controlled tied", "Phi compression controlled spiral", "Phi shear and/or torsion", "Phi shear seismic", "Phi joint shear", "Pattern live load factor", "Utilization factor limit", "Multi-response case design"}
+            For it As Integer = 1 To 18
+                If m.DesignConcrete.ACI318_14.GetPreference(it, pv) = 0 Then P("PREF " & it & " " & pn(it) & " = " & pv.ToString(ci))
+            Next
+            Dim ovn() As String = {"", "Framing type", "Live load reduction factor", "Unbraced length ratio major", "Unbraced length ratio minor", "K major", "K minor", "Cm major", "Cm minor", "Db major", "Db minor", "Ds major", "Ds minor", "Consider minimum eccentricity"}
+            For ei2 As Integer = 0 To fm.Elements.Count - 1
+                If ei2 <> 0 AndAlso Not fm.Elements(ei2).Name.StartsWith("B") Then Continue For
+                If ei2 <> 0 AndAlso fm.Elements(ei2).Name <> fm.Elements.First(Function(x) x.Name.StartsWith("B")).Name Then Continue For
+                For it As Integer = 1 To 13
+                    Dim pd2 As Boolean
+                    If m.DesignConcrete.ACI318_14.GetOverwrite(frames(ei2), it, pv, pd2) = 0 Then P("OVERWRITE " & fm.Elements(ei2).Name & " " & it & " " & ovn(it) & " = " & pv.ToString(ci) & If(pd2, " (program determined)", ""))
+                Next
+            Next
+            If Environment.GetEnvironmentVariable("NOMAG") = "1" Then
+                'V2d diagnostic: switch off the non-sway / sway moment magnification (overwrite items 9-12 = 1) to isolate the slenderness effect
+                For ei As Integer = 0 To fm.Elements.Count - 1
+                    If Not fm.Elements(ei).Name.StartsWith("C") Then Continue For
+                    For item As Integer = 9 To 12 : Chk(m.DesignConcrete.ACI318_14.SetOverwrite(frames(ei), item, 1.0, eItemType.Objects), "SetOverwrite " & item) : Next
+                Next
+            End If
             Dim nc As Integer, names() As String = Nothing
             m.RespCombo.GetNameList(nc, names)
             P("combinations in model: " & String.Join(", ", names))

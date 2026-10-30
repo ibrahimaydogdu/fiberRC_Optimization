@@ -26,8 +26,11 @@ Module Program
     Function Defs() As Dictionary(Of String, RcSectionDef)
         Dim d As New Dictionary(Of String, RcSectionDef)
         For Each pos In {"Corner", "Edge", "Inter"}
-            d("C" & pos & "_S12") = New RcSectionDef With {.B = 500.0, .H = 500.0, .Fc = 30.0}
-            d("C" & pos & "_S34") = New RcSectionDef With {.B = 400.0, .H = 400.0, .Fc = 30.0}
+            Dim c12 As Double = 500.0, c34 As Double = 400.0
+            If Environment.GetEnvironmentVariable("COL12") <> Nothing Then c12 = Double.Parse(Environment.GetEnvironmentVariable("COL12"), ci)      'V2d: smaller columns to reach D/C 0.8-1.2
+            If Environment.GetEnvironmentVariable("COL34") <> Nothing Then c34 = Double.Parse(Environment.GetEnvironmentVariable("COL34"), ci)
+            d("C" & pos & "_S12") = New RcSectionDef With {.B = c12, .H = c12, .Fc = 30.0}
+            d("C" & pos & "_S34") = New RcSectionDef With {.B = c34, .H = c34, .Fc = 30.0}
         Next
         For Each dd In {"x", "y"}
             For Each sg In {"_S12", "_S34"}
@@ -191,6 +194,7 @@ Module Program
     End Sub
 
     Sub Main()
+        If Environment.GetEnvironmentVariable("SFRCX") <> Nothing Then SfrcX.Run(Environment.GetEnvironmentVariable("SFRCX")) : Return
         Dim spec As New FrameSpec
         Dim tp As New TbdyParams
         RcFrameBuilder.NoRigidZones = Environment.GetEnvironmentVariable("NORZ") = "1"

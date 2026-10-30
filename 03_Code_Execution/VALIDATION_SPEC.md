@@ -9,3 +9,22 @@ V0–V5 sağlanmadan bulgular bölümü yazılmaz. Sonuçlar `04_Results/VALIDAT
 - **V4 Ötelenme:** Birim zinciri (ETABS birimi → tablo birimi) elle kontrol; 3D lifli ötelenme 0,1–0,2 mm değerleri açıklanır ya da düzeltilir.
 - **V5 Maliyet:** Metraj ve maliyet Excel'i formüllü; makale tablosu ↔ Excel hücre bağı; toplam maliyet, programın raporladığı amaç değeriyle ≤ %0,5 uyumlu ⚠️.
 - **V6 Tekrarlanabilirlik (yeni koşu yapılacaksa):** 30 koşu, tohumlar kayıtlı.
+
+## V2 alt kapıları: FemCore/program ↔ ETABS kabul eşikleri (yazılı, 2026-10-30; Critic Z2/K3)
+**Not (dürüstlük):** Eşikler V2a/V2b/V2c'nin ilk koşuları görüldükten sonra yazıldı; ancak bu eşiklere göre karar, FemCore burulma düzeltmesinden SONRA yeniden alınan loglarla verilir. Değerler ⚠️ IA onayıyla kesinleşir.
+
+| Kapı | Ölçüt | Eşik |
+|---|---|---|
+| FE1 | Periyotlar (12 mod), FemCore ↔ ETABS | ≤ %0,5 |
+| FE2 | Taban kesmesi (EX, EY) | ≤ %0,5 |
+| FE3 | Köşe yer değiştirmesi (RS, ECC=0 ve ECC=%5) | ≤ %0,5 |
+| FE4 | Çubuk uç kuvvetleri (statik ≤ %0,1; RS büyük bileşen ≤ %0,5) | belirtilen |
+| CD1 | Yanlış-uygun yok: ETABS kolon D/C > 1 iken programın üretim kısıtı ≤ 1 olan kolon sayısı | 0 |
+| CD2 | Radyal+e_min programı / ETABS oranı (ETABS D/C > 0,02), tüm kolon ve birleşimler | ≥ 0,95 |
+| CD3 | Her iki yöntemde kritik (maks) D/C farkı | ≤ %15 güvenli yönde, güvensiz yönde ≤ %5 |
+| B1 | Gerekli kiriş As (üst, alt), program / ETABS | ≥ 0,98 ve ≤ 1,10 |
+| B2 | Gravite Av/s (program / ETABS) | 0,98–1,02 |
+| B3 | Kapasite kesmesi Av/s (ACI zinciri, sağlanan donatı ile) | ≥ 0,95 |
+| S1 | SFRC eğilme Mn: bağımsız sayısal entegrasyon ↔ `SfrcBeam.Flexure` | ≤ %1 |
+| S2 | SFRC eğilme Mn: yayınlanmış deney kirişleri (literatür; Literature Analyst görevi), tahmin/ölçüm | ortalama 0,90–1,10, tek tek ≥ 0,80 (⚠️) |
+

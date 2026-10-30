@@ -1,0 +1,299 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+ETABS ERROR ret=1 in SetDiaphragm
+rebar size names accepted: 20/10
+combinations in model: U1
+=== design combo U1 (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.347 [U1]  program radial 0.343  program+emin 0.366  PRODUCTION(BiaxialDcr, no emin) 0.241
+C101          C101   ETABS 0.604 [U1]  program radial 0.498  program+emin 0.632  PRODUCTION(BiaxialDcr, no emin) 0.190
+C201          C201   ETABS 0.604 [U1]  program radial 0.498  program+emin 0.632  PRODUCTION(BiaxialDcr, no emin) 0.190
+C301          C301   ETABS 0.347 [U1]  program radial 0.343  program+emin 0.366  PRODUCTION(BiaxialDcr, no emin) 0.241
+C011          C011   ETABS 0.837 [U1]  program radial 0.508  program+emin 0.643  PRODUCTION(BiaxialDcr, no emin) 0.181
+C111          C111   ETABS 3.045 [U1]  program radial 0.844  program+emin 0.919  PRODUCTION(BiaxialDcr, no emin) 0.015
+C211          C211   ETABS 3.045 [U1]  program radial 0.844  program+emin 0.919  PRODUCTION(BiaxialDcr, no emin) 0.015
+C311          C311   ETABS 0.837 [U1]  program radial 0.508  program+emin 0.643  PRODUCTION(BiaxialDcr, no emin) 0.181
+C021          C021   ETABS 0.347 [U1]  program radial 0.343  program+emin 0.366  PRODUCTION(BiaxialDcr, no emin) 0.241
+C121          C121   ETABS 0.604 [U1]  program radial 0.498  program+emin 0.632  PRODUCTION(BiaxialDcr, no emin) 0.190
+C221          C221   ETABS 0.604 [U1]  program radial 0.498  program+emin 0.632  PRODUCTION(BiaxialDcr, no emin) 0.190
+C321          C321   ETABS 0.347 [U1]  program radial 0.343  program+emin 0.366  PRODUCTION(BiaxialDcr, no emin) 0.241
+C002          C002   ETABS 0.451 [U1]  program radial 0.505  program+emin 0.505  PRODUCTION(BiaxialDcr, no emin) 0.467
+C102          C102   ETABS 0.578 [U1]  program radial 0.465  program+emin 0.627  PRODUCTION(BiaxialDcr, no emin) 0.343
+C202          C202   ETABS 0.578 [U1]  program radial 0.465  program+emin 0.627  PRODUCTION(BiaxialDcr, no emin) 0.343
+C302          C302   ETABS 0.451 [U1]  program radial 0.505  program+emin 0.505  PRODUCTION(BiaxialDcr, no emin) 0.467
+C012          C012   ETABS 0.634 [U1]  program radial 0.460  program+emin 0.622  PRODUCTION(BiaxialDcr, no emin) 0.333
+C112          C112   ETABS 0.887 [U1]  program radial 0.615  program+emin 0.669  PRODUCTION(BiaxialDcr, no emin) 0.008
+C212          C212   ETABS 0.887 [U1]  program radial 0.615  program+emin 0.669  PRODUCTION(BiaxialDcr, no emin) 0.008
+C312          C312   ETABS 0.634 [U1]  program radial 0.460  program+emin 0.622  PRODUCTION(BiaxialDcr, no emin) 0.333
+C022          C022   ETABS 0.451 [U1]  program radial 0.505  program+emin 0.505  PRODUCTION(BiaxialDcr, no emin) 0.467
+C122          C122   ETABS 0.578 [U1]  program radial 0.465  program+emin 0.627  PRODUCTION(BiaxialDcr, no emin) 0.343
+C222          C222   ETABS 0.578 [U1]  program radial 0.465  program+emin 0.627  PRODUCTION(BiaxialDcr, no emin) 0.343
+C322          C322   ETABS 0.451 [U1]  program radial 0.505  program+emin 0.505  PRODUCTION(BiaxialDcr, no emin) 0.467
+C003          C003   ETABS 0.538 [U1]  program radial 0.603  program+emin 0.603  PRODUCTION(BiaxialDcr, no emin) 0.580
+C103          C103   ETABS 0.613 [U1]  program radial 0.502  program+emin 0.677  PRODUCTION(BiaxialDcr, no emin) 0.439
+C203          C203   ETABS 0.613 [U1]  program radial 0.502  program+emin 0.677  PRODUCTION(BiaxialDcr, no emin) 0.439
+C303          C303   ETABS 0.538 [U1]  program radial 0.603  program+emin 0.603  PRODUCTION(BiaxialDcr, no emin) 0.580
+C013          C013   ETABS 0.661 [U1]  program radial 0.472  program+emin 0.658  PRODUCTION(BiaxialDcr, no emin) 0.403
+C113          C113   ETABS 0.917 [U1]  program radial 0.519  program+emin 0.602  PRODUCTION(BiaxialDcr, no emin) 0.037
+C213          C213   ETABS 0.917 [U1]  program radial 0.519  program+emin 0.602  PRODUCTION(BiaxialDcr, no emin) 0.037
+C313          C313   ETABS 0.661 [U1]  program radial 0.472  program+emin 0.658  PRODUCTION(BiaxialDcr, no emin) 0.403
+C023          C023   ETABS 0.538 [U1]  program radial 0.603  program+emin 0.603  PRODUCTION(BiaxialDcr, no emin) 0.580
+C123          C123   ETABS 0.613 [U1]  program radial 0.502  program+emin 0.677  PRODUCTION(BiaxialDcr, no emin) 0.439
+C223          C223   ETABS 0.613 [U1]  program radial 0.502  program+emin 0.677  PRODUCTION(BiaxialDcr, no emin) 0.439
+C323          C323   ETABS 0.538 [U1]  program radial 0.603  program+emin 0.603  PRODUCTION(BiaxialDcr, no emin) 0.580
+C004          C004   ETABS 0.561 [U1]  program radial 0.605  program+emin 0.605  PRODUCTION(BiaxialDcr, no emin) 0.598
+C104          C104   ETABS 0.533 [U1]  program radial 0.506  program+emin 0.555  PRODUCTION(BiaxialDcr, no emin) 0.488
+C204          C204   ETABS 0.533 [U1]  program radial 0.506  program+emin 0.555  PRODUCTION(BiaxialDcr, no emin) 0.488
+C304          C304   ETABS 0.561 [U1]  program radial 0.605  program+emin 0.605  PRODUCTION(BiaxialDcr, no emin) 0.598
+C014          C014   ETABS 0.507 [U1]  program radial 0.446  program+emin 0.522  PRODUCTION(BiaxialDcr, no emin) 0.423
+C114          C114   ETABS 0.322 [U1]  program radial 0.233  program+emin 0.297  PRODUCTION(BiaxialDcr, no emin) 0.054
+C214          C214   ETABS 0.322 [U1]  program radial 0.233  program+emin 0.297  PRODUCTION(BiaxialDcr, no emin) 0.054
+C314          C314   ETABS 0.507 [U1]  program radial 0.446  program+emin 0.522  PRODUCTION(BiaxialDcr, no emin) 0.423
+C024          C024   ETABS 0.561 [U1]  program radial 0.605  program+emin 0.605  PRODUCTION(BiaxialDcr, no emin) 0.598
+C124          C124   ETABS 0.533 [U1]  program radial 0.506  program+emin 0.555  PRODUCTION(BiaxialDcr, no emin) 0.488
+C224          C224   ETABS 0.533 [U1]  program radial 0.506  program+emin 0.555  PRODUCTION(BiaxialDcr, no emin) 0.488
+C324          C324   ETABS 0.561 [U1]  program radial 0.605  program+emin 0.605  PRODUCTION(BiaxialDcr, no emin) 0.598
+SUMMARY U1: columns 48, max D/C ETABS 3.045, program 0.844, program+emin 0.919; program >= ETABS in 12 / 48 (with emin 34)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 0.858, mean with emin 0.988, min 0.302, max 1.122, within +-10 % (emin): 28 / 48
+PRODUCTION U1: max D/C ETABS 3.045, production 0.598; production >= ETABS in 12 / 48; ratio production/ETABS min 0.005 max 1.079; within +-10 % 16 / 48
+ETABS ERROR ret=1 in SetDiaphragm
+rebar size names accepted: 20/10
+tables applied: fatal=0 errors=0 warnings=0
+table Mass Source Definition ret=0 records=3 fields=Name|IsDefault|IncLateral|IncVertical|LumpMass|SourceSelf|SourceAdded|SourceLoads|MoveMass|RatioX|RatioY|LoadPattern|Multiplier|GUID
+   MsSrc1|Yes|Yes|No|Yes|No|No|Yes|No|||G|1|2bcde17c-537d-4397-a774-1d61c9a2d93a
+   MsSrc1|||||||||||Q|0.3|
+   MsSrc1|||||||||||S|0.3|
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+combinations in model: E411_X+0.3Y, E412_X+0.3Y, E411_0.3X+Y, E412_0.3X+Y
+=== design combo E411_X+0.3Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.503 [E411_X+0.3Y]  program radial 0.554  program+emin 0.554  PRODUCTION(BiaxialDcr, no emin) 0.514
+C101          C101   ETABS 0.559 [E411_X+0.3Y]  program radial 0.593  program+emin 0.607  PRODUCTION(BiaxialDcr, no emin) 0.505
+C201          C201   ETABS 0.559 [E411_X+0.3Y]  program radial 0.593  program+emin 0.607  PRODUCTION(BiaxialDcr, no emin) 0.505
+C301          C301   ETABS 0.503 [E411_X+0.3Y]  program radial 0.554  program+emin 0.554  PRODUCTION(BiaxialDcr, no emin) 0.514
+C011          C011   ETABS 0.634 [E411_X+0.3Y]  program radial 0.573  program+emin 0.688  PRODUCTION(BiaxialDcr, no emin) 0.468
+C111          C111   ETABS 0.833 [E411_X+0.3Y]  program radial 0.699  program+emin 0.874  PRODUCTION(BiaxialDcr, no emin) 0.417
+C211          C211   ETABS 0.833 [E411_X+0.3Y]  program radial 0.699  program+emin 0.874  PRODUCTION(BiaxialDcr, no emin) 0.417
+C311          C311   ETABS 0.634 [E411_X+0.3Y]  program radial 0.573  program+emin 0.688  PRODUCTION(BiaxialDcr, no emin) 0.468
+C021          C021   ETABS 0.503 [E411_X+0.3Y]  program radial 0.554  program+emin 0.554  PRODUCTION(BiaxialDcr, no emin) 0.514
+C121          C121   ETABS 0.559 [E411_X+0.3Y]  program radial 0.593  program+emin 0.607  PRODUCTION(BiaxialDcr, no emin) 0.505
+C221          C221   ETABS 0.559 [E411_X+0.3Y]  program radial 0.593  program+emin 0.607  PRODUCTION(BiaxialDcr, no emin) 0.505
+C321          C321   ETABS 0.503 [E411_X+0.3Y]  program radial 0.554  program+emin 0.554  PRODUCTION(BiaxialDcr, no emin) 0.514
+C002          C002   ETABS 0.599 [E411_X+0.3Y]  program radial 0.651  program+emin 0.651  PRODUCTION(BiaxialDcr, no emin) 0.631
+C102          C102   ETABS 0.565 [E411_X+0.3Y]  program radial 0.622  program+emin 0.622  PRODUCTION(BiaxialDcr, no emin) 0.575
+C202          C202   ETABS 0.565 [E411_X+0.3Y]  program radial 0.622  program+emin 0.622  PRODUCTION(BiaxialDcr, no emin) 0.575
+C302          C302   ETABS 0.599 [E411_X+0.3Y]  program radial 0.651  program+emin 0.651  PRODUCTION(BiaxialDcr, no emin) 0.631
+C012          C012   ETABS 0.601 [E411_X+0.3Y]  program radial 0.574  program+emin 0.649  PRODUCTION(BiaxialDcr, no emin) 0.516
+C112          C112   ETABS 0.629 [E411_X+0.3Y]  program radial 0.536  program+emin 0.664  PRODUCTION(BiaxialDcr, no emin) 0.324
+C212          C212   ETABS 0.629 [E411_X+0.3Y]  program radial 0.536  program+emin 0.664  PRODUCTION(BiaxialDcr, no emin) 0.324
+C312          C312   ETABS 0.601 [E411_X+0.3Y]  program radial 0.574  program+emin 0.649  PRODUCTION(BiaxialDcr, no emin) 0.516
+C022          C022   ETABS 0.599 [E411_X+0.3Y]  program radial 0.651  program+emin 0.651  PRODUCTION(BiaxialDcr, no emin) 0.631
+C122          C122   ETABS 0.565 [E411_X+0.3Y]  program radial 0.622  program+emin 0.622  PRODUCTION(BiaxialDcr, no emin) 0.575
+C222          C222   ETABS 0.565 [E411_X+0.3Y]  program radial 0.622  program+emin 0.622  PRODUCTION(BiaxialDcr, no emin) 0.575
+C322          C322   ETABS 0.599 [E411_X+0.3Y]  program radial 0.651  program+emin 0.651  PRODUCTION(BiaxialDcr, no emin) 0.631
+C003          C003   ETABS 0.747 [E411_X+0.3Y]  program radial 0.812  program+emin 0.812  PRODUCTION(BiaxialDcr, no emin) 0.805
+C103          C103   ETABS 0.643 [E411_X+0.3Y]  program radial 0.721  program+emin 0.721  PRODUCTION(BiaxialDcr, no emin) 0.696
+C203          C203   ETABS 0.643 [E411_X+0.3Y]  program radial 0.721  program+emin 0.721  PRODUCTION(BiaxialDcr, no emin) 0.696
+C303          C303   ETABS 0.747 [E411_X+0.3Y]  program radial 0.812  program+emin 0.812  PRODUCTION(BiaxialDcr, no emin) 0.805
+C013          C013   ETABS 0.677 [E411_X+0.3Y]  program radial 0.671  program+emin 0.733  PRODUCTION(BiaxialDcr, no emin) 0.644
+C113          C113   ETABS 0.594 [E411_X+0.3Y]  program radial 0.496  program+emin 0.656  PRODUCTION(BiaxialDcr, no emin) 0.369
+C213          C213   ETABS 0.594 [E411_X+0.3Y]  program radial 0.496  program+emin 0.656  PRODUCTION(BiaxialDcr, no emin) 0.369
+C313          C313   ETABS 0.677 [E411_X+0.3Y]  program radial 0.671  program+emin 0.733  PRODUCTION(BiaxialDcr, no emin) 0.644
+C023          C023   ETABS 0.747 [E411_X+0.3Y]  program radial 0.812  program+emin 0.812  PRODUCTION(BiaxialDcr, no emin) 0.805
+C123          C123   ETABS 0.643 [E411_X+0.3Y]  program radial 0.721  program+emin 0.721  PRODUCTION(BiaxialDcr, no emin) 0.696
+C223          C223   ETABS 0.643 [E411_X+0.3Y]  program radial 0.721  program+emin 0.721  PRODUCTION(BiaxialDcr, no emin) 0.696
+C323          C323   ETABS 0.747 [E411_X+0.3Y]  program radial 0.812  program+emin 0.812  PRODUCTION(BiaxialDcr, no emin) 0.805
+C004          C004   ETABS 0.642 [E411_X+0.3Y]  program radial 0.689  program+emin 0.689  PRODUCTION(BiaxialDcr, no emin) 0.685
+C104          C104   ETABS 0.547 [E411_X+0.3Y]  program radial 0.585  program+emin 0.585  PRODUCTION(BiaxialDcr, no emin) 0.575
+C204          C204   ETABS 0.547 [E411_X+0.3Y]  program radial 0.585  program+emin 0.585  PRODUCTION(BiaxialDcr, no emin) 0.575
+C304          C304   ETABS 0.642 [E411_X+0.3Y]  program radial 0.689  program+emin 0.689  PRODUCTION(BiaxialDcr, no emin) 0.685
+C014          C014   ETABS 0.528 [E411_X+0.3Y]  program radial 0.539  program+emin 0.543  PRODUCTION(BiaxialDcr, no emin) 0.526
+C114          C114   ETABS 0.294 [E411_X+0.3Y]  program radial 0.261  program+emin 0.325  PRODUCTION(BiaxialDcr, no emin) 0.203
+C214          C214   ETABS 0.294 [E411_X+0.3Y]  program radial 0.261  program+emin 0.325  PRODUCTION(BiaxialDcr, no emin) 0.203
+C314          C314   ETABS 0.528 [E411_X+0.3Y]  program radial 0.539  program+emin 0.543  PRODUCTION(BiaxialDcr, no emin) 0.526
+C024          C024   ETABS 0.642 [E411_X+0.3Y]  program radial 0.689  program+emin 0.689  PRODUCTION(BiaxialDcr, no emin) 0.685
+C124          C124   ETABS 0.547 [E411_X+0.3Y]  program radial 0.585  program+emin 0.585  PRODUCTION(BiaxialDcr, no emin) 0.575
+C224          C224   ETABS 0.547 [E411_X+0.3Y]  program radial 0.585  program+emin 0.585  PRODUCTION(BiaxialDcr, no emin) 0.575
+C324          C324   ETABS 0.642 [E411_X+0.3Y]  program radial 0.689  program+emin 0.689  PRODUCTION(BiaxialDcr, no emin) 0.685
+SUMMARY E411_X+0.3Y: columns 48, max D/C ETABS 0.833, program 0.812, program+emin 0.874; program >= ETABS in 34 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.029, mean with emin 1.085, min 1.029, max 1.122, within +-10 % (emin): 32 / 48
+PRODUCTION E411_X+0.3Y: max D/C ETABS 0.833, production 0.805; production >= ETABS in 28 / 48; ratio production/ETABS min 0.500 max 1.083; within +-10 % 36 / 48
+=== design combo E412_X+0.3Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.394 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(BiaxialDcr, no emin) 0.400
+C101          C101   ETABS 0.446 [E412_X+0.3Y]  program radial 0.452  program+emin 0.452  PRODUCTION(BiaxialDcr, no emin) 0.397
+C201          C201   ETABS 0.446 [E412_X+0.3Y]  program radial 0.452  program+emin 0.452  PRODUCTION(BiaxialDcr, no emin) 0.397
+C301          C301   ETABS 0.394 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(BiaxialDcr, no emin) 0.400
+C011          C011   ETABS 0.435 [E412_X+0.3Y]  program radial 0.431  program+emin 0.471  PRODUCTION(BiaxialDcr, no emin) 0.367
+C111          C111   ETABS 0.534 [E412_X+0.3Y]  program radial 0.480  program+emin 0.580  PRODUCTION(BiaxialDcr, no emin) 0.346
+C211          C211   ETABS 0.534 [E412_X+0.3Y]  program radial 0.480  program+emin 0.580  PRODUCTION(BiaxialDcr, no emin) 0.346
+C311          C311   ETABS 0.435 [E412_X+0.3Y]  program radial 0.431  program+emin 0.471  PRODUCTION(BiaxialDcr, no emin) 0.367
+C021          C021   ETABS 0.394 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(BiaxialDcr, no emin) 0.400
+C121          C121   ETABS 0.446 [E412_X+0.3Y]  program radial 0.452  program+emin 0.452  PRODUCTION(BiaxialDcr, no emin) 0.397
+C221          C221   ETABS 0.446 [E412_X+0.3Y]  program radial 0.452  program+emin 0.452  PRODUCTION(BiaxialDcr, no emin) 0.397
+C321          C321   ETABS 0.394 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(BiaxialDcr, no emin) 0.400
+C002          C002   ETABS 0.423 [E412_X+0.3Y]  program radial 0.457  program+emin 0.457  PRODUCTION(BiaxialDcr, no emin) 0.437
+C102          C102   ETABS 0.403 [E412_X+0.3Y]  program radial 0.450  program+emin 0.450  PRODUCTION(BiaxialDcr, no emin) 0.414
+C202          C202   ETABS 0.403 [E412_X+0.3Y]  program radial 0.450  program+emin 0.450  PRODUCTION(BiaxialDcr, no emin) 0.414
+C302          C302   ETABS 0.423 [E412_X+0.3Y]  program radial 0.457  program+emin 0.457  PRODUCTION(BiaxialDcr, no emin) 0.437
+C012          C012   ETABS 0.396 [E412_X+0.3Y]  program radial 0.411  program+emin 0.425  PRODUCTION(BiaxialDcr, no emin) 0.368
+C112          C112   ETABS 0.415 [E412_X+0.3Y]  program radial 0.378  program+emin 0.451  PRODUCTION(BiaxialDcr, no emin) 0.281
+C212          C212   ETABS 0.415 [E412_X+0.3Y]  program radial 0.378  program+emin 0.451  PRODUCTION(BiaxialDcr, no emin) 0.281
+C312          C312   ETABS 0.396 [E412_X+0.3Y]  program radial 0.411  program+emin 0.425  PRODUCTION(BiaxialDcr, no emin) 0.368
+C022          C022   ETABS 0.423 [E412_X+0.3Y]  program radial 0.457  program+emin 0.457  PRODUCTION(BiaxialDcr, no emin) 0.437
+C122          C122   ETABS 0.403 [E412_X+0.3Y]  program radial 0.450  program+emin 0.450  PRODUCTION(BiaxialDcr, no emin) 0.414
+C222          C222   ETABS 0.403 [E412_X+0.3Y]  program radial 0.450  program+emin 0.450  PRODUCTION(BiaxialDcr, no emin) 0.414
+C322          C322   ETABS 0.423 [E412_X+0.3Y]  program radial 0.457  program+emin 0.457  PRODUCTION(BiaxialDcr, no emin) 0.437
+C003          C003   ETABS 0.538 [E412_X+0.3Y]  program radial 0.583  program+emin 0.583  PRODUCTION(BiaxialDcr, no emin) 0.574
+C103          C103   ETABS 0.480 [E412_X+0.3Y]  program radial 0.537  program+emin 0.537  PRODUCTION(BiaxialDcr, no emin) 0.514
+C203          C203   ETABS 0.480 [E412_X+0.3Y]  program radial 0.537  program+emin 0.537  PRODUCTION(BiaxialDcr, no emin) 0.514
+C303          C303   ETABS 0.538 [E412_X+0.3Y]  program radial 0.583  program+emin 0.583  PRODUCTION(BiaxialDcr, no emin) 0.574
+C013          C013   ETABS 0.465 [E412_X+0.3Y]  program radial 0.498  program+emin 0.498  PRODUCTION(BiaxialDcr, no emin) 0.471
+C113          C113   ETABS 0.431 [E412_X+0.3Y]  program radial 0.399  program+emin 0.476  PRODUCTION(BiaxialDcr, no emin) 0.339
+C213          C213   ETABS 0.431 [E412_X+0.3Y]  program radial 0.399  program+emin 0.476  PRODUCTION(BiaxialDcr, no emin) 0.339
+C313          C313   ETABS 0.465 [E412_X+0.3Y]  program radial 0.498  program+emin 0.498  PRODUCTION(BiaxialDcr, no emin) 0.471
+C023          C023   ETABS 0.538 [E412_X+0.3Y]  program radial 0.583  program+emin 0.583  PRODUCTION(BiaxialDcr, no emin) 0.574
+C123          C123   ETABS 0.480 [E412_X+0.3Y]  program radial 0.537  program+emin 0.537  PRODUCTION(BiaxialDcr, no emin) 0.514
+C223          C223   ETABS 0.480 [E412_X+0.3Y]  program radial 0.537  program+emin 0.537  PRODUCTION(BiaxialDcr, no emin) 0.514
+C323          C323   ETABS 0.538 [E412_X+0.3Y]  program radial 0.583  program+emin 0.583  PRODUCTION(BiaxialDcr, no emin) 0.574
+C004          C004   ETABS 0.452 [E412_X+0.3Y]  program radial 0.484  program+emin 0.484  PRODUCTION(BiaxialDcr, no emin) 0.480
+C104          C104   ETABS 0.395 [E412_X+0.3Y]  program radial 0.428  program+emin 0.428  PRODUCTION(BiaxialDcr, no emin) 0.418
+C204          C204   ETABS 0.395 [E412_X+0.3Y]  program radial 0.428  program+emin 0.428  PRODUCTION(BiaxialDcr, no emin) 0.418
+C304          C304   ETABS 0.452 [E412_X+0.3Y]  program radial 0.484  program+emin 0.484  PRODUCTION(BiaxialDcr, no emin) 0.480
+C014          C014   ETABS 0.377 [E412_X+0.3Y]  program radial 0.392  program+emin 0.392  PRODUCTION(BiaxialDcr, no emin) 0.381
+C114          C114   ETABS 0.236 [E412_X+0.3Y]  program radial 0.231  program+emin 0.261  PRODUCTION(BiaxialDcr, no emin) 0.199
+C214          C214   ETABS 0.236 [E412_X+0.3Y]  program radial 0.231  program+emin 0.261  PRODUCTION(BiaxialDcr, no emin) 0.199
+C314          C314   ETABS 0.377 [E412_X+0.3Y]  program radial 0.392  program+emin 0.392  PRODUCTION(BiaxialDcr, no emin) 0.381
+C024          C024   ETABS 0.452 [E412_X+0.3Y]  program radial 0.484  program+emin 0.484  PRODUCTION(BiaxialDcr, no emin) 0.480
+C124          C124   ETABS 0.395 [E412_X+0.3Y]  program radial 0.428  program+emin 0.428  PRODUCTION(BiaxialDcr, no emin) 0.418
+C224          C224   ETABS 0.395 [E412_X+0.3Y]  program radial 0.428  program+emin 0.428  PRODUCTION(BiaxialDcr, no emin) 0.418
+C324          C324   ETABS 0.452 [E412_X+0.3Y]  program radial 0.484  program+emin 0.484  PRODUCTION(BiaxialDcr, no emin) 0.480
+SUMMARY E412_X+0.3Y: columns 48, max D/C ETABS 0.538, program 0.583, program+emin 0.583; program >= ETABS in 38 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.049, mean with emin 1.083, min 1.015, max 1.120, within +-10 % (emin): 36 / 48
+PRODUCTION E412_X+0.3Y: max D/C ETABS 0.538, production 0.574; production >= ETABS in 32 / 48; ratio production/ETABS min 0.648 max 1.072; within +-10 % 34 / 48
+=== design combo E411_0.3X+Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.508 [E411_0.3X+Y]  program radial 0.560  program+emin 0.560  PRODUCTION(BiaxialDcr, no emin) 0.521
+C101          C101   ETABS 0.623 [E411_0.3X+Y]  program radial 0.576  program+emin 0.676  PRODUCTION(BiaxialDcr, no emin) 0.481
+C201          C201   ETABS 0.623 [E411_0.3X+Y]  program radial 0.576  program+emin 0.676  PRODUCTION(BiaxialDcr, no emin) 0.481
+C301          C301   ETABS 0.508 [E411_0.3X+Y]  program radial 0.560  program+emin 0.560  PRODUCTION(BiaxialDcr, no emin) 0.521
+C011          C011   ETABS 0.579 [E411_0.3X+Y]  program radial 0.601  program+emin 0.629  PRODUCTION(BiaxialDcr, no emin) 0.510
+C111          C111   ETABS 0.832 [E411_0.3X+Y]  program radial 0.700  program+emin 0.874  PRODUCTION(BiaxialDcr, no emin) 0.423
+C211          C211   ETABS 0.832 [E411_0.3X+Y]  program radial 0.700  program+emin 0.874  PRODUCTION(BiaxialDcr, no emin) 0.423
+C311          C311   ETABS 0.579 [E411_0.3X+Y]  program radial 0.601  program+emin 0.629  PRODUCTION(BiaxialDcr, no emin) 0.510
+C021          C021   ETABS 0.508 [E411_0.3X+Y]  program radial 0.560  program+emin 0.560  PRODUCTION(BiaxialDcr, no emin) 0.521
+C121          C121   ETABS 0.623 [E411_0.3X+Y]  program radial 0.576  program+emin 0.676  PRODUCTION(BiaxialDcr, no emin) 0.481
+C221          C221   ETABS 0.623 [E411_0.3X+Y]  program radial 0.576  program+emin 0.676  PRODUCTION(BiaxialDcr, no emin) 0.481
+C321          C321   ETABS 0.508 [E411_0.3X+Y]  program radial 0.560  program+emin 0.560  PRODUCTION(BiaxialDcr, no emin) 0.521
+C002          C002   ETABS 0.606 [E411_0.3X+Y]  program radial 0.659  program+emin 0.659  PRODUCTION(BiaxialDcr, no emin) 0.638
+C102          C102   ETABS 0.602 [E411_0.3X+Y]  program radial 0.592  program+emin 0.649  PRODUCTION(BiaxialDcr, no emin) 0.539
+C202          C202   ETABS 0.602 [E411_0.3X+Y]  program radial 0.592  program+emin 0.649  PRODUCTION(BiaxialDcr, no emin) 0.539
+C302          C302   ETABS 0.606 [E411_0.3X+Y]  program radial 0.659  program+emin 0.659  PRODUCTION(BiaxialDcr, no emin) 0.638
+C012          C012   ETABS 0.568 [E411_0.3X+Y]  program radial 0.625  program+emin 0.625  PRODUCTION(BiaxialDcr, no emin) 0.576
+C112          C112   ETABS 0.627 [E411_0.3X+Y]  program radial 0.542  program+emin 0.661  PRODUCTION(BiaxialDcr, no emin) 0.340
+C212          C212   ETABS 0.627 [E411_0.3X+Y]  program radial 0.542  program+emin 0.661  PRODUCTION(BiaxialDcr, no emin) 0.340
+C312          C312   ETABS 0.568 [E411_0.3X+Y]  program radial 0.625  program+emin 0.625  PRODUCTION(BiaxialDcr, no emin) 0.576
+C022          C022   ETABS 0.606 [E411_0.3X+Y]  program radial 0.659  program+emin 0.659  PRODUCTION(BiaxialDcr, no emin) 0.638
+C122          C122   ETABS 0.602 [E411_0.3X+Y]  program radial 0.592  program+emin 0.649  PRODUCTION(BiaxialDcr, no emin) 0.539
+C222          C222   ETABS 0.602 [E411_0.3X+Y]  program radial 0.592  program+emin 0.649  PRODUCTION(BiaxialDcr, no emin) 0.539
+C322          C322   ETABS 0.606 [E411_0.3X+Y]  program radial 0.659  program+emin 0.659  PRODUCTION(BiaxialDcr, no emin) 0.638
+C003          C003   ETABS 0.755 [E411_0.3X+Y]  program radial 0.821  program+emin 0.821  PRODUCTION(BiaxialDcr, no emin) 0.814
+C103          C103   ETABS 0.687 [E411_0.3X+Y]  program radial 0.696  program+emin 0.740  PRODUCTION(BiaxialDcr, no emin) 0.668
+C203          C203   ETABS 0.687 [E411_0.3X+Y]  program radial 0.696  program+emin 0.740  PRODUCTION(BiaxialDcr, no emin) 0.668
+C303          C303   ETABS 0.755 [E411_0.3X+Y]  program radial 0.821  program+emin 0.821  PRODUCTION(BiaxialDcr, no emin) 0.814
+C013          C013   ETABS 0.636 [E411_0.3X+Y]  program radial 0.717  program+emin 0.717  PRODUCTION(BiaxialDcr, no emin) 0.690
+C113          C113   ETABS 0.598 [E411_0.3X+Y]  program radial 0.506  program+emin 0.661  PRODUCTION(BiaxialDcr, no emin) 0.380
+C213          C213   ETABS 0.598 [E411_0.3X+Y]  program radial 0.506  program+emin 0.661  PRODUCTION(BiaxialDcr, no emin) 0.380
+C313          C313   ETABS 0.636 [E411_0.3X+Y]  program radial 0.717  program+emin 0.717  PRODUCTION(BiaxialDcr, no emin) 0.690
+C023          C023   ETABS 0.755 [E411_0.3X+Y]  program radial 0.821  program+emin 0.821  PRODUCTION(BiaxialDcr, no emin) 0.814
+C123          C123   ETABS 0.687 [E411_0.3X+Y]  program radial 0.696  program+emin 0.740  PRODUCTION(BiaxialDcr, no emin) 0.668
+C223          C223   ETABS 0.687 [E411_0.3X+Y]  program radial 0.696  program+emin 0.740  PRODUCTION(BiaxialDcr, no emin) 0.668
+C323          C323   ETABS 0.755 [E411_0.3X+Y]  program radial 0.821  program+emin 0.821  PRODUCTION(BiaxialDcr, no emin) 0.814
+C004          C004   ETABS 0.649 [E411_0.3X+Y]  program radial 0.696  program+emin 0.696  PRODUCTION(BiaxialDcr, no emin) 0.692
+C104          C104   ETABS 0.553 [E411_0.3X+Y]  program radial 0.570  program+emin 0.570  PRODUCTION(BiaxialDcr, no emin) 0.558
+C204          C204   ETABS 0.553 [E411_0.3X+Y]  program radial 0.570  program+emin 0.570  PRODUCTION(BiaxialDcr, no emin) 0.558
+C304          C304   ETABS 0.649 [E411_0.3X+Y]  program radial 0.696  program+emin 0.696  PRODUCTION(BiaxialDcr, no emin) 0.692
+C014          C014   ETABS 0.529 [E411_0.3X+Y]  program radial 0.569  program+emin 0.569  PRODUCTION(BiaxialDcr, no emin) 0.557
+C114          C114   ETABS 0.296 [E411_0.3X+Y]  program radial 0.266  program+emin 0.327  PRODUCTION(BiaxialDcr, no emin) 0.210
+C214          C214   ETABS 0.296 [E411_0.3X+Y]  program radial 0.266  program+emin 0.327  PRODUCTION(BiaxialDcr, no emin) 0.210
+C314          C314   ETABS 0.529 [E411_0.3X+Y]  program radial 0.569  program+emin 0.569  PRODUCTION(BiaxialDcr, no emin) 0.557
+C024          C024   ETABS 0.649 [E411_0.3X+Y]  program radial 0.696  program+emin 0.696  PRODUCTION(BiaxialDcr, no emin) 0.692
+C124          C124   ETABS 0.553 [E411_0.3X+Y]  program radial 0.570  program+emin 0.570  PRODUCTION(BiaxialDcr, no emin) 0.558
+C224          C224   ETABS 0.553 [E411_0.3X+Y]  program radial 0.570  program+emin 0.570  PRODUCTION(BiaxialDcr, no emin) 0.558
+C324          C324   ETABS 0.649 [E411_0.3X+Y]  program radial 0.696  program+emin 0.696  PRODUCTION(BiaxialDcr, no emin) 0.692
+SUMMARY E411_0.3X+Y: columns 48, max D/C ETABS 0.832, program 0.821, program+emin 0.874; program >= ETABS in 32 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.016, mean with emin 1.081, min 1.030, max 1.128, within +-10 % (emin): 38 / 48
+PRODUCTION E411_0.3X+Y: max D/C ETABS 0.832, production 0.814; production >= ETABS in 26 / 48; ratio production/ETABS min 0.508 max 1.085; within +-10 % 30 / 48
+=== design combo E412_0.3X+Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.400 [E412_0.3X+Y]  program radial 0.436  program+emin 0.436  PRODUCTION(BiaxialDcr, no emin) 0.406
+C101          C101   ETABS 0.431 [E412_0.3X+Y]  program radial 0.434  program+emin 0.467  PRODUCTION(BiaxialDcr, no emin) 0.373
+C201          C201   ETABS 0.431 [E412_0.3X+Y]  program radial 0.434  program+emin 0.467  PRODUCTION(BiaxialDcr, no emin) 0.373
+C301          C301   ETABS 0.400 [E412_0.3X+Y]  program radial 0.436  program+emin 0.436  PRODUCTION(BiaxialDcr, no emin) 0.406
+C011          C011   ETABS 0.443 [E412_0.3X+Y]  program radial 0.463  program+emin 0.471  PRODUCTION(BiaxialDcr, no emin) 0.406
+C111          C111   ETABS 0.539 [E412_0.3X+Y]  program radial 0.482  program+emin 0.585  PRODUCTION(BiaxialDcr, no emin) 0.352
+C211          C211   ETABS 0.539 [E412_0.3X+Y]  program radial 0.482  program+emin 0.585  PRODUCTION(BiaxialDcr, no emin) 0.352
+C311          C311   ETABS 0.443 [E412_0.3X+Y]  program radial 0.463  program+emin 0.471  PRODUCTION(BiaxialDcr, no emin) 0.406
+C021          C021   ETABS 0.400 [E412_0.3X+Y]  program radial 0.436  program+emin 0.436  PRODUCTION(BiaxialDcr, no emin) 0.406
+C121          C121   ETABS 0.431 [E412_0.3X+Y]  program radial 0.434  program+emin 0.467  PRODUCTION(BiaxialDcr, no emin) 0.373
+C221          C221   ETABS 0.431 [E412_0.3X+Y]  program radial 0.434  program+emin 0.467  PRODUCTION(BiaxialDcr, no emin) 0.373
+C321          C321   ETABS 0.400 [E412_0.3X+Y]  program radial 0.436  program+emin 0.436  PRODUCTION(BiaxialDcr, no emin) 0.406
+C002          C002   ETABS 0.430 [E412_0.3X+Y]  program radial 0.465  program+emin 0.465  PRODUCTION(BiaxialDcr, no emin) 0.445
+C102          C102   ETABS 0.400 [E412_0.3X+Y]  program radial 0.420  program+emin 0.429  PRODUCTION(BiaxialDcr, no emin) 0.380
+C202          C202   ETABS 0.400 [E412_0.3X+Y]  program radial 0.420  program+emin 0.429  PRODUCTION(BiaxialDcr, no emin) 0.380
+C302          C302   ETABS 0.430 [E412_0.3X+Y]  program radial 0.465  program+emin 0.465  PRODUCTION(BiaxialDcr, no emin) 0.445
+C012          C012   ETABS 0.414 [E412_0.3X+Y]  program radial 0.461  program+emin 0.461  PRODUCTION(BiaxialDcr, no emin) 0.425
+C112          C112   ETABS 0.423 [E412_0.3X+Y]  program radial 0.387  program+emin 0.459  PRODUCTION(BiaxialDcr, no emin) 0.296
+C212          C212   ETABS 0.423 [E412_0.3X+Y]  program radial 0.387  program+emin 0.459  PRODUCTION(BiaxialDcr, no emin) 0.296
+C312          C312   ETABS 0.414 [E412_0.3X+Y]  program radial 0.461  program+emin 0.461  PRODUCTION(BiaxialDcr, no emin) 0.425
+C022          C022   ETABS 0.430 [E412_0.3X+Y]  program radial 0.465  program+emin 0.465  PRODUCTION(BiaxialDcr, no emin) 0.445
+C122          C122   ETABS 0.400 [E412_0.3X+Y]  program radial 0.420  program+emin 0.429  PRODUCTION(BiaxialDcr, no emin) 0.380
+C222          C222   ETABS 0.400 [E412_0.3X+Y]  program radial 0.420  program+emin 0.429  PRODUCTION(BiaxialDcr, no emin) 0.380
+C322          C322   ETABS 0.430 [E412_0.3X+Y]  program radial 0.465  program+emin 0.465  PRODUCTION(BiaxialDcr, no emin) 0.445
+C003          C003   ETABS 0.547 [E412_0.3X+Y]  program radial 0.592  program+emin 0.592  PRODUCTION(BiaxialDcr, no emin) 0.583
+C103          C103   ETABS 0.478 [E412_0.3X+Y]  program radial 0.511  program+emin 0.511  PRODUCTION(BiaxialDcr, no emin) 0.487
+C203          C203   ETABS 0.478 [E412_0.3X+Y]  program radial 0.511  program+emin 0.511  PRODUCTION(BiaxialDcr, no emin) 0.487
+C303          C303   ETABS 0.547 [E412_0.3X+Y]  program radial 0.592  program+emin 0.592  PRODUCTION(BiaxialDcr, no emin) 0.583
+C013          C013   ETABS 0.486 [E412_0.3X+Y]  program radial 0.544  program+emin 0.544  PRODUCTION(BiaxialDcr, no emin) 0.520
+C113          C113   ETABS 0.442 [E412_0.3X+Y]  program radial 0.408  program+emin 0.488  PRODUCTION(BiaxialDcr, no emin) 0.350
+C213          C213   ETABS 0.442 [E412_0.3X+Y]  program radial 0.408  program+emin 0.488  PRODUCTION(BiaxialDcr, no emin) 0.350
+C313          C313   ETABS 0.486 [E412_0.3X+Y]  program radial 0.544  program+emin 0.544  PRODUCTION(BiaxialDcr, no emin) 0.520
+C023          C023   ETABS 0.547 [E412_0.3X+Y]  program radial 0.592  program+emin 0.592  PRODUCTION(BiaxialDcr, no emin) 0.583
+C123          C123   ETABS 0.478 [E412_0.3X+Y]  program radial 0.511  program+emin 0.511  PRODUCTION(BiaxialDcr, no emin) 0.487
+C223          C223   ETABS 0.478 [E412_0.3X+Y]  program radial 0.511  program+emin 0.511  PRODUCTION(BiaxialDcr, no emin) 0.487
+C323          C323   ETABS 0.547 [E412_0.3X+Y]  program radial 0.592  program+emin 0.592  PRODUCTION(BiaxialDcr, no emin) 0.583
+C004          C004   ETABS 0.458 [E412_0.3X+Y]  program radial 0.491  program+emin 0.491  PRODUCTION(BiaxialDcr, no emin) 0.487
+C104          C104   ETABS 0.396 [E412_0.3X+Y]  program radial 0.412  program+emin 0.412  PRODUCTION(BiaxialDcr, no emin) 0.402
+C204          C204   ETABS 0.396 [E412_0.3X+Y]  program radial 0.412  program+emin 0.412  PRODUCTION(BiaxialDcr, no emin) 0.402
+C304          C304   ETABS 0.458 [E412_0.3X+Y]  program radial 0.491  program+emin 0.491  PRODUCTION(BiaxialDcr, no emin) 0.487
+C014          C014   ETABS 0.388 [E412_0.3X+Y]  program radial 0.421  program+emin 0.421  PRODUCTION(BiaxialDcr, no emin) 0.411
+C114          C114   ETABS 0.238 [E412_0.3X+Y]  program radial 0.237  program+emin 0.263  PRODUCTION(BiaxialDcr, no emin) 0.205
+C214          C214   ETABS 0.238 [E412_0.3X+Y]  program radial 0.237  program+emin 0.263  PRODUCTION(BiaxialDcr, no emin) 0.205
+C314          C314   ETABS 0.388 [E412_0.3X+Y]  program radial 0.421  program+emin 0.421  PRODUCTION(BiaxialDcr, no emin) 0.411
+C024          C024   ETABS 0.458 [E412_0.3X+Y]  program radial 0.491  program+emin 0.491  PRODUCTION(BiaxialDcr, no emin) 0.487
+C124          C124   ETABS 0.396 [E412_0.3X+Y]  program radial 0.412  program+emin 0.412  PRODUCTION(BiaxialDcr, no emin) 0.402
+C224          C224   ETABS 0.396 [E412_0.3X+Y]  program radial 0.412  program+emin 0.412  PRODUCTION(BiaxialDcr, no emin) 0.402
+C324          C324   ETABS 0.458 [E412_0.3X+Y]  program radial 0.491  program+emin 0.491  PRODUCTION(BiaxialDcr, no emin) 0.487
+SUMMARY E412_0.3X+Y: columns 48, max D/C ETABS 0.547, program 0.592, program+emin 0.592; program >= ETABS in 40 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.045, mean with emin 1.081, min 1.041, max 1.119, within +-10 % (emin): 40 / 48
+PRODUCTION E412_0.3X+Y: max D/C ETABS 0.547, production 0.583; production >= ETABS in 30 / 48; ratio production/ETABS min 0.653 max 1.070; within +-10 % 36 / 48
+done

@@ -31,6 +31,8 @@ V0 (ortam), V1 (EDB modelleri), V2 (referans örnekler), V3–V5: açık.
 
 ## V2b: kolon tasarım oranı, ETABS Concrete Frame Design (ACI 318-14) ↔ program (2026-10-30) — ÖN SONUÇ
 
+> **Güncelleme:** bu bölümdeki deprem sayıları FemCore burulma düzeltmesinden önceki ilk koşudur; geçerli sonuçlar için "V2 ikinci tur" bölümüne bakın.
+
 > **Critic (Review_Round_V2ab.md): [REVİZYON TALEBİ].** Bu bölüm ön sonuçtur, "kısmen geçti" denemez. Eksikler: (i) tablodaki "program" sütunu radyal+e_min varyantıdır, optimizasyondaki `BiaxialDcr` (e_min yok) değildir (U1 kolon C013 oranı 0,914); (ii) deprem birleşimlerinde kuvvetler aynı değil (FemCore ek dış merkezlik farkı açıklanamadı, ECC=0 koşusu yok); (iii) log 40 satırla sınırlı, ±%10 içinde yalnız 14/12/24/14 kolon; (iv) kabul eşiği önceden tanımlı değil; (v) üretim donatı düzeni ve D/C 0,8–1,0 bölgesi sınanmadı.
 
 **Yöntem.** Ö1 deneme tasarımının 48 kolonu için ETABS 22.6.0'da (OAPI: `PropFrame.SetRebarColumn`, `DesignConcrete.SetCode("ACI 318-14")`, `SetComboStrength`, `StartDesign`, `GetSummaryResultsColumn`) her yük birleşimi ayrı ayrı tasarlandı (U1; TBDY Denk. 4.11 ve 4.12, E = X+0,3Y ve 0,3X+Y). Aynı birleşim ve aynı donatı düzeni (yüz başına 5 veya 4 çubuk, Ø20, etriye Ø10, pas payı 40 mm, ağırlık merkezi 60 mm) programa verildi. Karşılaştırılan: ETABS `PMMRatio` (3B radyal ışın OL/OC; CFD-ACI-318-14 s. 32) ↔ programın radyal oranı (kendi doğrusal toplam etkileşiminin orijinden ışın ölçeği, `Radial` in `EtabsProbe/Design.vb`) ve ETABS'in minimum dışmerkezliği (0,6 + 0,03h in) eklenmiş değişkeni. Kuvvetler V2a'da ≤%0,002 uyumlu olduğundan fark tasarım algoritmasından gelir. Ham günlük: `03_Code_Execution/runs/V2b_column_design_log_2026-10-30.txt`.
@@ -75,3 +77,61 @@ Yorum: programın D/C'si ETABS'in %1,7 altından %21 üstüne dağılır; kritik
 4. **Açıklanamayan:** 4.11 birleşiminde 6 kirişte ETABS yalnız minimum Av/s (0,25 mm²/mm) verdi, program 0,807 (oran 3,229, programın muhafazakâr olduğu yön). Neden bilinmiyor (olası: ETABS'in o kirişlerde farklı gravite kesmesi / Vc koşulu).
 
 **Sınırlar (rapora açık yazılır).** Tek donatılı dikdörtgen kesit; T kesit, burulma ve basınç donatısı kıyaslanmadı. Güçlü kolon–zayıf kiriş ve birleşim kesmesi kıyaslanmadı. **Lifli kirişler (SFRC) ETABS ile doğrulanamaz**; bağımsız doğrulama yolu (el hesabı/fib MC2010 örneği) ve eşik V3 öncesi yazılı olmalıdır. Kabul eşiği (öneri): üst/alt As ve Av/s için program ≥ ETABS ve fazlalık ≤ %10; ihlal olursa neden aranır.
+
+
+## V2 ikinci tur: Critic Z1–Z8 yanıtı ve kapı değerlendirmesi (2026-10-30)
+
+**Önemli:** Bu bölüm, yukarıdaki V2a açık-fark ifadesini (%2–6 ek dış merkezlik) ve V2b/V2c'nin ilk koşu sayılarını **geçersiz kılar**; ilk tur sayıları FemCore burulma düzeltmesinden önceydi.
+
+### Z4 — Ek dış merkezlik farkının kök nedeni (ÇÖZÜLDÜ, FemCore düzeltildi)
+ETABS ECC=%5 ile ECC=0 arasındaki köşe yer değiştirme farkı, FemStatic statik burulma yanıtı matrisi A ile ters çözülünce **kat burulma momentleri** verdi (tanı: `EtabsProbe` ECCDIAG=1; kat 1→4, EX): ETABS 19,6 / 27,6 / 39,3 / 62,3 kN·m; FemCore'un eski kullanımı (diyafram CQC kuvveti × ecc × genişlik) 62,3 / 69,0 / 65,2 / 62,8 kN·m. Üst kat eşit, alt katlar ETABS'te çok daha küçük: ETABS torku = ecc × genişlik × **kat kuvveti**, kat kuvveti = CQC kat kesmelerinin farkı (V_k − V_k+1; toplam ≈ taban kesmesi: 297,6 ≈ 304,7 kN). FemCore her diyaframın eylemsizlik kuvvetinin ayrı CQC'sini kullanıyordu (toplamı taban kesmesini aşıyor). `FemModal.vb`: `StoryShear/StoryForce` eklendi, `FemStatic.TorsionFromStoryShear = True` (varsayılan). Bu, ETABS Help'te yazılı olmayan bir ayrıntıdır; ETABS davranışı ölçüm ve ters çözümle bulunmuştur (EX ve EY, 4 kat, hepsi tutuyor).
+
+| Büyüklük | Önce | Sonra (ECC=%5) | Sonra (ECC=0) |
+|---|---|---|---|
+| Köşe yer değiştirmesi, ETABS ↔ FemCore | %2,1–6,3 | **%0,05–0,093** | %0,048–0,092 |
+| Taban kesmesi EX / EY | %0,14 | %0,141 / %0,144 | aynı |
+| Çubuk M3 (C001 EX, I ucu), kN·m | 52,08 vs 50,36 (%3,4) | **50,42 vs 50,36 (%0,12)** | 47,91 vs 47,86 |
+| Çubuk M3 (C001 EY, I ucu), kN·m | 6,17 vs 3,61 (%71) | **3,62 vs 3,61 (%0,3)** | 0,00 vs 0,00 |
+| Kiriş gerekli üst As (deprem), program/ETABS | 1,000–1,053 | **1,000–1,000** | – |
+
+Periyotlar (12 mod): fark −%0,008…−%0,164 (FemCore periyodu ETABS'ten en çok %0,16 büyük). Ham loglar: `runs/V2a_ecc5_storyshear_torsion_2026-10-30.txt`, `runs/V2a_ecc0_2026-10-30.txt`.
+
+### Kapı değerlendirmesi (eşikler: `03_Code_Execution/VALIDATION_SPEC.md`, "V2 alt kapıları")
+| Kapı | Sonuç | Durum |
+|---|---|---|
+| FE1 periyot ≤ %0,5 | maks %0,164 | **GEÇTİ** |
+| FE2 taban kesmesi ≤ %0,5 | %0,141 / %0,144 | **GEÇTİ** |
+| FE3 köşe yer değiştirmesi ≤ %0,5 | ≤ %0,093 (ECC=%5 ve 0) | **GEÇTİ** |
+| FE4 çubuk kuvvetleri | statik ≤ %0,002 (V2a ilk tur; statik hesap değişmedi); RS ≤ %0,3 | **GEÇTİ** |
+| CD1 yanlış-uygun = 0 | üretim kısıtı: 2 yanlış-uygun (ETABS D/C 1,038; e_min kaynaklı, δns kapalı koşu); radyal+e_min: 0 | **KALDI** (PCR-1) |
+| CD2 radyal+e_min ≥ 0,95 ETABS | varsayılan kesit: min 0,983; küçük kesit, δns açık, gravite: 0,856 | **KISMEN** (δns yok, PCR-2) |
+| CD3 kritik D/C | üretim D/C (gravite) ETABS'ten %17–41 düşük (sabit-P moment oranı tanımı); deprem birleşiminde +%7…+%18 (üretim büyük) | **TANIM FARKI** (PCR-3); uygunluk için CD1'e bakılır |
+| B1 kiriş As 0,98–1,10 | üst 1,000–1,000; alt 0,981–1,048 | **GEÇTİ** |
+| B2 gravite Av/s 0,98–1,02 | 1,000 | **GEÇTİ** |
+| B3 kapasite kesmesi ≥ 0,95 | 0,964–0,985 (sağlanan donatıyla) | **GEÇTİ** (6 kirişte ETABS yalnız min Av/s verdi: program muhafazakâr; nedeni açıklanamadı) |
+| S1 SFRC bağımsız entegrasyon ≤ %1 | 216 kesit: maks \|ΔMn\| %0,0008, \|Δc\| %0,0055 | **GEÇTİ** |
+| S2 SFRC literatür deneyi | yapılmadı | **AÇIK** |
+
+### Z3 — V2b ECC=0 ile
+`runs/V2b_ecc0_2026-10-30.txt` (ECC=0) ve `runs/V2b_ecc5_final_with_prefs_2026-10-30.txt` (ECC=%5, düzeltilmiş burulma). Radyal+e_min program/ETABS oranı: ECC=%5: U1 0,983–1,169; 4.11 X+0,3Y 0,994–1,167 (ort. 1,104 e_min'li); ECC=0: U1 aynı; 4.11 X+0,3Y 0,985–1,160 (ort. 1,100). ECC, oranları değiştirmiyor: deprem birleşimlerindeki +%7–12 fazlalık burulmadan değil, 8 işaret deseninden ve radyal tanımdan geliyor (ECC=0'da da +%8–10). İlk raporda ima edilen "burulma kaynaklı olabilir" yorumu geri alınır.
+
+### Z2 — Üretim kısıtı (e_min'siz `BiaxialDcr`) ile kıyas
+Varsayılan kesitlerde (kolon 500/400 mm; 48 kolon, ECC=%5): üretim D/C, ETABS'ten büyük veya eşit olan kolon sayısı U1'de 18/48, deprem birleşimlerinde 26–42/48; maks D/C: U1 0,294 vs 0,354; 4.11 X+0,3Y 0,316 vs 0,295. Üretim D/C **sabit-P moment oranı**dır, ETABS **radyal** orandır; eksenel baskın kolonlarda üretim D/C çok küçük kalır (en uç: min oran 0,002). Uygunluk (D/C ≤ 1) aynı yüzeye dayanır; fark ceza ölçeğinde (PCR-3) ve **e_min / δns** eksikliğindedir (PCR-1, PCR-2).
+
+### Z5 — Yüksek D/C, narinlik, üretim donatı düzeni
+Kolonlar küçültülerek (V2d, `runs/V2d_*`): 300/250 mm (maks ETABS D/C 0,84), 250/220, 230/200 (ETABS 3,0–3,8; narinlik kaynaklı). **δns etkisi (izole; ETABS Db/Ds = 1 üzerine yazılarak):** 300×300 kolonlar, U1: ETABS maks D/C 0,818 → 0,709 (δns ≈ +%15); deprem birleşimleri aynı (0,631; sway, P-Δ varsayımı). δns kapalıyken program radyal / ETABS maks: 0,688 / 0,709 (−%3); δns açıkken 0,688 / 0,818 (−%16). δns kapalı, 230/200 mm koşusunda ETABS D/C 1,038'e ulaştı; orada üretim kısıtı 2 yanlış-uygun, radyal+e_min 0 yanlış-uygun verdi. **D/C 0,8–1,0 aralığı yalnız bu birkaç kolonla sınandı: sınırlamadır.** Üretim donatı düzeni (üst/alt sırada yoğun) sınanmadı; simetrik çevre düzeni kullanıldı: sınırlamadır.
+
+### Z6 — Kolon kesme/kapasite tasarımı ve TS 500-2000(R2018) menüsü
+**Yapılmadı** (kiriş tarafı V2c'de yapıldı). Programın TBDY 7.3/7.4 zinciri ETABS'te ancak TS 500 menüsüyle denenebilir; ayrı bir model ayarı ve koşu gerekir (PCR-4). Açık.
+
+### Z7 — SFRC kiriş doğrulama yolu (yazılı)
+ETABS lifli kesiti tasarlayamaz; "ETABS'te doğrulandı" iddiası lifli kiriş için yapılmaz. Yol: (1) **Bağımsız sayısal entegrasyon** (`tools/sfrc_independent_check.py`, 216 kesit, S1 geçti): VB kapalı-form integralleri ve çözücü doğrulandı; aynı modeli kullandığı için modelin kendisini sınamaz. (2) **Deney kirişleri** (S2): fib MC2010 (5.6) σ–w modeli ile kesit eğilme kapasitesinin yayınlanmış lifli kiriş deneyleriyle kıyası, Literature Analyst görevi (aday veri: tezdeki Venkateshwaran 2018, Chen 2021; fR değerlerinin ortalama mı karakteristik mi olduğu belirsiz). (3) Maliyet sonuçları lif katkısı olmadan (fFtu = 0) ve fR çarpanları 0,85/0,70 ile duyarlılık olarak sunulur. S2 geçilene kadar lifli sonuçlar "model sonucu" diye etiketlenir.
+
+### Z8 — ETABS tercihleri ve uyarılar
+Tercih dökümü: `runs/V2b_ecc5_final_with_prefs_2026-10-30.txt`. Etkileşim eğrisi 24, nokta 11, e_min açık, B/C oran tasarımı Evet, SDC 4 (D), φ eğilme 0,9 / basınç etriyeli 0,65 / spiral 0,75 / kesme 0,75 / sismik kesme 0,60 / birleşim kesmesi 0,85, kalıcı yük faktörü 0,75, kullanım sınırı 1,0, çok yanıt tasarımı 5. Üzerine yazmalar (kolon C001, kiriş Bx001; hepsi "program belirlediği"): çerçeve tipi 1 (özel moment çerçevesi), boyutsuz uzunluk oranı 0,9, K = 1, Cm = 1, Db = Ds = 1 (bunlar başlangıç değerleridir; ETABS δns'i kendi hesaplar), e_min açık. `ETABS ERROR ret=1 in SetDiaphragm`: D1 diyaframı model şablonunda zaten var (zararsız). `Cannot open file ... .Y_` (7 kez): ETABS'in tablo uygulaması sırasında verdiği iç geçici dosya iletisi; hemen ardından `tables applied: fatal=0 errors=0 warnings=0` ve doğru Mass Source dökümü geldiği için sonuçlar etkilenmemiştir.
+
+### Z1 — Ham kanıt arşivi
+`03_Code_Execution/runs/` altında 19 dosya + `SHA256SUMS_2026-10-30.txt` (SHA-256). Testler: FemCore.Tests 16/16, FemRcModel.Tests 62/62, RcCore.Tests 59/59 (`runs/tests_*_2026-10-30.txt`). Derleme: EtabsProbe.exe SHA-256 442946f021f6…e3e1, FemCore.dll 6f535f2bb701…2f27, FemRcModel.dll 9383abd8fbc2…b81b; ETABS 22.6.0; ETABSv1.dll 2.8.0.0.
+
+### Sonuç
+V2 kapılarından FE1–FE4, B1–B3 ve S1 geçti. **CD1 kaldı**: üretim kolon kısıtı, ETABS'e göre e_min ve narinlik (δns) nedeniyle uygunluğu hafif iyimser buluyor (D/C ≈ 1'de %4; δns'in etkin olduğu 300 mm gravite kolonlarında %15). Bu nedenle V2 **tam geçmedi**. PCR-1 ve PCR-2 onaylanıp uygulanmadan ve CD1 yeniden ölçülmeden kampanya başlatılmaz. S2 (SFRC deney kıyası) ve Z6 açıktır.
