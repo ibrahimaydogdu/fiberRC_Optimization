@@ -199,6 +199,7 @@ Module Program
         Dim rzm As String = Environment.GetEnvironmentVariable("RZMODE")
         If rzm <> Nothing Then RcFrameBuilder.RzMode = Integer.Parse(rzm)
         P("FemCore analysis of the trial design ... (no rigid zones = " & RcFrameBuilder.NoRigidZones & ")")
+        FemStatic.TorsionFromStoryShear = Environment.GetEnvironmentVariable("TORSIONOLD") <> "1"
         Dim fa = RcCombos.Analyze(spec, Defs(), tp)
         If Environment.GetEnvironmentVariable("ECCDIAG") = "1" Then
             'combination rule of the accidental torsion: corner displacement of ETABS (ECC 5 %, V2 log 2026-10-29) against FemCore with ECC=0 plus torsion response combined by absolute sum / SRSS
@@ -267,7 +268,7 @@ Module Program
                 Next
                 Dim r5 = If(cs = "EX", fa.RSx, fa.RSy)
                 Dim perp As Double = If(cs = "EX", 10.0, 15.0)
-                P(cs & " implied ETABS torques (kN m) per storey: " & String.Join(", ", t.Select(Function(x) x.ToString("F1", ci))) & "   FemCore F_k*0.05*perp: " & String.Join(", ", r5.DiaphragmForce.Select(Function(x) (x * 0.05 * perp).ToString("F1", ci))))
+                P(cs & " implied ETABS torques (kN m) per storey: " & String.Join(", ", t.Select(Function(x) x.ToString("F1", ci))) & "   FemCore used F_k*0.05*perp: " & String.Join(", ", If(FemStatic.TorsionFromStoryShear, r5.StoryForce, r5.DiaphragmForce).Select(Function(x) (x * 0.05 * perp).ToString("F1", ci))) & "   (CQC diaphragm force variant: " & String.Join(", ", r5.DiaphragmForce.Select(Function(x) (x * 0.05 * perp).ToString("F1", ci))) & ")")
             Next
             Return
         End If
