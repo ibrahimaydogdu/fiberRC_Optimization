@@ -62,6 +62,38 @@ Public Module ColumnDesign
         Return n
     End Function
 
+    'PCR-1 / PCR-2 (approved 2026-10-30): ACI 318M-14 minimum eccentricity (6.6.4.5.4: e_min = 15 mm + 0.03 h, one direction at a time) and non-sway moment magnification (6.6.4.5.2/3:
+    'EI = 0.4 Ec Ig / (1 + beta_dns), Pc = pi^2 EI / lu^2 (k = 1), delta_ns = Cm / (1 - Pu / (0.75 Pc)) >= 1, applied when lu/r > 34 - 12 M1/M2 (<= 40), r = 0.3 h; Cm = 0.6 + 0.4 M1/M2 >= 0.4).
+    'ETABS (V2b/V2d) applies e_min to every combination and delta_ns to the gravity combination only (sway combinations with P-Delta analysis: delta_s = 1).
+    Public Const EminBase As Double = 15.24           'mm (0.6 in)
+    Public Const DcrCap As Double = 10.0              'D/C returned when Pu >= 0.75 Pc (buckling)
+
+    'delta_ns of one bending direction. depth: section depth in the bending plane, width: the other dimension; lu mm; m1, m2: signed end moments (any sign convention with same-sign = single curvature)
+    Public Function DeltaNs(fc As Double, depth As Double, width As Double, lu As Double, pu As Double, betaDns As Double, mA As Double, mB As Double) As Double
+        If pu <= 0.0 Then Return 1.0
+        Dim big As Double = If(Math.Abs(mA) >= Math.Abs(mB), mA, mB), small As Double = If(Math.Abs(mA) >= Math.Abs(mB), mB, mA)
+        Dim ratio As Double = If(Math.Abs(big) < 1.0E-9, 1.0, small / big)
+        Dim r As Double = 0.3 * depth
+        If lu / r <= Math.Min(34.0 - 12.0 * ratio, 40.0) Then Return 1.0
+        Dim ig As Double = width * depth * depth * depth / 12.0
+        Dim ei As Double = 0.4 * Aci.Ec(fc) * ig / (1.0 + Math.Min(Math.Max(betaDns, 0.0), 1.0))
+        Dim pc As Double = Math.PI * Math.PI * ei / (lu * lu)
+        Dim den As Double = 1.0 - pu / (0.75 * pc)
+        If den <= 0.0 Then Return Double.PositiveInfinity
+        Dim cm As Double = Math.Max(0.6 + 0.4 * ratio, 0.4)
+        Return Math.Max(cm / den, 1.0)
+    End Function
+
+    'Biaxial D/C with e_min (each direction on its own) and the magnification factors d3 (for M3) and d2 (for M2); pu N (compression +), moments N.mm magnitudes
+    Public Function DcrWithEffects(sx As ColumnSection, sy As ColumnSection, pu As Double, m3 As Double, m2 As Double, d3 As Double, d2 As Double) As Double
+        If Double.IsInfinity(d3) OrElse Double.IsInfinity(d2) Then Return DcrCap
+        Dim e3 As Double = If(pu > 0.0, pu * (EminBase + 0.03 * sx.H), 0.0)      'M3: bending over depth H of sx
+        Dim e2 As Double = If(pu > 0.0, pu * (EminBase + 0.03 * sy.H), 0.0)      'M2: bending over depth of sy
+        Dim a As Double = AciColumn.BiaxialDcr(sx, sy, pu, d3 * Math.Max(m3, e3), d2 * m2)
+        Dim b As Double = AciColumn.BiaxialDcr(sx, sy, pu, d3 * m3, d2 * Math.Max(m2, e2))
+        Return Math.Max(a, b)
+    End Function
+
     Public Function CheckGroup(fa As FrameAnalysis, group As String, b As Double, h As Double, fc As Double, rho As Double, dia As Double) As ColumnGroupResult
         Dim r As New ColumnGroupResult With {.Group = group, .B = b, .H = h, .Fc = fc, .Rho = rho, .BarDia = dia}
         r.NBars = BarCount(b, h, rho, dia)
@@ -89,13 +121,16 @@ Public Module ColumnDesign
                                     Dim m2 As Double = Math.Abs(g2 + s2 * e2) * 1.0E6
                                     Dim m3 As Double = Math.Abs(g3 + s3 * e3) * 1.0E6
                                     r.NdMax = Math.Max(r.NdMax, pu)
-                                    r.DcrMax = Math.Max(r.DcrMax, AciColumn.BiaxialDcr(sx, sy, pu, m3, m2))
+                                    r.DcrMax = Math.Max(r.DcrMax, DcrWithEffects(sx, sy, pu, m3, m2, 1.0, 1.0))
                                 Next
                             Next
                         Next
                     Next
                     Continue For
                 End If
+                Dim el = m.Elements(ei)
+                Dim lu As Double = (el.Length - el.OffsetI - el.OffsetJ) * 1000.0
+                Dim pgI As Double = 1.4 * fa.Rg.FaceForce(m.PatternIndex("G"))(ei)(0) * 1000.0         'sustained part of U1 (1.4 G), end I; end J sign flips
                 For k As Integer = 0 To cs.Forces.Count - 1
                     Dim f = cs.Forces(k)(ei)
                     For endI As Integer = 0 To 1
@@ -103,7 +138,11 @@ Public Module ColumnDesign
                         Dim m2 As Double = Math.Abs(If(endI = 0, f(4), f(10))) * 1.0E6
                         Dim m3 As Double = Math.Abs(If(endI = 0, f(5), f(11))) * 1.0E6
                         r.NdMax = Math.Max(r.NdMax, pu)
-                        Dim d As Double = AciColumn.BiaxialDcr(sx, sy, pu, m3, m2)
+                        'non-sway magnification (gravity combination): signed end moments, diagram convention (-f(5) at I, +f(11) at J): same sign = single curvature
+                        Dim beta As Double = If(pu > 0.0, Math.Abs(pgI) / pu, 0.0)
+                        Dim d3 As Double = DeltaNs(fc, h, b, lu, pu, beta, -f(5) * 1.0E6, f(11) * 1.0E6)
+                        Dim d2 As Double = DeltaNs(fc, b, h, lu, pu, beta, -f(4) * 1.0E6, f(10) * 1.0E6)
+                        Dim d As Double = DcrWithEffects(sx, sy, pu, m3, m2, d3, d2)
                         r.DcrMax = Math.Max(r.DcrMax, d)
                     Next
                 Next
