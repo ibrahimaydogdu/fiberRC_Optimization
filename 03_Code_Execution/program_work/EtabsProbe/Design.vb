@@ -136,6 +136,7 @@ Module DesignProbe
                 Dim sumR0 As Double = 0, sumR1 As Double = 0, minR1 As Double = 1.0E9, maxR1 As Double = 0, n10 As Integer = 0
                 Dim wE As Double = 0, wP0 As Double = 0, wP1 As Double = 0, nCmp As Integer = 0, nCons As Integer = 0, nCons1 As Integer = 0
                 Dim rows As New List(Of String)
+                Dim nCons2 As Integer = 0, minR2 As Double = 1.0E9, maxR2 As Double = 0, n10p As Integer = 0, wP2 As Double = 0
                 For ei As Integer = 0 To fm.Elements.Count - 1
                     Dim e = fm.Elements(ei)
                     If Not e.Name.StartsWith("C") Then Continue For
@@ -145,7 +146,7 @@ Module DesignProbe
                     Dim d = defs(sec.Name), nb As Integer = BarsPerFace(sec.Name)
                     Dim sx = SymSection(d.B, d.H, d.Fc, nb), sy = SymSection(d.H, d.B, d.Fc, nb)
                     Dim cs = fa.Combos(c.ProgramIndex)
-                    Dim p0 As Double = 0, p1 As Double = 0
+                    Dim p0 As Double = 0, p1 As Double = 0, p2 As Double = 0
                     Dim loads As New List(Of Double())      'pu N, m3, m2 N.mm
                     For endI As Integer = 0 To 1
                         If cs.Seismic AndAlso cs.Forces.Count = 2 Then
@@ -172,24 +173,29 @@ Module DesignProbe
                     For Each ld In loads
                         Dim pu As Double = ld(0), m3 As Double = ld(1), m2 As Double = ld(2)
                         p0 = Math.Max(p0, Radial(sx, sy, pu, m3, m2))
+                        p2 = Math.Max(p2, AciColumn.BiaxialDcr(sx, sy, pu, m3, m2))        'production constraint (ColumnDesign.CheckGroup), no e_min, linear sum
                         Dim emin As Double = If(pu > 0, pu * (15.24 + 0.03 * d.H), 0.0)
                         Dim emin2 As Double = If(pu > 0, pu * (15.24 + 0.03 * d.B), 0.0)
                         p1 = Math.Max(p1, Math.Max(Radial(sx, sy, pu, Math.Max(m3, emin), m2), Radial(sx, sy, pu, m3, Math.Max(m2, emin2))))
                     Next
                     Dim er As Double = byFrame(fr)
-                    rows.Add(e.Name.PadRight(14) & fr.PadRight(6) & " ETABS " & er.ToString("F3", ci) & " [" & byCombo(fr) & "]  program radial " & p0.ToString("F3", ci) & "  program+emin " & p1.ToString("F3", ci))
+                    rows.Add(e.Name.PadRight(14) & fr.PadRight(6) & " ETABS " & er.ToString("F3", ci) & " [" & byCombo(fr) & "]  program radial " & p0.ToString("F3", ci) & "  program+emin " & p1.ToString("F3", ci) & "  PRODUCTION(BiaxialDcr, no emin) " & p2.ToString("F3", ci))
                     nCmp += 1
                     If p0 >= er - 1.0E-9 Then nCons += 1
                     If p1 >= er - 1.0E-9 Then nCons1 += 1
+                    If p2 >= er - 1.0E-9 Then nCons2 += 1
+                    If er > 0.02 Then minR2 = Math.Min(minR2, p2 / er) : maxR2 = Math.Max(maxR2, p2 / er) : If Math.Abs(p2 / er - 1.0) <= 0.10 Then n10p += 1
+                    wP2 = Math.Max(wP2, p2)
                     If er > 0.02 Then
                         sumR0 += p0 / er : sumR1 += p1 / er : minR1 = Math.Min(minR1, p1 / er) : maxR1 = Math.Max(maxR1, p1 / er)
                         If Math.Abs(p1 / er - 1.0) <= 0.10 Then n10 += 1
                     End If
                     wE = Math.Max(wE, er) : wP0 = Math.Max(wP0, p0) : wP1 = Math.Max(wP1, p1)
                 Next
-                For Each r In rows.Take(40) : P(r) : Next
+                For Each r In rows : P(r) : Next
                 P("SUMMARY " & c.Name & ": columns " & nCmp & ", max D/C ETABS " & wE.ToString("F3", ci) & ", program " & wP0.ToString("F3", ci) & ", program+emin " & wP1.ToString("F3", ci) & "; program >= ETABS in " & nCons & " / " & nCmp & " (with emin " & nCons1 & ")")
                 P("RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin " & (sumR0 / Math.Max(nCmp, 1)).ToString("F3", ci) & ", mean with emin " & (sumR1 / Math.Max(nCmp, 1)).ToString("F3", ci) & ", min " & minR1.ToString("F3", ci) & ", max " & maxR1.ToString("F3", ci) & ", within +-10 % (emin): " & n10 & " / " & nCmp)
+                P("PRODUCTION " & c.Name & ": max D/C ETABS " & wE.ToString("F3", ci) & ", production " & wP2.ToString("F3", ci) & "; production >= ETABS in " & nCons2 & " / " & nCmp & "; ratio production/ETABS min " & minR2.ToString("F3", ci) & " max " & maxR2.ToString("F3", ci) & "; within +-10 % " & n10p & " / " & nCmp)
             Next
         Catch ex As Exception
             P("EXCEPTION " & ex.GetType().Name & ": " & ex.Message & vbCrLf & ex.StackTrace)
