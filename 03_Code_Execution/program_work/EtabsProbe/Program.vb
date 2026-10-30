@@ -200,6 +200,77 @@ Module Program
         If rzm <> Nothing Then RcFrameBuilder.RzMode = Integer.Parse(rzm)
         P("FemCore analysis of the trial design ... (no rigid zones = " & RcFrameBuilder.NoRigidZones & ")")
         Dim fa = RcCombos.Analyze(spec, Defs(), tp)
+        If Environment.GetEnvironmentVariable("ECCDIAG") = "1" Then
+            'combination rule of the accidental torsion: corner displacement of ETABS (ECC 5 %, V2 log 2026-10-29) against FemCore with ECC=0 plus torsion response combined by absolute sum / SRSS
+            Dim e5 As Double = RcCombos.AccidentalEcc
+            Dim fa0 As FrameAnalysis
+            RcCombos.AccidentalEcc = 0.0 : fa0 = RcCombos.Analyze(spec, Defs(), tp) : RcCombos.AccidentalEcc = e5
+            Dim etabsX() As Double = {1.3213, 3.0854, 4.8186, 5.8288}, etabsY() As Double = {1.4231, 3.3699, 5.2844, 6.4269}
+            For Each cs In {"EX", "EY"}
+                Dim d As Integer = If(cs = "EX", 0, 1)
+                Dim r5 = If(cs = "EX", fa.RSx, fa.RSy), r0 = If(cs = "EX", fa0.RSx, fa0.RSy)
+                For k As Integer = 1 To spec.NStory
+                    Dim node As Integer = fa.Cracked.NodeAt(0, 0, k)
+                    Dim u0 As Double = Math.Abs(r0.U(node * 6 + d)) * 1000.0, u5 As Double = Math.Abs(r5.U(node * 6 + d)) * 1000.0
+                    Dim ut As Double = u5 - u0
+                    Dim ue As Double = If(cs = "EX", etabsX(k - 1), etabsY(k - 1))
+                    P(cs & " storey " & k & ": ETABS(5%) " & ue.ToString("F4", ci) & "  FemCore ECC=0 " & u0.ToString("F4", ci) & "  torsion part " & ut.ToString("F4", ci) & "  abs-sum " & (u0 + ut).ToString("F4", ci) & " (" & (100 * ((u0 + ut) / ue - 1)).ToString("F2", ci) & " %)  SRSS " & Math.Sqrt(u0 * u0 + ut * ut).ToString("F4", ci) & " (" & (100 * (Math.Sqrt(u0 * u0 + ut * ut) / ue - 1)).ToString("F2", ci) & " %)")
+                Next
+                P(cs & " diaphragm force (CQC) per storey: " & String.Join(", ", r5.DiaphragmForce.Select(Function(x) x.ToString("F2", ci))))
+            Next
+            'implied story torques: ETABS torsion part (ECC 5 % minus ECC 0, abs-sum assumed) = A * t, A = corner response to unit torques of the diaphragms (FemCore static)
+            Dim mc = fa.Cracked.Model
+            Dim Tmp As New FemModel With {.DiaphragmCount = mc.DiaphragmCount, .AxialFactor = mc.AxialFactor, .FlexuralFactor = mc.FlexuralFactor}
+            Tmp.Nodes = mc.Nodes : Tmp.Elements = mc.Elements : Tmp.Sections = mc.Sections
+            Dim att(mc.Nodes.Count - 1) As Boolean
+            For Each el In mc.Elements : att(el.NI) = True : att(el.NJ) = True : Next
+            For k As Integer = 0 To mc.DiaphragmCount - 1
+                Dim pt As New FemPattern With {.Name = "TQ" & k}
+                Dim ni As Integer = Enumerable.Range(0, mc.Nodes.Count).First(Function(i) att(i) AndAlso mc.Nodes(i).Diaphragm = k)
+                Dim nl As New FemNodalLoad With {.Node = ni}
+                nl.F(5) = 1.0
+                pt.NodalLoads.Add(nl) : Tmp.Patterns.Add(pt)
+            Next
+            Dim sol As New FemStatic(Tmp)
+            Dim rs = sol.Solve()
+            P("diaphragm order: " & String.Join(",", Enumerable.Range(0, mc.DiaphragmCount).Select(Function(k) k.ToString())))
+            For Each cs In {"EX", "EY"}
+                Dim d As Integer = If(cs = "EX", 0, 1)
+                Dim r0 = If(cs = "EX", fa0.RSx, fa0.RSy)
+                Dim ns As Integer = spec.NStory
+                Dim A(ns - 1, ns - 1) As Double, b(ns - 1) As Double
+                For k As Integer = 1 To ns
+                    Dim node As Integer = fa.Cracked.NodeAt(0, 0, k)
+                    Dim ue As Double = If(cs = "EX", etabsX(k - 1), etabsY(k - 1))
+                    b(k - 1) = ue - Math.Abs(r0.U(node * 6 + d)) * 1000.0
+                    For j As Integer = 0 To ns - 1 : A(k - 1, j) = Math.Abs(rs.U(j)(node * 6 + d)) * 1000.0 : Next
+                Next
+                'Gauss elimination
+                Dim n As Integer = ns
+                For c As Integer = 0 To n - 1
+                    Dim pv As Integer = c
+                    For r As Integer = c + 1 To n - 1 : If Math.Abs(A(r, c)) > Math.Abs(A(pv, c)) Then pv = r
+                    Next
+                    For q As Integer = 0 To n - 1 : Dim tq = A(c, q) : A(c, q) = A(pv, q) : A(pv, q) = tq : Next
+                    Dim tb = b(c) : b(c) = b(pv) : b(pv) = tb
+                    For r As Integer = c + 1 To n - 1
+                        Dim f As Double = A(r, c) / A(c, c)
+                        For q As Integer = c To n - 1 : A(r, q) -= f * A(c, q) : Next
+                        b(r) -= f * b(c)
+                    Next
+                Next
+                Dim t(n - 1) As Double
+                For r As Integer = n - 1 To 0 Step -1
+                    Dim sm As Double = b(r)
+                    For q As Integer = r + 1 To n - 1 : sm -= A(r, q) * t(q) : Next
+                    t(r) = sm / A(r, r)
+                Next
+                Dim r5 = If(cs = "EX", fa.RSx, fa.RSy)
+                Dim perp As Double = If(cs = "EX", 10.0, 15.0)
+                P(cs & " implied ETABS torques (kN m) per storey: " & String.Join(", ", t.Select(Function(x) x.ToString("F1", ci))) & "   FemCore F_k*0.05*perp: " & String.Join(", ", r5.DiaphragmForce.Select(Function(x) (x * 0.05 * perp).ToString("F1", ci))))
+            Next
+            Return
+        End If
         If Environment.GetEnvironmentVariable("DESIGN") = "2" Then
             DesignBeamProbe.Run(fa, spec, tp, False, AddressOf P, AddressOf Chk)
             DesignBeamProbe.Run(fa, spec, tp, True, AddressOf P, AddressOf Chk)
@@ -342,7 +413,7 @@ Module Program
                 If ff.Sta.Count = 0 Then Continue For
                 Dim i0 As Integer = ff.Sta.IndexOf(ff.Sta.Min()), i1 As Integer = ff.Sta.IndexOf(ff.Sta.Max())
                 Dim f = rr.FaceForce(ei)
-                P(cs & " " & frames(ei) & " M3 (I,J) ETABS " & Math.Abs(ff.M3(i0)).ToString("F2", ci) & " / " & Math.Abs(ff.M3(i1)).ToString("F2", ci) & "  FemCore(RS, no torsion add) " & Math.Abs(f(5)).ToString("F2", ci) & " / " & Math.Abs(f(11)).ToString("F2", ci) & " kNm;  V2 ETABS " & Math.Abs(ff.V2(i0)).ToString("F2", ci) & "  FemCore " & Math.Abs(f(1)).ToString("F2", ci))
+                P(cs & " " & frames(ei) & " M3 (I,J) ETABS " & Math.Abs(ff.M3(i0)).ToString("F2", ci) & " / " & Math.Abs(ff.M3(i1)).ToString("F2", ci) & "  FemCore(RS incl. accidental torsion) " & Math.Abs(f(5)).ToString("F2", ci) & " / " & Math.Abs(f(11)).ToString("F2", ci) & " kNm;  V2 ETABS " & Math.Abs(ff.V2(i0)).ToString("F2", ci) & "  FemCore " & Math.Abs(f(1)).ToString("F2", ci))
             Next
         Next
     End Sub
