@@ -13,5 +13,8 @@
       <HintPath>C:\Program Files\Computers and Structures\ETABS 22\ETABSv1.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FemRcModel\FemRcModel.vbproj" />
   </ItemGroup>
 </Project>

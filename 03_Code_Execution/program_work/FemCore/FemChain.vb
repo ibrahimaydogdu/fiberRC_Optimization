@@ -32,6 +32,8 @@ End Class
 Public Module FemChain
 
     Public ElasticForces As Boolean = True               'member forces and reactions from the elastic stiffness only (as ETABS)
+    Public RigidZoneAxialFlexible As Boolean = False     'ETABS (found in the RC V2 comparison): the rigid end zones do not remove the axial deformation; EA acts over the full joint-to-joint length
+    Public RigidZoneTorsionFlexible As Boolean = False   'same for the torsional deformation (GJ over the full length)
     Public GeometricJointLumped As Boolean = False       'geometric stiffness P/L between the joints (full joint-to-joint length)
     Public GeometricClearOnly As Boolean = False       'geometric stiffness only in the clear span (not in the flexible stubs of the offsets)
 
@@ -83,6 +85,8 @@ Public Module FemChain
         'segments: (x0, x1, dof maps, releases)
         'the DAM reduction of the model belongs to the steel design; composite sections use their own factors (1.0 unless set, PCR-5f)
         Dim Sec As FemSection = If(E.Section.NoDesign, EffectiveSection(E, E.Section.DamAxial, E.Section.DamFlexural), EffectiveSection(E, AxialFactor, FlexuralFactor))
+        If RigidZoneAxialFlexible AndAlso xD - xA < L Then Sec.A *= (xD - xA) / L          'series equivalence: deformable length x A = full length x A_rigid
+        If RigidZoneTorsionFlexible AndAlso xD - xA < L Then Sec.J *= (xD - xA) / L
         Dim ClearRel = New List(Of Integer)
         For i = 0 To 5
             If E.ReleaseI(i) Then ClearRel.Add(i)

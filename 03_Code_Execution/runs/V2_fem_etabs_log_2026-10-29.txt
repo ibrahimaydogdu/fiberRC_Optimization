@@ -1,0 +1,42 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+ETABS version 22.6.0, session GROSS (static)
+--- gross model, static cases (ETABS vs FemCore face forces) ---
+G joint displacements: max|U3| 1.1964 mm diff 0.0004 mm (0.04 %, node N214 ETABS -1.1960 FemCore -1.1964) | max|R1| 0.0002403 diff 2.87E-09 (0.00 %) | max|R2| 0.0002379 diff 5.59E-09 (0.00 %)
+base reaction G: ETABS Fz=6999.30 kN, FemCore 6999.30 kN
+base reaction Q: ETABS Fz=900.00 kN, FemCore 900.00 kN
+base reaction S: ETABS Fz=112.50 kN, FemCore 112.50 kN
+ETABS version 22.6.0, session CRACKED (modal + RS)
+tables applied: fatal=0 errors=0 warnings=0
+table Mass Source Definition ret=0 records=3 fields=Name|IsDefault|IncLateral|IncVertical|LumpMass|SourceSelf|SourceAdded|SourceLoads|MoveMass|RatioX|RatioY|LoadPattern|Multiplier|GUID
+   MsSrc1|Yes|Yes|No|Yes|No|No|Yes|No|||G|1|ce91b746-1384-4a84-823b-ca1eada1e225
+   MsSrc1|||||||||||Q|0.3|
+   MsSrc1|||||||||||S|0.3|
+--- cracked model, static cases (ETABS vs FemCore face forces) ---
+ModalPeriod ret=0 n=12
+mode  T(ETABS)  T(FemCore)  diff%
+   1  0.61518  0.61523  -0.008
+   2  0.59093  0.59098  -0.008
+   3  0.52761  0.52768  -0.012
+   4  0.19787  0.19797  -0.054
+   5  0.19211  0.19222  -0.056
+   6  0.17306  0.17318  -0.069
+   7  0.10644  0.10653  -0.082
+   8  0.10465  0.10474  -0.080
+   9  0.09514  0.09523  -0.093
+  10  0.06620  0.06630  -0.141
+  11  0.06582  0.06592  -0.141
+  12  0.06039  0.06049  -0.164
+EX base shear Fx: ETABS 304.66 kN, FemCore 305.09 kN, diff -0.141 %
+EY base shear Fy: ETABS 293.54 kN, FemCore 293.96 kN, diff -0.144 %
+EX storey 1 corner joint U: ETABS 1.3213 mm, FemCore 1.3636 mm, diff -3.107 %
+EX storey 2 corner joint U: ETABS 3.0854 mm, FemCore 3.1741 mm, diff -2.794 %
+EX storey 3 corner joint U: ETABS 4.8186 mm, FemCore 4.9364 mm, diff -2.387 %
+EX storey 4 corner joint U: ETABS 5.8288 mm, FemCore 5.9533 mm, diff -2.092 %
+EY storey 1 corner joint U: ETABS 1.4231 mm, FemCore 1.5191 mm, diff -6.322 %
+EY storey 2 corner joint U: ETABS 3.3699 mm, FemCore 3.5722 mm, diff -5.661 %
+EY storey 3 corner joint U: ETABS 5.2844 mm, FemCore 5.5540 mm, diff -4.855 %
+EY storey 4 corner joint U: ETABS 6.4269 mm, FemCore 6.7118 mm, diff -4.245 %
+EX C001 M3 (I,J) ETABS 50.36 / 14.55  FemCore(RS, no torsion add) 52.08 / 15.18 kNm;  V2 ETABS 23.72  FemCore 24.59
+EX By314 M3 (I,J) ETABS 0.85 / 0.95  FemCore(RS, no torsion add) 0.90 / 1.00 kNm;  V2 ETABS 0.39  FemCore 0.41
+EY C001 M3 (I,J) ETABS 3.61 / 0.97  FemCore(RS, no torsion add) 6.17 / 1.86 kNm;  V2 ETABS 1.70  FemCore 2.98
+EY By314 M3 (I,J) ETABS 12.80 / 14.47  FemCore(RS, no torsion add) 12.89 / 14.55 kNm;  V2 ETABS 5.93  FemCore 5.96

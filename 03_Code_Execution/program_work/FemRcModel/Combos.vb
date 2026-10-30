@@ -4,7 +4,7 @@ Imports FemCore
 
 'Load combinations and member-force envelopes of the 3D RC frame (EX1_SPEC v3).
 'Gravity combinations use the gross-section model. Earthquake combinations use the cracked-section model (TBDY-2018 Table 4.2:
-'beam 0.35 EI, column 0.70 EI) and response spectrum magnitudes +/- (RSResults.FaceForce + |TorsionFace| of the 5 % accidental eccentricity).
+'beam 0.35 EI, column 0.70 EI) and response spectrum magnitudes +/- (RSResults.FaceForce, which already includes the 5 % accidental-eccentricity torsion).
 'Face forces: 12 values per member, local axes: I end (P, V2, V3, T, M2, M3), J end (same).
 Public Class RcSectionDef
     Public B, H As Double       'mm
@@ -29,6 +29,7 @@ End Class
 
 Public Module RcCombos
     Public Const CrackBeam As Double = 0.35, CrackColumn As Double = 0.7
+    Public AccidentalEcc As Double = 0.05          'TBDY 4.4: 5 % additional eccentricity (diagnostic: 0 for the V2 comparison)
 
     Public Function MakeSections(spec As FrameSpec, defs As Dictionary(Of String, RcSectionDef), crack As Boolean) As Dictionary(Of String, FemSection)
         Dim d As New Dictionary(Of String, FemSection)
@@ -96,7 +97,7 @@ Public Module RcCombos
         For ei As Integer = 0 To ne - 1
             o(ei) = New Double(11) {}
             For c As Integer = 0 To 11
-                o(ei)(c) = Math.Abs(rr.FaceForce(ei)(c)) + If(rr.TorsionFace IsNot Nothing, Math.Abs(rr.TorsionFace(ei)(c)), 0.0)
+                o(ei)(c) = Math.Abs(rr.FaceForce(ei)(c))           'FaceForce already contains the accidental-torsion response (added by absolute value in FemModal.AddAccidentalTorsion)
             Next
         Next
         Return o
@@ -115,6 +116,7 @@ Public Module RcCombos
     'Combinations: U1 1.4G+1.6(Q+S) [gravity; TS 500 form, snow treated like Q] | TBDY 4.4.4.1 Eq. 4.11 / 4.12 with Ed(H) of Eq. 4.9 and Ed(Z) of Eq. 4.10 (all verified: PDF 62 / printed 41)
     Public Function Analyze(spec As FrameSpec, defs As Dictionary(Of String, RcSectionDef), tp As TbdyParams) As FrameAnalysis
         Dim fa As New FrameAnalysis
+        FemChain.RigidZoneAxialFlexible = True : FemChain.RigidZoneTorsionFlexible = True      'ETABS behaviour of rigid end zones, verified in the V2 comparison (axial and torsional deformation over the full length)
         fa.Gross = RcFrameBuilder.Build(spec, MakeSections(spec, defs, False))
         Dim fsg As New FemStatic(fa.Gross.Model)
         Dim Rg = fsg.Solve()
@@ -137,7 +139,7 @@ Public Module RcCombos
         Dim ne As Integer = m.Elements.Count
         Dim mx As Double()(), my As Double()(), mmx As Double()(), mmy As Double()()
         For d As Integer = 0 To 1
-            Dim rr = fs.ResponseSpectrum(fa.Modal, New FemRSCase With {.Name = If(d = 0, "EX", "EY"), .Direction = d, .Spectrum = "SPD", .ScaleFactor = FrameModel.G, .Eccentricity = 0.05})
+            Dim rr = fs.ResponseSpectrum(fa.Modal, New FemRSCase With {.Name = If(d = 0, "EX", "EY"), .Direction = d, .Spectrum = "SPD", .ScaleFactor = FrameModel.G, .Eccentricity = AccidentalEcc})
             If d = 0 Then fa.RSx = rr Else fa.RSy = rr
             If d = 0 Then fa.BaseShearX = rr.BaseForce(0) : mx = Mag(rr, ne) : mmx = MagMid(fs, rr, m) Else fa.BaseShearY = rr.BaseForce(1) : my = Mag(rr, ne) : mmy = MagMid(fs, rr, m)
         Next

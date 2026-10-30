@@ -31,6 +31,8 @@ Public Class FrameModel
 End Class
 
 Public Module RcFrameBuilder
+    Public NoRigidZones As Boolean          'diagnostic switch (V2 FEM-ETABS comparison): no rigid end zones
+    Public RzMode As Integer                'diagnostic: 0 all, 2 beams only, 3 columns only (others without offsets)
 
     'Rectangular RC section. B (m) is along local axis 2, H (m) along local axis 3 for columns; I33 bends about axis 3.
     'cracked: stiffness factor for I22/I33 (1 = gross). Torsion J: Roark-type approximation.
@@ -128,6 +130,7 @@ Public Module RcFrameBuilder
                 e.OffsetJ = HalfColumn(fm, m.Nodes(e.NJ), e.Story, dirX)
             End If
             e.RigidZone = 1.0
+            If NoRigidZones OrElse (RzMode = 2 AndAlso vertical) OrElse (RzMode = 3 AndAlso Not vertical) Then e.OffsetI = 0.0 : e.OffsetJ = 0.0 : e.RigidZone = 0.0
         Next
         'patterns
         Dim pG As New FemPattern With {.Name = "G", .SelfWeightMultiplier = 1.0}
