@@ -249,3 +249,52 @@ Birim testler: F7 (kiriş Mpr zinciri) ACI el hesabına güncellendi; 76/76 geç
 - **ACI mi TBDY mi:** ACI (Bölüm 18). Gerekçe: kesit kapasitesi zaten ACI 318-14 + fib MC2010; ETABS CFD ACI ile doğrulama zinciri (kiriş kesmesi, kolon P-M, δns) tutarlı; Ö2 ve Ö3 de ACI.
 - **Radyal D/C:** evet; ETABS tanımıyla örtüşür ve hızlıdır (eğri enterpolasyonu).
 - **Kolon kesmesi kiriş sınırı:** evet (ACI 18.7.6.1.1'in izin verdiği, ETABS CFD'nin de tarif ettiği); güçlü kolon–zayıf kiriş ile tutarlı olan kolon kesmesi eklem kirişlerinin dayanımıyla sınırlanır.
+
+## V2i — Critic Review_Round_V2h yanıtı, ETABS birleşim/kolon-kesme doğrulaması ve dondurulan sürüm (2026-10-30)
+
+**Karar kaydı:** Critic V2h: lifsiz ve lifli için [REVİZYON TALEBİ] (K1–K10). IA (kullanıcı) kampanyayı yine de onayladı ("Kampanya için onaylıyorum"). AGENTS 2.10 gereği IA onayı kayıtlıdır; Critic'in kod kaynaklı maddelerini kampanya **başlamadan önce** kapattım ki donmuş sürüm kuralı (kural 7) ihlal edilmesin. Kapatılamayan maddeler aşağıda "kabul edilen risk" olarak listelidir. Kampanya başlangıcı: 2026-10-30 19:22 (+03:00), `04_Results/campaign/campaign_log.txt`.
+
+### Critic V2h maddeleri ve yanıt
+| Madde | Yanıt |
+|---|---|
+| K1/K2 ACI kolon/birleşim zinciri için assert'li test yok | **Kapandı.** `FemRcModel.Tests` F14: 19 assert'li el hesabı (birleşim Vu = 1,25 fy (As1 + As2) − Vkol, çatıda Vkol = 0, φVn = 0,85·1,7·√f'c·Aj, kuşatmasız birleşimde katsayı 1,0, ΣMnb, çatı birleşiminde güçlü kolon kontrolü, kiriş sınırlı Ve ≤ Ve(yalnız kolon Mpr), Tablo 18.7.5.4 (a), s ≤ b/4, lo ≥ 450). Toplam **95/95**. |
+| ETABS'te kolon/birleşim doğrulaması | **Kapandı; kök neden bulundu:** probe, kiriş donatısını (`SetRebarBeam`) analizden **sonra** çağırıyordu, model kilitli olduğundan `ret=1` veriyordu ve ETABS kirişlere donatı atanmadığı için birleşim kontrolünü ve kapasite kesmesini yapmıyordu ("Joint check not done"). Donatı analizden önce atanınca ETABS bunları hesapladı (aşağıda). V2h'deki "ETABS ile doğrulanamadı, nedeni bulunamadı" ifadesi **geri alınır.** |
+| K3 Q kısıtı | **Kapandı.** `Stability.MaxQ`: Q = ΣPu Δo D / (Vus lc) ≤ 0,05 optimizasyon kısıtı (Δo: RS kat ötelenmesi, D = 3 ile büyütülmüş; muhafazakâr okuma). Deneme tasarımı: Q(3Δ) = 0,0504 (EY, kat 2): kısıtın sınırında. |
+| K4 ΣMpr paylaşımı sabit 0,5 | **Kapandı.** Pay = K/(K + K'), K = Ec I (üst/alt kolon, yönde); çatıda 1,0; zeminde sınırsız (Mpr,kolon). Ayrıca ETABS Veb kuralı (üst eklem ΣMpr/H, çatıda iki katı, Vec ile sınırlı) ile Ve'nin **altına inilmez** (büyük olan alınır). |
+| K5 φv = 0,75, ACI 21.2.4.1 | **Gerekçeli.** Kesme donatısı kapasite kesmesi Ve (Mpr, 1,25 fy) için tasarlanıyor; Vn ≥ Mn kesmesi olduğundan 21.2.4.1 koşulu tetiklenmez (φ = 0,75). ETABS'in 0,60 tercihi tasarım kesmesi (kapasite dışı) içindir (CFD 3.5.2.3). |
+| K6 eksik ACI kısıtları | **Kapandı:** 18.7.2.1(b) (b/h ≥ 0,4), 18.8.2.3 (kolon boyutu ≥ 20 db; db = 20 mm kiriş çubuğu varsayımıyla her iki boyut ≥ 400 mm), 18.7.5.2(e)/(f) (hx ≤ 350 / 200 mm), roof birleşiminde güçlü kolon, Mnc en düşük değeri (Pmin ve Pmax uçlarının küçüğü, çekmede kenetleme yok), Vdy'de (1 + ez), eklem içi etriye maliyeti (aynı aralık, azaltmasız). 18.8.2.4 (h ≥ hkiriş/2) kolon havuzunda (≥ 300) ve kiriş h ≤ 600 ile sağlanır. |
+| K7/K8 CD3 ve R2 | **Düzeltme:** V2h'deki "çoğunlukla %0–10 yüksek" ifadesi yanlıştı: 500/400 deprem birleşimlerinde üretim D/C, ETABS'ten %29–32 yüksek (güvenli yön, e_min/δns/8 işaret deseni nedeniyle). CD3'ün **birincil ölçütü güvensiz yönde ≤ %5** (geçti: en kötü −%1,0); güvenli yönde fazlalık Spec'te "bilgi" olarak yeniden yazıldı. **R2 kapanmadı:** ETABS D/C 0,8–1,2 bandında yalnız 14–16 satır var (istenen ≥ 20) ve ikinci yapı yok: **kabul edilen risk** (IA kampanya onayı). |
+| K9/K10 tek kapı tablosu, çıkar çatışması | Aşağıdaki güncel kapı tablosu tek referanstır; eşikleri yazan ajan (Claude) onaylayanla aynıdır, IA'nın "tüm kararları onaylıyorum" yetkisi kayıtlıdır (MEMORY.md 3g); bağımsız onay Critic'te kalır. |
+
+### ETABS karşılaştırması (CFD ACI 318-14, aynı kuvvet, aynı donatı, DESIGN=1 JOINT=1; `runs/V2i_*`)
+| Karşılaştırma | 500/400 mm | 400/350 mm |
+|---|---|---|
+| Birleşim kesmesi oranı (Vu/φVn) maks, program ↔ ETABS | 0,634 ↔ 0,611 (+%3,8) | 0,828 ↔ 0,798 (+%3,8) |
+| Birleşim kesmesi, birleşim bazında | %0,2–4 içinde (örn. 0,201/0,202; 0,402/0,404; 0,524/0,505; 0,370/0,379) | |
+| ΣMnc/ΣMnb en küçük (kritik), program ↔ ETABS | 0,742 ↔ 0,759 (−%2,2, güvenli) | 0,613 ↔ 0,623 (−%1,6, güvenli) |
+| ΣMnc/ΣMnb, tek tek (iç/yan kolon) | 6,025 ↔ 5,920; 3,232 ↔ 3,188 (+%1,7…1,8: kapasite oranı biraz yüksek) | |
+| Kolon tasarım kesmesi Ve, üretim / ETABS (48 kolon) | ort. 2,32, min **1,000**, maks 4,16 | ort. 1,85, min **1,000**, maks 3,02 |
+Kolon kesmesi **hiçbir kolonda ETABS'in altında değil**: çatı kolonlarında eşit (ETABS kuralı), alt katlarda program 2–4 kat büyük çünkü (i) ETABS zemin ucunu hesaba katmıyor (üretim zemin ucunda Mpr,kolon kullanıyor, ACI 18.7.6.1.1), (ii) üretim grup maksimumuyla tasarlıyor. Bu, maliyet açısından bilinçli muhafazakârlıktır ve makalede yazılır. **ΣMnc/ΣMnb'de program %1,8'e kadar daha yüksek oran (güvensiz) veriyor:** ETABS'in kapasite hesabıyla küçük fark (Mnc'de %1–2); eşik B/C ≥ 1,2 kısıtının kendisinde bu fark istatistiksel olarak tolere edilir ve sınırlama olarak yazılır.
+
+### Güncel kapı tablosu (tek referans)
+| Kapı | Sonuç | Durum |
+|---|---|---|
+| FE1–FE4 FemCore ↔ ETABS (periyot, taban kesmesi, yer değiştirme, 116 eleman RS, rijit bölge) | ≤ %0,164 | GEÇTİ |
+| CD1 yanlış-uygun = 0 | 1920 satır, 0 | GEÇTİ |
+| CD2 radyal+e_min+δns ≥ 0,95 | min 0,961 | GEÇTİ |
+| CD3 kritik D/C, güvensiz yönde ≤ %5 | −%1,0 | GEÇTİ (güvenli yön fazlalığı bilgi) |
+| B1–B3 kiriş As, Av/s, kapasite kesmesi | 1,000 / 0,98–1,05 / 0,96–0,99 | GEÇTİ |
+| Kolon kapasite kesmesi ≥ ETABS | min 1,000 | GEÇTİ |
+| Birleşim kesmesi ETABS ±%5 | +%3,8 maks | GEÇTİ |
+| Güçlü kolon kapasite oranı, güvensiz yönde ≤ %2 | +%1,8 | GEÇTİ (sınırda) |
+| S1 SFRC bağımsız entegrasyon | %0,0008 | GEÇTİ |
+| S2 SFRC deney kıyası | veri yok/sonuçsuz | **AÇIK** (lifli sonuçlar "model sonucu") |
+| R2 ≥ 20 satır, D/C 0,8–1,2 + ikinci yapı | 14–16 satır, ikinci yapı yok | **KABUL EDİLEN RİSK** |
+| Q ≤ 0,05 | deneme 0,0504, optimizasyonda kısıt | kısıt |
+
+### Dondurulan program ve kampanya
+- Dondurulan ikili: `03_Code_Execution/campaign_bin/` (Ex1Runner, FemRcModel.dll SHA-256 `5287c0c7…13ad`, FemCore.dll `ab10f926…d053`, RcCore.dll `feb73d8d…947c`, derleme 2026-10-30 16:22Z). Testler 16 / 95 / 59, hepsi geçti (`runs/tests_*_V2i_*`).
+- **Kampanya (2026-10-30 19:22):** 3 algoritma (YAKO, BTO, ATO) × 30 bağımsız koşu × 10 000 FE, tohumlar 1001–1030; senaryolar sırayla: lifsiz; lifli (fR çarpanı 1,00); lifli (0,85); lifli (0,70); lif fiyatı 90 TL/kg; çıktı `04_Results/campaign/*.csv` (her dosya program SHA-256'sını taşır). `03_Code_Execution/run_campaign.sh` yeniden başlatılabilir.
+- Tahmini süre: ≈ 22 saat (8 çekirdek, çekirdek başına ≈ 5,6 FE/s).
+- **Kampanya sonuçları, Critic ve IA yeniden değerlendirmesi olmadan bulgular bölümüne giremez; lifli sonuçlar "model sonucu"dur (S2 açık).**
+

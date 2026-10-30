@@ -220,7 +220,7 @@ Module Program
         For Each gC In fa.Gross.ColumnGroups
             Dim sc = secs(gC)
             Dim cr = ColumnDesign.CheckGroup(fa, gC, sc.Width * 1000.0, sc.Depth * 1000.0, 30.0, 0.01, 20.0)
-            Dim cs2 = ColumnShear.Design(fa, cr, Nothing, Nothing)
+            Dim cs2 = ColumnShear.Design(fa, cr, Nothing, Nothing, Nothing)
             Console.WriteLine("CSHEAR " & gC & " Ve(x)=" & (cs2.Ve(0) / 1000.0).ToString("F0") & " Ve(y)=" & (cs2.Ve(1) / 1000.0).ToString("F0") & " kN  legs=" & cs2.Legs(0) & "/" & cs2.Legs(1) & "  s_conf=" & cs2.SConf.ToString("F0") & " s_mid=" & cs2.SMid.ToString("F0") & " lk=" & cs2.Lk.ToString("F0") & " mm  g(7.7)=" & Math.Max(cs2.G_Crush(0), cs2.G_Crush(1)).ToString("F2") & " " & cs2.Governing)
         Next
         Dim dd3 As New TbdyParams With {.SDS = 0.294, .SD1 = 0.091}
@@ -243,8 +243,45 @@ Module Program
         Next
         Console.WriteLine("A5 joints=" & jl.Count & " exempt(Nd<=0.1 Ac fck)=" & nEx & " worst g (non-exempt)=" & gMax.ToString("F2") & "  (g > 0 = weak column)")
         Dim csh As New Dictionary(Of String, ColumnShearResult)
-        For Each gC In fa.Gross.ColumnGroups : csh(gC) = ColumnShear.Design(fa, colRes(gC), beamRes, Nothing) : Next
+        For Each gC In fa.Gross.ColumnGroups : csh(gC) = ColumnShear.Design(fa, colRes(gC), colRes, beamRes, Nothing) : Next
         Dim jsl = JointShear.Check(fa, spec, colRes, csh, beamRes, Nothing)
+        'F14 (Critic V2h K1/K2): hand-calculated ACI 318M-14 Chapter 18 checks on the trial design (all beams As = 540 / 540 mm2 unless the design says otherwise)
+        Dim bx34 = beamRes("Bx_S34")
+        Dim dB As Double = bx34.D
+        Dim mprT As Double = RcCore.AciBeam.Flexure(bx34.B, dB, bx34.AsTop, bx34.Fc, 1.25 * 420.0).Mn
+        Dim mprB As Double = RcCore.AciBeam.Flexure(bx34.B, dB, bx34.AsBot, bx34.Fc, 1.25 * 420.0).Mn
+        Dim j113x = jsl.First(Function(q) q.Name = "J113x"), j114x = jsl.First(Function(q) q.Name = "J114x")
+        Dim tJoint As Double = 1.25 * 420.0 * (bx34.AsTop + bx34.AsBot)
+        Check("F14 joint shear Vu (interior joint, story 3) = 1.25 fy (As1 + As2) - (Mpr,L + Mpr,R)/H (ACI 18.8.2.1; CFD 3.6.1)", j113x.Ve, tJoint - (mprT + mprB) / (spec.StoryH * 1000.0), 0.0001)
+        Check("F14 joint shear Vu at the roof joint (no column above): Vcol = 0", j114x.Ve, tJoint, 0.0001)
+        Dim colC = colRes("CInter_S34")
+        Check("F14 interior joint with four beams b = 300 >= 0.75 x 400: confined by beams on all four faces", If(j113x.Confined, 1.0, 0.0), 1.0, 0.0)
+        Check("F14 phi Vn = 0.85 x 1.7 sqrt(f'c) Aj, Aj = 400 x 400 (ACI Table 18.8.4.1, 21.2.1)", j113x.Limit, 0.85 * 1.7 * Math.Sqrt(30.0) * 400.0 * 400.0, 0.0001)
+        Dim js112 = jsl.First(Function(q) q.Name = "J112x")
+        Dim colMid = colRes("CInter_S12")
+        Check("F14 interior joint story 2 (500 columns, 300 beams < 0.75 x 500): not confined on all four faces, Vn coefficient 1.0 (ACI Table 18.8.4.1)", js112.Limit, 0.85 * 1.0 * Math.Sqrt(30.0) * Math.Min(500.0, 300.0 + 500.0) * 500.0, 0.0001)
+        Dim jc113 = jl.First(Function(q) q.Name = "J113x")
+        Dim mnBeam As Double = RcCore.AciBeam.Flexure(bx34.B, dB, bx34.AsTop, bx34.Fc, 420.0).Mn + RcCore.AciBeam.Flexure(bx34.B, dB, bx34.AsBot, bx34.Fc, 420.0).Mn
+        Check("F14 SCWB: sum Mnb = nominal Mn,top + Mn,bottom (f'c, fy; ACI 18.7.3.2), one beam hogging and one sagging", jc113.SumMrBeams, mnBeam, 0.0001)
+        Check("F14 SCWB g = 1.2 sum Mnb / sum Mnc - 1", jc113.G, 1.2 * jc113.SumMrBeams / jc113.SumMrColumns - 1.0, 0.000001)
+        Dim jc114 = jl.First(Function(q) q.Name = "J114x")
+        Check("F14 SCWB is checked at the roof joint too (only the column below)", If(jc114.SumMrColumns > 0.0, 1.0, 0.0), 1.0, 0.0)
+        'column shear: beam-limited Ve never above the unlimited 2 Mpr / ln, strictly below for at least one group; Table 18.7.5.4 (a)/(b) hand value
+        Dim nLess As Integer = 0
+        For Each gC In fa.Gross.ColumnGroups
+            Dim vLim = ColumnShear.Design(fa, colRes(gC), colRes, beamRes, Nothing), vFree = ColumnShear.Design(fa, colRes(gC), Nothing, Nothing, Nothing)
+            Check("F14 column Ve (beam-limited) <= Ve (column Mpr only) " & gC & " x", If(vLim.Ve(0) <= vFree.Ve(0) * (1.0 + 1.0E-9), 1.0, 0.0), 1.0, 0.0)
+            If vLim.Ve(0) < 0.999 * vFree.Ve(0) Then nLess += 1
+        Next
+        Check("F14 beam limit of the column shear is active in at least one group", If(nLess >= 1, 1.0, 0.0), 1.0, 0.0)
+        Dim csC = csh("CInter_S34")
+        Dim ashHand As Double = (400.0 - 2.0 * 45.0) * 0.3 * (400.0 * 400.0 / ((400.0 - 80.0) * (400.0 - 80.0)) - 1.0) * 30.0 / 420.0
+        Check("F14 Table 18.7.5.4 (a) Ash/s for 400 x 400 C30 (bc = 310, Ach = 320 x 320): confinement demand >= hand value", If(csC.Tied >= ashHand * (1.0 - 1.0E-9), 1.0, 0.0), 1.0, 0.0)
+        Check("F14 18.7.5.3(a): confinement spacing <= smallest dimension / 4 = 100 mm", If(csC.SConf <= 100.0 + 1.0E-9, 1.0, 0.0), 1.0, 0.0)
+        Check("F14 18.7.5.1: lo >= max(h, ln/6, 450)", If(csC.Lk >= 450.0 - 1.0E-9, 1.0, 0.0), 1.0, 0.0)
+        'beam: Vdy gravity part with (1 + ez)
+        Dim shb2 = BeamShear.DesignGroup(fa, beamRes("Bx_S12"), Nothing, 0.0, 0.0)
+        Check("F14 beam Ve >= Vdy + Vseis", shb2.Ve, shb2.Vdy + shb2.Vseis, 0.000001)
         Dim jsMax As Double = -99.0, nConf As Integer = 0, jsName As String = ""
         For Each js In jsl
             If js.Confined Then nConf += 1
@@ -318,7 +355,7 @@ Module Program
             Dim b = dsn.Beams(g)
             brP(g) = BeamDesign.DesignGroup(faP, g, b.B, b.H, b.Fc, b.Fibre)
         Next
-        For Each g In faP.Gross.ColumnGroups : csP(g) = ColumnShear.Design(faP, crP(g), brP, Nothing) : Next
+        For Each g In faP.Gross.ColumnGroups : csP(g) = ColumnShear.Design(faP, crP(g), crP, brP, Nothing) : Next
         Console.WriteLine("PROFILE col shear = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
         Console.WriteLine("PROFILE beam flexure = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
         Dim dP = Checks.Drift(faP, spec, tp, dd3)

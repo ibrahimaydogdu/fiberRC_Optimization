@@ -21,10 +21,13 @@ V0–V5 sağlanmadan bulgular bölümü yazılmaz. Sonuçlar `04_Results/VALIDAT
 | FE4 | Çubuk uç kuvvetleri (statik ≤ %0,1; RS büyük bileşen ≤ %0,5) | belirtilen |
 | CD1 | Yanlış-uygun yok: ETABS kolon D/C > 1 iken programın üretim kısıtı ≤ 1 olan kolon sayısı | 0 |
 | CD2 | Radyal+e_min programı / ETABS oranı (ETABS D/C > 0,02), tüm kolon ve birleşimler | ≥ 0,95 |
-| CD3 | Her iki yöntemde kritik (maks) D/C farkı | ≤ %15 güvenli yönde, güvensiz yönde ≤ %5 |
+| CD3 | Kritik (maks) D/C farkı | **birincil: güvensiz yönde ≤ %5**; güvenli yönde fazlalık yalnız bilgi (revizyon 2026-10-30, V2i) |
 | B1 | Gerekli kiriş As (üst, alt), program / ETABS | ≥ 0,98 ve ≤ 1,10 |
 | B2 | Gravite Av/s (program / ETABS) | 0,98–1,02 |
 | B3 | Kapasite kesmesi Av/s (ACI zinciri, sağlanan donatı ile) | ≥ 0,95 |
 | S1 | SFRC eğilme Mn: bağımsız sayısal entegrasyon ↔ `SfrcBeam.Flexure` | ≤ %1 |
 | S2 | SFRC eğilme Mn: yayınlanmış deney kirişleri (literatür; Literature Analyst görevi), tahmin/ölçüm | ortalama 0,90–1,10, tek tek ≥ 0,80 (⚠️) |
-
+| CV1 | Kolon tasarım kesmesi Ve, üretim / ETABS (V2i) | ≥ 1,00 (her kolon) |
+| JS1 | Birleşim kesmesi oranı, program ↔ ETABS | ±%5 |
+| SC1 | ΣMnc/ΣMnb kritik oran, program ↔ ETABS | güvensiz yönde ≤ %2 |
+| Q1 | ACI 6.6.4.3 stabilite indeksi | ≤ 0,05 (kısıt) |

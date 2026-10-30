@@ -30,6 +30,8 @@ Public Class ColumnGroupResult
     Public NdMin As Double                   'smallest axial compression of the seismic combinations (negative = tension), N
     Public G_Axial As Double                 'A2: Ndm/(0.40 fck Ac) - 1
     Public G_MinDim As Double                'A1: 300/min(b,h) - 1
+    Public G_Aspect As Double                'ACI 18.7.2.1(b): 0.4 max(b,h)/min(b,h) - 1
+    Public G_JointBar As Double              'ACI 18.8.2.3: 20 db(largest beam bar) / min(b,h) - 1
     Public G_RhoLow, G_RhoHigh As Double     'A3
     Public Governing As String
 End Class
@@ -246,6 +248,8 @@ Public Module ColumnDesign
         r.NdMin = If(ndMinSeen = Double.MaxValue, 0.0, ndMinSeen)
         r.G_Axial = r.NdMax / (0.4 * fc * b * h) - 1.0
         r.G_MinDim = 300.0 / Math.Min(b, h) - 1.0
+        r.G_Aspect = 0.4 * Math.Max(b, h) / Math.Min(b, h) - 1.0
+        r.G_JointBar = 20.0 * BeamShear.LongBarDia / Math.Min(b, h) - 1.0       'normalweight concrete; beam bar diameter = BeamShear.LongBarDia (assumption)
         Dim actual As Double = r.AsTotal / (b * h)
         r.G_RhoLow = 0.01 / actual - 1.0
         r.G_RhoHigh = actual / 0.04 - 1.0
@@ -264,6 +268,7 @@ Public Class ColumnShearResult
     Public SConf, SMid, Lk As Double          'mm
     Public Tied As Double                     'confinement: Ash/s governing (mm2/mm)
     Public G_Crush(1) As Double               '(Ve/phi - Vc) / (0.66 sqrt(f'c) b d) - 1
+    Public G_Hx As Double                     'ACI 18.7.5.2(e)/(f): hx / 350 (200 mm when Pu > 0.3 Ag f'c) - 1
     Public TieLenPerSet As Double             'mm of tie steel in one set (perimeter + cross ties + hooks)
     Public Governing As String
 End Class
@@ -328,7 +333,13 @@ Public Module ColumnShear
         Return 1.0E30                                       'no beam framing in this direction: no limit
     End Function
 
-    Public Function Design(fa As FrameAnalysis, cg As ColumnGroupResult, beams As Dictionary(Of String, BeamGroupResult), fibs As Dictionary(Of String, BeamFibre)) As ColumnShearResult
+    'flexural stiffness Ec I of a column group in bending direction d (0: M3, depth H; 1: M2, depth B)
+    Private Function KCol(c As ColumnGroupResult, d As Integer) As Double
+        Dim depth As Double = If(d = 0, c.H, c.B), width As Double = If(d = 0, c.B, c.H)
+        Return Aci.Ec(c.Fc) * width * depth * depth * depth / 12.0
+    End Function
+
+    Public Function Design(fa As FrameAnalysis, cg As ColumnGroupResult, cols As Dictionary(Of String, ColumnGroupResult), beams As Dictionary(Of String, BeamGroupResult), fibs As Dictionary(Of String, BeamFibre)) As ColumnShearResult
         Dim o As New ColumnShearResult With {.Group = cg.Group}
         Dim sx = ColumnDesign.MakeSection(cg.B, cg.H, cg.Fc, cg.NBars, cg.BarDia, False)               'M3, shear along local 2
         Dim sy = ColumnDesign.MakeSection(cg.H, cg.B, cg.Fc, cg.NBars, cg.BarDia, False, True)        'M2, shear along local 3
@@ -354,15 +365,28 @@ Public Module ColumnShear
             Next
             For d As Integer = 0 To 1
                 'end moments: column Mpr, limited by the beams of the joint (half to the column above and half to the one below; all to the column below at the roof; none at the base)
-                Dim hasAboveTop As Boolean = False
+                'ACI 18.7.6.1.1: the beam moments of a joint are shared by the columns above and below in proportion to their flexural stiffness Ec I (same height): share of this column = K / (K + K of the other column)
+                Dim kOwn As Double = KCol(cg, d)
+                Dim aboveG As String = Nothing, belowG As String = Nothing
                 For ej As Integer = 0 To m.Elements.Count - 1
-                    If Math.Abs(m.Elements(ej).Axes(0, 2)) > 0.9 AndAlso m.Elements(ej).NI = e.NJ Then hasAboveTop = True
+                    Dim ee = m.Elements(ej)
+                    If Math.Abs(ee.Axes(0, 2)) <= 0.9 Then Continue For
+                    If ee.NI = e.NJ Then aboveG = ee.Group
+                    If ee.NJ = e.NI Then belowG = ee.Group
                 Next
-                Dim mTop As Double = Math.Min(mprC(d), If(hasAboveTop, 0.5, 1.0) * JointMprSum(fa, e.NJ, d, beams, fibs))
+                Dim shTop As Double = 1.0
+                If aboveG IsNot Nothing AndAlso cols IsNot Nothing AndAlso cols.ContainsKey(aboveG) Then shTop = kOwn / (kOwn + KCol(cols(aboveG), d))
+                Dim mTop As Double = Math.Min(mprC(d), shTop * JointMprSum(fa, e.NJ, d, beams, fibs))
                 Dim atBase As Boolean = m.Nodes(e.NI).Z < 0.01
-                Dim hasBelowBot As Boolean = Not atBase
-                Dim mBot As Double = If(atBase, mprC(d), Math.Min(mprC(d), 0.5 * JointMprSum(fa, e.NI, d, beams, fibs)))
-                Dim ve As Double = Math.Max((mTop + mBot) / ln, vAna(d))
+                Dim shBot As Double = 1.0
+                If belowG IsNot Nothing AndAlso cols IsNot Nothing AndAlso cols.ContainsKey(belowG) Then shBot = kOwn / (kOwn + KCol(cols(belowG), d))
+                Dim mBot As Double = If(atBase, mprC(d), Math.Min(mprC(d), shBot * JointMprSum(fa, e.NI, d, beams, fibs)))
+                'ETABS CFD (ACI 18.7.6.1.1, Figure 3-5, V2h comparison): Veb = (sum Mpr of the beams of the top joint) / H, twice that at the roof (no column above), never above Vec = 2 Mpr,col / ln.
+                'The larger of the stiffness-share result above and this ETABS value is used, so that the design shear is never below the ETABS value.
+                Dim sumTopJ As Double = JointMprSum(fa, e.NJ, d, beams, fibs)
+                Dim vebE As Double = If(aboveG IsNot Nothing, 1.0, 2.0) * sumTopJ / (e.Length * 1000.0)
+                Dim vecLn As Double = 2.0 * mprC(d) / ln
+                Dim ve As Double = Math.Max(Math.Max((mTop + mBot) / ln, Math.Min(vecLn, vebE)), vAna(d))
                 o.Ve(d) = Math.Max(o.Ve(d), ve)
             Next
         Next
@@ -399,6 +423,7 @@ Public Module ColumnShear
             sMidShear = Math.Min(sMidShear, legsA / Math.Max(avMidPerS, 0.000001))
             o.G_Crush(d) = (o.Ve(d) / Phi - vc) / (0.66 * Math.Sqrt(cg.Fc) * bw * dEff) - 1.0
         Next
+        o.G_Hx = hx / If(pHiConf, 200.0, 350.0) - 1.0
         o.SConf = Math.Max(50.0, sConf)
         o.SMid = Math.Min(Math.Min(6.0 * cg.BarDia, 150.0), sMidShear)           '18.7.5.5 and shear outside lo
         o.Tied = tieMax

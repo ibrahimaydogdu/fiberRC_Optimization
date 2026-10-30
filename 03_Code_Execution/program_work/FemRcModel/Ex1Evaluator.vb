@@ -31,6 +31,7 @@ Public Class Ex1Result
     Public BeamRes As New Dictionary(Of String, BeamGroupResult)
     Public Analysis As FrameAnalysis
     Public Drift As DriftResult
+    Public Q As Double
     Public SteelKg As Double, FibreKg As Double, ConcreteM3 As Double
 End Class
 
@@ -63,7 +64,9 @@ Public Module Ex1Evaluator
         For Each g In fa.Gross.ColumnGroups
             Dim c = d.Columns(g)
             r.ColRes(g) = ColumnDesign.CheckGroup(fa, g, c.B, c.H, c.Fc, c.Rho, c.BarDia)
-            colShear(g) = ColumnShear.Design(fa, r.ColRes(g), r.BeamRes, fibs)
+        Next
+        For Each g In fa.Gross.ColumnGroups
+            colShear(g) = ColumnShear.Design(fa, r.ColRes(g), r.ColRes, r.BeamRes, fibs)
         Next
         Dim beamShr As New Dictionary(Of String, BeamShearResult)
         For Each g In fa.Gross.BeamGroups
@@ -75,6 +78,7 @@ Public Module Ex1Evaluator
             beamShr(g) = BeamShear.DesignGroup(fa, r.BeamRes(g), b.Fibre, fctk, fftuk)
         Next
         r.Drift = Checks.Drift(fa, spec, tp, dd3)
+        r.Q = Stability.MaxQ(fa, spec, tp)
         Dim joints = Checks.StrongColumn(fa, spec, r.ColRes, r.BeamRes, fibs)
         Dim jshear = JointShear.Check(fa, spec, r.ColRes, colShear, r.BeamRes, fibs)
 
@@ -87,7 +91,7 @@ Public Module Ex1Evaluator
                 Dim vol As Double = c.B * c.H * 1.0E-6 * cl
                 Dim form As Double = 2.0 * (c.B + c.H) * 0.001 * cl
                 Dim longKg As Double = KgPerM(cr.AsTotal) * e.Length          'bars over the centre-to-centre height
-                Dim nConf As Double = 2.0 * cs.Lk / cs.SConf, nMid As Double = Math.Max(cl * 1000.0 - 2.0 * cs.Lk, 0.0) / cs.SMid
+                Dim nConf As Double = 2.0 * cs.Lk / cs.SConf + (e.Length - cl) * 1000.0 / cs.SConf, nMid As Double = Math.Max(cl * 1000.0 - 2.0 * cs.Lk, 0.0) / cs.SMid      'ties also through the joint (ACI 18.8.3.1, same spacing: no reduction taken)
                 Dim tieKg As Double = (nConf + nMid + 1.0) * cs.TieLenPerSet * 0.001 * KgPerM(Math.PI * ColumnShear.TieDia ^ 2 / 4.0)
                 Dim cb = Cost.Member(prices, c.Fc, vol, form, tieKg, longKg, 0.0, 0.0)
                 r.Cost.Concrete += cb.Concrete : r.Cost.Rebar += cb.Rebar : r.Cost.Formwork += cb.Formwork
@@ -117,10 +121,13 @@ Public Module Ex1Evaluator
         Dim cList = r.ColRes.Values
         add("A1 col min dim", cList.Select(Function(x) x.G_MinDim))
         add("A2 col axial Nd/(0.4 fck Ac)", cList.Select(Function(x) x.G_Axial))
+        add("ACI 18.7.2.1(b) col aspect b/h >= 0.4", cList.Select(Function(x) x.G_Aspect))
+        add("ACI 18.8.2.3 col dimension >= 20 db of the beam bars", cList.Select(Function(x) x.G_JointBar))
         add("A3 col rho >= 1 %", cList.Select(Function(x) x.G_RhoLow))
         add("A3 col rho <= 4 %", cList.Select(Function(x) x.G_RhoHigh))
         add("P-M biaxial D/C", cList.Select(Function(x) x.DcrMax - 1.0))
         add("C1c col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2)", colShear.Values.Select(Function(x) Math.Max(x.G_Crush(0), x.G_Crush(1))))
+        add("ACI 18.7.5.2(e) col hx <= 350 (200)", colShear.Values.Select(Function(x) x.G_Hx))
         add("C1a col tie spacing >= 50", colShear.Values.Select(Function(x) 50.0 / Math.Max(x.SConf, 1.0) - 1.0 + If(x.SConf <= 50.0 AndAlso x.Governing <> "ok", 1.0, 0.0)))
         Dim bList = r.BeamRes.Values
         add("B1 beam bw >= 250", bList.Select(Function(x) 250.0 / x.B - 1.0))
@@ -134,6 +141,7 @@ Public Module Ex1Evaluator
         add("A5 strong column (ACI 18.7.3.2)", joints.Where(Function(x) Not x.Exempt).Select(Function(x) x.G))
         add("C1f joint shear (ACI 18.8.4)", jshear.Select(Function(x) x.G))
         add("C2 drift", New Double() {r.Drift.G})
+        add("ACI 6.6.4.3 stability index Q <= 0.05", New Double() {r.Q / 0.05 - 1.0})
         For i As Integer = 0 To viol.Count - 1
             r.Violations.Add(Tuple.Create(names(i), Penalty.GroupViolation(viol(i))))
         Next

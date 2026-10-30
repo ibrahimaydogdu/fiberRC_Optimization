@@ -1,0 +1,66 @@
+OK    T1 As gerekli (in2)        hesap=     2.87251 beklenen=       2.872 hata=0.018%
+OK    T1 a (in)                  hesap=     3.88439 beklenen=        3.88 hata=0.113%
+OK    T1 phiMn (kip-ft)          hesap=      201.88 beklenen=      201.88 hata=0.000%
+OK    T1 As,min US-belge (in2)   hesap=    0.713122 beklenen=       0.702 hata=1.584%
+OK    T1 phiVc US-belge (kip)    hesap=     21.3403 beklenen=       20.85 hata=2.352%
+OK    T1 As,min SI elle (mm2)    hesap=     460.078 beklenen=     460.078 hata=0.000%
+OK    T1 phiVc SI elle (N)       hesap=     94926.5 beklenen=     94926.5 hata=0.000%
+OK    T1 epsT>=0.005, phi=0.9
+OK    T2 Po (kip)                hesap=        1534 beklenen=        1530 hata=0.261%
+OK    T2 0.65Po max compr (kip)  hesap=       997.1 beklenen=         997 hata=0.010%
+OK    T2 phiPn,max (kip)         hesap=      797.68 beklenen=         798 hata=0.040%
+OK    T2 fs=0 phiPn              hesap=     624.553 beklenen=         622 hata=0.410%
+OK    T2 fs=0 phiMn              hesap=     169.335 beklenen=         170 hata=0.391%
+OK    T2 fs=0.5fy phiPn          hesap=     423.601 beklenen=         422 hata=0.379%
+OK    T2 fs=0.5fy phiMn          hesap=     220.043 beklenen=         220 hata=0.020%
+OK    T2 balanced phiPn          hesap=     272.297 beklenen=         271 hata=0.479%
+OK    T2 balanced phiMn          hesap=     250.977 beklenen=         251 hata=0.009%
+OK    T2 epsT=0.005 phiPn        hesap=     176.299 beklenen=         175 hata=0.742%
+OK    T2 epsT=0.005 phiMn        hesap=     288.464 beklenen=         288 hata=0.161%
+OK    T2 pure bending phiMn      hesap=     213.908 beklenen=         214 hata=0.043%
+OK    T2 pure tension phiPn      hesap=         432 beklenen=         432 hata=0.000%
+OK    T2 biaxial My=0 = uniaxial hesap=    0.444358 beklenen=    0.444358 hata=0.000%
+OK    T2 biaxial Mux=Muy = 2x    hesap=    0.888717 beklenen=    0.888717 hata=0.000%
+OK    T2 D/C(400k,150k-ft) = 0.667 (0<D/C<1)
+OK    T3 fFts,k                  hesap=        1.35 beklenen=        1.35 hata=0.000%
+OK    T3 wu (lcs=200)            hesap=         2.5 beklenen=         2.5 hata=0.000%
+OK    T3 fFtu,k wu=2.5           hesap=         0.6 beklenen=         0.6 hata=0.000%
+OK    T3 fFtu,k wu=1.5           hesap=         0.9 beklenen=         0.9 hata=0.000%
+OK    T3 c (mm)                  hesap=     75.2592 beklenen=     75.2592 hata=0.000%
+OK    T3 Mn (N.mm)               hesap= 1.86829E+08 beklenen= 1.86829E+08 hata=0.000%
+OK    T3 phiMn (N.mm)            hesap= 1.68146E+08 beklenen= 1.68146E+08 hata=0.000%
+OK    T3 alt lif w>wu isaretlendi (FibreLimited)
+OK    T3 Mn wu=1.5 (thesis)      hesap= 1.81462E+08 beklenen= 1.81462E+08 hata=0.000%
+      lcs duyarlilik (phiMn kN.m, wu mm, FibreLimited):
+      lcs= 100 wu=2.00 phiMn=  177.8 limited=False
+      lcs= 150 wu=2.50 phiMn=  175.0 limited=False
+      lcs= 200 wu=2.50 phiMn=  168.1 limited=True
+      lcs= 300 wu=2.50 phiMn=  163.3 limited=True
+      lcs= 400 wu=2.50 phiMn=  161.7 limited=True
+OK    T3 fctk,min C30 (Tablo 5.1-1: 2.0) hesap=     2.02753 beklenen=      2.0275 hata=0.001%
+OK    T3 fFtuk shear wu=1.5      hesap=         0.9 beklenen=         0.9 hata=0.000%
+OK    T3 VRd,F (N)               hesap=      123717 beklenen=      123717 hata=0.000%
+OK    T3 VRd,c lifsiz (N)        hesap=     75908.9 beklenen=     75908.9 hata=0.000%
+OK    T3 VRd,F,min (N)           hesap=     55684.7 beklenen=     55684.7 hata=0.000%
+OK    T3 VRd etriyeli (N)        hesap=      218689 beklenen=      218689 hata=0.000%
+OK    T3 etriye tavani           hesap=      488021 beklenen=      488021 hata=0.000%
+OK    T3 7.7-8 etriye muafiyeti (0.9 evet, 0.2 hayir)
+OK    T3 lifsiz Mn = AciBeam     hesap= 1.77471E+08 beklenen= 1.77471E+08 hata=0.000%
+OK    T3 lif kapasiteyi artirir; 5.6-3 saglanir
+OK    T4 beton 15.150.1006       hesap=     3649.35 beklenen=     3649.35 hata=0.000%
+OK    T4 donati (24.2+46.48243)*20+(24.2+44.68118)*80 hesap=     6924.14 beklenen=     6924.14 hata=0.000%
+OK    T4 kalip 6 x 873.03        hesap=     5238.18 beklenen=     5238.18 hata=0.000%
+OK    T4 lif 40 x 90             hesap=        3600 beklenen=        3600 hata=0.000%
+OK    T4 toplam (TL)             hesap=     19411.7 beklenen=     19411.7 hata=0.000%
+OK    T4 USD (kur 42.8843)       hesap=     452.652 beklenen=     452.652 hata=0.000%
+OK    T4 lif +50%                hesap=        5400 beklenen=        5400 hata=0.000%
+OK    T4 diger kalemler degismez hesap=     15811.7 beklenen=     15811.7 hata=0.000%
+OK    T4 goreli (lifsiz=100)     hesap=         100 beklenen=         100 hata=0.000%
+OK    T5 T toplam                hesap=         0.3 beklenen=         0.3 hata=0.000%
+OK    T5 F_ceza epsilon=2        hesap=        1690 beklenen=        1690 hata=0.000%
+OK    T5 epsilon=3               hesap=        2197 beklenen=        2197 hata=0.000%
+OK    T5 uygun cozum F ayni      hesap=        1000 beklenen=        1000 hata=0.000%
+OK    T5 olcek bagimsiz          hesap=     39.4084 beklenen=     39.4084 hata=0.000%
+OK    T5 normalize D/C-1         hesap=        0.25 beklenen=        0.25 hata=0.000%
+OK    T5 NaN kisit = uygunsuz (N/A gecmez)
+59/59 test gecti

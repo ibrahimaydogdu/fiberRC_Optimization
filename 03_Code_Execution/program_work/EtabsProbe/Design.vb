@@ -103,6 +103,17 @@ Module DesignProbe
                 Chk(ret, "SetRebarColumn " & s.Name)
             Next
             P("rebar size names accepted: " & okSize)
+            Dim jointMode As Boolean = Environment.GetEnvironmentVariable("JOINT") = "1"
+            Dim beamRes As New Dictionary(Of String, BeamGroupResult)
+            If jointMode Then
+                'beam reinforcement of the program design is assigned BEFORE the analysis (the model is locked afterwards)
+                For Each g In fa.Gross.BeamGroups
+                    Dim bdef = defs(g)
+                    beamRes(g) = BeamDesign.DesignGroup(fa, g, bdef.B, bdef.H, bdef.Fc, Nothing)
+                    P("beam group " & g & ": As top " & beamRes(g).AsTop.ToString("F0", ci) & " bot " & beamRes(g).AsBot.ToString("F0", ci) & " mm2 (provided to ETABS)")
+                    Chk(m.PropFrame.SetRebarBeam(g, "R420", "R420", CoverCentroid / 1000.0, CoverCentroid / 1000.0, beamRes(g).AsTop * 1.0E-6, beamRes(g).AsTop * 1.0E-6, beamRes(g).AsBot * 1.0E-6, beamRes(g).AsBot * 1.0E-6), "SetRebarBeam " & g)
+                Next
+            End If
             If cracked Then
                 Program.SetCracked(m, fa.Cracked.Model)
                 Program.SetMassSourceAndRs(m, fa, "SPD")
@@ -155,19 +166,14 @@ Module DesignProbe
                     For item As Integer = 9 To 12 : Chk(m.DesignConcrete.ACI318_14.SetOverwrite(frames(ei), item, 1.0, eItemType.Objects), "SetOverwrite " & item) : Next
                 Next
             End If
-            Dim jointMode As Boolean = Environment.GetEnvironmentVariable("JOINT") = "1"
-            Dim colRes As New Dictionary(Of String, ColumnGroupResult), beamRes As New Dictionary(Of String, BeamGroupResult), colSh As New Dictionary(Of String, ColumnShearResult)
+            Dim colRes As New Dictionary(Of String, ColumnGroupResult), colSh As New Dictionary(Of String, ColumnShearResult)
             If jointMode Then
-                For Each g In fa.Gross.BeamGroups
-                    Dim bdef = defs(g)
-                    beamRes(g) = BeamDesign.DesignGroup(fa, g, bdef.B, bdef.H, bdef.Fc, Nothing)
-                    P("beam group " & g & ": As top " & beamRes(g).AsTop.ToString("F0", ci) & " bot " & beamRes(g).AsBot.ToString("F0", ci) & " mm2 (provided to ETABS)")
-                    Chk(m.PropFrame.SetRebarBeam(g, "R420", "R420", CoverCentroid / 1000.0, CoverCentroid / 1000.0, beamRes(g).AsTop * 1.0E-6, beamRes(g).AsTop * 1.0E-6, beamRes(g).AsBot * 1.0E-6, beamRes(g).AsBot * 1.0E-6), "SetRebarBeam " & g)
-                Next
                 For Each g In fa.Gross.ColumnGroups
                     Dim cdef = defs(g)
                     colRes(g) = ColumnDesign.CheckGroup(fa, g, cdef.B, cdef.H, cdef.Fc, Rho, Dia)
-                    colSh(g) = ColumnShear.Design(fa, colRes(g), beamRes, Nothing)
+                Next
+                For Each g In fa.Gross.ColumnGroups
+                    colSh(g) = ColumnShear.Design(fa, colRes(g), colRes, beamRes, Nothing)
                 Next
             End If
             Dim nc As Integer, names() As String = Nothing
@@ -316,6 +322,31 @@ Module DesignProbe
                     If tnm(ti).IndexOf("Joint", StringComparison.OrdinalIgnoreCase) >= 0 AndAlso tnm(ti).IndexOf("Concrete", StringComparison.OrdinalIgnoreCase) >= 0 Then P("TABLE " & tkey(ti) & " | " & tnm(ti))
                     If tnm(ti).IndexOf("Concrete Column", StringComparison.OrdinalIgnoreCase) >= 0 OrElse tnm(ti).IndexOf("Beam/Column", StringComparison.OrdinalIgnoreCase) >= 0 Then P("TABLE " & tkey(ti) & " | " & tnm(ti))
                 Next
+                Dim vtv As Integer = 0, vfin() As String = Nothing, vn As Integer = 0, vdat() As String = Nothing
+                Dim vrt As Integer = m.DatabaseTables.GetTableForDisplayArray("Concrete Column Shear Envelope - ACI 318-14", New String() {""}, "All", vtv, vfin, vn, vdat)
+                Dim vByEl As New Dictionary(Of String, Double()), vcombo As New Dictionary(Of String, String)
+                If vrt = 0 AndAlso vdat IsNot Nothing Then
+                    Dim iU As Integer = Array.IndexOf(vfin, "UniqueName"), iM As Integer = Array.IndexOf(vfin, "VMajor"), im2 As Integer = Array.IndexOf(vfin, "VMinor"), iC As Integer = Array.IndexOf(vfin, "VMajCombo")
+                    For r0 As Integer = 0 To vn - 1
+                        Dim nmv As String = vdat(r0 * vfin.Length + iU)
+                        Dim v1 As Double = Double.Parse(vdat(r0 * vfin.Length + iM), ci), v2 As Double = Double.Parse(vdat(r0 * vfin.Length + im2), ci)
+                        If Not vByEl.ContainsKey(nmv) Then vByEl(nmv) = New Double() {0.0, 0.0}
+                        vByEl(nmv)(0) = Math.Max(vByEl(nmv)(0), v1) : vByEl(nmv)(1) = Math.Max(vByEl(nmv)(1), v2)
+                        If vByEl(nmv)(0) = v1 Then vcombo(nmv) = vdat(r0 * vfin.Length + iC)
+                    Next
+                End If
+                Dim sumVr As Double = 0, minVr As Double = 1.0E9, maxVr As Double = 0, nVr As Integer = 0
+                For ei As Integer = 0 To fm.Elements.Count - 1
+                    Dim ec = fm.Elements(ei)
+                    If Not ec.Name.StartsWith("C") OrElse Not vByEl.ContainsKey(ec.Name) Then Continue For
+                    Dim vProd As Double = Math.Max(colSh(ec.Group).Ve(0), colSh(ec.Group).Ve(1)) / 1000.0        'kN, production design shear of the group (clear length, group maximum)
+                    Dim vEt As Double = Math.Max(vByEl(ec.Name)(0), vByEl(ec.Name)(1))
+                    If vEt < 1.0E-6 Then Continue For
+                    Dim rt As Double = vProd / vEt
+                    nVr += 1 : sumVr += rt : minVr = Math.Min(minVr, rt) : maxVr = Math.Max(maxVr, rt)
+                    If True Then P("COLVE " & ec.Name & " design shear ETABS " & vEt.ToString("F1", ci) & " kN [" & If(vcombo.ContainsKey(ec.Name), vcombo(ec.Name), "") & "] production " & vProd.ToString("F1", ci) & " kN ratio " & rt.ToString("F3", ci))
+                Next
+                If nVr > 0 Then P("COLVESUM columns " & nVr & ": production Ve / ETABS design shear: mean " & (sumVr / nVr).ToString("F3", ci) & " min " & minVr.ToString("F3", ci) & " max " & maxVr.ToString("F3", ci))
                 Dim jsProg = JointShear.Check(fa, spec, colRes, colSh, beamRes, Nothing)
                 Dim scProg = Checks.StrongColumn(fa, spec, colRes, beamRes, Nothing)
                 Dim nm2 As New Dictionary(Of String, Integer)
@@ -328,13 +359,14 @@ Module DesignProbe
                     Dim jn As String = "J" & en.Substring(1, 3)
                     Dim pjx = jsProg.FirstOrDefault(Function(x) x.Name = jn & "x"), pjy = jsProg.FirstOrDefault(Function(x) x.Name = jn & "y")
                     Dim pbx = scProg.FirstOrDefault(Function(x) x.Name = jn & "x"), pby = scProg.FirstOrDefault(Function(x) x.Name = jn & "y")
-                    Dim jsE As Double = Math.Max(js1(i), js2(i)), bcE As Double = Math.Max(bc1(i), bc2(i))
+                    Dim jsE As Double = Math.Max(js1(i), js2(i)), bcE As Double = Math.Min(bc1(i), bc2(i))        'ETABS: sum Mnc / sum Mnb, the smaller direction is the critical one
                     Dim jsPv As Double = If(pjx Is Nothing, 0.0, Math.Max(pjx.G + 1.0, If(pjy Is Nothing, 0.0, pjy.G + 1.0)))
-                    Dim bcPv As Double = If(pbx Is Nothing, 0.0, Math.Max(pbx.G + 1.0, If(pby Is Nothing, 0.0, pby.G + 1.0)))
-                    P("JOINT " & en & " joint shear ratio ETABS " & jsE.ToString("F3", ci) & " [" & lj1(i) & "] program " & jsPv.ToString("F3", ci) & " | beam/column ratio ETABS " & bcE.ToString("F3", ci) & " program(1.2 Mnb/Mnc) " & bcPv.ToString("F3", ci))
-                    If pjx IsNot Nothing Then cntJ += 1 : wJsE = Math.Max(wJsE, jsE) : wJsP = Math.Max(wJsP, jsPv) : wBcE = Math.Max(wBcE, bcE) : wBcP = Math.Max(wBcP, bcPv)
+                    Dim rx As Double = If(pbx Is Nothing, 0.0, 1.2 / (pbx.G + 1.0)), ry As Double = If(pby Is Nothing, 1.0E9, 1.2 / (pby.G + 1.0))
+                    Dim bcPv As Double = Math.Min(rx, ry)                          'program: sum Mnc / sum Mnb (g + 1 = 1.2 sum Mnb / sum Mnc)
+                    P("JOINT " & en & " joint shear ratio ETABS " & jsE.ToString("F3", ci) & " program " & jsPv.ToString("F3", ci) & " | sum Mnc/sum Mnb ETABS " & bc1(i).ToString("F3", ci) & " / " & bc2(i).ToString("F3", ci) & " program x " & rx.ToString("F3", ci) & " y " & ry.ToString("F3", ci))
+                    If pjx IsNot Nothing Then cntJ += 1 : wJsE = Math.Max(wJsE, jsE) : wJsP = Math.Max(wJsP, jsPv) : wBcE = If(wBcE = 0.0, bcE, Math.Min(wBcE, bcE)) : wBcP = If(wBcP = 0.0, bcPv, Math.Min(wBcP, bcPv))
                 Next
-                P("JOINTSUM columns " & cntJ & ": max joint shear ratio ETABS " & wJsE.ToString("F3", ci) & " program " & wJsP.ToString("F3", ci) & "; max beam/column ratio ETABS " & wBcE.ToString("F3", ci) & " program " & wBcP.ToString("F3", ci))
+                P("JOINTSUM columns " & cntJ & ": max joint shear ratio ETABS " & wJsE.ToString("F3", ci) & " program " & wJsP.ToString("F3", ci) & "; min sum Mnc/sum Mnb ETABS " & wBcE.ToString("F3", ci) & " program " & wBcP.ToString("F3", ci))
             End If
         Catch ex As Exception
             P("EXCEPTION " & ex.GetType().Name & ": " & ex.Message & vbCrLf & ex.StackTrace)

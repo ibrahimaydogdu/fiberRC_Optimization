@@ -53,7 +53,7 @@ Public Module Checks
         Dim res As New List(Of JointResult)
         Dim m = fa.Gross
         Dim mm = m.Model
-        For k As Integer = 1 To spec.NStory - 1
+        For k As Integer = 1 To spec.NStory
             For j As Integer = 0 To spec.NyBays
                 For i As Integer = 0 To spec.NxBays
                     Dim node As Integer = m.NodeAt(i, j, k)
@@ -68,6 +68,7 @@ Public Module Checks
                         Next
                         Dim exemptA As Boolean = True
                         For Each ci In {below, above}
+                            If ci < 0 Then Continue For                  'roof joint: only the column below
                             Dim e = mm.Elements(ci)
                             Dim cg = cols(e.Group)
                             Dim ndMin As Double = Double.MaxValue, ndMax As Double = 0.0
@@ -76,12 +77,13 @@ Public Module Checks
                                 For q As Integer = 0 To cs.Forces.Count - 1
                                     Dim f = cs.Forces(q)(ci)
                                     Dim pu As Double = If(e.NJ = node, -f(6), f(0)) * 1000.0
-                                    ndMin = Math.Min(ndMin, Math.Max(pu, 0.0)) : ndMax = Math.Max(ndMax, pu)
+                                    ndMin = Math.Min(ndMin, pu) : ndMax = Math.Max(ndMax, pu)
                                 Next
                             Next
                             If ndMax > 0.1 * cg.B * cg.H * cg.Fc Then exemptA = False      'exemption only if even the largest Nd is small (conservative reading of 7.3.5 a)
                             Dim sec = If(dir = 0, ColumnDesign.MakeSection(cg.B, cg.H, cg.Fc, cg.NBars, cg.BarDia, False), ColumnDesign.MakeSection(cg.H, cg.B, cg.Fc, cg.NBars, cg.BarDia, False, True))
-                            jr.SumMrColumns += ColumnShear.MrAtP(sec, ndMin)
+                            'lowest flexural strength over the range of factored axial forces (18.7.3.2): the minimum of the two ends of the range (Mn(P) is concave)
+                            jr.SumMrColumns += Math.Min(ColumnShear.MrAtP(sec, ndMin), ColumnShear.MrAtP(sec, ndMax))
                         Next
                         Dim mrs As New List(Of Double)
                         For ei As Integer = 0 To mm.Elements.Count - 1
@@ -204,5 +206,37 @@ Public Module JointShear
             Next
         Next
         Return res
+    End Function
+End Module
+
+
+'ACI 318M-14 6.6.4.3 stability index per storey and frame direction: Q = sum(Pu) Delta_o / (Vus lc) <= 0.05 (second-order sway effects may be ignored).
+'Pu: TBDY Eq. 4.11 gravity part (1 + ez) G + Q + 0.2 S of the columns of the storey; Delta_o: elastic storey drift at the corner of the response-spectrum case, amplified by D of the deflection amplification
+'(conservative reading); Vus: CQC storey shear.
+Public Module Stability
+    Public Function MaxQ(fa As FrameAnalysis, spec As FrameSpec, dd2 As TbdyParams) As Double
+        Dim mc = fa.Cracked.Model
+        Dim pg = mc.PatternIndex("G"), pq = mc.PatternIndex("Q"), ps = mc.PatternIndex("S")
+        Dim worst As Double = 0.0
+        For d As Integer = 0 To 1
+            Dim rr = If(d = 0, fa.RSx, fa.RSy)
+            For k As Integer = 1 To spec.NStory
+                Dim zb As Double = (k - 1) * spec.StoryH
+                Dim sumP As Double = 0.0
+                For ei As Integer = 0 To mc.Elements.Count - 1
+                    Dim el = mc.Elements(ei)
+                    If Math.Abs(el.Axes(0, 2)) <= 0.9 Then Continue For
+                    If Math.Abs(mc.Nodes(el.NI).Z - zb) > 0.01 Then Continue For
+                    Dim f As Double = (1.0 + fa.Ez) * fa.Rc.FaceForce(pg)(ei)(0) + fa.Rc.FaceForce(pq)(ei)(0) + 0.2 * fa.Rc.FaceForce(ps)(ei)(0)
+                    sumP += Math.Abs(f)
+                Next
+                Dim n1 As Integer = fa.Cracked.NodeAt(0, 0, k)
+                Dim n0 As Integer = If(k = 1, -1, fa.Cracked.NodeAt(0, 0, k - 1))
+                Dim u1 As Double = Math.Abs(rr.U(n1 * 6 + d)), u0 As Double = If(n0 < 0, 0.0, Math.Abs(rr.U(n0 * 6 + d)))
+                Dim vus As Double = rr.StoryShear(k - 1)
+                If vus > 0.0 Then worst = Math.Max(worst, sumP * dd2.D * (u1 - u0) / (vus * spec.StoryH))
+            Next
+        Next
+        Return worst
     End Function
 End Module

@@ -1,0 +1,21 @@
+T1 solve failed=False 
+OK   T1 cantilever tip deflection PL3/3EI  got=0.00072 want=0.00072
+OK   T1 base reaction Fx  got=10 want=10
+OK   T1 base moment My  got=30 want=30
+T2 failed=False 
+OK   T2 reaction Fz = wL/2  got=50 want=50
+OK   T2 end moment wL2/12  got=41.666667 want=41.666667
+OK   T3 period (X, tip mass)  got=0.11921506 want=0.11921506
+T4 failed=False 
+OK   T4 portal sway = H h3 / (24EI)  got=0.00018000612 want=0.00018
+OK   T4 base moment = H h / 4  got=15.000401 want=15
+T5 failed=False 
+OK   T5 diaphragm sway = H h3 / (4 x 3EI) (columns free to rotate)  got=0.00072 want=0.00072
+OK   T5 diaphragm same Ux at all joints  got=0.00072 want=0.00072
+OK   T5 rotation about Z (centroid load, symmetric)  got=4.8994696E-20 want=0
+OK   T6 P-Delta (mass based) amplified tip displacement  got=0.00072084829 want=0.00072084829
+OK   T7 RS base shear = m Sa g  got=24.516625 want=24.516625
+OK   T7 RS tip displacement = Sa g / w2  got=0.001765197 want=0.001765197
+OK   T8 shear building T1  got=0.13639945 want=0.13639667
+OK   T8 shear building T2  got=0.052099458 want=0.052098891
+PASS=16 FAIL=0

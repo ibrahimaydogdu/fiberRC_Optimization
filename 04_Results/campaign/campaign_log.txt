@@ -1,0 +1,11 @@
+campaign start 2026-10-30T19:22:20+03:00 program: FemRcModel.dll sha256 5287c0c7c5b69f4e8e105f190db0faaf7f053e2ec1b4bd3d244b57b6b98413ad
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 90 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=5287c0c7c5b69f4e8e105f190db0faaf7f053e2ec1b4bd3d244b57b6b98413ad built=2026-10-30T16:22:10Z
+[1/90] YAKO_plain_fr1.00_run01 Fpen=1642876 T=0.000  53.3 min
+[2/90] YAKO_plain_fr1.00_run12 Fpen=1634122 T=0.000  54.1 min
+[3/90] YAKO_plain_fr1.00_run23 Fpen=1550444 T=0.000  54.7 min
+[4/90] BTO_plain_fr1.00_run26 Fpen=1488287 T=0.000  55.3 min
+[5/90] BTO_plain_fr1.00_run04 Fpen=1390219 T=0.000  55.4 min
+[6/90] BTO_plain_fr1.00_run15 Fpen=1451036 T=0.000  55.8 min
+[7/90] ATO_plain_fr1.00_run07 Fpen=1464873 T=0.006  55.8 min
+[8/90] ATO_plain_fr1.00_run18 Fpen=1505885 T=0.000  56.1 min

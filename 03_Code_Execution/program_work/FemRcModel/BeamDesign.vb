@@ -121,7 +121,7 @@ Public Module BeamShear
         Dim m = fa.Gross.Model
         Dim pg = m.PatternIndex("G"), pq = m.PatternIndex("Q"), ps = m.PatternIndex("S")
         Dim w As Double = 0.0
-        For Each t In {Tuple.Create(pg, 1.0), Tuple.Create(pq, 1.0), Tuple.Create(ps, 0.2)}
+        For Each t In {Tuple.Create(pg, 1.0 + fa.Ez), Tuple.Create(pq, 1.0), Tuple.Create(ps, 0.2)}     'TBDY Eq. 4.11 gravity part (1 + ez) G + Q + 0.2 S
             Dim f = fa.Rg.FaceForce(t.Item1)(ei)
             w += t.Item2 * (f(1) + f(7))
         Next

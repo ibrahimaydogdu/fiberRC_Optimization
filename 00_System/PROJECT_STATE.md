@@ -1,6 +1,6 @@
 # 📍 PROJECT_STATE.md
 
-**Aşama:** 0 — kaynak envanteri ve platform kurulumu. Hiçbir analiz çalıştırılmadı, hiçbir sayı doğrulanmadı.
+**Aşama (2026-10-30):** 3 — program doğrulama V2 büyük ölçüde tamam (FemCore ↔ ETABS, kolon radyal D/C, kiriş, ACI Bölüm 18 zinciri); **Ö1 kampanyası başladı** (3 algoritma × 30 koşu × 10 000 FE; lifsiz + lifli fR 1,00/0,85/0,70), bkz. `04_Results/VALIDATION_REPORT.md` V2i, `03_Code_Execution/run_campaign.sh`. Açık: S2 (SFRC deney kıyası), R2 (D/C 0,8–1,2 örneklemi, ikinci yapı), Ö2/Ö3, Maliyet_Metraj.xlsx, ETABS final doğrulama (V3), makale metni. Aşağıdaki §1–§4 Aşama 0 envanteridir (eski).
 
 ## 1. Kaynak envanteri (`Sources/`, salt-okunur)
 | Kaynak | Rol | Durum |
