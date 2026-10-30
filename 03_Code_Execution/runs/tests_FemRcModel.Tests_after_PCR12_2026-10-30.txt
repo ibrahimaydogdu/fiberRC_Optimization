@@ -109,3 +109,12 @@ A5 joints=72 exempt(Nd<=0.1 Ac fck)=48 worst g (non-exempt)=-0.14  (g > 0 = weak
 JOINT SHEAR joints=96 confined=8 worst g=-0.35 at J104x
 EVAL plain: cost=1485451 TL (concrete 292707, rebar 681288, formwork 511456, fibre 0)  T=0.000  Fpen=1485451  steel=9794 kg concrete=80.2 m3
 EVAL sample fibre 25 kg/m3: cost=1610758 TL (fibre 125307)  T=0.000  steel=9794 kg
+EVALTIME per evaluation = 186 ms
+OK   F12 NVars = 44  got=44 want=44
+OK   F12 col b = 500  got=500 want=500
+OK   F12 col rho = 1.25 %  got=0.0125 want=0.0125
+OK   F12 beam h = 600  got=600 want=600
+OK   F12 dose repaired 40 -> 35 (4D C40)  got=35 want=35
+F12 fibre trial: cost=1776542 T=0.000 Fpen=1776542
+OK   F12 parallel evaluations identical  got=0 want=0
+OK   F12 parallel = serial  got=1776542.1 want=1776542.1
