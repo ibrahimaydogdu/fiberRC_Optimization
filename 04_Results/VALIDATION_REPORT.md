@@ -135,3 +135,22 @@ Tercih dökümü: `runs/V2b_ecc5_final_with_prefs_2026-10-30.txt`. Etkileşim e�
 
 ### Sonuç
 V2 kapılarından FE1–FE4, B1–B3 ve S1 geçti. **CD1 kaldı**: üretim kolon kısıtı, ETABS'e göre e_min ve narinlik (δns) nedeniyle uygunluğu hafif iyimser buluyor (D/C ≈ 1'de %4; δns'in etkin olduğu 300 mm gravite kolonlarında %15). Bu nedenle V2 **tam geçmedi**. PCR-1 ve PCR-2 onaylanıp uygulanmadan ve CD1 yeniden ölçülmeden kampanya başlatılmaz. S2 (SFRC deney kıyası) ve Z6 açıktır.
+
+### V2e — PCR-1/PCR-2 uygulandıktan sonra CD1 yeniden ölçümü (2026-10-30)
+`ColumnDesign.CheckGroup` artık ACI e_min (her doğrultu ayrı) ve gravite birleşiminde δns içeriyor (IA onayı 2026-10-30). Karşılaştırma: aynı kuvvetler, ETABS CFD ACI 318-14 (δns açık), 48 kolon × 5 birleşim; "üretim" = `DcrWithEffects`.
+
+| Kesit (S12 / S34, mm) | ETABS maks D/C (U1) | Radyal + e_min + δns / ETABS (min–maks) | Yanlış-uygun (üretim) | Yanlış-uygun değil (üretim) |
+|---|---|---|---|---|
+| 500 / 400 (deneme tasarımı) | 0,354 | 0,983–1,177 | **0** | 0 |
+| 300 / 300 | 0,818 | 0,999–1,237 (U1 maks: 0,817 vs 0,818) | **0** | 0 |
+| 260 / 240 | 1,683 (D/C > 1) | 1,005–1,472 (U1 maks: 1,691 vs 1,683) | **0** | 0 |
+
+- **CD1 (yanlış-uygun = 0): GEÇTİ** (üç kesit setinde, toplam 720 kolon×birleşim satırı). Önceki turda 2 yanlış-uygun vardı.
+- **CD2 (radyal+e_min+δns ≥ 0,95 ETABS): GEÇTİ** (min 0,983 / 0,999 / 1,005).
+- δns ETABS ile U1'de %0,1–0,5 uyumlu (300 mm: 0,817/0,818; 260 mm: 1,691/1,683); 230/200 mm kesitte, burkulma sınırına yakın (Pu → 0,75 Pc) bölgede ETABS 2,2 verirken ilk δns sürümü 4·10¹² verdi; bu aralık gerçek tasarım uzayı dışındadır (üretimde D/C kapsı 10), sınırlama olarak yazılır.
+- **CD3 (kritik D/C tanımı):** üretim D/C'si sabit-P moment oranıdır; U1'de ETABS'ten düşük (0,297 vs 0,354; 0,655 vs 0,818), D/C > 1 bölgesinde ise büyük (2,29 vs 1,68). Uygunluk kararı aynı: PCR-3 gereği makalede tanım farkı açıklanır.
+- Kaldığı yerler: D/C 0,8–1,0 aralığı yalnız 300 mm koşusunda (maks 0,82) ve 260 mm'de (deprem 0,78) örneklendi; üretim donatı düzeni (üst/alt sırada yoğun) sınanmadı; ETABS Cm = 1 ve lu = 0,9·L varsayımı korunur.
+- Testler: FemCore 16/16, FemRcModel 62/62, RcCore 59/59 (`runs/tests_*_final_2026-10-30.txt`). Loglar: `runs/V2e_PCR12_*`; SHA-256 listesi güncellendi (25 dosya).
+
+**V2 durumu:** FE1–FE4, CD1, CD2, B1–B3, S1 geçti; CD3 tanım farkı olarak belgelenir; **S2 (SFRC deney kıyası), Z6 (kolon kesme/kapasite tasarımı TS 500 menüsü) açık**; D/C 0,8–1,0 ve üretim donatı düzeni sınırlamadır. Kampanya için kalan engeller: S2 ve Critic'in yeniden incelemesi (REVİZYON TALEBİ'nin kapandığını onaylaması), ardından IA'nın kampanya onayı.
+

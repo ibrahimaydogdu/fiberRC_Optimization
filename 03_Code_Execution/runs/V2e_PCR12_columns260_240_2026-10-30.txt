@@ -1,0 +1,361 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+ETABS ERROR ret=1 in SetDiaphragm
+rebar size names accepted: 20/10
+PREF 1 Number of interaction curves = 24
+PREF 2 Number of interaction points = 11
+PREF 3 Consider minimum eccentricity = 1
+PREF 4 Design for B/C capacity ratio = 2
+PREF 5 Seismic design category = 4
+PREF 6 Design system Omega0 = 2
+PREF 7 Design system Rho = 1
+PREF 8 Design system Sds = 0.5
+PREF 9 Consider ICC_ESR 2017 = 1
+PREF 10 Phi tension controlled = 0.9
+PREF 11 Phi compression controlled tied = 0.65
+PREF 12 Phi compression controlled spiral = 0.75
+PREF 13 Phi shear and/or torsion = 0.75
+PREF 14 Phi shear seismic = 0.6
+PREF 15 Phi joint shear = 0.85
+PREF 16 Pattern live load factor = 0.75
+PREF 17 Utilization factor limit = 1
+PREF 18 Multi-response case design = 5
+combinations in model: U1
+=== design combo U1 (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.333 [U1]  program radial 0.336  program+emin 0.416  PRODUCTION(e_min+delta_ns) 0.343
+C101          C101   ETABS 0.572 [U1]  program radial 0.482  program+emin 0.842  PRODUCTION(e_min+delta_ns) 0.799
+C201          C201   ETABS 0.572 [U1]  program radial 0.482  program+emin 0.842  PRODUCTION(e_min+delta_ns) 0.799
+C301          C301   ETABS 0.333 [U1]  program radial 0.336  program+emin 0.416  PRODUCTION(e_min+delta_ns) 0.343
+C011          C011   ETABS 0.716 [U1]  program radial 0.490  program+emin 0.863  PRODUCTION(e_min+delta_ns) 0.825
+C111          C111   ETABS 1.683 [U1]  program radial 0.809  program+emin 1.691  PRODUCTION(e_min+delta_ns) 2.291
+C211          C211   ETABS 1.683 [U1]  program radial 0.809  program+emin 1.691  PRODUCTION(e_min+delta_ns) 2.291
+C311          C311   ETABS 0.716 [U1]  program radial 0.490  program+emin 0.863  PRODUCTION(e_min+delta_ns) 0.825
+C021          C021   ETABS 0.333 [U1]  program radial 0.336  program+emin 0.416  PRODUCTION(e_min+delta_ns) 0.343
+C121          C121   ETABS 0.572 [U1]  program radial 0.482  program+emin 0.842  PRODUCTION(e_min+delta_ns) 0.799
+C221          C221   ETABS 0.572 [U1]  program radial 0.482  program+emin 0.842  PRODUCTION(e_min+delta_ns) 0.799
+C321          C321   ETABS 0.333 [U1]  program radial 0.336  program+emin 0.416  PRODUCTION(e_min+delta_ns) 0.343
+C002          C002   ETABS 0.427 [U1]  program radial 0.477  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.532
+C102          C102   ETABS 0.541 [U1]  program radial 0.445  program+emin 0.786  PRODUCTION(e_min+delta_ns) 0.750
+C202          C202   ETABS 0.541 [U1]  program radial 0.445  program+emin 0.786  PRODUCTION(e_min+delta_ns) 0.750
+C302          C302   ETABS 0.427 [U1]  program radial 0.477  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.532
+C012          C012   ETABS 0.582 [U1]  program radial 0.441  program+emin 0.780  PRODUCTION(e_min+delta_ns) 0.743
+C112          C112   ETABS 0.770 [U1]  program radial 0.589  program+emin 0.851  PRODUCTION(e_min+delta_ns) 0.788
+C212          C212   ETABS 0.770 [U1]  program radial 0.589  program+emin 0.851  PRODUCTION(e_min+delta_ns) 0.788
+C312          C312   ETABS 0.582 [U1]  program radial 0.441  program+emin 0.780  PRODUCTION(e_min+delta_ns) 0.743
+C022          C022   ETABS 0.427 [U1]  program radial 0.477  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.532
+C122          C122   ETABS 0.541 [U1]  program radial 0.445  program+emin 0.786  PRODUCTION(e_min+delta_ns) 0.750
+C222          C222   ETABS 0.541 [U1]  program radial 0.445  program+emin 0.786  PRODUCTION(e_min+delta_ns) 0.750
+C322          C322   ETABS 0.427 [U1]  program radial 0.477  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.532
+C003          C003   ETABS 0.502 [U1]  program radial 0.559  program+emin 0.647  PRODUCTION(e_min+delta_ns) 0.630
+C103          C103   ETABS 0.546 [U1]  program radial 0.465  program+emin 0.788  PRODUCTION(e_min+delta_ns) 0.768
+C203          C203   ETABS 0.546 [U1]  program radial 0.465  program+emin 0.788  PRODUCTION(e_min+delta_ns) 0.768
+C303          C303   ETABS 0.502 [U1]  program radial 0.559  program+emin 0.647  PRODUCTION(e_min+delta_ns) 0.630
+C013          C013   ETABS 0.560 [U1]  program radial 0.438  program+emin 0.765  PRODUCTION(e_min+delta_ns) 0.742
+C113          C113   ETABS 0.632 [U1]  program radial 0.474  program+emin 0.717  PRODUCTION(e_min+delta_ns) 0.643
+C213          C213   ETABS 0.632 [U1]  program radial 0.474  program+emin 0.717  PRODUCTION(e_min+delta_ns) 0.643
+C313          C313   ETABS 0.560 [U1]  program radial 0.438  program+emin 0.765  PRODUCTION(e_min+delta_ns) 0.742
+C023          C023   ETABS 0.502 [U1]  program radial 0.559  program+emin 0.647  PRODUCTION(e_min+delta_ns) 0.630
+C123          C123   ETABS 0.546 [U1]  program radial 0.465  program+emin 0.788  PRODUCTION(e_min+delta_ns) 0.768
+C223          C223   ETABS 0.546 [U1]  program radial 0.465  program+emin 0.788  PRODUCTION(e_min+delta_ns) 0.768
+C323          C323   ETABS 0.502 [U1]  program radial 0.559  program+emin 0.647  PRODUCTION(e_min+delta_ns) 0.630
+C004          C004   ETABS 0.520 [U1]  program radial 0.558  program+emin 0.592  PRODUCTION(e_min+delta_ns) 0.585
+C104          C104   ETABS 0.488 [U1]  program radial 0.470  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.549
+C204          C204   ETABS 0.488 [U1]  program radial 0.470  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.549
+C304          C304   ETABS 0.520 [U1]  program radial 0.558  program+emin 0.592  PRODUCTION(e_min+delta_ns) 0.585
+C014          C014   ETABS 0.464 [U1]  program radial 0.417  program+emin 0.532  PRODUCTION(e_min+delta_ns) 0.517
+C114          C114   ETABS 0.265 [U1]  program radial 0.214  program+emin 0.290  PRODUCTION(e_min+delta_ns) 0.221
+C214          C214   ETABS 0.265 [U1]  program radial 0.214  program+emin 0.290  PRODUCTION(e_min+delta_ns) 0.221
+C314          C314   ETABS 0.464 [U1]  program radial 0.417  program+emin 0.532  PRODUCTION(e_min+delta_ns) 0.517
+C024          C024   ETABS 0.520 [U1]  program radial 0.558  program+emin 0.592  PRODUCTION(e_min+delta_ns) 0.585
+C124          C124   ETABS 0.488 [U1]  program radial 0.470  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.549
+C224          C224   ETABS 0.488 [U1]  program radial 0.470  program+emin 0.564  PRODUCTION(e_min+delta_ns) 0.549
+C324          C324   ETABS 0.520 [U1]  program radial 0.558  program+emin 0.592  PRODUCTION(e_min+delta_ns) 0.585
+SUMMARY U1: columns 48, max D/C ETABS 1.683, program 0.809, program+emin 1.691; program >= ETABS in 16 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 0.896, mean with emin 1.268, min 1.005, max 1.470, within +-10 % (emin): 4 / 48
+PRODUCTION U1: max D/C ETABS 1.683, production 2.291; production >= ETABS in 46 / 48; ratio production/ETABS min 0.831 max 1.407; within +-10 % 8 / 48
+ETABS ERROR ret=1 in SetDiaphragm
+rebar size names accepted: 20/10
+tables applied: fatal=0 errors=0 warnings=0
+table Mass Source Definition ret=0 records=3 fields=Name|IsDefault|IncLateral|IncVertical|LumpMass|SourceSelf|SourceAdded|SourceLoads|MoveMass|RatioX|RatioY|LoadPattern|Multiplier|GUID
+   MsSrc1|Yes|Yes|No|Yes|No|No|Yes|No|||G|1|03eca505-ef09-4fea-9b3a-52a600505640
+   MsSrc1|||||||||||Q|0.3|
+   MsSrc1|||||||||||S|0.3|
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+PREF 1 Number of interaction curves = 24
+PREF 2 Number of interaction points = 11
+PREF 3 Consider minimum eccentricity = 1
+PREF 4 Design for B/C capacity ratio = 2
+PREF 5 Seismic design category = 4
+PREF 6 Design system Omega0 = 2
+PREF 7 Design system Rho = 1
+PREF 8 Design system Sds = 0.5
+PREF 9 Consider ICC_ESR 2017 = 1
+PREF 10 Phi tension controlled = 0.9
+PREF 11 Phi compression controlled tied = 0.65
+PREF 12 Phi compression controlled spiral = 0.75
+PREF 13 Phi shear and/or torsion = 0.75
+PREF 14 Phi shear seismic = 0.6
+PREF 15 Phi joint shear = 0.85
+PREF 16 Pattern live load factor = 0.75
+PREF 17 Utilization factor limit = 1
+PREF 18 Multi-response case design = 5
+OVERWRITE C001 1 Framing type = 1 (program determined)
+OVERWRITE C001 2 Live load reduction factor = 1 (program determined)
+OVERWRITE C001 3 Unbraced length ratio major = 0.9 (program determined)
+OVERWRITE C001 4 Unbraced length ratio minor = 0.9 (program determined)
+OVERWRITE C001 5 K major = 1 (program determined)
+OVERWRITE C001 6 K minor = 1 (program determined)
+OVERWRITE C001 7 Cm major = 1 (program determined)
+OVERWRITE C001 8 Cm minor = 1 (program determined)
+OVERWRITE C001 9 Db major = 1 (program determined)
+OVERWRITE C001 10 Db minor = 1 (program determined)
+OVERWRITE C001 11 Ds major = 1 (program determined)
+OVERWRITE C001 12 Ds minor = 1 (program determined)
+OVERWRITE C001 13 Consider minimum eccentricity = 1 (program determined)
+OVERWRITE Bx001 1 Framing type = 1 (program determined)
+OVERWRITE Bx001 2 Live load reduction factor = 1 (program determined)
+OVERWRITE Bx001 3 Unbraced length ratio major = 0.948 (program determined)
+OVERWRITE Bx001 4 Unbraced length ratio minor = 0.948 (program determined)
+OVERWRITE Bx001 5 K major = 1 (program determined)
+OVERWRITE Bx001 6 K minor = 1 (program determined)
+OVERWRITE Bx001 7 Cm major = 1 (program determined)
+OVERWRITE Bx001 8 Cm minor = 1 (program determined)
+OVERWRITE Bx001 9 Db major = 1 (program determined)
+OVERWRITE Bx001 10 Db minor = 1 (program determined)
+OVERWRITE Bx001 11 Ds major = 1 (program determined)
+OVERWRITE Bx001 12 Ds minor = 1 (program determined)
+OVERWRITE Bx001 13 Consider minimum eccentricity = 1 (program determined)
+combinations in model: E411_X+0.3Y, E412_X+0.3Y, E411_0.3X+Y, E412_0.3X+Y
+=== design combo E411_X+0.3Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.483 [E411_X+0.3Y]  program radial 0.532  program+emin 0.532  PRODUCTION(e_min+delta_ns) 0.490
+C101          C101   ETABS 0.533 [E411_X+0.3Y]  program radial 0.572  program+emin 0.578  PRODUCTION(e_min+delta_ns) 0.491
+C201          C201   ETABS 0.533 [E411_X+0.3Y]  program radial 0.572  program+emin 0.578  PRODUCTION(e_min+delta_ns) 0.491
+C301          C301   ETABS 0.483 [E411_X+0.3Y]  program radial 0.532  program+emin 0.532  PRODUCTION(e_min+delta_ns) 0.490
+C011          C011   ETABS 0.598 [E411_X+0.3Y]  program radial 0.553  program+emin 0.648  PRODUCTION(e_min+delta_ns) 0.573
+C111          C111   ETABS 0.784 [E411_X+0.3Y]  program radial 0.674  program+emin 0.828  PRODUCTION(e_min+delta_ns) 0.717
+C211          C211   ETABS 0.784 [E411_X+0.3Y]  program radial 0.674  program+emin 0.828  PRODUCTION(e_min+delta_ns) 0.717
+C311          C311   ETABS 0.598 [E411_X+0.3Y]  program radial 0.553  program+emin 0.648  PRODUCTION(e_min+delta_ns) 0.573
+C021          C021   ETABS 0.483 [E411_X+0.3Y]  program radial 0.532  program+emin 0.532  PRODUCTION(e_min+delta_ns) 0.490
+C121          C121   ETABS 0.533 [E411_X+0.3Y]  program radial 0.572  program+emin 0.578  PRODUCTION(e_min+delta_ns) 0.491
+C221          C221   ETABS 0.533 [E411_X+0.3Y]  program radial 0.572  program+emin 0.578  PRODUCTION(e_min+delta_ns) 0.491
+C321          C321   ETABS 0.483 [E411_X+0.3Y]  program radial 0.532  program+emin 0.532  PRODUCTION(e_min+delta_ns) 0.490
+C002          C002   ETABS 0.562 [E411_X+0.3Y]  program radial 0.611  program+emin 0.611  PRODUCTION(e_min+delta_ns) 0.588
+C102          C102   ETABS 0.536 [E411_X+0.3Y]  program radial 0.590  program+emin 0.590  PRODUCTION(e_min+delta_ns) 0.541
+C202          C202   ETABS 0.536 [E411_X+0.3Y]  program radial 0.590  program+emin 0.590  PRODUCTION(e_min+delta_ns) 0.541
+C302          C302   ETABS 0.562 [E411_X+0.3Y]  program radial 0.611  program+emin 0.611  PRODUCTION(e_min+delta_ns) 0.588
+C012          C012   ETABS 0.562 [E411_X+0.3Y]  program radial 0.544  program+emin 0.605  PRODUCTION(e_min+delta_ns) 0.555
+C112          C112   ETABS 0.590 [E411_X+0.3Y]  program radial 0.515  program+emin 0.627  PRODUCTION(e_min+delta_ns) 0.509
+C212          C212   ETABS 0.590 [E411_X+0.3Y]  program radial 0.515  program+emin 0.627  PRODUCTION(e_min+delta_ns) 0.509
+C312          C312   ETABS 0.562 [E411_X+0.3Y]  program radial 0.544  program+emin 0.605  PRODUCTION(e_min+delta_ns) 0.555
+C022          C022   ETABS 0.562 [E411_X+0.3Y]  program radial 0.611  program+emin 0.611  PRODUCTION(e_min+delta_ns) 0.588
+C122          C122   ETABS 0.536 [E411_X+0.3Y]  program radial 0.590  program+emin 0.590  PRODUCTION(e_min+delta_ns) 0.541
+C222          C222   ETABS 0.536 [E411_X+0.3Y]  program radial 0.590  program+emin 0.590  PRODUCTION(e_min+delta_ns) 0.541
+C322          C322   ETABS 0.562 [E411_X+0.3Y]  program radial 0.611  program+emin 0.611  PRODUCTION(e_min+delta_ns) 0.588
+C003          C003   ETABS 0.650 [E411_X+0.3Y]  program radial 0.704  program+emin 0.704  PRODUCTION(e_min+delta_ns) 0.693
+C103          C103   ETABS 0.563 [E411_X+0.3Y]  program radial 0.628  program+emin 0.628  PRODUCTION(e_min+delta_ns) 0.597
+C203          C203   ETABS 0.563 [E411_X+0.3Y]  program radial 0.628  program+emin 0.628  PRODUCTION(e_min+delta_ns) 0.597
+C303          C303   ETABS 0.650 [E411_X+0.3Y]  program radial 0.704  program+emin 0.704  PRODUCTION(e_min+delta_ns) 0.693
+C013          C013   ETABS 0.580 [E411_X+0.3Y]  program radial 0.583  program+emin 0.624  PRODUCTION(e_min+delta_ns) 0.592
+C113          C113   ETABS 0.501 [E411_X+0.3Y]  program radial 0.439  program+emin 0.546  PRODUCTION(e_min+delta_ns) 0.460
+C213          C213   ETABS 0.501 [E411_X+0.3Y]  program radial 0.439  program+emin 0.546  PRODUCTION(e_min+delta_ns) 0.460
+C313          C313   ETABS 0.580 [E411_X+0.3Y]  program radial 0.583  program+emin 0.624  PRODUCTION(e_min+delta_ns) 0.592
+C023          C023   ETABS 0.650 [E411_X+0.3Y]  program radial 0.704  program+emin 0.704  PRODUCTION(e_min+delta_ns) 0.693
+C123          C123   ETABS 0.563 [E411_X+0.3Y]  program radial 0.628  program+emin 0.628  PRODUCTION(e_min+delta_ns) 0.597
+C223          C223   ETABS 0.563 [E411_X+0.3Y]  program radial 0.628  program+emin 0.628  PRODUCTION(e_min+delta_ns) 0.597
+C323          C323   ETABS 0.650 [E411_X+0.3Y]  program radial 0.704  program+emin 0.704  PRODUCTION(e_min+delta_ns) 0.693
+C004          C004   ETABS 0.570 [E411_X+0.3Y]  program radial 0.607  program+emin 0.607  PRODUCTION(e_min+delta_ns) 0.602
+C104          C104   ETABS 0.489 [E411_X+0.3Y]  program radial 0.520  program+emin 0.520  PRODUCTION(e_min+delta_ns) 0.507
+C204          C204   ETABS 0.489 [E411_X+0.3Y]  program radial 0.520  program+emin 0.520  PRODUCTION(e_min+delta_ns) 0.507
+C304          C304   ETABS 0.570 [E411_X+0.3Y]  program radial 0.607  program+emin 0.607  PRODUCTION(e_min+delta_ns) 0.602
+C014          C014   ETABS 0.468 [E411_X+0.3Y]  program radial 0.479  program+emin 0.479  PRODUCTION(e_min+delta_ns) 0.465
+C114          C114   ETABS 0.246 [E411_X+0.3Y]  program radial 0.226  program+emin 0.270  PRODUCTION(e_min+delta_ns) 0.223
+C214          C214   ETABS 0.246 [E411_X+0.3Y]  program radial 0.226  program+emin 0.270  PRODUCTION(e_min+delta_ns) 0.223
+C314          C314   ETABS 0.468 [E411_X+0.3Y]  program radial 0.479  program+emin 0.479  PRODUCTION(e_min+delta_ns) 0.465
+C024          C024   ETABS 0.570 [E411_X+0.3Y]  program radial 0.607  program+emin 0.607  PRODUCTION(e_min+delta_ns) 0.602
+C124          C124   ETABS 0.489 [E411_X+0.3Y]  program radial 0.520  program+emin 0.520  PRODUCTION(e_min+delta_ns) 0.507
+C224          C224   ETABS 0.489 [E411_X+0.3Y]  program radial 0.520  program+emin 0.520  PRODUCTION(e_min+delta_ns) 0.507
+C324          C324   ETABS 0.570 [E411_X+0.3Y]  program radial 0.607  program+emin 0.607  PRODUCTION(e_min+delta_ns) 0.602
+SUMMARY E411_X+0.3Y: columns 48, max D/C ETABS 0.784, program 0.704, program+emin 0.828; program >= ETABS in 36 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.034, mean with emin 1.082, min 1.025, max 1.115, within +-10 % (emin): 36 / 48
+PRODUCTION E411_X+0.3Y: max D/C ETABS 0.784, production 0.717; production >= ETABS in 30 / 48; ratio production/ETABS min 0.862 max 1.066; within +-10 % 46 / 48
+=== design combo E412_X+0.3Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.378 [E412_X+0.3Y]  program radial 0.412  program+emin 0.412  PRODUCTION(e_min+delta_ns) 0.381
+C101          C101   ETABS 0.420 [E412_X+0.3Y]  program radial 0.436  program+emin 0.436  PRODUCTION(e_min+delta_ns) 0.381
+C201          C201   ETABS 0.420 [E412_X+0.3Y]  program radial 0.436  program+emin 0.436  PRODUCTION(e_min+delta_ns) 0.381
+C301          C301   ETABS 0.378 [E412_X+0.3Y]  program radial 0.412  program+emin 0.412  PRODUCTION(e_min+delta_ns) 0.381
+C011          C011   ETABS 0.411 [E412_X+0.3Y]  program radial 0.417  program+emin 0.445  PRODUCTION(e_min+delta_ns) 0.385
+C111          C111   ETABS 0.505 [E412_X+0.3Y]  program radial 0.466  program+emin 0.548  PRODUCTION(e_min+delta_ns) 0.457
+C211          C211   ETABS 0.505 [E412_X+0.3Y]  program radial 0.466  program+emin 0.548  PRODUCTION(e_min+delta_ns) 0.457
+C311          C311   ETABS 0.411 [E412_X+0.3Y]  program radial 0.417  program+emin 0.445  PRODUCTION(e_min+delta_ns) 0.385
+C021          C021   ETABS 0.378 [E412_X+0.3Y]  program radial 0.412  program+emin 0.412  PRODUCTION(e_min+delta_ns) 0.381
+C121          C121   ETABS 0.420 [E412_X+0.3Y]  program radial 0.436  program+emin 0.436  PRODUCTION(e_min+delta_ns) 0.381
+C221          C221   ETABS 0.420 [E412_X+0.3Y]  program radial 0.436  program+emin 0.436  PRODUCTION(e_min+delta_ns) 0.381
+C321          C321   ETABS 0.378 [E412_X+0.3Y]  program radial 0.412  program+emin 0.412  PRODUCTION(e_min+delta_ns) 0.381
+C002          C002   ETABS 0.399 [E412_X+0.3Y]  program radial 0.431  program+emin 0.431  PRODUCTION(e_min+delta_ns) 0.410
+C102          C102   ETABS 0.386 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(e_min+delta_ns) 0.394
+C202          C202   ETABS 0.386 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(e_min+delta_ns) 0.394
+C302          C302   ETABS 0.399 [E412_X+0.3Y]  program radial 0.431  program+emin 0.431  PRODUCTION(e_min+delta_ns) 0.410
+C012          C012   ETABS 0.371 [E412_X+0.3Y]  program radial 0.391  program+emin 0.398  PRODUCTION(e_min+delta_ns) 0.357
+C112          C112   ETABS 0.392 [E412_X+0.3Y]  program radial 0.367  program+emin 0.425  PRODUCTION(e_min+delta_ns) 0.349
+C212          C212   ETABS 0.392 [E412_X+0.3Y]  program radial 0.367  program+emin 0.425  PRODUCTION(e_min+delta_ns) 0.349
+C312          C312   ETABS 0.371 [E412_X+0.3Y]  program radial 0.391  program+emin 0.398  PRODUCTION(e_min+delta_ns) 0.357
+C022          C022   ETABS 0.399 [E412_X+0.3Y]  program radial 0.431  program+emin 0.431  PRODUCTION(e_min+delta_ns) 0.410
+C122          C122   ETABS 0.386 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(e_min+delta_ns) 0.394
+C222          C222   ETABS 0.386 [E412_X+0.3Y]  program radial 0.430  program+emin 0.430  PRODUCTION(e_min+delta_ns) 0.394
+C322          C322   ETABS 0.399 [E412_X+0.3Y]  program radial 0.431  program+emin 0.431  PRODUCTION(e_min+delta_ns) 0.410
+C003          C003   ETABS 0.462 [E412_X+0.3Y]  program radial 0.498  program+emin 0.498  PRODUCTION(e_min+delta_ns) 0.486
+C103          C103   ETABS 0.413 [E412_X+0.3Y]  program radial 0.461  program+emin 0.461  PRODUCTION(e_min+delta_ns) 0.437
+C203          C203   ETABS 0.413 [E412_X+0.3Y]  program radial 0.461  program+emin 0.461  PRODUCTION(e_min+delta_ns) 0.437
+C303          C303   ETABS 0.462 [E412_X+0.3Y]  program radial 0.498  program+emin 0.498  PRODUCTION(e_min+delta_ns) 0.486
+C013          C013   ETABS 0.397 [E412_X+0.3Y]  program radial 0.425  program+emin 0.425  PRODUCTION(e_min+delta_ns) 0.397
+C113          C113   ETABS 0.359 [E412_X+0.3Y]  program radial 0.343  program+emin 0.394  PRODUCTION(e_min+delta_ns) 0.340
+C213          C213   ETABS 0.359 [E412_X+0.3Y]  program radial 0.343  program+emin 0.394  PRODUCTION(e_min+delta_ns) 0.340
+C313          C313   ETABS 0.397 [E412_X+0.3Y]  program radial 0.425  program+emin 0.425  PRODUCTION(e_min+delta_ns) 0.397
+C023          C023   ETABS 0.462 [E412_X+0.3Y]  program radial 0.498  program+emin 0.498  PRODUCTION(e_min+delta_ns) 0.486
+C123          C123   ETABS 0.413 [E412_X+0.3Y]  program radial 0.461  program+emin 0.461  PRODUCTION(e_min+delta_ns) 0.437
+C223          C223   ETABS 0.413 [E412_X+0.3Y]  program radial 0.461  program+emin 0.461  PRODUCTION(e_min+delta_ns) 0.437
+C323          C323   ETABS 0.462 [E412_X+0.3Y]  program radial 0.498  program+emin 0.498  PRODUCTION(e_min+delta_ns) 0.486
+C004          C004   ETABS 0.397 [E412_X+0.3Y]  program radial 0.423  program+emin 0.423  PRODUCTION(e_min+delta_ns) 0.419
+C104          C104   ETABS 0.350 [E412_X+0.3Y]  program radial 0.377  program+emin 0.377  PRODUCTION(e_min+delta_ns) 0.366
+C204          C204   ETABS 0.350 [E412_X+0.3Y]  program radial 0.377  program+emin 0.377  PRODUCTION(e_min+delta_ns) 0.366
+C304          C304   ETABS 0.397 [E412_X+0.3Y]  program radial 0.423  program+emin 0.423  PRODUCTION(e_min+delta_ns) 0.419
+C014          C014   ETABS 0.332 [E412_X+0.3Y]  program radial 0.344  program+emin 0.344  PRODUCTION(e_min+delta_ns) 0.333
+C114          C114   ETABS 0.198 [E412_X+0.3Y]  program radial 0.199  program+emin 0.217  PRODUCTION(e_min+delta_ns) 0.187
+C214          C214   ETABS 0.198 [E412_X+0.3Y]  program radial 0.199  program+emin 0.217  PRODUCTION(e_min+delta_ns) 0.187
+C314          C314   ETABS 0.332 [E412_X+0.3Y]  program radial 0.344  program+emin 0.344  PRODUCTION(e_min+delta_ns) 0.333
+C024          C024   ETABS 0.397 [E412_X+0.3Y]  program radial 0.423  program+emin 0.423  PRODUCTION(e_min+delta_ns) 0.419
+C124          C124   ETABS 0.350 [E412_X+0.3Y]  program radial 0.377  program+emin 0.377  PRODUCTION(e_min+delta_ns) 0.366
+C224          C224   ETABS 0.350 [E412_X+0.3Y]  program radial 0.377  program+emin 0.377  PRODUCTION(e_min+delta_ns) 0.366
+C324          C324   ETABS 0.397 [E412_X+0.3Y]  program radial 0.423  program+emin 0.423  PRODUCTION(e_min+delta_ns) 0.419
+SUMMARY E412_X+0.3Y: columns 48, max D/C ETABS 0.505, program 0.498, program+emin 0.548; program >= ETABS in 42 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.055, mean with emin 1.081, min 1.036, max 1.117, within +-10 % (emin): 40 / 48
+PRODUCTION E412_X+0.3Y: max D/C ETABS 0.505, production 0.486; production >= ETABS in 32 / 48; ratio production/ETABS min 0.891 max 1.057; within +-10 % 46 / 48
+=== design combo E411_0.3X+Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.487 [E411_0.3X+Y]  program radial 0.538  program+emin 0.538  PRODUCTION(e_min+delta_ns) 0.496
+C101          C101   ETABS 0.590 [E411_0.3X+Y]  program radial 0.554  program+emin 0.639  PRODUCTION(e_min+delta_ns) 0.566
+C201          C201   ETABS 0.590 [E411_0.3X+Y]  program radial 0.554  program+emin 0.639  PRODUCTION(e_min+delta_ns) 0.566
+C301          C301   ETABS 0.487 [E411_0.3X+Y]  program radial 0.538  program+emin 0.538  PRODUCTION(e_min+delta_ns) 0.496
+C011          C011   ETABS 0.550 [E411_0.3X+Y]  program radial 0.579  program+emin 0.597  PRODUCTION(e_min+delta_ns) 0.510
+C111          C111   ETABS 0.784 [E411_0.3X+Y]  program radial 0.675  program+emin 0.828  PRODUCTION(e_min+delta_ns) 0.720
+C211          C211   ETABS 0.784 [E411_0.3X+Y]  program radial 0.675  program+emin 0.828  PRODUCTION(e_min+delta_ns) 0.720
+C311          C311   ETABS 0.550 [E411_0.3X+Y]  program radial 0.579  program+emin 0.597  PRODUCTION(e_min+delta_ns) 0.510
+C021          C021   ETABS 0.487 [E411_0.3X+Y]  program radial 0.538  program+emin 0.538  PRODUCTION(e_min+delta_ns) 0.496
+C121          C121   ETABS 0.590 [E411_0.3X+Y]  program radial 0.554  program+emin 0.639  PRODUCTION(e_min+delta_ns) 0.566
+C221          C221   ETABS 0.590 [E411_0.3X+Y]  program radial 0.554  program+emin 0.639  PRODUCTION(e_min+delta_ns) 0.566
+C321          C321   ETABS 0.487 [E411_0.3X+Y]  program radial 0.538  program+emin 0.538  PRODUCTION(e_min+delta_ns) 0.496
+C002          C002   ETABS 0.569 [E411_0.3X+Y]  program radial 0.618  program+emin 0.618  PRODUCTION(e_min+delta_ns) 0.595
+C102          C102   ETABS 0.565 [E411_0.3X+Y]  program radial 0.559  program+emin 0.608  PRODUCTION(e_min+delta_ns) 0.560
+C202          C202   ETABS 0.565 [E411_0.3X+Y]  program radial 0.559  program+emin 0.608  PRODUCTION(e_min+delta_ns) 0.560
+C302          C302   ETABS 0.569 [E411_0.3X+Y]  program radial 0.618  program+emin 0.618  PRODUCTION(e_min+delta_ns) 0.595
+C012          C012   ETABS 0.540 [E411_0.3X+Y]  program radial 0.595  program+emin 0.595  PRODUCTION(e_min+delta_ns) 0.545
+C112          C112   ETABS 0.589 [E411_0.3X+Y]  program radial 0.522  program+emin 0.627  PRODUCTION(e_min+delta_ns) 0.509
+C212          C212   ETABS 0.589 [E411_0.3X+Y]  program radial 0.522  program+emin 0.627  PRODUCTION(e_min+delta_ns) 0.509
+C312          C312   ETABS 0.540 [E411_0.3X+Y]  program radial 0.595  program+emin 0.595  PRODUCTION(e_min+delta_ns) 0.545
+C022          C022   ETABS 0.569 [E411_0.3X+Y]  program radial 0.618  program+emin 0.618  PRODUCTION(e_min+delta_ns) 0.595
+C122          C122   ETABS 0.565 [E411_0.3X+Y]  program radial 0.559  program+emin 0.608  PRODUCTION(e_min+delta_ns) 0.560
+C222          C222   ETABS 0.565 [E411_0.3X+Y]  program radial 0.559  program+emin 0.608  PRODUCTION(e_min+delta_ns) 0.560
+C322          C322   ETABS 0.569 [E411_0.3X+Y]  program radial 0.618  program+emin 0.618  PRODUCTION(e_min+delta_ns) 0.595
+C003          C003   ETABS 0.658 [E411_0.3X+Y]  program radial 0.712  program+emin 0.712  PRODUCTION(e_min+delta_ns) 0.701
+C103          C103   ETABS 0.591 [E411_0.3X+Y]  program radial 0.602  program+emin 0.633  PRODUCTION(e_min+delta_ns) 0.603
+C203          C203   ETABS 0.591 [E411_0.3X+Y]  program radial 0.602  program+emin 0.633  PRODUCTION(e_min+delta_ns) 0.603
+C303          C303   ETABS 0.658 [E411_0.3X+Y]  program radial 0.712  program+emin 0.712  PRODUCTION(e_min+delta_ns) 0.701
+C013          C013   ETABS 0.560 [E411_0.3X+Y]  program radial 0.628  program+emin 0.628  PRODUCTION(e_min+delta_ns) 0.597
+C113          C113   ETABS 0.505 [E411_0.3X+Y]  program radial 0.446  program+emin 0.554  PRODUCTION(e_min+delta_ns) 0.472
+C213          C213   ETABS 0.505 [E411_0.3X+Y]  program radial 0.446  program+emin 0.554  PRODUCTION(e_min+delta_ns) 0.472
+C313          C313   ETABS 0.560 [E411_0.3X+Y]  program radial 0.628  program+emin 0.628  PRODUCTION(e_min+delta_ns) 0.597
+C023          C023   ETABS 0.658 [E411_0.3X+Y]  program radial 0.712  program+emin 0.712  PRODUCTION(e_min+delta_ns) 0.701
+C123          C123   ETABS 0.591 [E411_0.3X+Y]  program radial 0.602  program+emin 0.633  PRODUCTION(e_min+delta_ns) 0.603
+C223          C223   ETABS 0.591 [E411_0.3X+Y]  program radial 0.602  program+emin 0.633  PRODUCTION(e_min+delta_ns) 0.603
+C323          C323   ETABS 0.658 [E411_0.3X+Y]  program radial 0.712  program+emin 0.712  PRODUCTION(e_min+delta_ns) 0.701
+C004          C004   ETABS 0.576 [E411_0.3X+Y]  program radial 0.613  program+emin 0.613  PRODUCTION(e_min+delta_ns) 0.609
+C104          C104   ETABS 0.491 [E411_0.3X+Y]  program radial 0.504  program+emin 0.504  PRODUCTION(e_min+delta_ns) 0.491
+C204          C204   ETABS 0.491 [E411_0.3X+Y]  program radial 0.504  program+emin 0.504  PRODUCTION(e_min+delta_ns) 0.491
+C304          C304   ETABS 0.576 [E411_0.3X+Y]  program radial 0.613  program+emin 0.613  PRODUCTION(e_min+delta_ns) 0.609
+C014          C014   ETABS 0.477 [E411_0.3X+Y]  program radial 0.508  program+emin 0.508  PRODUCTION(e_min+delta_ns) 0.495
+C114          C114   ETABS 0.249 [E411_0.3X+Y]  program radial 0.231  program+emin 0.274  PRODUCTION(e_min+delta_ns) 0.227
+C214          C214   ETABS 0.249 [E411_0.3X+Y]  program radial 0.231  program+emin 0.274  PRODUCTION(e_min+delta_ns) 0.227
+C314          C314   ETABS 0.477 [E411_0.3X+Y]  program radial 0.508  program+emin 0.508  PRODUCTION(e_min+delta_ns) 0.495
+C024          C024   ETABS 0.576 [E411_0.3X+Y]  program radial 0.613  program+emin 0.613  PRODUCTION(e_min+delta_ns) 0.609
+C124          C124   ETABS 0.491 [E411_0.3X+Y]  program radial 0.504  program+emin 0.504  PRODUCTION(e_min+delta_ns) 0.491
+C224          C224   ETABS 0.491 [E411_0.3X+Y]  program radial 0.504  program+emin 0.504  PRODUCTION(e_min+delta_ns) 0.491
+C324          C324   ETABS 0.576 [E411_0.3X+Y]  program radial 0.613  program+emin 0.613  PRODUCTION(e_min+delta_ns) 0.609
+SUMMARY E411_0.3X+Y: columns 48, max D/C ETABS 0.784, program 0.712, program+emin 0.828; program >= ETABS in 32 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.021, mean with emin 1.078, min 1.026, max 1.120, within +-10 % (emin): 40 / 48
+PRODUCTION E411_0.3X+Y: max D/C ETABS 0.784, production 0.720; production >= ETABS in 30 / 48; ratio production/ETABS min 0.864 max 1.065; within +-10 % 46 / 48
+=== design combo E412_0.3X+Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=892
+C001          C001   ETABS 0.383 [E412_0.3X+Y]  program radial 0.418  program+emin 0.418  PRODUCTION(e_min+delta_ns) 0.387
+C101          C101   ETABS 0.411 [E412_0.3X+Y]  program radial 0.420  program+emin 0.445  PRODUCTION(e_min+delta_ns) 0.387
+C201          C201   ETABS 0.411 [E412_0.3X+Y]  program radial 0.420  program+emin 0.445  PRODUCTION(e_min+delta_ns) 0.387
+C301          C301   ETABS 0.383 [E412_0.3X+Y]  program radial 0.418  program+emin 0.418  PRODUCTION(e_min+delta_ns) 0.387
+C011          C011   ETABS 0.420 [E412_0.3X+Y]  program radial 0.446  program+emin 0.450  PRODUCTION(e_min+delta_ns) 0.394
+C111          C111   ETABS 0.510 [E412_0.3X+Y]  program radial 0.468  program+emin 0.553  PRODUCTION(e_min+delta_ns) 0.466
+C211          C211   ETABS 0.510 [E412_0.3X+Y]  program radial 0.468  program+emin 0.553  PRODUCTION(e_min+delta_ns) 0.466
+C311          C311   ETABS 0.420 [E412_0.3X+Y]  program radial 0.446  program+emin 0.450  PRODUCTION(e_min+delta_ns) 0.394
+C021          C021   ETABS 0.383 [E412_0.3X+Y]  program radial 0.418  program+emin 0.418  PRODUCTION(e_min+delta_ns) 0.387
+C121          C121   ETABS 0.411 [E412_0.3X+Y]  program radial 0.420  program+emin 0.445  PRODUCTION(e_min+delta_ns) 0.387
+C221          C221   ETABS 0.411 [E412_0.3X+Y]  program radial 0.420  program+emin 0.445  PRODUCTION(e_min+delta_ns) 0.387
+C321          C321   ETABS 0.383 [E412_0.3X+Y]  program radial 0.418  program+emin 0.418  PRODUCTION(e_min+delta_ns) 0.387
+C002          C002   ETABS 0.406 [E412_0.3X+Y]  program radial 0.438  program+emin 0.438  PRODUCTION(e_min+delta_ns) 0.418
+C102          C102   ETABS 0.376 [E412_0.3X+Y]  program radial 0.399  program+emin 0.403  PRODUCTION(e_min+delta_ns) 0.363
+C202          C202   ETABS 0.376 [E412_0.3X+Y]  program radial 0.399  program+emin 0.403  PRODUCTION(e_min+delta_ns) 0.363
+C302          C302   ETABS 0.406 [E412_0.3X+Y]  program radial 0.438  program+emin 0.438  PRODUCTION(e_min+delta_ns) 0.418
+C012          C012   ETABS 0.399 [E412_0.3X+Y]  program radial 0.442  program+emin 0.442  PRODUCTION(e_min+delta_ns) 0.406
+C112          C112   ETABS 0.401 [E412_0.3X+Y]  program radial 0.376  program+emin 0.434  PRODUCTION(e_min+delta_ns) 0.361
+C212          C212   ETABS 0.401 [E412_0.3X+Y]  program radial 0.376  program+emin 0.434  PRODUCTION(e_min+delta_ns) 0.361
+C312          C312   ETABS 0.399 [E412_0.3X+Y]  program radial 0.442  program+emin 0.442  PRODUCTION(e_min+delta_ns) 0.406
+C022          C022   ETABS 0.406 [E412_0.3X+Y]  program radial 0.438  program+emin 0.438  PRODUCTION(e_min+delta_ns) 0.418
+C122          C122   ETABS 0.376 [E412_0.3X+Y]  program radial 0.399  program+emin 0.403  PRODUCTION(e_min+delta_ns) 0.363
+C222          C222   ETABS 0.376 [E412_0.3X+Y]  program radial 0.399  program+emin 0.403  PRODUCTION(e_min+delta_ns) 0.363
+C322          C322   ETABS 0.406 [E412_0.3X+Y]  program radial 0.438  program+emin 0.438  PRODUCTION(e_min+delta_ns) 0.418
+C003          C003   ETABS 0.470 [E412_0.3X+Y]  program radial 0.506  program+emin 0.506  PRODUCTION(e_min+delta_ns) 0.494
+C103          C103   ETABS 0.408 [E412_0.3X+Y]  program radial 0.435  program+emin 0.435  PRODUCTION(e_min+delta_ns) 0.409
+C203          C203   ETABS 0.408 [E412_0.3X+Y]  program radial 0.435  program+emin 0.435  PRODUCTION(e_min+delta_ns) 0.409
+C303          C303   ETABS 0.470 [E412_0.3X+Y]  program radial 0.506  program+emin 0.506  PRODUCTION(e_min+delta_ns) 0.494
+C013          C013   ETABS 0.422 [E412_0.3X+Y]  program radial 0.470  program+emin 0.470  PRODUCTION(e_min+delta_ns) 0.445
+C113          C113   ETABS 0.372 [E412_0.3X+Y]  program radial 0.351  program+emin 0.408  PRODUCTION(e_min+delta_ns) 0.356
+C213          C213   ETABS 0.372 [E412_0.3X+Y]  program radial 0.351  program+emin 0.408  PRODUCTION(e_min+delta_ns) 0.356
+C313          C313   ETABS 0.422 [E412_0.3X+Y]  program radial 0.470  program+emin 0.470  PRODUCTION(e_min+delta_ns) 0.445
+C023          C023   ETABS 0.470 [E412_0.3X+Y]  program radial 0.506  program+emin 0.506  PRODUCTION(e_min+delta_ns) 0.494
+C123          C123   ETABS 0.408 [E412_0.3X+Y]  program radial 0.435  program+emin 0.435  PRODUCTION(e_min+delta_ns) 0.409
+C223          C223   ETABS 0.408 [E412_0.3X+Y]  program radial 0.435  program+emin 0.435  PRODUCTION(e_min+delta_ns) 0.409
+C323          C323   ETABS 0.470 [E412_0.3X+Y]  program radial 0.506  program+emin 0.506  PRODUCTION(e_min+delta_ns) 0.494
+C004          C004   ETABS 0.403 [E412_0.3X+Y]  program radial 0.429  program+emin 0.429  PRODUCTION(e_min+delta_ns) 0.425
+C104          C104   ETABS 0.348 [E412_0.3X+Y]  program radial 0.361  program+emin 0.361  PRODUCTION(e_min+delta_ns) 0.350
+C204          C204   ETABS 0.348 [E412_0.3X+Y]  program radial 0.361  program+emin 0.361  PRODUCTION(e_min+delta_ns) 0.350
+C304          C304   ETABS 0.403 [E412_0.3X+Y]  program radial 0.429  program+emin 0.429  PRODUCTION(e_min+delta_ns) 0.425
+C014          C014   ETABS 0.346 [E412_0.3X+Y]  program radial 0.373  program+emin 0.373  PRODUCTION(e_min+delta_ns) 0.362
+C114          C114   ETABS 0.201 [E412_0.3X+Y]  program radial 0.204  program+emin 0.221  PRODUCTION(e_min+delta_ns) 0.191
+C214          C214   ETABS 0.201 [E412_0.3X+Y]  program radial 0.204  program+emin 0.221  PRODUCTION(e_min+delta_ns) 0.191
+C314          C314   ETABS 0.346 [E412_0.3X+Y]  program radial 0.373  program+emin 0.373  PRODUCTION(e_min+delta_ns) 0.362
+C024          C024   ETABS 0.403 [E412_0.3X+Y]  program radial 0.429  program+emin 0.429  PRODUCTION(e_min+delta_ns) 0.425
+C124          C124   ETABS 0.348 [E412_0.3X+Y]  program radial 0.361  program+emin 0.361  PRODUCTION(e_min+delta_ns) 0.350
+C224          C224   ETABS 0.348 [E412_0.3X+Y]  program radial 0.361  program+emin 0.361  PRODUCTION(e_min+delta_ns) 0.350
+C324          C324   ETABS 0.403 [E412_0.3X+Y]  program radial 0.429  program+emin 0.429  PRODUCTION(e_min+delta_ns) 0.425
+SUMMARY E412_0.3X+Y: columns 48, max D/C ETABS 0.510, program 0.506, program+emin 0.553; program >= ETABS in 42 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.049, mean with emin 1.078, min 1.037, max 1.114, within +-10 % (emin): 44 / 48
+PRODUCTION E412_0.3X+Y: max D/C ETABS 0.510, production 0.494; production >= ETABS in 30 / 48; ratio production/ETABS min 0.902 max 1.055; within +-10 % 48 / 48
+done

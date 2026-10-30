@@ -63,9 +63,10 @@ Public Module ColumnDesign
     End Function
 
     'PCR-1 / PCR-2 (approved 2026-10-30): ACI 318M-14 minimum eccentricity (6.6.4.5.4: e_min = 15 mm + 0.03 h, one direction at a time) and non-sway moment magnification (6.6.4.5.2/3:
-    'EI = 0.4 Ec Ig / (1 + beta_dns), Pc = pi^2 EI / lu^2 (k = 1), delta_ns = Cm / (1 - Pu / (0.75 Pc)) >= 1, applied when lu/r > 34 - 12 M1/M2 (<= 40), r = 0.3 h; Cm = 0.6 + 0.4 M1/M2 >= 0.4).
+    'EI = 0.4 Ec Ig / (1 + beta_dns), Pc = pi^2 EI / lu^2 (k = 1), delta_ns = Cm / (1 - Pu / (0.75 Pc)) >= 1, applied when lu/r > 22 (sway frame, r = 0.3 h); Cm = 0.6 + 0.4 M1/M2 >= 0.4).
     'ETABS (V2b/V2d) applies e_min to every combination and delta_ns to the gravity combination only (sway combinations with P-Delta analysis: delta_s = 1).
     Public Const EminBase As Double = 15.24           'mm (0.6 in)
+    Public Const LuRatio As Double = 0.9              'unbraced length / element length (ETABS program-determined overwrite item 3/4, V2b dump)
     Public Const DcrCap As Double = 10.0              'D/C returned when Pu >= 0.75 Pc (buckling)
 
     'delta_ns of one bending direction. depth: section depth in the bending plane, width: the other dimension; lu mm; m1, m2: signed end moments (any sign convention with same-sign = single curvature)
@@ -74,14 +75,13 @@ Public Module ColumnDesign
         Dim big As Double = If(Math.Abs(mA) >= Math.Abs(mB), mA, mB), small As Double = If(Math.Abs(mA) >= Math.Abs(mB), mB, mA)
         Dim ratio As Double = If(Math.Abs(big) < 1.0E-9, 1.0, small / big)
         Dim r As Double = 0.3 * depth
-        If lu / r <= Math.Min(34.0 - 12.0 * ratio, 40.0) Then Return 1.0
+        If lu / r <= 22.0 Then Return 1.0                                     'sway frame limit (ACI 6.2.5(a)); ETABS framing type Sway Special applies it to the gravity combination as well
         Dim ig As Double = width * depth * depth * depth / 12.0
         Dim ei As Double = 0.4 * Aci.Ec(fc) * ig / (1.0 + Math.Min(Math.Max(betaDns, 0.0), 1.0))
         Dim pc As Double = Math.PI * Math.PI * ei / (lu * lu)
         Dim den As Double = 1.0 - pu / (0.75 * pc)
         If den <= 0.0 Then Return Double.PositiveInfinity
-        Dim cm As Double = Math.Max(0.6 + 0.4 * ratio, 0.4)
-        Return Math.Max(cm / den, 1.0)
+        Return Math.Max(1.0 / den, 1.0)                                       'Cm = 1 (ETABS value for sway frames; conservative against 0.6 + 0.4 M1/M2)
     End Function
 
     'Biaxial D/C with e_min (each direction on its own) and the magnification factors d3 (for M3) and d2 (for M2); pu N (compression +), moments N.mm magnitudes
@@ -129,7 +129,7 @@ Public Module ColumnDesign
                     Continue For
                 End If
                 Dim el = m.Elements(ei)
-                Dim lu As Double = (el.Length - el.OffsetI - el.OffsetJ) * 1000.0
+                Dim lu As Double = LuRatio * el.Length * 1000.0                 'ETABS: unbraced length ratio 0.9 (program determined) x element length
                 Dim pgI As Double = 1.4 * fa.Rg.FaceForce(m.PatternIndex("G"))(ei)(0) * 1000.0         'sustained part of U1 (1.4 G), end I; end J sign flips
                 For k As Integer = 0 To cs.Forces.Count - 1
                     Dim f = cs.Forces(k)(ei)

@@ -189,7 +189,7 @@ Module DesignProbe
                             For k As Integer = 0 To cs.Forces.Count - 1
                                 Dim f = cs.Forces(k)(ei)
                                 Dim puN As Double = If(endI = 0, f(0), -f(6)) * 1000.0
-                                Dim lu As Double = (e.Length - e.OffsetI - e.OffsetJ) * 1000.0
+                                Dim lu As Double = ColumnDesign.LuRatio * e.Length * 1000.0
                                 Dim pgI As Double = 1.4 * fa.Rg.FaceForce(fm.PatternIndex("G"))(ei)(0) * 1000.0
                                 Dim beta As Double = If(puN > 0.0, Math.Abs(pgI) / puN, 0.0)
                                 loads.Add({puN, Math.Abs(If(endI = 0, f(5), f(11))) * 1.0E6, Math.Abs(If(endI = 0, f(4), f(10))) * 1.0E6, ColumnDesign.DeltaNs(d.Fc, d.H, d.B, lu, puN, beta, -f(5) * 1.0E6, f(11) * 1.0E6), ColumnDesign.DeltaNs(d.Fc, d.B, d.H, lu, puN, beta, -f(4) * 1.0E6, f(10) * 1.0E6)})
@@ -202,7 +202,7 @@ Module DesignProbe
                         p2 = Math.Max(p2, ColumnDesign.DcrWithEffects(sx, sy, pu, m3, m2, ld(3), ld(4)))        'production constraint (ColumnDesign.CheckGroup), no e_min, linear sum
                         Dim emin As Double = If(pu > 0, pu * (15.24 + 0.03 * d.H), 0.0)
                         Dim emin2 As Double = If(pu > 0, pu * (15.24 + 0.03 * d.B), 0.0)
-                        p1 = Math.Max(p1, Math.Max(Radial(sx, sy, pu, Math.Max(m3, emin), m2), Radial(sx, sy, pu, m3, Math.Max(m2, emin2))))
+                        p1 = Math.Max(p1, Math.Max(Radial(sx, sy, pu, ld(3) * Math.Max(m3, emin), ld(4) * m2), Radial(sx, sy, pu, ld(3) * m3, ld(4) * Math.Max(m2, emin2))))
                     Next
                     Dim er As Double = byFrame(fr)
                     rows.Add(e.Name.PadRight(14) & fr.PadRight(6) & " ETABS " & er.ToString("F3", ci) & " [" & byCombo(fr) & "]  program radial " & p0.ToString("F3", ci) & "  program+emin " & p1.ToString("F3", ci) & "  PRODUCTION(e_min+delta_ns) " & p2.ToString("F3", ci))

@@ -1,0 +1,124 @@
+nodes=60 elements=116 colGroups=6 beamGroups=4
+OK   F1 element count (48 columns + 68 beams)  got=116 want=116
+OK   F1 column groups  got=6 want=6
+OK   F1 beam groups  got=4 want=4
+solve failed=False 
+OK   F2 sum Fz live  got=900 want=900
+OK   F2 sum Fz snow  got=112.5 want=112.5
+OK   F2 sum Fz dead (slab + wall + frame self weight)  got=6999.3 want=6999.3
+mass X=734.38 expected(self mass in G pattern counted once)=744.70 expected+selfW again=961.93
+mode 1 T=0.4260 mx=0.000 my=0.823
+mode 2 T=0.4105 mx=0.825 my=0.000
+mode 3 T=0.3718 mx=0.000 my=0.000
+mode 4 T=0.1451 mx=0.000 my=0.124
+mode 5 T=0.1414 mx=0.124 my=0.000
+mode 6 T=0.1287 mx=0.000 my=0.000
+sum mass ratio X=1.000 Y=1.000
+Vbase X=430.5 kN  Y=415.1 kN  W=7201.8
+OK   F3 total mass X = (G + 0.3Q + 0.3S - fixed-base half columns)/g  got=734.37922 want=733.23204
+OK   F3 total mass X = Y  got=734.37922 want=734.37922
+OK   F3 cumulative mass ratio X (12 modes)  got=1 want=1
+OK   F3 TBDY TA  got=0.062952646 want=0.063
+OK   F3 TBDY TB  got=0.31476323 want=0.3148
+OK   F3 design Sar at T=0.5 s = SD1/(T R)  got=0.0565 want=0.0565
+OK   F3 RS base shear X <= mass x Sar,max (CQC, 80% mass)  got=1 want=1
+OK   F4 U1 sum of ground column axial = 1.4G + 1.6(Q+S)  got=11419.02 want=11419.02
+OK   F4 Eq4.11 static part ground axial = (1+0.3*2/3*SDS)G + Q + 0.2S  got=8926.8995 want=8926.8995
+beam Bx001 face M3 I=53.89 J=-59.30 mid M3=35.98 mid V2=1.20 mid V3=0.00
+BEAM Bx_S12  MuTop=97.4 MuBot=51.5 kNm | plain AsTop=540 AsBot=540 (ok)  | SFRC AsTop=540 AsBot=540 (ok)
+BEAM By_S12  MuTop=100.0 MuBot=51.9 kNm | plain AsTop=540 AsBot=540 (ok)  | SFRC AsTop=540 AsBot=540 (ok)
+BEAM Bx_S34  MuTop=87.9 MuBot=55.7 kNm | plain AsTop=540 AsBot=540 (ok)  | SFRC AsTop=540 AsBot=540 (ok)
+BEAM By_S34  MuTop=89.7 MuBot=56.3 kNm | plain AsTop=540 AsBot=540 (ok)  | SFRC AsTop=540 AsBot=540 (ok)
+SMALL 250x300 plain AsTop=2080 AsBot=1040 (rho > 2 %) | SFRC AsTop=∞ AsBot=∞ (section too small)
+SMALL 250x350 plain AsTop=1002 AsBot=501 (ok) | SFRC AsTop=931 AsBot=485 (ok)
+SMALL 250x400 plain AsTop=823 AsBot=418 (ok) | SFRC AsTop=797 AsBot=412 (ok)
+OK   F5 hand As (phi 0.9)  got=1312.3168 want=1312.5
+OK   F5 RequiredAs equals hand As  got=1312.3168 want=1312.3168
+OK   F5 phiMn at hand As = Mu  got=2.5E+08 want=2.5E+08
+OK   F5 epsT >= 0.005 (tension-controlled)  got=1 want=1
+OK   F5 SFRC with fR = 0 equals plain RC  got=2.5E+08 want=2.5E+08
+COLUMN CCorner_S12 500x500 rho=1% n=8 Ø20 Nd=615 kN  D/C=0.35  g(A2)=-0.79  ok
+COLUMN CCorner_S12 500x500 rho=2% n=16 Ø20 Nd=615 kN  D/C=0.21  g(A2)=-0.79  ok
+COLUMN CEdge_S12 500x500 rho=1% n=8 Ø20 Nd=983 kN  D/C=0.30  g(A2)=-0.67  ok
+COLUMN CEdge_S12 500x500 rho=2% n=16 Ø20 Nd=983 kN  D/C=0.19  g(A2)=-0.67  ok
+COLUMN CInter_S12 500x500 rho=1% n=8 Ø20 Nd=1533 kN  D/C=0.24  g(A2)=-0.49  ok
+COLUMN CInter_S12 500x500 rho=2% n=16 Ø20 Nd=1533 kN  D/C=0.16  g(A2)=-0.49  ok
+COLUMN CCorner_S34 400x400 rho=1% n=6 Ø20 Nd=267 kN  D/C=0.57  g(A2)=-0.86  ok
+COLUMN CCorner_S34 400x400 rho=2% n=12 Ø20 Nd=267 kN  D/C=0.31  g(A2)=-0.86  ok
+COLUMN CEdge_S34 400x400 rho=1% n=6 Ø20 Nd=443 kN  D/C=0.50  g(A2)=-0.77  ok
+COLUMN CEdge_S34 400x400 rho=2% n=12 Ø20 Nd=443 kN  D/C=0.29  g(A2)=-0.77  ok
+COLUMN CInter_S34 400x400 rho=1% n=6 Ø20 Nd=724 kN  D/C=0.23  g(A2)=-0.62  ok
+COLUMN CInter_S34 400x400 rho=2% n=12 Ø20 Nd=724 kN  D/C=0.15  g(A2)=-0.62  ok
+OK   F6 Pn at c = 200  got=1680824 want=1680824
+OK   F6 Mn at c = 200  got=3.1364131E+08 want=3.1364131E+08
+OK   F6 phi at c = 200 (transition zone)  got=0.66293103 want=0.66293103
+OK   F6 Po = 0.85 fc (Ag - Ast) + fy Ast  got=4823615 want=4823615
+OK   F6 phiPn,max = 0.65 x 0.80 Po  got=2508279.8 want=2508279.8
+OK   F6 D/C = 1 on the interaction curve  got=1 want=1
+SHEAR Bx_S12  Vdy=65.0 Vseis=63.9 Ve=128.9 kN ln=4500  Vc=0:False  s_conf=135 s_mid=270 mm  g(7.10)=-0.83 ok
+SHEAR By_S12  Vdy=65.0 Vseis=63.9 Ve=128.9 kN ln=4500  Vc=0:False  s_conf=135 s_mid=270 mm  g(7.10)=-0.83 ok
+SHEAR Bx_S34  Vdy=65.4 Vseis=62.5 Ve=127.9 kN ln=4600  Vc=0:False  s_conf=135 s_mid=270 mm  g(7.10)=-0.83 ok
+SHEAR By_S34  Vdy=65.4 Vseis=62.5 Ve=127.9 kN ln=4600  Vc=0:False  s_conf=135 s_mid=270 mm  g(7.10)=-0.83 ok
+OK   F7 Mr(top) = Mr(bottom) for equal steel  got=1.0268419E+08 want=1.0268419E+08
+OK   F7 Vseis = 1.4 (Mr,top + Mr,bot)/ln  got=63892.382 want=63892.382
+OK   F7 Ve = Vdy + Vseis  got=128900.51 want=128900.51
+OK   F7 Av/s in confinement zone = max((Ve/phi - Vc)/(fyt d), Av,min/s)  got=0.25 want=0.25
+F7 note: Vc = 0 switch ZeroVc=False (Vseis/Ve = 0.496; rule is discontinuous at 0.5)
+OK   F8 phiMn at the axial load of a known curve point  got=2.0792256E+08 want=2.0792256E+08
+OK   F8 TS 500 Mr (no phi) at Pn of a known point = its Mn  got=2.3245307E+08 want=2.3245307E+08
+OK   F9 TS 500 k1 (C30) = 0.82  got=0.82 want=0.82
+OK   F10 4D C30 dose 22.5 in grid  got=1 want=1
+OK   F10 4D C30 22.5 fR1 = 3.0  got=3 want=3
+OK   F10 4D C30 22.5 fR3 = 3.75  got=3.75 want=3.75
+OK   F10 4D C40 40 kg/m3 not measured  got=0 want=0
+OK   F10 5D C30 20 kg/m3 not measured  got=0 want=0
+OK   F10 4D C35 not measured  got=0 want=0
+OK   F10 5D C40 35 fR3 = 6.4  got=6.4 want=6.4
+OK   F11 YAKO uses exactly MaxFEs  got=4000 want=4000
+OK   F11 YAKO same seed reproducible  got=0 want=0
+OK   F11 YAKO different seed differs  got=1 want=1
+OK   F11 YAKO beats random mean (~3700) by 10x  got=1 want=1
+   YAKO best f=0
+OK   F11 BTO uses exactly MaxFEs  got=4000 want=4000
+OK   F11 BTO same seed reproducible  got=7 want=7
+OK   F11 BTO different seed differs  got=1 want=1
+OK   F11 BTO beats random mean (~3700) by 10x  got=1 want=1
+   BTO best f=7
+OK   F11 ATO uses exactly MaxFEs  got=4000 want=4000
+OK   F11 ATO same seed reproducible  got=0 want=0
+OK   F11 ATO different seed differs  got=1 want=1
+OK   F11 ATO beats random mean (~3700) by 10x  got=1 want=1
+   ATO best f=0
+OK   F9 fcd (C30) = 20  got=20 want=20
+OK   F9 fyd (420) = 365.22  got=365.21739 want=365.2174
+CSHEAR CCorner_S12 Ve(x)=303 Ve(y)=303 kN  legs=3/3  s_conf=83 s_mid=165 lk=750 mm  g(7.7)=-0.74 ok
+CSHEAR CEdge_S12 Ve(x)=342 Ve(y)=342 kN  legs=3/3  s_conf=83 s_mid=165 lk=750 mm  g(7.7)=-0.71 ok
+CSHEAR CInter_S12 Ve(x)=388 Ve(y)=388 kN  legs=3/3  s_conf=55 s_mid=110 lk=750 mm  g(7.7)=-0.67 ok
+CSHEAR CCorner_S34 Ve(x)=164 Ve(y)=164 kN  legs=3/3  s_conf=80 s_mid=160 lk=600 mm  g(7.7)=-0.78 ok
+CSHEAR CEdge_S34 Ve(x)=185 Ve(y)=185 kN  legs=3/3  s_conf=80 s_mid=160 lk=600 mm  g(7.7)=-0.75 ok
+CSHEAR CInter_S34 Ve(x)=213 Ve(y)=213 kN  legs=3/3  s_conf=80 s_mid=160 lk=600 mm  g(7.7)=-0.71 ok
+DRIFT T1=0.615 lambda=0.403 max lambda*delta/h=0.00209 (story 2, dir 1)  g=-0.74
+A5 joints=72 exempt(Nd<=0.1 Ac fck)=48 worst g (non-exempt)=-0.14  (g > 0 = weak column)
+JOINT SHEAR joints=96 confined=8 worst g=-0.35 at J104x
+EVAL plain: cost=1485451 TL (concrete 292707, rebar 681288, formwork 511456, fibre 0)  T=0.000  Fpen=1485451  steel=9794 kg concrete=80.2 m3
+EVAL sample fibre 25 kg/m3: cost=1610758 TL (fibre 125307)  T=0.000  steel=9794 kg
+EVALTIME per evaluation = 178 ms
+OK   F12 NVars = 44  got=44 want=44
+OK   F12 col b = 500  got=500 want=500
+OK   F12 col rho = 1.25 %  got=0.0125 want=0.0125
+OK   F12 beam h = 600  got=600 want=600
+OK   F12 dose repaired 40 -> 35 (4D C40)  got=35 want=35
+F12 fibre trial: cost=1776542 T=0.000 Fpen=1776542
+OK   F12 parallel evaluations identical  got=0 want=0
+OK   F12 parallel = serial  got=1776542.1 want=1776542.1
+F12 ATO 200 FEs: best Fpen=2050657 (35046 ms)
+OK   F12 ATO used 200 FEs  got=200 want=200
+PROFILE analyze = 76 ms
+PROFILE col CheckGroup = 75 ms
+PROFILE col shear = 11 ms
+PROFILE beam flexure = 3 ms
+PROFILE drift = 0 ms
+PROFILE strong column = 1 ms
+PROFILE joint shear = 0 ms
+combos=5  T1(cracked)=0.615 s  Vx=305.1 Vy=294.0 W=7201.8
+PASS=62 FAIL=0
