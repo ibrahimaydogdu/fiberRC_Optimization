@@ -26,3 +26,27 @@ Hazırlayan: Claude Code. Durum: **V2 (FEM ↔ ETABS) kısmen geçti**; ayrınt�
 
 ## 2. Açık kapılar
 V0 (ortam), V1 (EDB modelleri), V2 (referans örnekler), V3–V5: açık.
+
+---
+
+## V2b: kolon tasarım oranı, ETABS Concrete Frame Design (ACI 318-14) ↔ program (2026-10-30)
+
+**Yöntem.** Ö1 deneme tasarımının 48 kolonu için ETABS 22.6.0'da (OAPI: `PropFrame.SetRebarColumn`, `DesignConcrete.SetCode("ACI 318-14")`, `SetComboStrength`, `StartDesign`, `GetSummaryResultsColumn`) her yük birleşimi ayrı ayrı tasarlandı (U1; TBDY Denk. 4.11 ve 4.12, E = X+0,3Y ve 0,3X+Y). Aynı birleşim ve aynı donatı düzeni (yüz başına 5 veya 4 çubuk, Ø20, etriye Ø10, pas payı 40 mm, ağırlık merkezi 60 mm) programa verildi. Karşılaştırılan: ETABS `PMMRatio` (3B radyal ışın OL/OC; CFD-ACI-318-14 s. 32) ↔ programın radyal oranı (kendi doğrusal toplam etkileşiminin orijinden ışın ölçeği, `Radial` in `EtabsProbe/Design.vb`) ve ETABS'in minimum dışmerkezliği (0,6 + 0,03h in) eklenmiş değişkeni. Kuvvetler V2a'da ≤%0,002 uyumlu olduğundan fark tasarım algoritmasından gelir. Ham günlük: `03_Code_Execution/runs/V2b_column_design_log_2026-10-30.txt`.
+
+**Bulgu (program hatası, düzeltildi).** İlk koşuda program, deprem birleşimlerinde G ± E çiftini yalnız (+,+) / (−,−) işaretlerle değerlendiriyordu; RS büyüklükleri işaret taşımadığı için çift eksenli kolonlarda ETABS'e göre %28'e kadar düşük D/C çıktı (ör. C003: ETABS 0,185, program 0,133). `ColumnDesign.CheckGroup` artık P, M2, M3 için tüm 8 işaret desenini tarıyor. Testler PASS=62.
+
+**Sonuç (düzeltmeden sonra, 48 kolon, her birleşim).**
+
+| Birleşim | Maks D/C ETABS | Maks D/C program | Program ≥ ETABS (emin'li) | Oran program/ETABS (min–maks, emin'li) |
+|---|---|---|---|---|
+| U1 1,4G+1,6(Q+S) | 0,354 | 0,353 | 40 / 48 | 0,983 – 1,169 |
+| 4.11 X+0,3Y | 0,295 | 0,317 | 46 / 48 | 0,996 – 1,210 |
+| 4.12 X+0,3Y | 0,197 | 0,220 | 48 / 48 | 1,031 – 1,180 |
+| 4.11 0,3X+Y | 0,297 | 0,323 | 44 / 48 | 0,988 – 1,213 |
+| 4.12 0,3X+Y | 0,201 | 0,225 | 48 / 48 | 1,034 – 1,182 |
+
+Yorum: programın D/C'si ETABS'in %1,7 altından %21 üstüne dağılır; kritik (en büyük) D/C'de fark ≤%0,3 (gravite) ve +%7–12 (deprem, güvenli yönde). Deprem birleşimlerindeki fazlalık, FemCore'un ek dış merkezlik burulmasını ETABS'ten büyük hesaplamasıyla (V2a) ve 8 işaret deseninin muhafazakârlığıyla uyumludur; nedenleri ayrıştırılmadı.
+
+**Sınırlar (kapsam dışı kalan).** Yalnız kolon P-M-M oranı karşılaştırıldı. Yapılmadı: kiriş As ↔ ETABS, kesme Av/s, güçlü kolon–zayıf kiriş, birleşim kesmesi, SFRC kirişler (ETABS lifli kesiti tasarlamaz; lifli kirişler V2c'de ayrıca, ETABS'te kesit kapasitesi dışarıdan doğrulanacak). Program dönmüş çift eksenli yüzeyi değil doğrusal toplamı kullanır; yalnız kolon geometrisi simetrik (yüz başına n çubuk) iken karşılaştırıldı, programın optimizasyondaki çevre düzeni (üst/alt sıralarda çok çubuk) bununla aynı değildir. Narinlik/P-Δ programda yok (ETABS δns uygular); bu denemede etkisi ayrıca ölçülmedi. Tek bir deneme tasarımı ve en büyük D/C 0,35 olduğundan etkileşim yüzeyinin yüksek D/C bölgesi sınanmadı.
+
+**Durum:** V2b (kolon) **kısmen geçti**: program ETABS'in kolon D/C'sini ≤%1,7 sapmayla (altta) ve genelde güvenli yönde yakalıyor; yüksek D/C ve kiriş/kesme bölümleri açık. Critic görüşü bekler.

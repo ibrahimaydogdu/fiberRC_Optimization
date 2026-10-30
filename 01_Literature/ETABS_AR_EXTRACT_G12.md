@@ -24,6 +24,12 @@ Kaynak: `Evidence/DesignGuides/CSI Analysis Reference Manual.pdf` · SHA-256 `f5
 - Kılavuzda aranan terimler: "accidental", "eccentricity ratio", RS eccentricity. Sonuç: **BULUNAMADI**. Tek eşleşen PDF s. 461 köprü hareketli yük bölümüdür (ilgisiz). 
 - Sonuç: FemCore ↔ ETABS %2–6'lık fark bu kılavuzla **açıklanamaz**. Gerekli kaynak: ETABS Help ("Diaphragm Eccentricity", "Response Spectrum Case Data: Eccentricity"), ETABS Verification/Theory notu ya da CSI teknik bilgi tabanı.
 
+## 4b. ETABS.chm (Help) ile tamamlama
+Kaynak: `Evidence/ETABS_Help/ETABS.chm` (hh.exe -decompile; metin: `01_Literature/ETABS_Help_text/ETABS_chm.txt`, 644 sayfa) ve `CSI API ETABS v1.chm` (`CSI_API_ETABS_v1_chm.txt`, 1707 sayfa).
+- Sayfa: *Define > Load Cases > Response Spectrum* (`Menus/Define/Load_Cases/Response_Spectrum.htm`). Alıntı: "ETABS applies a moment that is equal to the specified percent eccentricity times the maximum width of the diaphragm perpendicular to the direction of the seismic loading times the total lateral force applied to the diaphragm. This moment is applied about the diaphragm center of mass". Genişlik: diyafram kısıtındaki noktaların maks-min X veya Y farkı.
+- Durum: **DOĞRULANDI** (formül). FemCore (`FemModal.AddAccidentalTorsion`): M_k = F_k × ecc × genişlik, aynı geometrik tanım → girdiler uyumlu. **Doğrulanamayan:** (i) "total lateral force applied to the diaphragm" RS için hangi büyüklük (CQC kat atalet kuvveti mi, kat kesmesi mi), (ii) burulma yanıtının RS yanıtıyla birleştirilme kuralı (FemCore mutlak toplam). %2–6 farkı bu iki noktadan biri olabilir; Help'te bunlar yazılı değil → farkın kökü hâlâ **DOĞRULANAMADI**. Test: ETABS'te ek dış merkezlik 0 ve %5 durumlarının farkı ile FemCore'un sadece torsiyon yanıtı (ETABS'te statik burulma yükü) karşılaştırılacak.
+- **API (V2b için):** `DesignConcrete.SetCode("ACI 318-14")` / `"TS 500-2000(R2018)"`, `SetComboStrength(name, True)`, `StartDesign()` (analiz sonucu gerekir), `GetSummaryResultsColumn(...)` → PMMRatio (MyOption=1, kontrol), PMMArea (MyOption=2, tasarım), AVMajor/AVMinor (Av/s), `GetSummaryResultsBeam(...)` → TopArea/BotArea/VMajorArea; `PropFrame.SetRebarColumn(Name, matLong, matConf, Pattern=1, ConfineType, Cover, NCBars, NR3Bars, NR2Bars, RebarSize, TieSize, TieSpacing, N2DirTie, N3DirTie, ToBeDesigned=False)` ve `SetRebarBeam(Name, matLong, matConf, CoverTop, CoverBot, TopLeftArea, ...)`. Hepsi `CSI_API_ETABS_v1_chm.txt` içinde.
+
 ## 5. Özet tablo
 | Kalem | Durum |
 |---|---|

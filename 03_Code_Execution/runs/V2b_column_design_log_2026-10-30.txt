@@ -1,0 +1,253 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+ETABS ERROR ret=1 in SetDiaphragm
+rebar size names accepted: 20/10
+combinations in model: U1
+=== design combo U1 (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=858
+C001          C001   ETABS 0.144 [U1]  program radial 0.154  program+emin 0.154
+C101          C101   ETABS 0.227 [U1]  program radial 0.226  program+emin 0.235
+C201          C201   ETABS 0.227 [U1]  program radial 0.226  program+emin 0.235
+C301          C301   ETABS 0.144 [U1]  program radial 0.154  program+emin 0.154
+C011          C011   ETABS 0.228 [U1]  program radial 0.226  program+emin 0.235
+C111          C111   ETABS 0.354 [U1]  program radial 0.353  program+emin 0.353
+C211          C211   ETABS 0.354 [U1]  program radial 0.353  program+emin 0.353
+C311          C311   ETABS 0.228 [U1]  program radial 0.226  program+emin 0.235
+C021          C021   ETABS 0.144 [U1]  program radial 0.154  program+emin 0.154
+C121          C121   ETABS 0.227 [U1]  program radial 0.226  program+emin 0.235
+C221          C221   ETABS 0.227 [U1]  program radial 0.226  program+emin 0.235
+C321          C321   ETABS 0.144 [U1]  program radial 0.154  program+emin 0.154
+C002          C002   ETABS 0.163 [U1]  program radial 0.190  program+emin 0.190
+C102          C102   ETABS 0.197 [U1]  program radial 0.188  program+emin 0.217
+C202          C202   ETABS 0.197 [U1]  program radial 0.188  program+emin 0.217
+C302          C302   ETABS 0.163 [U1]  program radial 0.190  program+emin 0.190
+C012          C012   ETABS 0.197 [U1]  program radial 0.186  program+emin 0.217
+C112          C112   ETABS 0.259 [U1]  program radial 0.258  program+emin 0.258
+C212          C212   ETABS 0.259 [U1]  program radial 0.258  program+emin 0.258
+C312          C312   ETABS 0.197 [U1]  program radial 0.186  program+emin 0.217
+C022          C022   ETABS 0.163 [U1]  program radial 0.190  program+emin 0.190
+C122          C122   ETABS 0.197 [U1]  program radial 0.188  program+emin 0.217
+C222          C222   ETABS 0.197 [U1]  program radial 0.188  program+emin 0.217
+C322          C322   ETABS 0.163 [U1]  program radial 0.190  program+emin 0.190
+C003          C003   ETABS 0.196 [U1]  program radial 0.222  program+emin 0.222
+C103          C103   ETABS 0.210 [U1]  program radial 0.197  program+emin 0.231
+C203          C203   ETABS 0.210 [U1]  program radial 0.197  program+emin 0.231
+C303          C303   ETABS 0.196 [U1]  program radial 0.222  program+emin 0.222
+C013          C013   ETABS 0.210 [U1]  program radial 0.192  program+emin 0.229
+C113          C113   ETABS 0.253 [U1]  program radial 0.250  program+emin 0.250
+C213          C213   ETABS 0.253 [U1]  program radial 0.250  program+emin 0.250
+C313          C313   ETABS 0.210 [U1]  program radial 0.192  program+emin 0.229
+C023          C023   ETABS 0.196 [U1]  program radial 0.222  program+emin 0.222
+C123          C123   ETABS 0.210 [U1]  program radial 0.197  program+emin 0.231
+C223          C223   ETABS 0.210 [U1]  program radial 0.197  program+emin 0.231
+C323          C323   ETABS 0.196 [U1]  program radial 0.222  program+emin 0.222
+C004          C004   ETABS 0.240 [U1]  program radial 0.265  program+emin 0.265
+C104          C104   ETABS 0.222 [U1]  program radial 0.213  program+emin 0.223
+C204          C204   ETABS 0.222 [U1]  program radial 0.213  program+emin 0.223
+C304          C304   ETABS 0.240 [U1]  program radial 0.265  program+emin 0.265
+SUMMARY U1: columns 48, max D/C ETABS 0.354, program 0.353, program+emin 0.353; program >= ETABS in 16 / 48 (with emin 40)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.015, mean with emin 1.067, min 0.983, max 1.169, within +-10 % (emin): 30 / 48
+ETABS ERROR ret=1 in SetDiaphragm
+rebar size names accepted: 20/10
+tables applied: fatal=0 errors=0 warnings=0
+table Mass Source Definition ret=0 records=3 fields=Name|IsDefault|IncLateral|IncVertical|LumpMass|SourceSelf|SourceAdded|SourceLoads|MoveMass|RatioX|RatioY|LoadPattern|Multiplier|GUID
+   MsSrc1|Yes|Yes|No|Yes|No|No|Yes|No|||G|1|77e51724-295b-402c-a06f-84f1d41ae443
+   MsSrc1|||||||||||Q|0.3|
+   MsSrc1|||||||||||S|0.3|
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+combinations in model: E411_X+0.3Y, E412_X+0.3Y, E411_0.3X+Y, E412_0.3X+Y
+=== design combo E411_X+0.3Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=858
+C001          C001   ETABS 0.196 [E411_X+0.3Y]  program radial 0.238  program+emin 0.238
+C101          C101   ETABS 0.223 [E411_X+0.3Y]  program radial 0.255  program+emin 0.255
+C201          C201   ETABS 0.223 [E411_X+0.3Y]  program radial 0.255  program+emin 0.255
+C301          C301   ETABS 0.196 [E411_X+0.3Y]  program radial 0.238  program+emin 0.238
+C011          C011   ETABS 0.227 [E411_X+0.3Y]  program radial 0.253  program+emin 0.253
+C111          C111   ETABS 0.295 [E411_X+0.3Y]  program radial 0.296  program+emin 0.317
+C211          C211   ETABS 0.295 [E411_X+0.3Y]  program radial 0.296  program+emin 0.317
+C311          C311   ETABS 0.227 [E411_X+0.3Y]  program radial 0.253  program+emin 0.253
+C021          C021   ETABS 0.196 [E411_X+0.3Y]  program radial 0.238  program+emin 0.238
+C121          C121   ETABS 0.223 [E411_X+0.3Y]  program radial 0.255  program+emin 0.255
+C221          C221   ETABS 0.223 [E411_X+0.3Y]  program radial 0.255  program+emin 0.255
+C321          C321   ETABS 0.196 [E411_X+0.3Y]  program radial 0.238  program+emin 0.238
+C002          C002   ETABS 0.182 [E411_X+0.3Y]  program radial 0.210  program+emin 0.210
+C102          C102   ETABS 0.188 [E411_X+0.3Y]  program radial 0.224  program+emin 0.224
+C202          C202   ETABS 0.188 [E411_X+0.3Y]  program radial 0.224  program+emin 0.224
+C302          C302   ETABS 0.182 [E411_X+0.3Y]  program radial 0.210  program+emin 0.210
+C012          C012   ETABS 0.187 [E411_X+0.3Y]  program radial 0.206  program+emin 0.206
+C112          C112   ETABS 0.212 [E411_X+0.3Y]  program radial 0.209  program+emin 0.226
+C212          C212   ETABS 0.212 [E411_X+0.3Y]  program radial 0.209  program+emin 0.226
+C312          C312   ETABS 0.187 [E411_X+0.3Y]  program radial 0.206  program+emin 0.206
+C022          C022   ETABS 0.182 [E411_X+0.3Y]  program radial 0.210  program+emin 0.210
+C122          C122   ETABS 0.188 [E411_X+0.3Y]  program radial 0.224  program+emin 0.224
+C222          C222   ETABS 0.188 [E411_X+0.3Y]  program radial 0.224  program+emin 0.224
+C322          C322   ETABS 0.182 [E411_X+0.3Y]  program radial 0.210  program+emin 0.210
+C003          C003   ETABS 0.254 [E411_X+0.3Y]  program radial 0.269  program+emin 0.269
+C103          C103   ETABS 0.236 [E411_X+0.3Y]  program radial 0.273  program+emin 0.273
+C203          C203   ETABS 0.236 [E411_X+0.3Y]  program radial 0.273  program+emin 0.273
+C303          C303   ETABS 0.254 [E411_X+0.3Y]  program radial 0.269  program+emin 0.269
+C013          C013   ETABS 0.230 [E411_X+0.3Y]  program radial 0.254  program+emin 0.254
+C113          C113   ETABS 0.222 [E411_X+0.3Y]  program radial 0.231  program+emin 0.247
+C213          C213   ETABS 0.222 [E411_X+0.3Y]  program radial 0.231  program+emin 0.247
+C313          C313   ETABS 0.230 [E411_X+0.3Y]  program radial 0.254  program+emin 0.254
+C023          C023   ETABS 0.254 [E411_X+0.3Y]  program radial 0.269  program+emin 0.269
+C123          C123   ETABS 0.236 [E411_X+0.3Y]  program radial 0.273  program+emin 0.273
+C223          C223   ETABS 0.236 [E411_X+0.3Y]  program radial 0.273  program+emin 0.273
+C323          C323   ETABS 0.254 [E411_X+0.3Y]  program radial 0.269  program+emin 0.269
+C004          C004   ETABS 0.259 [E411_X+0.3Y]  program radial 0.297  program+emin 0.297
+C104          C104   ETABS 0.243 [E411_X+0.3Y]  program radial 0.252  program+emin 0.252
+C204          C204   ETABS 0.243 [E411_X+0.3Y]  program radial 0.252  program+emin 0.252
+C304          C304   ETABS 0.259 [E411_X+0.3Y]  program radial 0.297  program+emin 0.297
+SUMMARY E411_X+0.3Y: columns 48, max D/C ETABS 0.295, program 0.297, program+emin 0.317; program >= ETABS in 44 / 48 (with emin 46)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.110, mean with emin 1.119, min 0.996, max 1.210, within +-10 % (emin): 14 / 48
+=== design combo E412_X+0.3Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=858
+C001          C001   ETABS 0.172 [E412_X+0.3Y]  program radial 0.203  program+emin 0.203
+C101          C101   ETABS 0.177 [E412_X+0.3Y]  program radial 0.208  program+emin 0.208
+C201          C201   ETABS 0.177 [E412_X+0.3Y]  program radial 0.208  program+emin 0.208
+C301          C301   ETABS 0.172 [E412_X+0.3Y]  program radial 0.203  program+emin 0.203
+C011          C011   ETABS 0.174 [E412_X+0.3Y]  program radial 0.205  program+emin 0.205
+C111          C111   ETABS 0.197 [E412_X+0.3Y]  program radial 0.214  program+emin 0.216
+C211          C211   ETABS 0.197 [E412_X+0.3Y]  program radial 0.214  program+emin 0.216
+C311          C311   ETABS 0.174 [E412_X+0.3Y]  program radial 0.205  program+emin 0.205
+C021          C021   ETABS 0.172 [E412_X+0.3Y]  program radial 0.203  program+emin 0.203
+C121          C121   ETABS 0.177 [E412_X+0.3Y]  program radial 0.208  program+emin 0.208
+C221          C221   ETABS 0.177 [E412_X+0.3Y]  program radial 0.208  program+emin 0.208
+C321          C321   ETABS 0.172 [E412_X+0.3Y]  program radial 0.203  program+emin 0.203
+C002          C002   ETABS 0.129 [E412_X+0.3Y]  program radial 0.145  program+emin 0.145
+C102          C102   ETABS 0.141 [E412_X+0.3Y]  program radial 0.167  program+emin 0.167
+C202          C202   ETABS 0.141 [E412_X+0.3Y]  program radial 0.167  program+emin 0.167
+C302          C302   ETABS 0.129 [E412_X+0.3Y]  program radial 0.145  program+emin 0.145
+C012          C012   ETABS 0.127 [E412_X+0.3Y]  program radial 0.148  program+emin 0.148
+C112          C112   ETABS 0.138 [E412_X+0.3Y]  program radial 0.149  program+emin 0.152
+C212          C212   ETABS 0.138 [E412_X+0.3Y]  program radial 0.149  program+emin 0.152
+C312          C312   ETABS 0.127 [E412_X+0.3Y]  program radial 0.148  program+emin 0.148
+C022          C022   ETABS 0.129 [E412_X+0.3Y]  program radial 0.145  program+emin 0.145
+C122          C122   ETABS 0.141 [E412_X+0.3Y]  program radial 0.167  program+emin 0.167
+C222          C222   ETABS 0.141 [E412_X+0.3Y]  program radial 0.167  program+emin 0.167
+C322          C322   ETABS 0.129 [E412_X+0.3Y]  program radial 0.145  program+emin 0.145
+C003          C003   ETABS 0.185 [E412_X+0.3Y]  program radial 0.196  program+emin 0.196
+C103          C103   ETABS 0.186 [E412_X+0.3Y]  program radial 0.207  program+emin 0.207
+C203          C203   ETABS 0.186 [E412_X+0.3Y]  program radial 0.207  program+emin 0.207
+C303          C303   ETABS 0.185 [E412_X+0.3Y]  program radial 0.196  program+emin 0.196
+C013          C013   ETABS 0.171 [E412_X+0.3Y]  program radial 0.190  program+emin 0.190
+C113          C113   ETABS 0.167 [E412_X+0.3Y]  program radial 0.185  program+emin 0.185
+C213          C213   ETABS 0.167 [E412_X+0.3Y]  program radial 0.185  program+emin 0.185
+C313          C313   ETABS 0.171 [E412_X+0.3Y]  program radial 0.190  program+emin 0.190
+C023          C023   ETABS 0.185 [E412_X+0.3Y]  program radial 0.196  program+emin 0.196
+C123          C123   ETABS 0.186 [E412_X+0.3Y]  program radial 0.207  program+emin 0.207
+C223          C223   ETABS 0.186 [E412_X+0.3Y]  program radial 0.207  program+emin 0.207
+C323          C323   ETABS 0.185 [E412_X+0.3Y]  program radial 0.196  program+emin 0.196
+C004          C004   ETABS 0.190 [E412_X+0.3Y]  program radial 0.220  program+emin 0.220
+C104          C104   ETABS 0.186 [E412_X+0.3Y]  program radial 0.201  program+emin 0.201
+C204          C204   ETABS 0.186 [E412_X+0.3Y]  program radial 0.201  program+emin 0.201
+C304          C304   ETABS 0.190 [E412_X+0.3Y]  program radial 0.220  program+emin 0.220
+SUMMARY E412_X+0.3Y: columns 48, max D/C ETABS 0.197, program 0.220, program+emin 0.220; program >= ETABS in 48 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.125, mean with emin 1.126, min 1.031, max 1.180, within +-10 % (emin): 12 / 48
+=== design combo E411_0.3X+Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=858
+C001          C001   ETABS 0.202 [E411_0.3X+Y]  program radial 0.245  program+emin 0.245
+C101          C101   ETABS 0.231 [E411_0.3X+Y]  program radial 0.257  program+emin 0.258
+C201          C201   ETABS 0.231 [E411_0.3X+Y]  program radial 0.257  program+emin 0.258
+C301          C301   ETABS 0.202 [E411_0.3X+Y]  program radial 0.245  program+emin 0.245
+C011          C011   ETABS 0.227 [E411_0.3X+Y]  program radial 0.260  program+emin 0.260
+C111          C111   ETABS 0.297 [E411_0.3X+Y]  program radial 0.297  program+emin 0.323
+C211          C211   ETABS 0.297 [E411_0.3X+Y]  program radial 0.297  program+emin 0.323
+C311          C311   ETABS 0.227 [E411_0.3X+Y]  program radial 0.260  program+emin 0.260
+C021          C021   ETABS 0.202 [E411_0.3X+Y]  program radial 0.245  program+emin 0.245
+C121          C121   ETABS 0.231 [E411_0.3X+Y]  program radial 0.257  program+emin 0.258
+C221          C221   ETABS 0.231 [E411_0.3X+Y]  program radial 0.257  program+emin 0.258
+C321          C321   ETABS 0.202 [E411_0.3X+Y]  program radial 0.245  program+emin 0.245
+C002          C002   ETABS 0.185 [E411_0.3X+Y]  program radial 0.213  program+emin 0.213
+C102          C102   ETABS 0.191 [E411_0.3X+Y]  program radial 0.208  program+emin 0.210
+C202          C202   ETABS 0.191 [E411_0.3X+Y]  program radial 0.208  program+emin 0.210
+C302          C302   ETABS 0.185 [E411_0.3X+Y]  program radial 0.213  program+emin 0.213
+C012          C012   ETABS 0.192 [E411_0.3X+Y]  program radial 0.232  program+emin 0.232
+C112          C112   ETABS 0.216 [E411_0.3X+Y]  program radial 0.212  program+emin 0.232
+C212          C212   ETABS 0.216 [E411_0.3X+Y]  program radial 0.212  program+emin 0.232
+C312          C312   ETABS 0.192 [E411_0.3X+Y]  program radial 0.232  program+emin 0.232
+C022          C022   ETABS 0.185 [E411_0.3X+Y]  program radial 0.213  program+emin 0.213
+C122          C122   ETABS 0.191 [E411_0.3X+Y]  program radial 0.208  program+emin 0.210
+C222          C222   ETABS 0.191 [E411_0.3X+Y]  program radial 0.208  program+emin 0.210
+C322          C322   ETABS 0.185 [E411_0.3X+Y]  program radial 0.213  program+emin 0.213
+C003          C003   ETABS 0.257 [E411_0.3X+Y]  program radial 0.274  program+emin 0.274
+C103          C103   ETABS 0.233 [E411_0.3X+Y]  program radial 0.256  program+emin 0.256
+C203          C203   ETABS 0.233 [E411_0.3X+Y]  program radial 0.256  program+emin 0.256
+C303          C303   ETABS 0.257 [E411_0.3X+Y]  program radial 0.274  program+emin 0.274
+C013          C013   ETABS 0.244 [E411_0.3X+Y]  program radial 0.282  program+emin 0.282
+C113          C113   ETABS 0.227 [E411_0.3X+Y]  program radial 0.235  program+emin 0.254
+C213          C213   ETABS 0.227 [E411_0.3X+Y]  program radial 0.235  program+emin 0.254
+C313          C313   ETABS 0.244 [E411_0.3X+Y]  program radial 0.282  program+emin 0.282
+C023          C023   ETABS 0.257 [E411_0.3X+Y]  program radial 0.274  program+emin 0.274
+C123          C123   ETABS 0.233 [E411_0.3X+Y]  program radial 0.256  program+emin 0.256
+C223          C223   ETABS 0.233 [E411_0.3X+Y]  program radial 0.256  program+emin 0.256
+C323          C323   ETABS 0.257 [E411_0.3X+Y]  program radial 0.274  program+emin 0.274
+C004          C004   ETABS 0.264 [E411_0.3X+Y]  program radial 0.302  program+emin 0.302
+C104          C104   ETABS 0.236 [E411_0.3X+Y]  program radial 0.233  program+emin 0.233
+C204          C204   ETABS 0.236 [E411_0.3X+Y]  program radial 0.233  program+emin 0.233
+C304          C304   ETABS 0.264 [E411_0.3X+Y]  program radial 0.302  program+emin 0.302
+SUMMARY E411_0.3X+Y: columns 48, max D/C ETABS 0.297, program 0.302, program+emin 0.323; program >= ETABS in 40 / 48 (with emin 44)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.099, mean with emin 1.111, min 0.988, max 1.213, within +-10 % (emin): 24 / 48
+=== design combo E412_0.3X+Y (StartDesign ret=0)
+GetSummaryResultsColumn ret=0 items=858
+C001          C001   ETABS 0.177 [E412_0.3X+Y]  program radial 0.208  program+emin 0.208
+C101          C101   ETABS 0.178 [E412_0.3X+Y]  program radial 0.209  program+emin 0.209
+C201          C201   ETABS 0.178 [E412_0.3X+Y]  program radial 0.209  program+emin 0.209
+C301          C301   ETABS 0.177 [E412_0.3X+Y]  program radial 0.208  program+emin 0.208
+C011          C011   ETABS 0.183 [E412_0.3X+Y]  program radial 0.214  program+emin 0.214
+C111          C111   ETABS 0.201 [E412_0.3X+Y]  program radial 0.216  program+emin 0.224
+C211          C211   ETABS 0.201 [E412_0.3X+Y]  program radial 0.216  program+emin 0.224
+C311          C311   ETABS 0.183 [E412_0.3X+Y]  program radial 0.214  program+emin 0.214
+C021          C021   ETABS 0.177 [E412_0.3X+Y]  program radial 0.208  program+emin 0.208
+C121          C121   ETABS 0.178 [E412_0.3X+Y]  program radial 0.209  program+emin 0.209
+C221          C221   ETABS 0.178 [E412_0.3X+Y]  program radial 0.209  program+emin 0.209
+C321          C321   ETABS 0.177 [E412_0.3X+Y]  program radial 0.208  program+emin 0.208
+C002          C002   ETABS 0.132 [E412_0.3X+Y]  program radial 0.149  program+emin 0.149
+C102          C102   ETABS 0.129 [E412_0.3X+Y]  program radial 0.150  program+emin 0.150
+C202          C202   ETABS 0.129 [E412_0.3X+Y]  program radial 0.150  program+emin 0.150
+C302          C302   ETABS 0.132 [E412_0.3X+Y]  program radial 0.149  program+emin 0.149
+C012          C012   ETABS 0.149 [E412_0.3X+Y]  program radial 0.176  program+emin 0.176
+C112          C112   ETABS 0.144 [E412_0.3X+Y]  program radial 0.153  program+emin 0.160
+C212          C212   ETABS 0.144 [E412_0.3X+Y]  program radial 0.153  program+emin 0.160
+C312          C312   ETABS 0.149 [E412_0.3X+Y]  program radial 0.176  program+emin 0.176
+C022          C022   ETABS 0.132 [E412_0.3X+Y]  program radial 0.149  program+emin 0.149
+C122          C122   ETABS 0.129 [E412_0.3X+Y]  program radial 0.150  program+emin 0.150
+C222          C222   ETABS 0.129 [E412_0.3X+Y]  program radial 0.150  program+emin 0.150
+C322          C322   ETABS 0.132 [E412_0.3X+Y]  program radial 0.149  program+emin 0.149
+C003          C003   ETABS 0.189 [E412_0.3X+Y]  program radial 0.201  program+emin 0.201
+C103          C103   ETABS 0.173 [E412_0.3X+Y]  program radial 0.192  program+emin 0.192
+C203          C203   ETABS 0.173 [E412_0.3X+Y]  program radial 0.192  program+emin 0.192
+C303          C303   ETABS 0.189 [E412_0.3X+Y]  program radial 0.201  program+emin 0.201
+C013          C013   ETABS 0.194 [E412_0.3X+Y]  program radial 0.213  program+emin 0.213
+C113          C113   ETABS 0.172 [E412_0.3X+Y]  program radial 0.189  program+emin 0.191
+C213          C213   ETABS 0.172 [E412_0.3X+Y]  program radial 0.189  program+emin 0.191
+C313          C313   ETABS 0.194 [E412_0.3X+Y]  program radial 0.213  program+emin 0.213
+C023          C023   ETABS 0.189 [E412_0.3X+Y]  program radial 0.201  program+emin 0.201
+C123          C123   ETABS 0.173 [E412_0.3X+Y]  program radial 0.192  program+emin 0.192
+C223          C223   ETABS 0.173 [E412_0.3X+Y]  program radial 0.192  program+emin 0.192
+C323          C323   ETABS 0.189 [E412_0.3X+Y]  program radial 0.201  program+emin 0.201
+C004          C004   ETABS 0.194 [E412_0.3X+Y]  program radial 0.225  program+emin 0.225
+C104          C104   ETABS 0.176 [E412_0.3X+Y]  program radial 0.182  program+emin 0.182
+C204          C204   ETABS 0.176 [E412_0.3X+Y]  program radial 0.182  program+emin 0.182
+C304          C304   ETABS 0.194 [E412_0.3X+Y]  program radial 0.225  program+emin 0.225
+SUMMARY E412_0.3X+Y: columns 48, max D/C ETABS 0.201, program 0.225, program+emin 0.225; program >= ETABS in 48 / 48 (with emin 48)
+RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin 1.118, mean with emin 1.122, min 1.034, max 1.182, within +-10 % (emin): 14 / 48

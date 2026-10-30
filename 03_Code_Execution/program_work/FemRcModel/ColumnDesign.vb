@@ -73,6 +73,29 @@ Public Module ColumnDesign
         For ei As Integer = 0 To m.Elements.Count - 1
             If m.Elements(ei).Group <> group Then Continue For
             For Each cs In fa.Combos
+                If cs.Seismic AndAlso cs.Forces.Count = 2 Then
+                    'response spectrum magnitudes carry no sign: G +- E with every sign pattern of (P, M2, M3) (ETABS V2b: the pair (+,+),(-,-) alone under-predicts biaxial columns by up to 28 %)
+                    Dim fp = cs.Forces(0)(ei), fn = cs.Forces(1)(ei)
+                    For endI As Integer = 0 To 1
+                        Dim ip As Integer = If(endI = 0, 0, 6), i2 As Integer = If(endI = 0, 4, 10), i3 As Integer = If(endI = 0, 5, 11)
+                        Dim sg As Double = If(endI = 0, 1.0, -1.0)
+                        Dim gP As Double = sg * 0.5 * (fp(ip) + fn(ip)), eP As Double = sg * 0.5 * (fp(ip) - fn(ip))
+                        Dim g2 As Double = 0.5 * (fp(i2) + fn(i2)), e2 As Double = 0.5 * (fp(i2) - fn(i2))
+                        Dim g3 As Double = 0.5 * (fp(i3) + fn(i3)), e3 As Double = 0.5 * (fp(i3) - fn(i3))
+                        For Each s1 In {-1.0, 1.0}
+                            For Each s2 In {-1.0, 1.0}
+                                For Each s3 In {-1.0, 1.0}
+                                    Dim pu As Double = (gP + s1 * eP) * 1000.0
+                                    Dim m2 As Double = Math.Abs(g2 + s2 * e2) * 1.0E6
+                                    Dim m3 As Double = Math.Abs(g3 + s3 * e3) * 1.0E6
+                                    r.NdMax = Math.Max(r.NdMax, pu)
+                                    r.DcrMax = Math.Max(r.DcrMax, AciColumn.BiaxialDcr(sx, sy, pu, m3, m2))
+                                Next
+                            Next
+                        Next
+                    Next
+                    Continue For
+                End If
                 For k As Integer = 0 To cs.Forces.Count - 1
                     Dim f = cs.Forces(k)(ei)
                     For endI As Integer = 0 To 1

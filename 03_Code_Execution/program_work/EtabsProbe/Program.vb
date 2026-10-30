@@ -200,6 +200,12 @@ Module Program
         If rzm <> Nothing Then RcFrameBuilder.RzMode = Integer.Parse(rzm)
         P("FemCore analysis of the trial design ... (no rigid zones = " & RcFrameBuilder.NoRigidZones & ")")
         Dim fa = RcCombos.Analyze(spec, Defs(), tp)
+        If Environment.GetEnvironmentVariable("DESIGN") = "1" Then
+            DesignProbe.Run(fa, spec, tp, False, AddressOf P, AddressOf Chk)
+            DesignProbe.Run(fa, spec, tp, True, AddressOf P, AddressOf Chk)
+            File.WriteAllText(Path.Combine(Path.GetTempPath(), "etabs_v2b_log.txt"), log.ToString())
+            Return
+        End If
         RunSession(fa, spec, False)
         RunSession(fa, spec, True)
         File.WriteAllText(Path.Combine(Path.GetTempPath(), "etabs_v2_log.txt"), log.ToString())
