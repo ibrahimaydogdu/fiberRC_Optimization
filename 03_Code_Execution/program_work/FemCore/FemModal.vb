@@ -342,6 +342,16 @@ Partial Public Class FemStatic
             Dim dk1 As Integer = dk
             R.DiaphragmForce(dk) = Combine(Function(k) DiaF(k)(dk1))
         Next
+        'story forces from CQC story shears: V_k = CQC over the modes of the signed sum of the diaphragm forces from diaphragm k upwards (diaphragm index = storey order), F_k = V_k - V_(k+1)
+        Dim nd0 As Integer = Math.Max(M.DiaphragmCount, 1)
+        Dim vs(nd0) As Double
+        For dk = 0 To nd0 - 1
+            Dim dk2 As Integer = dk
+            vs(dk) = Combine(Function(k) Enumerable.Range(dk2, nd0 - dk2).Sum(Function(j) DiaF(k)(j)))
+        Next
+        R.StoryShear = vs
+        R.StoryForce = New Double(nd0 - 1) {}
+        For dk = 0 To nd0 - 1 : R.StoryForce(dk) = vs(dk) - vs(dk + 1) : Next
         R.ModalFace = Fn : R.Rho = rho
         R.FaceForce = New Double(ne - 1)() {}
         For ei = 0 To ne - 1
@@ -358,6 +368,9 @@ Partial Public Class FemStatic
     'Accidental eccentricity (measured on P4): static torsion of every diaphragm, M_k = F_k x ecc x L_k (F_k: CQC inertial force of the
     'diaphragm in the case direction, L_k: plan dimension of the diaphragm perpendicular to the direction), whose responses are added to
     'the CQC results by absolute value
+    'ETABS (V2c diagnosis 2026-10-30): accidental torque of a diaphragm = ecc x width x story force (difference of CQC story shears), not the CQC of the diaphragm inertial force
+    Public Shared TorsionFromStoryShear As Boolean = True
+
     Private Sub AddAccidentalTorsion(ByVal R As RSResults, ByVal Rs As FemRSCase)
         Dim nd As Integer = M.DiaphragmCount
         Dim Att(M.Nodes.Count - 1) As Boolean
@@ -384,7 +397,7 @@ Partial Public Class FemStatic
             Dim xs = M.Nodes.Where(Function(n1) n1.Diaphragm = k AndAlso Att(M.Nodes.IndexOf(n1))).Select(Function(n1) n1.X)
             Dim ys = M.Nodes.Where(Function(n1) n1.Diaphragm = k AndAlso Att(M.Nodes.IndexOf(n1))).Select(Function(n1) n1.Y)
             Dim perp As Double = If(Rs.Direction = 0, ys.Max() - ys.Min(), xs.Max() - xs.Min())
-            Dim mk As Double = R.DiaphragmForce(k) * Rs.Eccentricity * perp
+            Dim mk As Double = If(TorsionFromStoryShear, R.StoryForce(k), R.DiaphragmForce(k)) * Rs.Eccentricity * perp
             For i = 0 To ndof - 1 : dU(i) += mk * Res.U(k)(i) : dR(i) += mk * Res.Reaction(k)(i) : Next
             For e = 0 To M.Elements.Count - 1
                 For c = 0 To 11 : dF(e)(c) += mk * Res.FaceForce(k)(e)(c) : Next
@@ -402,6 +415,8 @@ Public Class RSResults
     Public U() As Double                    'combined displacement magnitudes (full DOF)
     Public Reaction() As Double
     Public BaseForce(2) As Double           'CQC of the total base forces FX, FY, FZ
+    Public StoryShear() As Double           'CQC story shears (diaphragm index = storey order), last element 0
+    Public StoryForce() As Double           'F_k = V_k - V_(k+1)
     Public DiaphragmForce() As Double       'CQC of the inertial force of every diaphragm in the case direction
     Public ModalFace()()() As Double        '[mode][element](12) face forces of every mode
     Public Rho(,) As Double                 'CQC correlation matrix
