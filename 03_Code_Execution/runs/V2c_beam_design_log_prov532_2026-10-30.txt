@@ -1,0 +1,115 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+ETABS ERROR ret=1 in SetDiaphragm
+=== beam design combo U1 (framing ordinary, StartDesign ret=0)
+GetSummaryResultsBeam_2 ret=0 rows=714
+Bx001         Bx001  top req ETABS 295 prog 295 (1.000)  bot req ETABS 172 prog 178 (1.032)  | final top ETABS 393 prog 393 bot ETABS 230 prog 237 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx101         Bx101  top req ETABS 298 prog 298 (1.000)  bot req ETABS 155 prog 162 (1.045)  | final top ETABS 397 prog 397 bot ETABS 206 prog 216 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx201         Bx201  top req ETABS 295 prog 295 (1.000)  bot req ETABS 172 prog 178 (1.032)  | final top ETABS 393 prog 393 bot ETABS 230 prog 237 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx011         Bx011  top req ETABS 405 prog 405 (1.000)  bot req ETABS 246 prog 255 (1.037)  | final top ETABS 532 prog 540 bot ETABS 328 prog 340 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx111         Bx111  top req ETABS 412 prog 412 (1.000)  bot req ETABS 223 prog 234 (1.048)  | final top ETABS 532 prog 540 bot ETABS 297 prog 312 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx211         Bx211  top req ETABS 405 prog 405 (1.000)  bot req ETABS 246 prog 255 (1.037)  | final top ETABS 532 prog 540 bot ETABS 328 prog 340 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx021         Bx021  top req ETABS 295 prog 295 (1.000)  bot req ETABS 172 prog 178 (1.032)  | final top ETABS 393 prog 393 bot ETABS 230 prog 237 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx121         Bx121  top req ETABS 298 prog 298 (1.000)  bot req ETABS 155 prog 162 (1.045)  | final top ETABS 397 prog 397 bot ETABS 206 prog 216 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+Bx221         Bx221  top req ETABS 295 prog 295 (1.000)  bot req ETABS 172 prog 178 (1.032)  | final top ETABS 393 prog 393 bot ETABS 230 prog 237 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+By001         By001  top req ETABS 296 prog 296 (1.000)  bot req ETABS 172 prog 177 (1.032)  | final top ETABS 395 prog 395 bot ETABS 229 prog 237 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+By011         By011  top req ETABS 296 prog 296 (1.000)  bot req ETABS 172 prog 177 (1.032)  | final top ETABS 395 prog 395 bot ETABS 229 prog 237 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+By101         By101  top req ETABS 406 prog 406 (1.000)  bot req ETABS 246 prog 255 (1.037)  | final top ETABS 532 prog 540 bot ETABS 327 prog 340 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+By111         By111  top req ETABS 406 prog 406 (1.000)  bot req ETABS 246 prog 255 (1.037)  | final top ETABS 532 prog 540 bot ETABS 327 prog 340 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+By201         By201  top req ETABS 406 prog 406 (1.000)  bot req ETABS 246 prog 255 (1.037)  | final top ETABS 532 prog 540 bot ETABS 327 prog 340 | Av/s ETABS 0.2500 prog 0.2500 (1.000)
+SUMMARY U1: beams 68; program/ETABS required top As min 1.000 max 1.000 (program >= ETABS in 68), bottom min 1.000 max 1.048 (>= in 68); Av/s program/ETABS min 1.000 max 1.000
+ETABS ERROR ret=1 in SetDiaphragm
+tables applied: fatal=0 errors=0 warnings=0
+table Mass Source Definition ret=0 records=3 fields=Name|IsDefault|IncLateral|IncVertical|LumpMass|SourceSelf|SourceAdded|SourceLoads|MoveMass|RatioX|RatioY|LoadPattern|Multiplier|GUID
+   MsSrc1|Yes|Yes|No|Yes|No|No|Yes|No|||G|1|4b5740f6-8249-43f5-a8ea-b62a93669c55
+   MsSrc1|||||||||||Q|0.3|
+   MsSrc1|||||||||||S|0.3|
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+=== beam design combo E411_X+0.3Y (framing special, StartDesign ret=0)
+GetSummaryResultsBeam_2 ret=0 rows=714
+Bx001         Bx001  top req ETABS 416 prog 424 (1.018)  bot req ETABS 206 prog 212 (1.029)  | final top ETABS 532 prog 540 bot ETABS 532 prog 282 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+Bx101         Bx101  top req ETABS 406 prog 413 (1.018)  bot req ETABS 201 prog 206 (1.029)  | final top ETABS 532 prog 540 bot ETABS 532 prog 275 | Av/s ETABS 0.7237 prog 0.7127 (0.985)
+Bx201         Bx201  top req ETABS 416 prog 424 (1.018)  bot req ETABS 206 prog 212 (1.029)  | final top ETABS 532 prog 540 bot ETABS 532 prog 282 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+Bx011         Bx011  top req ETABS 489 prog 489 (1.000)  bot req ETABS 241 prog 245 (1.013)  | final top ETABS 532 prog 540 bot ETABS 532 prog 326 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+Bx111         Bx111  top req ETABS 479 prog 479 (1.000)  bot req ETABS 237 prog 240 (1.013)  | final top ETABS 532 prog 540 bot ETABS 532 prog 320 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+Bx211         Bx211  top req ETABS 489 prog 489 (1.000)  bot req ETABS 241 prog 245 (1.013)  | final top ETABS 532 prog 540 bot ETABS 532 prog 326 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+Bx021         Bx021  top req ETABS 416 prog 424 (1.018)  bot req ETABS 206 prog 212 (1.029)  | final top ETABS 532 prog 540 bot ETABS 532 prog 282 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+Bx121         Bx121  top req ETABS 406 prog 413 (1.018)  bot req ETABS 201 prog 206 (1.029)  | final top ETABS 532 prog 540 bot ETABS 532 prog 275 | Av/s ETABS 0.7237 prog 0.7127 (0.985)
+Bx221         Bx221  top req ETABS 416 prog 424 (1.018)  bot req ETABS 206 prog 212 (1.029)  | final top ETABS 532 prog 540 bot ETABS 532 prog 282 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+By001         By001  top req ETABS 307 prog 318 (1.036)  bot req ETABS 152 prog 159 (1.045)  | final top ETABS 532 prog 425 bot ETABS 532 prog 212 | Av/s ETABS 0.7292 prog 0.7127 (0.977)
+By011         By011  top req ETABS 307 prog 318 (1.036)  bot req ETABS 152 prog 159 (1.045)  | final top ETABS 532 prog 425 bot ETABS 532 prog 212 | Av/s ETABS 0.7292 prog 0.7127 (0.977)
+By101         By101  top req ETABS 380 prog 383 (1.010)  bot req ETABS 190 prog 192 (1.011)  | final top ETABS 532 prog 511 bot ETABS 532 prog 256 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+By111         By111  top req ETABS 380 prog 383 (1.010)  bot req ETABS 190 prog 192 (1.011)  | final top ETABS 532 prog 511 bot ETABS 532 prog 256 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+By201         By201  top req ETABS 380 prog 383 (1.010)  bot req ETABS 190 prog 192 (1.011)  | final top ETABS 532 prog 511 bot ETABS 532 prog 256 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+SUMMARY E411_X+0.3Y: beams 68; program/ETABS required top As min 1.000 max 1.036 (program >= ETABS in 68), bottom min 1.000 max 1.045 (>= in 68); Av/s program/ETABS min 0.972 max 3.229
+=== beam design combo E412_X+0.3Y (framing special, StartDesign ret=0)
+GetSummaryResultsBeam_2 ret=0 rows=714
+Bx001         Bx001  top req ETABS 315 prog 322 (1.024)  bot req ETABS 156 prog 161 (1.032)  | final top ETABS 532 prog 430 bot ETABS 532 prog 215 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+Bx101         Bx101  top req ETABS 306 prog 313 (1.023)  bot req ETABS 152 prog 156 (1.032)  | final top ETABS 532 prog 417 bot ETABS 532 prog 209 | Av/s ETABS 0.5851 prog 0.5762 (0.985)
+Bx201         Bx201  top req ETABS 315 prog 322 (1.024)  bot req ETABS 156 prog 161 (1.032)  | final top ETABS 532 prog 430 bot ETABS 532 prog 215 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+Bx011         Bx011  top req ETABS 339 prog 339 (1.000)  bot req ETABS 168 prog 170 (1.009)  | final top ETABS 532 prog 453 bot ETABS 532 prog 226 | Av/s ETABS 0.6275 prog 0.6147 (0.980)
+Bx111         Bx111  top req ETABS 331 prog 331 (1.000)  bot req ETABS 164 prog 166 (1.009)  | final top ETABS 532 prog 442 bot ETABS 532 prog 221 | Av/s ETABS 0.6242 prog 0.6147 (0.985)
+Bx211         Bx211  top req ETABS 339 prog 339 (1.000)  bot req ETABS 168 prog 170 (1.009)  | final top ETABS 532 prog 453 bot ETABS 532 prog 226 | Av/s ETABS 0.6275 prog 0.6147 (0.980)
+Bx021         Bx021  top req ETABS 315 prog 322 (1.024)  bot req ETABS 156 prog 161 (1.032)  | final top ETABS 532 prog 430 bot ETABS 532 prog 215 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+Bx121         Bx121  top req ETABS 306 prog 313 (1.023)  bot req ETABS 152 prog 156 (1.032)  | final top ETABS 532 prog 417 bot ETABS 532 prog 209 | Av/s ETABS 0.5851 prog 0.5762 (0.985)
+Bx221         Bx221  top req ETABS 315 prog 322 (1.024)  bot req ETABS 156 prog 161 (1.032)  | final top ETABS 532 prog 430 bot ETABS 532 prog 215 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+By001         By001  top req ETABS 207 prog 218 (1.053)  bot req ETABS 103 prog 109 (1.059)  | final top ETABS 532 prog 290 bot ETABS 532 prog 145 | Av/s ETABS 0.5883 prog 0.5762 (0.979)
+By011         By011  top req ETABS 207 prog 218 (1.053)  bot req ETABS 103 prog 109 (1.059)  | final top ETABS 532 prog 290 bot ETABS 532 prog 145 | Av/s ETABS 0.5883 prog 0.5762 (0.979)
+By101         By101  top req ETABS 231 prog 235 (1.016)  bot req ETABS 115 prog 117 (1.022)  | final top ETABS 532 prog 313 bot ETABS 532 prog 157 | Av/s ETABS 0.6276 prog 0.6147 (0.979)
+By111         By111  top req ETABS 231 prog 235 (1.016)  bot req ETABS 115 prog 117 (1.022)  | final top ETABS 532 prog 313 bot ETABS 532 prog 157 | Av/s ETABS 0.6276 prog 0.6147 (0.979)
+By201         By201  top req ETABS 231 prog 235 (1.016)  bot req ETABS 115 prog 117 (1.022)  | final top ETABS 532 prog 313 bot ETABS 532 prog 157 | Av/s ETABS 0.6276 prog 0.6147 (0.979)
+SUMMARY E412_X+0.3Y: beams 68; program/ETABS required top As min 1.000 max 1.053 (program >= ETABS in 68), bottom min 0.981 max 1.059 (>= in 66); Av/s program/ETABS min 0.964 max 0.985
+=== beam design combo E411_0.3X+Y (framing special, StartDesign ret=0)
+GetSummaryResultsBeam_2 ret=0 rows=714
+Bx001         Bx001  top req ETABS 302 prog 311 (1.031)  bot req ETABS 150 prog 156 (1.039)  | final top ETABS 532 prog 415 bot ETABS 532 prog 207 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+Bx101         Bx101  top req ETABS 296 prog 305 (1.030)  bot req ETABS 147 prog 152 (1.038)  | final top ETABS 532 prog 406 bot ETABS 532 prog 203 | Av/s ETABS 0.7237 prog 0.7127 (0.985)
+Bx201         Bx201  top req ETABS 302 prog 311 (1.031)  bot req ETABS 150 prog 156 (1.039)  | final top ETABS 532 prog 415 bot ETABS 532 prog 207 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+Bx011         Bx011  top req ETABS 371 prog 371 (1.000)  bot req ETABS 189 prog 190 (1.007)  | final top ETABS 532 prog 495 bot ETABS 532 prog 253 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+Bx111         Bx111  top req ETABS 366 prog 366 (1.000)  bot req ETABS 181 prog 183 (1.010)  | final top ETABS 532 prog 488 bot ETABS 532 prog 244 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+Bx211         Bx211  top req ETABS 371 prog 371 (1.000)  bot req ETABS 189 prog 190 (1.007)  | final top ETABS 532 prog 495 bot ETABS 532 prog 253 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+Bx021         Bx021  top req ETABS 302 prog 311 (1.031)  bot req ETABS 150 prog 156 (1.039)  | final top ETABS 532 prog 415 bot ETABS 532 prog 207 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+Bx121         Bx121  top req ETABS 296 prog 305 (1.030)  bot req ETABS 147 prog 152 (1.038)  | final top ETABS 532 prog 406 bot ETABS 532 prog 203 | Av/s ETABS 0.7237 prog 0.7127 (0.985)
+Bx221         Bx221  top req ETABS 302 prog 311 (1.031)  bot req ETABS 150 prog 156 (1.039)  | final top ETABS 532 prog 415 bot ETABS 532 prog 207 | Av/s ETABS 0.7290 prog 0.7127 (0.978)
+By001         By001  top req ETABS 432 prog 446 (1.033)  bot req ETABS 214 prog 223 (1.045)  | final top ETABS 532 prog 540 bot ETABS 532 prog 298 | Av/s ETABS 0.7292 prog 0.7127 (0.977)
+By011         By011  top req ETABS 432 prog 446 (1.033)  bot req ETABS 214 prog 223 (1.045)  | final top ETABS 532 prog 540 bot ETABS 532 prog 298 | Av/s ETABS 0.7292 prog 0.7127 (0.977)
+By101         By101  top req ETABS 503 prog 508 (1.010)  bot req ETABS 248 prog 254 (1.023)  | final top ETABS 532 prog 540 bot ETABS 532 prog 338 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+By111         By111  top req ETABS 503 prog 508 (1.010)  bot req ETABS 248 prog 254 (1.023)  | final top ETABS 532 prog 540 bot ETABS 532 prog 338 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+By201         By201  top req ETABS 503 prog 508 (1.010)  bot req ETABS 248 prog 254 (1.023)  | final top ETABS 532 prog 540 bot ETABS 532 prog 338 | Av/s ETABS 0.2500 prog 0.8073 (3.229)
+SUMMARY E411_0.3X+Y: beams 68; program/ETABS required top As min 1.000 max 1.033 (program >= ETABS in 68), bottom min 1.000 max 1.045 (>= in 68); Av/s program/ETABS min 0.972 max 3.229
+=== beam design combo E412_0.3X+Y (framing special, StartDesign ret=0)
+GetSummaryResultsBeam_2 ret=0 rows=714
+Bx001         Bx001  top req ETABS 202 prog 211 (1.046)  bot req ETABS 100 prog 105 (1.051)  | final top ETABS 532 prog 281 bot ETABS 532 prog 141 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+Bx101         Bx101  top req ETABS 197 prog 206 (1.045)  bot req ETABS 98 prog 103 (1.050)  | final top ETABS 532 prog 274 bot ETABS 532 prog 137 | Av/s ETABS 0.5851 prog 0.5762 (0.985)
+Bx201         Bx201  top req ETABS 202 prog 211 (1.046)  bot req ETABS 100 prog 105 (1.051)  | final top ETABS 532 prog 281 bot ETABS 532 prog 141 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+Bx011         Bx011  top req ETABS 223 prog 223 (1.000)  bot req ETABS 111 prog 112 (1.006)  | final top ETABS 532 prog 298 bot ETABS 532 prog 149 | Av/s ETABS 0.6275 prog 0.6147 (0.980)
+Bx111         Bx111  top req ETABS 220 prog 220 (1.000)  bot req ETABS 109 prog 110 (1.006)  | final top ETABS 532 prog 293 bot ETABS 532 prog 146 | Av/s ETABS 0.6242 prog 0.6147 (0.985)
+Bx211         Bx211  top req ETABS 223 prog 223 (1.000)  bot req ETABS 111 prog 112 (1.006)  | final top ETABS 532 prog 298 bot ETABS 532 prog 149 | Av/s ETABS 0.6275 prog 0.6147 (0.980)
+Bx021         Bx021  top req ETABS 202 prog 211 (1.046)  bot req ETABS 100 prog 105 (1.051)  | final top ETABS 532 prog 281 bot ETABS 532 prog 141 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+Bx121         Bx121  top req ETABS 197 prog 206 (1.045)  bot req ETABS 98 prog 103 (1.050)  | final top ETABS 532 prog 274 bot ETABS 532 prog 137 | Av/s ETABS 0.5851 prog 0.5762 (0.985)
+Bx221         Bx221  top req ETABS 202 prog 211 (1.046)  bot req ETABS 100 prog 105 (1.051)  | final top ETABS 532 prog 281 bot ETABS 532 prog 141 | Av/s ETABS 0.5882 prog 0.5762 (0.980)
+By001         By001  top req ETABS 330 prog 344 (1.043)  bot req ETABS 164 prog 172 (1.052)  | final top ETABS 532 prog 459 bot ETABS 532 prog 230 | Av/s ETABS 0.5883 prog 0.5762 (0.979)
+By011         By011  top req ETABS 330 prog 344 (1.043)  bot req ETABS 164 prog 172 (1.052)  | final top ETABS 532 prog 459 bot ETABS 532 prog 230 | Av/s ETABS 0.5883 prog 0.5762 (0.979)
+By101         By101  top req ETABS 352 prog 357 (1.014)  bot req ETABS 175 prog 179 (1.023)  | final top ETABS 532 prog 476 bot ETABS 532 prog 238 | Av/s ETABS 0.6276 prog 0.6147 (0.979)
+By111         By111  top req ETABS 352 prog 357 (1.014)  bot req ETABS 175 prog 179 (1.023)  | final top ETABS 532 prog 476 bot ETABS 532 prog 238 | Av/s ETABS 0.6276 prog 0.6147 (0.979)
+By201         By201  top req ETABS 352 prog 357 (1.014)  bot req ETABS 175 prog 179 (1.023)  | final top ETABS 532 prog 476 bot ETABS 532 prog 238 | Av/s ETABS 0.6276 prog 0.6147 (0.979)
+SUMMARY E412_0.3X+Y: beams 68; program/ETABS required top As min 1.000 max 1.046 (program >= ETABS in 68), bottom min 1.000 max 1.052 (>= in 68); Av/s program/ETABS min 0.964 max 0.985
+done

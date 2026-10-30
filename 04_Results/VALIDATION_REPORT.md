@@ -29,7 +29,9 @@ V0 (ortam), V1 (EDB modelleri), V2 (referans örnekler), V3–V5: açık.
 
 ---
 
-## V2b: kolon tasarım oranı, ETABS Concrete Frame Design (ACI 318-14) ↔ program (2026-10-30)
+## V2b: kolon tasarım oranı, ETABS Concrete Frame Design (ACI 318-14) ↔ program (2026-10-30) — ÖN SONUÇ
+
+> **Critic (Review_Round_V2ab.md): [REVİZYON TALEBİ].** Bu bölüm ön sonuçtur, "kısmen geçti" denemez. Eksikler: (i) tablodaki "program" sütunu radyal+e_min varyantıdır, optimizasyondaki `BiaxialDcr` (e_min yok) değildir (U1 kolon C013 oranı 0,914); (ii) deprem birleşimlerinde kuvvetler aynı değil (FemCore ek dış merkezlik farkı açıklanamadı, ECC=0 koşusu yok); (iii) log 40 satırla sınırlı, ±%10 içinde yalnız 14/12/24/14 kolon; (iv) kabul eşiği önceden tanımlı değil; (v) üretim donatı düzeni ve D/C 0,8–1,0 bölgesi sınanmadı.
 
 **Yöntem.** Ö1 deneme tasarımının 48 kolonu için ETABS 22.6.0'da (OAPI: `PropFrame.SetRebarColumn`, `DesignConcrete.SetCode("ACI 318-14")`, `SetComboStrength`, `StartDesign`, `GetSummaryResultsColumn`) her yük birleşimi ayrı ayrı tasarlandı (U1; TBDY Denk. 4.11 ve 4.12, E = X+0,3Y ve 0,3X+Y). Aynı birleşim ve aynı donatı düzeni (yüz başına 5 veya 4 çubuk, Ø20, etriye Ø10, pas payı 40 mm, ağırlık merkezi 60 mm) programa verildi. Karşılaştırılan: ETABS `PMMRatio` (3B radyal ışın OL/OC; CFD-ACI-318-14 s. 32) ↔ programın radyal oranı (kendi doğrusal toplam etkileşiminin orijinden ışın ölçeği, `Radial` in `EtabsProbe/Design.vb`) ve ETABS'in minimum dışmerkezliği (0,6 + 0,03h in) eklenmiş değişkeni. Kuvvetler V2a'da ≤%0,002 uyumlu olduğundan fark tasarım algoritmasından gelir. Ham günlük: `03_Code_Execution/runs/V2b_column_design_log_2026-10-30.txt`.
 
@@ -50,3 +52,26 @@ Yorum: programın D/C'si ETABS'in %1,7 altından %21 üstüne dağılır; kritik
 **Sınırlar (kapsam dışı kalan).** Yalnız kolon P-M-M oranı karşılaştırıldı. Yapılmadı: kiriş As ↔ ETABS, kesme Av/s, güçlü kolon–zayıf kiriş, birleşim kesmesi, SFRC kirişler (ETABS lifli kesiti tasarlamaz; lifli kirişler V2c'de ayrıca, ETABS'te kesit kapasitesi dışarıdan doğrulanacak). Program dönmüş çift eksenli yüzeyi değil doğrusal toplamı kullanır; yalnız kolon geometrisi simetrik (yüz başına n çubuk) iken karşılaştırıldı, programın optimizasyondaki çevre düzeni (üst/alt sıralarda çok çubuk) bununla aynı değildir. Narinlik/P-Δ programda yok (ETABS δns uygular); bu denemede etkisi ayrıca ölçülmedi. Tek bir deneme tasarımı ve en büyük D/C 0,35 olduğundan etkileşim yüzeyinin yüksek D/C bölgesi sınanmadı.
 
 **Durum:** V2b (kolon) **kısmen geçti**: program ETABS'in kolon D/C'sini ≤%1,7 sapmayla (altta) ve genelde güvenli yönde yakalıyor; yüksek D/C ve kiriş/kesme bölümleri açık. Critic görüşü bekler.
+
+
+## V2c: kiriş eğilme ve kesme donatısı, ETABS Concrete Frame Design (ACI 318-14) ↔ program (2026-10-30) — ÖN SONUÇ
+
+**Yöntem.** Ö1 deneme tasarımı, 68 kiriş (300×600, C30, donatı ağırlık merkezi 60 mm, d = 540 mm), aynı üyeler kuvvetleri (V2a). ETABS: `PropFrame.SetRebarBeam`, `DesignConcrete.ACI318_14.SetOverwrite` (U1 için Sway Ordinary, deprem birleşimleri için Sway Special), her birleşim ayrı tasarlanır, `GetSummaryResultsBeam_2` (TopAreaReq, BotAreaReq, TopArea, BotArea, VmajorArea; çıktılar kirişte istasyonların en büyüğü). Program: `RcCore.AciBeam.RequiredAs` (φ yinelemeli, tek donatılı), `AciBeam.Vc/AvMinPerS`, ACI 18.6.5 kapasite kesmesi `AciBeam.Flexure` (1,25 fy, φ=1) ile yeniden hesaplandı. Sondalar: `EtabsProbe/DesignBeam.vb` (DESIGN=2). Ham loglar: `03_Code_Execution/runs/V2c_beam_design_log_prov2000_2026-10-30.txt`, `..._prov532_...`.
+
+| Birleşim | Gerekli As üst, program/ETABS (min–maks) | Gerekli As alt, program/ETABS | Av/s program/ETABS |
+|---|---|---|---|
+| U1 (gravite, Ordinary) | 1,000–1,000 | 1,000–1,048 | 1,000–1,000 |
+| 4.11 X+0,3Y (Special) | 1,000–1,036 | 1,000–1,045 | 0,972–0,985 (6 kiriş 3,229, aşağıda) |
+| 4.12 X+0,3Y | 1,000–1,053 | 0,981–1,059 | 0,964–0,985 |
+| 4.11 0,3X+Y | 1,000–1,033 | 1,000–1,045 | 0,972–0,985 (6 kiriş 3,229) |
+| 4.12 0,3X+Y | 1,000–1,046 | 1,000–1,052 | 0,964–0,985 |
+
+(Alt donatıda deprem satırları programın ACI 18.6.3.2 / TBDY 7.4.2.3 "alt ≥ üst/2" kuralı eklenerek; kural olmadan oran 0,48–0,65'e düşer, çünkü ETABS bu kuralı Req değerine katar. Gerçek program kodu `BeamDesign.DesignGroup` bu kuralı zaten uygular.)
+
+**Bulgular.**
+1. **Eğilme:** üst donatı ETABS ile birebir (U1) ve ≤ %5,3 güvenli yönde (deprem). Alt donatı ≤ %6 güvenli yönde; tek istisna 4.12'de 2 kirişte 0,981 (−%1,9). Fark küçük: program orta açıklık momentini ETABS istasyonlarından farklı yerde okuyor olabilir (açıklanmadı).
+2. **Gravite kesmesi (U1):** Av/s birebir (oran 1,000), Vc ve min Av/s formülleri ETABS ile aynı.
+3. **Kapasite kesmesi:** ETABS, Mpr'yi **tasarlanan zarf donatıdan değil kesitte tanımlı (sağlanan) donatıdan** hesaplıyor. Sağlanan = 2000 mm² iken program (zarf As ile) ETABS'in 0,35–0,46 katı çıktı (deneme sonucu); sağlanan donatı 532 mm²'ye çekilince oran 0,964–0,985. Bu, ETABS'in davranışının doğrulanması: program ve ETABS aynı kapasite kesmesi zincirini uyguluyor. Programın bu zinciri (sağlanan donatı ile Mpr) üretimde de kullanılması gerekir; `BeamShear` TBDY 7.4.5 (1,4 Mr/ln) kullandığı için ACI ile birebir kıyaslanamaz, burada yeniden hesaplanan ACI zinciri kıyaslanmıştır.
+4. **Açıklanamayan:** 4.11 birleşiminde 6 kirişte ETABS yalnız minimum Av/s (0,25 mm²/mm) verdi, program 0,807 (oran 3,229, programın muhafazakâr olduğu yön). Neden bilinmiyor (olası: ETABS'in o kirişlerde farklı gravite kesmesi / Vc koşulu).
+
+**Sınırlar (rapora açık yazılır).** Tek donatılı dikdörtgen kesit; T kesit, burulma ve basınç donatısı kıyaslanmadı. Güçlü kolon–zayıf kiriş ve birleşim kesmesi kıyaslanmadı. **Lifli kirişler (SFRC) ETABS ile doğrulanamaz**; bağımsız doğrulama yolu (el hesabı/fib MC2010 örneği) ve eşik V3 öncesi yazılı olmalıdır. Kabul eşiği (öneri): üst/alt As ve Av/s için program ≥ ETABS ve fazlalık ≤ %10; ihlal olursa neden aranır.
