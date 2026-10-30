@@ -118,3 +118,14 @@ OK   F12 dose repaired 40 -> 35 (4D C40)  got=35 want=35
 F12 fibre trial: cost=1776542 T=0.000 Fpen=1776542
 OK   F12 parallel evaluations identical  got=0 want=0
 OK   F12 parallel = serial  got=1776542.1 want=1776542.1
+F12 ATO 200 FEs: best Fpen=2050657 (35783 ms)
+OK   F12 ATO used 200 FEs  got=200 want=200
+PROFILE analyze = 73 ms
+PROFILE col CheckGroup = 76 ms
+PROFILE col shear = 11 ms
+PROFILE beam flexure = 3 ms
+PROFILE drift = 0 ms
+PROFILE strong column = 1 ms
+PROFILE joint shear = 0 ms
+combos=5  T1(cracked)=0.615 s  Vx=305.1 Vy=294.0 W=7201.8
+PASS=62 FAIL=0
