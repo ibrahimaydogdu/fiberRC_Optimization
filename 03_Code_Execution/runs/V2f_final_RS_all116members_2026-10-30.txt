@@ -1,0 +1,89 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+ETABS version 22.6.0, session GROSS (static)
+ETABS ERROR ret=1 in SetDiaphragm
+--- gross model, static cases (ETABS vs FemCore face forces) ---
+FrameForce(C001) ret=0 n=9 case0=G step0='Single Value'
+FrameForce(C101) ret=0 n=9 case0=G step0='Single Value'
+FrameForce(C201) ret=0 n=9 case0=G step0='Single Value'
+   worst gross C314 M3 I: ETABS 26.31 FemCore 26.31 | J: ETABS -31.45 FemCore -31.45 | P I: -119.5 vs -119.5
+   worst gross C014 M3 I: ETABS -26.31 FemCore -26.31 | J: ETABS 31.45 FemCore 31.45 | P I: -119.5 vs -119.5
+   worst gross Bx014 M3 I: ETABS -30.86 FemCore -30.86 | J: ETABS -42.78 FemCore -42.78 | P I: 0.0 vs 0.0
+   worst gross Bx214 M3 I: ETABS -42.78 FemCore -42.78 | J: ETABS -30.86 FemCore -30.86 | P I: 0.0 vs 0.0
+   worst gross By304 M3 I: ETABS -19.20 FemCore -19.20 | J: ETABS -24.17 FemCore -24.17 | P I: 0.0 vs 0.0
+   worst gross By004 M3 I: ETABS -19.20 FemCore -19.20 | J: ETABS -24.17 FemCore -24.17 | P I: 0.0 vs 0.0
+gross G: max|P| 903.8 diff 0.000 kN | max|V2| 53.8 diff 0.000 kN | max|M3| 46.9 diff 0.001 kNm (0.001 %, worst Bx014 end0)
+gross Q: max|P| 148.3 diff 0.000 kN | max|V2| 12.9 diff 0.000 kN | max|M3| 11.7 diff 0.000 kNm (0.001 %, worst C313 end1)
+gross S: max|P| 20.5 diff 0.000 kN | max|V2| 5.3 diff 0.000 kN | max|M3| 5.0 diff 0.000 kNm (0.001 %, worst Bx014 end0)
+G joint displacements: max|U3| 1.1964 mm diff 0.0004 mm (0.04 %, node N214 ETABS -1.1960 FemCore -1.1964) | max|R1| 0.0002403 diff 2.87E-09 (0.00 %) | max|R2| 0.0002379 diff 5.59E-09 (0.00 %)
+base reaction G: ETABS Fz=6999.30 kN, FemCore 6999.30 kN
+base reaction Q: ETABS Fz=900.00 kN, FemCore 900.00 kN
+base reaction S: ETABS Fz=112.50 kN, FemCore 112.50 kN
+ETABS version 22.6.0, session CRACKED (modal + RS)
+ETABS ERROR ret=1 in SetDiaphragm
+tables applied: fatal=0 errors=0 warnings=0
+table Mass Source Definition ret=0 records=3 fields=Name|IsDefault|IncLateral|IncVertical|LumpMass|SourceSelf|SourceAdded|SourceLoads|MoveMass|RatioX|RatioY|LoadPattern|Multiplier|GUID
+   MsSrc1|Yes|Yes|No|Yes|No|No|Yes|No|||G|1|c77962a9-db38-43c8-90ff-8aca9fd88dd6
+   MsSrc1|||||||||||Q|0.3|
+   MsSrc1|||||||||||S|0.3|
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+Cannot open file
+BufferFileIn::BufferFileIn(): 
+fileName = .Y_
+--- cracked model, static cases (ETABS vs FemCore face forces) ---
+   worst cracked C014 M3 I: ETABS -27.06 FemCore -27.06 | J: ETABS 33.55 FemCore 33.56 | P I: -120.4 vs -120.4
+   worst cracked C314 M3 I: ETABS 27.06 FemCore 27.06 | J: ETABS -33.55 FemCore -33.56 | P I: -120.4 vs -120.4
+   worst cracked Bx214 M3 I: ETABS -45.65 FemCore -45.65 | J: ETABS -34.15 FemCore -34.15 | P I: 0.0 vs 0.0
+   worst cracked Bx014 M3 I: ETABS -34.15 FemCore -34.15 | J: ETABS -45.65 FemCore -45.65 | P I: 0.0 vs 0.0
+   worst cracked C004 M3 I: ETABS -19.94 FemCore -19.94 | J: ETABS 22.08 FemCore 22.08 | P I: -67.7 vs -67.7
+   worst cracked C324 M3 I: ETABS 19.94 FemCore 19.94 | J: ETABS -22.08 FemCore -22.08 | P I: -67.7 vs -67.7
+cracked G: max|P| 908.9 diff 0.000 kN | max|V2| 53.4 diff 0.001 kN | max|M3| 47.4 diff 0.001 kNm (0.002 %, worst C014 end1)
+cracked Q: max|P| 150.1 diff 0.000 kN | max|V2| 12.9 diff 0.000 kN | max|M3| 12.1 diff 0.000 kNm (0.001 %, worst C013 end1)
+cracked S: max|P| 20.2 diff 0.000 kN | max|V2| 5.2 diff 0.000 kN | max|M3| 5.0 diff 0.000 kNm (0.002 %, worst C014 end1)
+ModalPeriod ret=0 n=12
+mode  T(ETABS)  T(FemCore)  diff%
+   1  0.61518  0.61523  -0.008
+   2  0.59093  0.59098  -0.008
+   3  0.52761  0.52768  -0.012
+   4  0.19787  0.19797  -0.054
+   5  0.19211  0.19222  -0.056
+   6  0.17306  0.17318  -0.069
+   7  0.10644  0.10653  -0.082
+   8  0.10465  0.10474  -0.080
+   9  0.09514  0.09523  -0.093
+  10  0.06620  0.06630  -0.141
+  11  0.06582  0.06592  -0.141
+  12  0.06039  0.06049  -0.164
+EX base shear Fx: ETABS 304.66 kN, FemCore 305.09 kN, diff -0.141 %
+EY base shear Fy: ETABS 293.54 kN, FemCore 293.96 kN, diff -0.144 %
+EX storey 1 corner joint U: ETABS 1.3213 mm, FemCore 1.3225 mm, diff -0.093 %
+EX storey 2 corner joint U: ETABS 3.0854 mm, FemCore 3.0874 mm, diff -0.064 %
+EX storey 3 corner joint U: ETABS 4.8186 mm, FemCore 4.8211 mm, diff -0.051 %
+EX storey 4 corner joint U: ETABS 5.8288 mm, FemCore 5.8317 mm, diff -0.051 %
+EY storey 1 corner joint U: ETABS 1.4231 mm, FemCore 1.4244 mm, diff -0.093 %
+EY storey 2 corner joint U: ETABS 3.3699 mm, FemCore 3.3721 mm, diff -0.065 %
+EY storey 3 corner joint U: ETABS 5.2844 mm, FemCore 5.2871 mm, diff -0.052 %
+EY storey 4 corner joint U: ETABS 6.4269 mm, FemCore 6.4303 mm, diff -0.052 %
+EX C001 M3 (I,J) ETABS 50.36 / 14.55  FemCore(RS incl. accidental torsion) 50.42 / 14.59 kNm;  V2 ETABS 23.72  FemCore 23.75
+EX By314 M3 (I,J) ETABS 0.85 / 0.95  FemCore(RS incl. accidental torsion) 0.85 / 0.95 kNm;  V2 ETABS 0.39  FemCore 0.39
+EX ALL 116 members (RS incl. accidental torsion): max |dM3| 0.064 kNm = 0.114 % of the largest M3 (56.13 kNm); max |dV2| 0.040 kN = 0.133 % of the largest V2 (30.49 kN)
+EY C001 M3 (I,J) ETABS 3.61 / 0.97  FemCore(RS incl. accidental torsion) 3.62 / 0.97 kNm;  V2 ETABS 1.70  FemCore 1.70
+EY By314 M3 (I,J) ETABS 12.80 / 14.47  FemCore(RS incl. accidental torsion) 12.82 / 14.48 kNm;  V2 ETABS 5.93  FemCore 5.93
+EY ALL 116 members (RS incl. accidental torsion): max |dM3| 0.028 kNm = 0.071 % of the largest M3 (39.28 kNm); max |dV2| 0.012 kN = 0.071 % of the largest V2 (17.09 kN)
+done

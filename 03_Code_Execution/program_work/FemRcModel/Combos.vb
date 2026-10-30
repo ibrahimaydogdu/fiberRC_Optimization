@@ -23,6 +23,7 @@ Public Class FrameAnalysis
     Public Combos As New List(Of ComboSet)
     Public Modal As ModalResults
     Public BaseShearX, BaseShearY, Weight As Double
+    Public Ez As Double                       'vertical earthquake factor of the seismic combinations (TBDY Eq. 4.10: 0.3 * 2/3 * SDS)
     Public RSx, RSy As RSResults
     Public Rg, Rc As StaticResults            'static results of the gross and cracked models (patterns G, Q, S)
 End Class
@@ -148,6 +149,7 @@ Public Module RcCombos
         Dim eHm As New List(Of Double()()) From {ShiftMid(mmx, mmy, 0.3), ShiftMid(mmy, mmx, 0.3)}
         'TBDY 4.4.3.2 (Eq. 4.10): Ed(Z) ~ (2/3) SDS G; Eq. 4.11: G + Q + 0.2 S + Ed(H) + 0.3 Ed(Z); Eq. 4.12: 0.9 G + H + Ed(H) - 0.3 Ed(Z)  (H = soil thrust = 0)
         Dim ez As Double = 0.3 * (2.0 / 3.0) * tp.SDS
+        fa.Ez = ez
         Dim s1 = Lin(Rc, m, {Tuple.Create("G", 1.0 + ez), Tuple.Create("Q", 1.0), Tuple.Create("S", 0.2)})
         Dim s2 = Lin(Rc, m, {Tuple.Create("G", 0.9 - ez)})
         Dim m1 = LinMid(fs, Rc, m, {Tuple.Create("G", 1.0 + ez), Tuple.Create("Q", 1.0), Tuple.Create("S", 0.2)})

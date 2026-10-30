@@ -154,3 +154,98 @@ V2 kapılarından FE1–FE4, B1–B3 ve S1 geçti. **CD1 kaldı**: üretim kolon
 
 **V2 durumu:** FE1–FE4, CD1, CD2, B1–B3, S1 geçti; CD3 tanım farkı olarak belgelenir; **S2 (SFRC deney kıyası), Z6 (kolon kesme/kapasite tasarımı TS 500 menüsü) açık**; D/C 0,8–1,0 ve üretim donatı düzeni sınırlamadır. Kampanya için kalan engeller: S2 ve Critic'in yeniden incelemesi (REVİZYON TALEBİ'nin kapandığını onaylaması), ardından IA'nın kampanya onayı.
 
+
+### S2 — SFRC kiriş deney kıyası (2026-10-30): SONUÇSUZ (veri yetersiz/tutarsız), kapı AÇIK
+Literature Analyst yalnız 2 çalışmadan 12 kiriş buldu (`01_Literature/SFRC_BEAM_TESTS.csv/.md`, kaynak PDF'leri `Papers/` altında, SHA-256 kayıtlı); `d` hiçbir satırda yok, Buttignol 2018'in 3 kirişinde fc/fy da yok (kullanılamaz). Nogales vd. (2025) 9 kirişi, `tools/sfrc_s2_compare.py` ile (model: SfrcBeam ile birebir doğrulanmış; ortalama fR, γF = 1, φ yok; d = 353 mm, duyarlılık 365 mm) hesaplandı (`04_Results/S2_SFRC_comparison_raw.txt`):
+
+| Karşılaştırma | Tahmin/ölçüm (n = 9) |
+|---|---|
+| Çelik akma (fy = 503 MPa) | ortalama 0,587 (0,526–0,635) |
+| Çubuk çekme dayanımı (ft = 644 MPa) | ortalama 0,750 (0,672–0,812) |
+
+**Yorum (sayıdan çıkan, model kanıtı değil):** (1) Lifsiz kontrol kirişleri RCS1/RCS2 de aynı şekilde düşük (0,60/0,63): açığın nedeni lif modeli değildir. (2) Denge kontrolü: Mexp = 148,5 kN·m için çubuk kuvveti ≈ 424 kN gerekir, oysa As·ft = 502 × 644 = 323 kN; yani raporlanan As ve Mexp (0,45·Pmax) birlikte statikle tutarsızdır (üst donatı, ek çubuk ya da Pmax tanımı belirsiz). (3) Bu kirişlerde lif katkısı modelde ≈ 0 (c/d ≈ 0,02, çok az donatılı; hazır model fiber artışı < %0,2), deneyde de belirgin bir artış yok (RCS1 148,5 → HRCS1-25Aa 139,5). Bu veri lif katkısını sınamaya uygun değildir.
+**Karar:** S2 geçmedi, kaldı da denemez; **sonuçsuz**. Gereken: orta/yüksek donatılı lifli kiriş deneyleri (Soetens & Matthys, Meda–Plizzari, Foster & Parvez, Gümüş & Arslan; kurum erişimi gerekir) ve Nogales yazarlarından donatı yerleşimi/Pmax tanımı. O zamana kadar lifli sonuçlar "model sonucu" etiketiyle ve lifsiz/fFtu = 0 duyarlılığıyla sunulur; makale S2'ye dayanan "deneysel olarak doğrulandı" ifadesi içeremez.
+
+
+## V2f — Critic Review_Round_V2e yanıtı (R1–R8), 2026-10-30
+
+**Kapsam notu:** Bu bölüm V2e bölümündeki "geçti" kararlarını revize eder; V2e'de kullanılan δns hizalaması (lu = 0,9L, yalnız gravite birleşimi) ve simetrik `SymSection` düzeni yerine **üretim düzeni** ve ACI net yükseklik kullanıldı.
+
+### Kod değişiklikleri (bu tur, hepsi V2e Critic maddelerinden)
+1. **Üretim donatı düzeni (A2/R4):** `ColumnDesign.MakeSection` iki eğilme doğrultusu için aynı fiziksel çevre düzenini kullanıyor (`PerimeterCounts`; N çubuk, 2(nK + nU) − 4 = N). Önce iki doğrultu bağımsız düzen üretiyordu (500/400, N = 16: 8+8 ve 7+2+7). Kare kolonda tek sayılı kenar çiftinde M2 kesiti M3'ün devriği olmalıdır; bu hata yeni testlerde bulundu ve `transposed` parametresiyle düzeltildi. ETABS'te aynı düzen `SetRebarColumn` (NR3 = genişlik kenarı çubuk sayısı, NR2 = derinlik kenarı) ile kuruldu; kare olmayan kolonda NR3/NR2'yi değiştirmek D/C'yi birkaç yüzde etkiledi (U1 maks 0,502 ↔ 0,510), eşleme kesin kanıtlanmadı: sınırlama.
+2. **lu (N1/R3):** program ACI 6.2.5.1'e göre net yükseklik (eleman boyu − rijit uç bölge) kullanıyor; ETABS'te aynı girdiler `SetOverwrite` ile açıkça yazıldı (lu oranı = net/L, K = 1, Cm = 1). Önceki "0,9L" ETABS kopyası kaldırıldı.
+3. **Sismik birleşimlerde δns (N1):** ETABS'in sismik birleşimlerde de δns uyguladığı bulundu (300×300, ρ = %3, kolon C111, 4.11: büyütme kapalı 0,741 → açık 0,878). Program artık sismik birleşimlerde de aynı δns'i (birleşimin Pu'su, sürekli yük (1 + ez)G) uyguluyor. Bu ETABS davranışına uyumdur; ACI 6.6.4.6'daki Mns/Ms ayrımı yerine tüm momentin büyütülmesi **muhafazakârdır** ve makalede böyle yazılır.
+4. **Q kontrolü (N1):** `EtabsProbe` QCHECK=1, kat başına ACI 6.6.4.3 stabilite indeksi: birinci mertebe Δo ile Q ≤ 0,017 (EY, kat 2); Δ'yı D = 3 ile büyütünce en çok 0,050 (EY kat 2, tam sınırda). Birinci mertebe değeri ACI'nin tanımıdır; sway etkileri ihmal edilebilir. Log: `runs/V2f_QCHECK_stability_index_2026-10-30.txt`.
+5. **Birim testleri (R6/B4):** 13 yeni test (F13): çevre düzeni, kare N = 6 devrik düzen, δns analitik (1,2018), lu/r ≤ 22, δns sonsuz, e_min, kat kuvvetleri toplamı = taban kesmesi, üst kat kuvveti = üst kat kesmesi. **Toplam 75 test geçti** (62 → 75). 8 işaret deseni için ayrı birim test **yazılamadı** (sentetik `FrameAnalysis` kurmak gerekir); ETABS karşılaştırması onu kapsıyor (V2b).
+
+### Ölçümler (ETABS CFD ACI 318-14, aynı kuvvetler ve düzen; 8 konfigürasyon × 240 kolon×birleşim = 1920 satır)
+| Konfigürasyon (S12 / S34, mm; ρ) | ETABS maks D/C (U1 / sismik) | Radyal+e_min+δns / ETABS (min–maks) | Yanlış-uygun | Yanlış-uygun değil |
+|---|---|---|---|---|
+| 500 / 400; %1,5 | 0,376 / 0,320 | 0,961–1,315 | 0 | 0 |
+| 400 / 320; %1,0 | 0,622 / 0,584 | 0,974–1,485 | 0 | 0 |
+| 500×350 / 350; %2,5 (kare değil) | 0,484 / 0,415 | 0,976–1,151 | 0 | 0 |
+| 320 / 300; %2,5 | 0,843 / 0,743 | 0,983–1,147 | 0 | 0 |
+| 300×350 / 300; %3 (kare değil) | 0,802 / 0,691 | 0,987–1,140 | 0 | 0 |
+| 300 / 300; %3 | 0,981 / 0,879 | 0,989–1,148 | 0 | 0 |
+| 300 / 300; %2 | 1,116 / 0,978 | 0,987–1,174 | 0 | 4 |
+| 260 / 240; %2 (tasarım uzayı dışı) | 2,452 / 1,784 | 0,994–1,166 | 0 | 34 |
+
+- **CD1 (yanlış-uygun = 0): GEÇTİ**, 1920 satırda 0. Yanlış-uygun-değil (program > 1, ETABS ≤ 1) 38 satır, güvenli yönde.
+- **CD2 (≥ 0,95): GEÇTİ**, tüm konfigürasyonlarda min 0,961 (önceki tur 0,911 idi, nedeni sismik δns eksikliği).
+- **Bandı örnekleme (R2):** ETABS D/C ∈ [0,8; 1,2] olan satır sayısı: tasarım uzayında (300–500 mm) 16 (300/300 %3: 6; 300/300 %2: 6; 320/300: 2; 300×350: 2), uzay dışında (260/240) 98. İstenen "≥ 20 bağımsız satır, 300–500 mm" ölçütü **16 ile sağlanmadı**; C111/C211 (aynı kolon tipi) tekrarlı olduğundan bağımsız satır sayısı daha da düşük. Hold-out niteliği: konfigürasyonların hepsi aynı Ö1 geometrisi ve aynı yükler üzerindedir; **bağımsız bir ikinci yapı** (farklı kat sayısı/açıklık) denenmedi.
+- **CD3 (kritik D/C ≥ −%5 güvensiz yönde): KALDI** konfigürasyonların üçünde: 500×350 (U1: üretim 0,373, ETABS 0,484, −%23), 320/300 (0,643/0,843, −%24), 300×350 (0,606/0,802, −%24). Hepsi düşük D/C (≤ 0,85); nedeni üretim kısıtının sabit-P moment oranı olmasıdır (ETABS radyal). D/C → 1'e yaklaşırken fark azalır (300/300 %3: U1 0,947 vs 0,981, −%3,5; %2: 1,411 vs 1,116, güvenli). Uygunluk kararı aynı yüzeye dayandığı için CD1 geçiyor; ceza ölçeği ETABS'inkinden farklı. **Karar IA'nın (R5):** (a) CD3'ü yalnız bilgi amaçlı say ve makalede "D/C = moment oranı" tanımını yaz, ya da (b) üretim kısıtını radyal orana çevir (hesap maliyeti artar).
+
+### R1 — Kanıt bütünlüğü
+- `runs/SHA256SUMS_2026-10-30.txt` yeniden üretildi: kendini içermiyor, 4 ikili (EtabsProbe.exe 4c369899…, FemCore.dll 207beee8…, FemRcModel.dll fe5ee93e…, RcCore.dll 93bd0403…) ve 48 log/test dosyası; `sha256sum -c` ile doğrulandı, 0 başarısız.
+- Burulma ters çözümü: `runs/V2f_ECCDIAG_torsion_inverse_2026-10-30.txt` (ETABS tork 19,6/27,6/39,3/62,3 kN·m; FemCore yeni 22,9/27,8/39,0/62,8; eski CQC kuvveti 62,3/69,0/65,2/62,8).
+- **116 eleman RS karşılaştırması:** `runs/V2f_final_RS_all116members_2026-10-30.txt`: EX: maks |ΔM3| 0,064 kN·m = %0,114, maks |ΔV2| %0,133; EY: %0,071 / %0,071 (en büyük değere göre).
+- **NORZ=1 (rijit bölge yok) koşusu:** `runs/V2f_final_NORZ1_2026-10-30.txt`: taban kesmesi, köşe yer değiştirmesi, 116 eleman: fark %0,000–0,001.
+- ETABS etkileşim yüzeyi 11 → 41 nokta (48 eğri): ETABS D/C %1,3'e kadar düşüyor (C111 4.11: 0,878 → 0,867): program farkını açıklamıyor.
+- Derleme zamanı, ETABS 22.6.0, ETABSv1.dll 2.8.0.0 SHA listesinin başlığında.
+
+### R8 — Burulma sınırlaması
+Burulma kök nedeni (kat kuvveti = CQC kat kesmesi farkı) tek yapıda (Ö1 deneme tasarımı, EX/EY, 4 kat, tek açıklık düzeni) bulundu ve sınandı; ikinci yapılandırma sınanmadı. Makalede: "Kazara dış merkezlik burulma kuvvetleri ETABS 22.6.0 davranışına göre kat kesmesi farkından hesaplanmıştır; doğrulama tek yapıda yapılmıştır" sınırlaması yazılır.
+
+### Durum
+V2 kapılarından FE1–FE4, CD1, CD2, B1–B3, S1 **geçti**; **CD3 kaldı (tanım farkı, IA kararı bekliyor)**; R2 (≥ 20 bağımsız satır) ve ikinci yapı **eksik**; S2 **sonuçsuz**; Z6/PCR-4 (TS 500 menüsü) açık. Kampanya için kalanlar: IA'nın CD3/R5 ve eşik onayı (R10), R7 kararı (kolon kesme ACI mı TBDY mi), S2.
+
+### S2 güncellemesi (yeni PDF'ler)
+`Papers/` altındaki 6 yeni PDF'den 32 kiriş satırı çıkarıldı (Meda 2012: 5, Dancygier 2016: 25, Zijl 2013: 2; Foster 2019, Mahmood 2018, Tiberti 2015: 0 satır), `01_Literature/SFRC_BEAM_TESTS.csv` şimdi 44 satır. **Hiçbir yeni satırda silindir fc ile EN 14651 fR1/fR3 birlikte yok** (Meda: UNI 11039; Dancygier: küp fc ve RILEM eğrisi; Zijl: yarma deneyi), bu nedenle model girdisi kurulamıyor; S2 hâlâ sonuçsuz. Mahmood 2018'de EN 14651 fR, silindir fc ve fy var ancak kiriş sürekli ve kesit momenti ölçülmemiş. Seçenekler: (i) bu kaynakların orijinal deney çalışmalarından (Foster 2019'daki de Montaignac, Conforti, Ning, Biolzi, Minelli, Dinh) fR'li veri aramak; (ii) Dancygier'in RILEM eğrisini sayısallaştırıp σ–w modelini doğrudan ona karşı sınamak (ayrı yöntem, IA kararı); (iii) lifli sonuçları S2'siz "model sonucu" olarak sunmak.
+
+
+## V2h — IA kararları (2026-10-30): radyal D/C ve ACI Bölüm 18 kapasite tasarımı
+
+**Kararlar (IA):** (1) Kolon kısıtı **radyal D/C** (ETABS tanımı) olacak. (2) Kapasite tasarımı zinciri (kiriş/kolon kesmesi, güçlü kolon–zayıf kiriş, birleşim kesmesi, sarılma) **ACI 318M-14 Bölüm 18**'e göre; TBDY yalnız yük, spektrum, boyut/oran sınırları (A1–A3, B1–B7), kat ötelenmesi ve A11 koşullarında kalır. (3) "Sen alacağın tüm kararları onaylıyorum" (IA); aşağıdaki seçimler bu yetkiyle yapılmıştır ve gerekçeleriyle yazılıdır.
+
+### Radyal D/C (CD3 kapandı)
+`ColumnDesign.ColCurve` (tasarım etkileşim eğrisi, 160 nokta, enterpolasyon) ve `RadialDcr` (yük noktasını orijinden λ ile ölçekle, D/C = 1/λ). Doğruluk: tam ölçekleme ile 6 yük noktasında en çok %0,30 (birim test). Hesap süresi: 82 ms → 29 ms (bir değerlendirmede tüm kolon grupları). ETABS ile 5 konfigürasyonda yeniden ölçüldü (`runs/V2h_*`), üretim kısıtı / ETABS D/C oranı:
+
+| Konfigürasyon (S12 / S34, mm; ρ) | ETABS maks D/C (U1) | Üretim maks D/C (U1) | Üretim / ETABS (min–maks, tüm satırlar) | Yanlış-uygun | Yanlış-uygun değil |
+|---|---|---|---|---|---|
+| 500 / 400; %1,5 | 0,376 | 0,375 | 0,961–1,315 | 0 | 0 |
+| 500×350 / 350; %2,5 | 0,484 | 0,479 | 0,988–1,151 | 0 | 0 |
+| 320 / 300; %2,5 | 0,843 | 0,838 | 0,985–1,149 | 0 | 0 |
+| 300 / 300; %3 | 0,981 | 0,979 | 0,991–1,149 | 0 | 0 |
+| 300 / 300; %2 | 1,116 | 1,113 | 0,987–1,176 | 0 | 4 (güvenli) |
+
+Önceki sabit-P tanımında aynı konfigürasyonlarda U1'de %23–24 düşük çıkan değerler (0,373 vs 0,484 vb.) kapandı. **CD3 GEÇTİ** (en büyük D/C'li kolonda üretim ETABS'ten en çok %1,0 düşük; tek tek kolonlarda oran ≥ 0,961; deprem birleşimlerinde ETABS'e göre çoğunlukla %0–10 yüksek).
+
+### ACI 318M-14 Bölüm 18 zinciri (kod: `ColumnDesign.vb`, `BeamDesign.vb`, `Checks.vb`)
+Madde metinleri `Evidence/DesignGuides/ACI 318M_14.pdf`'den okunarak doğrulandı: 18.6.4.4, 18.6.5.1–2, 18.7.3.2, 18.7.4.1, 18.7.5.1–5 (Tablo 18.7.5.4 (a)–(c)), 18.7.6.1.1, 18.7.6.2.1, 18.8.2.1, 18.8.4.1–3 (Tablo 18.8.4.1).
+| Madde | Yeni uygulama | Önceki (TBDY) |
+|---|---|---|
+| Kiriş kapasite kesmesi | Ve = (Mpr,üst + Mpr,alt)/ln + Vdy; Mpr: 1,25 fy, φ = 1; lif katkısı γF = 1 (varsayım: "olası" dayanım); φv = 0,75; Vc = 0 (deprem kesmesi ≥ Ve/2); Vs ≤ 0,66√f'c bw d; ilk etriye ≤ 50 mm, aralık ≤ min(d/4, 6 db, 150) | 1,4 Mr(fcd,fyd), 8 db, 0,85 bw d √fck |
+| Kolon kapasite kesmesi | Ve = (Mü + Ma)/ln; uç momentleri = min(Mpr,kolon (Pu aralığında), eklem kirişlerinin ΣMpr'sinin yarısı; çatıda tamamı; zeminde Mpr,kolon); Ve ≥ analiz kesmesi (18.7.6.1.1); Vc = 0 (Pu < Ag f'c/20); Vs ≤ 0,66√f'c b d | 2 × 1,4 Mr |
+| Kolon sarılması | Tablo 18.7.5.4 (a), (b), (c); s ≤ min(en küçük boyut/4, 6 db, so ∈ [100,150]); lo ≥ max(h, ln/6, 450); lo dışı s ≤ min(6 db, 150) (18.7.5.5) | TBDY 7.3.4 |
+| Güçlü kolon–zayıf kiriş | ΣMnc ≥ 1,2 ΣMnb (18.7.3.2), nominal Mn (f'c, fy), Pu en küçük (deprem); muafiyet yok; lifli kirişin lif katkısı γF = 1 | 1,2 ΣMr(fcd,fyd), Nd ≤ 0,10 Ac fck muafiyeti |
+| Birleşim kesmesi | Vu = 1,25 fy (As1 + As2) − Vkol, Vkol = (Mpr,L + Mpr,R)/H (ETABS CFD 3.6.1 ile aynı; çatıda 0); φ = 0,85; Vn = 1,7 / 1,2 / 1,0 √f'c Aj, kuşatma 18.8.4.2 (kiriş genişliği ≥ 3/4 etkin birleşim genişliği) | 1,7 / 1,0 bj h √fck, yalnız tam kuşatma/kuşatmasız |
+Birim testler: F7 (kiriş Mpr zinciri) ACI el hesabına güncellendi; 76/76 geçti.
+
+### ETABS ile karşılaştırılan ve karşılaştırılamayan
+- **Kiriş kapasite kesmesi:** V2c'de ACI zinciri (Mpr 1,25 fy, sağlanan donatı, φ = 0,75, Vc = 0) ETABS'e göre 0,964–0,985; bu turda yalnız ΣMpr'de lif γF ve 6 db sınırı değişti.
+- **Kolon kesmesi ve birleşim (güçlü kolon, birleşim kesmesi): ETABS'ten doğrulanamadı.** OAPI ile kurulan modelde ETABS kolon kesme zarfında yalnız analiz kesmesini (ör. 13,5 kN) ve minimum Av/s'yi veriyor (kapasite kesmesi uygulanmıyor); `Concrete Joint Design Summary` tablosu tüm 48 kolon için "Joint check not done" döndürüyor. Çerçeve tipini kolonlarda açıkça "Sway Special" yazmak ve tüm sismik birleşimleri tasarıma almak sonucu değiştirmedi; nedeni bulunamadı (kayıt: `runs/V2h_ETABS_joint_not_done_*.txt`). Bu bileşenler ACI metniyle ve el hesabı birim testleriyle doğrulanmıştır, **ETABS ile doğrulanmamıştır**: makalede sınırlama olarak yazılır. Gereken: ETABS kolon/birleşim tasarımının neden devreye girmediğinin araştırılması (ETABS Help / CSI destek) veya ETABS arayüzünde elle denenmesi.
+
+### Karar tablosu (IA yetkisiyle, 2026-10-30)
+- **ACI mi TBDY mi:** ACI (Bölüm 18). Gerekçe: kesit kapasitesi zaten ACI 318-14 + fib MC2010; ETABS CFD ACI ile doğrulama zinciri (kiriş kesmesi, kolon P-M, δns) tutarlı; Ö2 ve Ö3 de ACI.
+- **Radyal D/C:** evet; ETABS tanımıyla örtüşür ve hızlıdır (eğri enterpolasyonu).
+- **Kolon kesmesi kiriş sınırı:** evet (ACI 18.7.6.1.1'in izin verdiği, ETABS CFD'nin de tarif ettiği); güçlü kolon–zayıf kiriş ile tutarlı olan kolon kesmesi eklem kirişlerinin dayanımıyla sınırlanır.

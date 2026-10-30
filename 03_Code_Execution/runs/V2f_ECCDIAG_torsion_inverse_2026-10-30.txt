@@ -1,0 +1,14 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+EX storey 1: ETABS(5%) 1.3213  FemCore ECC=0 1.2569  torsion part 0.0655  abs-sum 1.3225 (0.09 %)  SRSS 1.2586 (-4.74 %)
+EX storey 2: ETABS(5%) 3.0854  FemCore ECC=0 2.9323  torsion part 0.1551  abs-sum 3.0874 (0.06 %)  SRSS 2.9364 (-4.83 %)
+EX storey 3: ETABS(5%) 4.8186  FemCore ECC=0 4.5721  torsion part 0.2490  abs-sum 4.8211 (0.05 %)  SRSS 4.5789 (-4.98 %)
+EX storey 4: ETABS(5%) 5.8288  FemCore ECC=0 5.5227  torsion part 0.3090  abs-sum 5.8317 (0.05 %)  SRSS 5.5314 (-5.10 %)
+EX diaphragm force (CQC) per storey: 124.70, 138.09, 130.33, 125.68
+EY storey 1: ETABS(5%) 1.4231  FemCore ECC=0 1.2824  torsion part 0.1420  abs-sum 1.4244 (0.09 %)  SRSS 1.2902 (-9.34 %)
+EY storey 2: ETABS(5%) 3.3699  FemCore ECC=0 3.0361  torsion part 0.3360  abs-sum 3.3721 (0.07 %)  SRSS 3.0546 (-9.36 %)
+EY storey 3: ETABS(5%) 5.2844  FemCore ECC=0 4.7473  torsion part 0.5399  abs-sum 5.2871 (0.05 %)  SRSS 4.7779 (-9.59 %)
+EY storey 4: ETABS(5%) 6.4269  FemCore ECC=0 5.7590  torsion part 0.6713  abs-sum 6.4303 (0.05 %)  SRSS 5.7980 (-9.79 %)
+EY diaphragm force (CQC) per storey: 124.67, 136.35, 128.25, 123.04
+diaphragm order: 0,1,2,3
+EX implied ETABS torques (kN m) per storey: 19.6, 27.6, 39.3, 62.3   FemCore used F_k*0.05*perp: 22.9, 27.8, 39.0, 62.8   (CQC diaphragm force variant: 62.3, 69.0, 65.2, 62.8)
+EY implied ETABS torques (kN m) per storey: 31.0, 39.5, 55.5, 91.7   FemCore used F_k*0.05*perp: 33.5, 39.7, 55.0, 92.3   (CQC diaphragm force variant: 93.5, 102.3, 96.2, 92.3)

@@ -52,17 +52,22 @@ Public Module Ex1Evaluator
         r.Analysis = fa
         Dim m = fa.Gross.Model
 
-        'member designs per group
+        'member designs per group (beams first: the column capacity-design shear is limited by the beam strengths of its joints)
+        Dim fibs As New Dictionary(Of String, BeamFibre)
+        For Each kv In d.Beams : fibs(kv.Key) = kv.Value.Fibre : Next
+        For Each g In fa.Gross.BeamGroups
+            Dim b = d.Beams(g)
+            r.BeamRes(g) = BeamDesign.DesignGroup(fa, g, b.B, b.H, b.Fc, b.Fibre)
+        Next
         Dim colShear As New Dictionary(Of String, ColumnShearResult)
         For Each g In fa.Gross.ColumnGroups
             Dim c = d.Columns(g)
             r.ColRes(g) = ColumnDesign.CheckGroup(fa, g, c.B, c.H, c.Fc, c.Rho, c.BarDia)
-            colShear(g) = ColumnShear.Design(fa, r.ColRes(g))
+            colShear(g) = ColumnShear.Design(fa, r.ColRes(g), r.BeamRes, fibs)
         Next
         Dim beamShr As New Dictionary(Of String, BeamShearResult)
         For Each g In fa.Gross.BeamGroups
             Dim b = d.Beams(g)
-            r.BeamRes(g) = BeamDesign.DesignGroup(fa, g, b.B, b.H, b.Fc, b.Fibre)
             Dim fctk As Double = 0.0, fftuk As Double = 0.0
             If b.Fibre IsNot Nothing AndAlso b.Fibre.Params IsNot Nothing Then
                 fctk = SfrcBeam.FctkMin(b.Fc) : fftuk = SfrcBeam.FFtukShear(b.Fibre.Params)
@@ -70,8 +75,8 @@ Public Module Ex1Evaluator
             beamShr(g) = BeamShear.DesignGroup(fa, r.BeamRes(g), b.Fibre, fctk, fftuk)
         Next
         r.Drift = Checks.Drift(fa, spec, tp, dd3)
-        Dim joints = Checks.StrongColumn(fa, spec, r.ColRes, r.BeamRes, Nothing)
-        Dim jshear = JointShear.Check(fa, spec, r.ColRes, colShear, r.BeamRes)
+        Dim joints = Checks.StrongColumn(fa, spec, r.ColRes, r.BeamRes, fibs)
+        Dim jshear = JointShear.Check(fa, spec, r.ColRes, colShear, r.BeamRes, fibs)
 
         'cost: members one by one
         For ei As Integer = 0 To m.Elements.Count - 1
@@ -115,7 +120,7 @@ Public Module Ex1Evaluator
         add("A3 col rho >= 1 %", cList.Select(Function(x) x.G_RhoLow))
         add("A3 col rho <= 4 %", cList.Select(Function(x) x.G_RhoHigh))
         add("P-M biaxial D/C", cList.Select(Function(x) x.DcrMax - 1.0))
-        add("C1c col shear crush (7.7)", colShear.Values.Select(Function(x) Math.Max(x.G_Crush(0), x.G_Crush(1))))
+        add("C1c col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2)", colShear.Values.Select(Function(x) Math.Max(x.G_Crush(0), x.G_Crush(1))))
         add("C1a col tie spacing >= 50", colShear.Values.Select(Function(x) 50.0 / Math.Max(x.SConf, 1.0) - 1.0 + If(x.SConf <= 50.0 AndAlso x.Governing <> "ok", 1.0, 0.0)))
         Dim bList = r.BeamRes.Values
         add("B1 beam bw >= 250", bList.Select(Function(x) 250.0 / x.B - 1.0))
@@ -124,10 +129,10 @@ Public Module Ex1Evaluator
         add("B1 beam bw <= h + bc", bList.Select(Function(x) x.B / (x.H + d.Columns.Values.Min(Function(c) Math.Min(c.B, c.H))) - 1.0))
         add("B7 beam rho <= 2 %", bList.Select(Function(x) Math.Max(x.AsTop, x.AsBot) / x.AsMaxRho - 1.0))
         add("B7 beam eps_t >= 0.004 / section capacity", bList.Select(Function(x) If(x.EpsTOk, -1.0, 1.0)))
-        add("C1e beam shear crush (7.10)", beamShr.Values.Select(Function(x) x.G_Crush))
+        add("C1e beam shear Vs <= 0.66 sqrt(fc) bw d (ACI 22.5.1.2)", beamShr.Values.Select(Function(x) x.G_Crush))
         add("C1d beam stirrup spacing >= 50", beamShr.Values.Select(Function(x) If(x.Governing = "stirrup spacing < 50 mm", 1.0, -1.0)))
-        add("A5 strong column", joints.Where(Function(x) Not x.Exempt).Select(Function(x) x.G))
-        add("C1f joint shear", jshear.Select(Function(x) x.G))
+        add("A5 strong column (ACI 18.7.3.2)", joints.Where(Function(x) Not x.Exempt).Select(Function(x) x.G))
+        add("C1f joint shear (ACI 18.8.4)", jshear.Select(Function(x) x.G))
         add("C2 drift", New Double() {r.Drift.G})
         For i As Integer = 0 To viol.Count - 1
             r.Violations.Add(Tuple.Create(names(i), Penalty.GroupViolation(viol(i))))

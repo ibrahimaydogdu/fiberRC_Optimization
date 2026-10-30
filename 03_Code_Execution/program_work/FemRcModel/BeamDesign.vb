@@ -90,15 +90,16 @@ Public Module BeamDesign
     End Function
 End Module
 
-'Beam shear (TBDY-2018 7.4.5 capacity design; TS 500 Vc/Vr replaced by ACI 318M-14 / fib MC2010 as in the program). Units N, mm, MPa.
+'Beam shear, ACI 318M-14 18.6.5 capacity design (decision IA 2026-10-30): Ve = (Mpr,top + Mpr,bot)/ln + factored gravity shear, Mpr with 1.25 fy and phi = 1 (fibre part: gamma_F = 1), phi_v = 0.75,
+'Vc = 0 over 2h when the earthquake shear is at least half of Ve (18.6.5.2); hoops 18.6.4.4. Units N, mm, MPa.
 Public Class BeamShearResult
     Public Group As String
-    Public Ve, Vdy, Vseis As Double           'N: design shear, gravity (simple beam) part, capacity-design part 1.4 (Mr,top + Mr,bot)/ln
+    Public Ve, Vdy, Vseis As Double           'N: design shear, gravity (simple beam) part, capacity-design part (Mpr,top + Mpr,bot)/ln
     Public MrTop, MrBot, Ln As Double         'N.mm, N.mm, mm
-    Public ZeroVc As Boolean                  'TBDY 7.4.5.3: Vseis > Ve/2 -> Vc = 0 in the confinement zones
+    Public ZeroVc As Boolean                  'ACI 18.6.5.2: Vseis >= Ve/2 -> Vc = 0 in the confinement zones
     Public AvConfPerS, AvMidPerS As Double    'required Av/s, mm2/mm
     Public SConf, SMid As Double              'chosen spacings, mm
-    Public G_Crush As Double                  'Eq. 7.10: Ve/(0.85 bw d sqrt(fck)) - 1
+    Public G_Crush As Double                  '(Ve/phi - Vc,conf) / (0.66 sqrt(f'c) bw d) - 1  (ACI 22.5.1.2)
     Public Governing As String
 End Class
 
@@ -107,11 +108,12 @@ Public Module BeamShear
     Public Const StirrupDia As Double = 10.0    'mm, two legs [ASSUMPTION]
     Public Const LongBarDia As Double = 20.0    'mm, for the 8 phi spacing limit [ASSUMPTION]
 
-    'TBDY Mr: moment at the beam face from fcd and fyd (TS 500 strengths, no phi; TBDY page 131 / printed 110). Nominal Mn of the section with fc := fcd, fy := fyd.
-    Private Function MrOf(r As BeamGroupResult, As_ As Double, fib As BeamFibre) As Double
-        Dim fcd As Double = Ts500.Fcd(r.Fc), fyd As Double = Ts500.Fyd(420.0)
-        If fib Is Nothing OrElse fib.Params Is Nothing Then Return RcCore.AciBeam.Flexure(r.B, r.D, As_, fcd, fyd).Mn
-        Return RcCore.SfrcBeam.Flexure(r.B, r.H, r.D, As_, fcd, fyd, fib.Params, 0.7 * r.H).Mn
+    'ACI Mpr: probable moment strength at the beam face, 1.25 fy, no phi (18.6.5.1; R18.6.5 strain hardening). Fibre part: gamma_F = 1 (probable strength; assumption).
+    Public Function MrOf(r As BeamGroupResult, As_ As Double, fib As BeamFibre) As Double
+        Dim fyp As Double = 1.25 * BeamDesign.Fy
+        If fib Is Nothing OrElse fib.Params Is Nothing Then Return RcCore.AciBeam.Flexure(r.B, r.D, As_, r.Fc, fyp).Mn
+        Dim q As New RcCore.SfrcParams With {.FR1 = fib.Params.FR1, .FR3 = fib.Params.FR3, .GammaF = 1.0, .Linear = fib.Params.Linear, .EpsFu = fib.Params.EpsFu, .WMaxLimit = fib.Params.WMaxLimit, .Cmod3 = fib.Params.Cmod3, .WuOverride = fib.Params.WuOverride}
+        Return RcCore.SfrcBeam.Flexure(r.B, r.H, r.D, As_, r.Fc, fyp, q, 0.7 * r.H).Mn
     End Function
 
     'Vdy of one beam: simple-beam shear of the vertical loads of the seismic combination (G + Q + 0.2 S) = half of the vertical load on the clear span
@@ -136,24 +138,24 @@ Public Module BeamShear
             If e.Group <> r.Group Then Continue For
             Dim ln As Double = (e.Length - e.OffsetI - e.OffsetJ) * 1000.0
             Dim vdy As Double = VdySimple(fa, ei)
-            Dim vs As Double = 1.4 * (o.MrTop + o.MrBot) / ln
+            Dim vs As Double = (o.MrTop + o.MrBot) / ln
             If vdy + vs > worst Then worst = vdy + vs : o.Ve = vdy + vs : o.Vdy = vdy : o.Vseis = vs : o.Ln = ln
         Next
-        o.ZeroVc = o.Vseis > 0.5 * o.Ve
-        o.G_Crush = o.Ve / (0.85 * r.B * r.D * Math.Sqrt(r.Fc)) - 1.0
+        o.ZeroVc = o.Vseis >= 0.5 * o.Ve
         Dim fyt As Double = 420.0
         Dim av As Double = 2.0 * Math.PI * StirrupDia * StirrupDia / 4.0
         'confinement zones: Vc = 0 (when Vseis > Ve/2); lifli kirişte lif katkısı da 0 alınır (Critic kararı bekliyor, A11 C1e)
         Dim vcConf As Double = If(o.ZeroVc, 0.0, VcOf(r, fib, fctk, fFtuk))
+        o.G_Crush = (o.Ve / Phi - vcConf) / (0.66 * Math.Sqrt(r.Fc) * r.B * r.D) - 1.0
         o.AvConfPerS = Math.Max(o.Ve / Phi - vcConf, 0.0) / (fyt * r.D)
         o.AvConfPerS = Math.Max(o.AvConfPerS, RcCore.AciBeam.AvMinPerS(r.B, r.Fc, fyt))
-        Dim sLimConf As Double = Math.Min(Math.Min(r.D / 4.0, 8.0 * LongBarDia), 150.0)
+        Dim sLimConf As Double = Math.Min(Math.Min(r.D / 4.0, 6.0 * LongBarDia), 150.0)       'ACI 18.6.4.4: d/4, 6 db, 150 mm
         o.SConf = Math.Max(50.0, Math.Min(av / o.AvConfPerS, sLimConf))
         'middle zone: Vc (plain) / VRd,F (SFRC) acts; spacing limit d/2, 300 mm [ASSUMPTION]
         Dim vcMid As Double = VcOf(r, fib, fctk, fFtuk)
         o.AvMidPerS = Math.Max(Math.Max(o.Ve / Phi - vcMid, 0.0) / (fyt * r.D), RcCore.AciBeam.AvMinPerS(r.B, r.Fc, fyt))
         o.SMid = Math.Max(50.0, Math.Min(av / o.AvMidPerS, Math.Min(r.D / 2.0, 300.0)))
-        o.Governing = If(o.G_Crush > 0.0, "Ve > 0.85 bw d sqrt(fck)", If(av / o.AvConfPerS < 50.0, "stirrup spacing < 50 mm", "ok"))
+        o.Governing = If(o.G_Crush > 0.0, "Vs > 0.66 sqrt(f'c) bw d", If(av / o.AvConfPerS < 50.0, "stirrup spacing < 50 mm", "ok"))
         Return o
     End Function
 

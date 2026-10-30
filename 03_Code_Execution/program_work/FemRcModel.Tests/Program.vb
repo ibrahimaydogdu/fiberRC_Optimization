@@ -1,3 +1,5 @@
+Imports System.Linq
+Imports RcCore
 Imports System.Diagnostics
 Imports System
 Imports System.Collections.Generic
@@ -179,9 +181,9 @@ Module Program
         'F7: hand calculation of the capacity-design shear for Bx_S12 (300 x 600, As = 540 / 540 mm2)
         Dim rb = BeamDesign.DesignGroup(fa, "Bx_S12", 300.0, 600.0, 30.0, Nothing)
         Dim shb = BeamShear.DesignGroup(fa, rb, Nothing, 0.0, 0.0)
-        Dim mrH As Double = RcCore.AciBeam.Flexure(300.0, 540.0, 540.0, 30.0 / 1.5, 420.0 / 1.15).Mn
-        Check("F7 Mr(top) = Mr(bottom) for equal steel", shb.MrTop, mrH, 0.0001)
-        Check("F7 Vseis = 1.4 (Mr,top + Mr,bot)/ln", shb.Vseis, 1.4 * 2.0 * mrH / shb.Ln, 0.0001)
+        Dim mrH As Double = RcCore.AciBeam.Flexure(300.0, 540.0, 540.0, 30.0, 1.25 * 420.0).Mn      'ACI 18.6.5.1: Mpr with 1.25 fy, phi = 1
+        Check("F7 Mpr(top) = Mpr(bottom) for equal steel", shb.MrTop, mrH, 0.0001)
+        Check("F7 Vseis = (Mpr,top + Mpr,bot)/ln (ACI 18.6.5.1)", shb.Vseis, 2.0 * mrH / shb.Ln, 0.0001)
         Check("F7 Ve = Vdy + Vseis", shb.Ve, shb.Vdy + shb.Vseis, 0.0001)
         Dim vc7 As Double = If(shb.ZeroVc, 0.0, RcCore.AciBeam.Vc(300.0, 540.0, 30.0))
         Check("F7 Av/s in confinement zone = max((Ve/phi - Vc)/(fyt d), Av,min/s)", shb.AvConfPerS, Math.Max(Math.Max(shb.Ve / 0.75 - vc7, 0.0) / (420.0 * 540.0), RcCore.AciBeam.AvMinPerS(300.0, 30.0, 420.0)), 0.0001)
@@ -218,7 +220,7 @@ Module Program
         For Each gC In fa.Gross.ColumnGroups
             Dim sc = secs(gC)
             Dim cr = ColumnDesign.CheckGroup(fa, gC, sc.Width * 1000.0, sc.Depth * 1000.0, 30.0, 0.01, 20.0)
-            Dim cs2 = ColumnShear.Design(fa, cr)
+            Dim cs2 = ColumnShear.Design(fa, cr, Nothing, Nothing)
             Console.WriteLine("CSHEAR " & gC & " Ve(x)=" & (cs2.Ve(0) / 1000.0).ToString("F0") & " Ve(y)=" & (cs2.Ve(1) / 1000.0).ToString("F0") & " kN  legs=" & cs2.Legs(0) & "/" & cs2.Legs(1) & "  s_conf=" & cs2.SConf.ToString("F0") & " s_mid=" & cs2.SMid.ToString("F0") & " lk=" & cs2.Lk.ToString("F0") & " mm  g(7.7)=" & Math.Max(cs2.G_Crush(0), cs2.G_Crush(1)).ToString("F2") & " " & cs2.Governing)
         Next
         Dim dd3 As New TbdyParams With {.SDS = 0.294, .SD1 = 0.091}
@@ -241,8 +243,8 @@ Module Program
         Next
         Console.WriteLine("A5 joints=" & jl.Count & " exempt(Nd<=0.1 Ac fck)=" & nEx & " worst g (non-exempt)=" & gMax.ToString("F2") & "  (g > 0 = weak column)")
         Dim csh As New Dictionary(Of String, ColumnShearResult)
-        For Each gC In fa.Gross.ColumnGroups : csh(gC) = ColumnShear.Design(fa, colRes(gC)) : Next
-        Dim jsl = JointShear.Check(fa, spec, colRes, csh, beamRes)
+        For Each gC In fa.Gross.ColumnGroups : csh(gC) = ColumnShear.Design(fa, colRes(gC), beamRes, Nothing) : Next
+        Dim jsl = JointShear.Check(fa, spec, colRes, csh, beamRes, Nothing)
         Dim jsMax As Double = -99.0, nConf As Integer = 0, jsName As String = ""
         For Each js In jsl
             If js.Confined Then nConf += 1
@@ -311,20 +313,58 @@ Module Program
             crP(g) = ColumnDesign.CheckGroup(faP, g, c.B, c.H, c.Fc, c.Rho, c.BarDia)
         Next
         Console.WriteLine("PROFILE col CheckGroup = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
-        For Each g In faP.Gross.ColumnGroups : csP(g) = ColumnShear.Design(faP, crP(g)) : Next
-        Console.WriteLine("PROFILE col shear = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
         Dim brP As New Dictionary(Of String, BeamGroupResult)
         For Each g In faP.Gross.BeamGroups
             Dim b = dsn.Beams(g)
             brP(g) = BeamDesign.DesignGroup(faP, g, b.B, b.H, b.Fc, b.Fibre)
         Next
+        For Each g In faP.Gross.ColumnGroups : csP(g) = ColumnShear.Design(faP, crP(g), brP, Nothing) : Next
+        Console.WriteLine("PROFILE col shear = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
         Console.WriteLine("PROFILE beam flexure = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
         Dim dP = Checks.Drift(faP, spec, tp, dd3)
         Console.WriteLine("PROFILE drift = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
         Dim jP = Checks.StrongColumn(faP, spec, crP, brP, Nothing)
         Console.WriteLine("PROFILE strong column = " & swP.ElapsedMilliseconds & " ms") : swP.Restart()
-        Dim jsP = JointShear.Check(faP, spec, crP, csP, brP)
+        Dim jsP = JointShear.Check(faP, spec, crP, csP, brP, Nothing)
         Console.WriteLine("PROFILE joint shear = " & swP.ElapsedMilliseconds & " ms")
+        'F13 (V2e review R6): perimeter layout, e_min, delta_ns, story forces of the accidental torsion
+        Dim nW13 As Integer, nD13 As Integer
+        ColumnDesign.PerimeterCounts(500.0, 400.0, 16, nW13, nD13)
+        Check("F13 perimeter counts 500x400 N=16: width side", nW13, 6, 0.0)
+        Check("F13 perimeter counts 500x400 N=16: depth side", nD13, 4, 0.0)
+        Dim ab13 As Double = Math.PI * 20.0 * 20.0 / 4.0
+        Dim sx13 = ColumnDesign.MakeSection(500.0, 400.0, 30.0, 16, 20.0), sy13 = ColumnDesign.MakeSection(400.0, 500.0, 30.0, 16, 20.0, False, True)
+        Check("F13 same bar count in both bending directions (sx)", sx13.LayerAs.Sum() / ab13, 16.0, 0.000001)
+        Check("F13 same bar count in both bending directions (sy)", sy13.LayerAs.Sum() / ab13, 16.0, 0.000001)
+        Check("F13 delta_ns 300x300, lu 2400, Pu 1000 kN, beta 0.5", ColumnDesign.DeltaNs(30.0, 300.0, 300.0, 2400.0, 1.0E6, 0.5, 1.0, 1.0), 1.2018, 0.001)
+        Check("F13 delta_ns = 1 for lu/r <= 22 (400 mm, lu 2400)", ColumnDesign.DeltaNs(30.0, 400.0, 400.0, 2400.0, 1.0E6, 0.5, 1.0, 1.0), 1.0, 0.000001)
+        Check("F13 delta_ns infinite beyond 0.75 Pc", If(Double.IsInfinity(ColumnDesign.DeltaNs(30.0, 300.0, 300.0, 2400.0, 7.0E6, 0.5, 1.0, 1.0)), 1.0, 0.0), 1.0, 0.0)
+        'square column, N = 6: 3 bars on one side pair, 2 on the other; the two bending directions see transposed layers
+        Dim sqx = ColumnDesign.MakeSection(300.0, 300.0, 30.0, 6, 20.0), sqy = ColumnDesign.MakeSection(300.0, 300.0, 30.0, 6, 20.0, False, True)
+        Check("F13 square N=6: M3 section has 2 rows", sqx.LayerAs.Length, 2.0, 0.0)
+        Check("F13 square N=6: M2 section has 3 rows (transposed)", sqy.LayerAs.Length, 3.0, 0.0)
+        Check("F13 square N=6: total bars M3 = M2", sqx.LayerAs.Sum() / ab13 - sqy.LayerAs.Sum() / ab13, 0.0, 0.000001)
+        Dim sq13 = ColumnDesign.MakeSection(400.0, 400.0, 30.0, 16, 20.0)
+        Dim pu13 As Double = 1.0E6
+        Dim cq13 As New ColumnDesign.ColCurve(sq13)
+        Check("F13 e_min: M = 0 loaded with Pu (15.24 + 0.03 h), radial", ColumnDesign.DcrWithEffects(cq13, cq13, pu13, 0.0, 0.0, 1.0, 1.0), ColumnDesign.RadialDcr(cq13, cq13, pu13, pu13 * (15.24 + 0.03 * 400.0), 0.0), 0.000001)
+        'radial D/C by interpolation against the exact radial scaling (bisection on the exact BiaxialDcr) for a set of load points
+        Dim worstRad As Double = 0.0
+        For Each lp In {Tuple.Create(0.5E6, 60.0E6, 20.0E6), Tuple.Create(1.5E6, 80.0E6, 0.0), Tuple.Create(2.5E6, 50.0E6, 50.0E6), Tuple.Create(0.0, 100.0E6, 0.0), Tuple.Create(0.3E6, 40.0E6, 30.0E6), Tuple.Create(-0.2E6, 30.0E6, 10.0E6)}
+            Dim lo As Double = 0.0, hi As Double = 50.0
+            If lp.Item1 > 0.0 Then hi = Math.Min(hi, AciColumn.DesignPnMax(sq13) / lp.Item1)
+            For it As Integer = 0 To 50
+                Dim mid As Double = 0.5 * (lo + hi)
+                If AciColumn.BiaxialDcr(sq13, sq13, mid * lp.Item1, mid * lp.Item2, mid * lp.Item3) < 1.0 Then lo = mid Else hi = mid
+            Next
+            Dim exact As Double = 1.0 / (0.5 * (lo + hi))
+            Dim interp As Double = ColumnDesign.RadialDcr(cq13, cq13, lp.Item1, lp.Item2, lp.Item3)
+            worstRad = Math.Max(worstRad, Math.Abs(interp / exact - 1.0))
+        Next
+        Check("F13 radial D/C: interpolated curve vs exact scaling, worst relative error over 6 load points", worstRad, 0.0, 0.005)
+        Dim sfSum As Double = fa.RSx.StoryForce.Sum()
+        Check("F13 sum of story forces = base shear (accidental torque force)", sfSum, fa.RSx.BaseForce(0), 0.005)
+        Check("F13 top story force = top story shear", fa.RSx.StoryForce(fa.RSx.StoryForce.Length - 1), fa.RSx.StoryShear(fa.RSx.StoryShear.Length - 2), 0.000001)
         Console.WriteLine("combos=" & fa.Combos.Count & "  T1(cracked)=" & fa.Modal.Period(0).ToString("F3") & " s  Vx=" & fa.BaseShearX.ToString("F1") & " Vy=" & fa.BaseShearY.ToString("F1") & " W=" & fa.Weight.ToString("F1"))
         Console.WriteLine("PASS=" & Pass & " FAIL=" & Fail)
     End Sub

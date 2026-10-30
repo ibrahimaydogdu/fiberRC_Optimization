@@ -29,7 +29,9 @@ Module Program
             Dim c12 As Double = 500.0, c34 As Double = 400.0
             If Environment.GetEnvironmentVariable("COL12") <> Nothing Then c12 = Double.Parse(Environment.GetEnvironmentVariable("COL12"), ci)      'V2d: smaller columns to reach D/C 0.8-1.2
             If Environment.GetEnvironmentVariable("COL34") <> Nothing Then c34 = Double.Parse(Environment.GetEnvironmentVariable("COL34"), ci)
-            d("C" & pos & "_S12") = New RcSectionDef With {.B = c12, .H = c12, .Fc = 30.0}
+            Dim h12 As Double = c12
+            If Environment.GetEnvironmentVariable("COL12H") <> Nothing Then h12 = Double.Parse(Environment.GetEnvironmentVariable("COL12H"), ci)    'rectangular S12 column: B = COL12, H = COL12H
+            d("C" & pos & "_S12") = New RcSectionDef With {.B = c12, .H = h12, .Fc = 30.0}
             d("C" & pos & "_S34") = New RcSectionDef With {.B = c34, .H = c34, .Fc = 30.0}
         Next
         For Each dd In {"x", "y"}
@@ -205,6 +207,34 @@ Module Program
         P("FemCore analysis of the trial design ... (no rigid zones = " & RcFrameBuilder.NoRigidZones & ")")
         FemStatic.TorsionFromStoryShear = Environment.GetEnvironmentVariable("TORSIONOLD") <> "1"
         Dim fa = RcCombos.Analyze(spec, Defs(), tp)
+        If Environment.GetEnvironmentVariable("QCHECK") = "1" Then
+            'ACI 6.6.4.3 stability index per storey, Q = sum(Pu) * Delta_o / (Vus * lc), Delta_o = RS story drift at the corner (0,0) (magnitudes), amplified by D = 3 (TBDY deflection amplification)
+            Dim fq0 = RcCombos.Analyze(spec, Defs(), tp)
+            Dim mq = fq0.Cracked.Model
+            Dim ezq As Double = 0.3 * (2.0 / 3.0) * tp.SDS
+            Dim pg = mq.PatternIndex("G"), pq = mq.PatternIndex("Q"), ps = mq.PatternIndex("S")
+            For Each cs In {"EX", "EY"}
+                Dim d As Integer = If(cs = "EX", 0, 1)
+                Dim rr = If(cs = "EX", fq0.RSx, fq0.RSy)
+                For k As Integer = 1 To spec.NStory
+                    Dim zb As Double = (k - 1) * 3.0
+                    Dim sumP As Double = 0.0
+                    For ei As Integer = 0 To mq.Elements.Count - 1
+                        Dim el = mq.Elements(ei)
+                        If Not el.Name.StartsWith("C") Then Continue For
+                        If Math.Abs(mq.Nodes(el.NI).Z - zb) > 0.01 Then Continue For
+                        Dim f As Double = (1.0 + ezq) * fq0.Rc.FaceForce(pg)(ei)(0) + fq0.Rc.FaceForce(pq)(ei)(0) + 0.2 * fq0.Rc.FaceForce(ps)(ei)(0)
+                        sumP += Math.Abs(f)
+                    Next
+                    Dim n1 As Integer = fq0.Cracked.NodeAt(0, 0, k), n0 As Integer = If(k = 1, -1, fq0.Cracked.NodeAt(0, 0, k - 1))
+                    Dim u1 As Double = Math.Abs(rr.U(n1 * 6 + d)), u0 As Double = If(n0 < 0, 0.0, Math.Abs(rr.U(n0 * 6 + d)))
+                    Dim dlt As Double = u1 - u0
+                    Dim vus As Double = rr.StoryShear(k - 1)
+                    P(cs & " storey " & k & ": sum Pu " & sumP.ToString("F0", ci) & " kN, Vus " & vus.ToString("F1", ci) & " kN, drift " & (dlt * 1000.0).ToString("F3", ci) & " mm, Q(Delta) " & (sumP * dlt / (vus * 3.0)).ToString("F4", ci) & ", Q(3 Delta) " & (sumP * 3.0 * dlt / (vus * 3.0)).ToString("F4", ci))
+                Next
+            Next
+            Return
+        End If
         If Environment.GetEnvironmentVariable("ECCDIAG") = "1" Then
             'combination rule of the accidental torsion: corner displacement of ETABS (ECC 5 %, V2 log 2026-10-29) against FemCore with ECC=0 plus torsion response combined by absolute sum / SRSS
             Dim e5 As Double = RcCombos.AccidentalEcc
@@ -413,13 +443,24 @@ Module Program
         Next
         For Each cs In {"EX", "EY"}
             Dim rr = If(cs = "EX", fa.RSx, fa.RSy)
-            For Each ei In {0, fmc.Elements.Count - 1}
+            Dim maxRef3 As Double = 0, maxRef2 As Double = 0, maxD3 As Double = 0, maxD2 As Double = 0, nEl As Integer = 0
+            For ei As Integer = 0 To fmc.Elements.Count - 1
                 Dim ff = GetForces(m, frames(ei), cs)
                 If ff.Sta.Count = 0 Then Continue For
                 Dim i0 As Integer = ff.Sta.IndexOf(ff.Sta.Min()), i1 As Integer = ff.Sta.IndexOf(ff.Sta.Max())
                 Dim f = rr.FaceForce(ei)
-                P(cs & " " & frames(ei) & " M3 (I,J) ETABS " & Math.Abs(ff.M3(i0)).ToString("F2", ci) & " / " & Math.Abs(ff.M3(i1)).ToString("F2", ci) & "  FemCore(RS incl. accidental torsion) " & Math.Abs(f(5)).ToString("F2", ci) & " / " & Math.Abs(f(11)).ToString("F2", ci) & " kNm;  V2 ETABS " & Math.Abs(ff.V2(i0)).ToString("F2", ci) & "  FemCore " & Math.Abs(f(1)).ToString("F2", ci))
+                If ei = 0 OrElse ei = fmc.Elements.Count - 1 Then
+                    P(cs & " " & frames(ei) & " M3 (I,J) ETABS " & Math.Abs(ff.M3(i0)).ToString("F2", ci) & " / " & Math.Abs(ff.M3(i1)).ToString("F2", ci) & "  FemCore(RS incl. accidental torsion) " & Math.Abs(f(5)).ToString("F2", ci) & " / " & Math.Abs(f(11)).ToString("F2", ci) & " kNm;  V2 ETABS " & Math.Abs(ff.V2(i0)).ToString("F2", ci) & "  FemCore " & Math.Abs(f(1)).ToString("F2", ci))
+                End If
+                nEl += 1
+                For Each pr In {Tuple.Create(Math.Abs(ff.M3(i0)), Math.Abs(f(5))), Tuple.Create(Math.Abs(ff.M3(i1)), Math.Abs(f(11)))}
+                    maxRef3 = Math.Max(maxRef3, pr.Item1) : maxD3 = Math.Max(maxD3, Math.Abs(pr.Item1 - pr.Item2))
+                Next
+                For Each pr In {Tuple.Create(Math.Abs(ff.V2(i0)), Math.Abs(f(1))), Tuple.Create(Math.Abs(ff.V2(i1)), Math.Abs(f(7)))}
+                    maxRef2 = Math.Max(maxRef2, pr.Item1) : maxD2 = Math.Max(maxD2, Math.Abs(pr.Item1 - pr.Item2))
+                Next
             Next
+            P(cs & " ALL " & nEl & " members (RS incl. accidental torsion): max |dM3| " & maxD3.ToString("F3", ci) & " kNm = " & (100.0 * maxD3 / Math.Max(maxRef3, 1.0E-9)).ToString("F3", ci) & " % of the largest M3 (" & maxRef3.ToString("F2", ci) & " kNm); max |dV2| " & maxD2.ToString("F3", ci) & " kN = " & (100.0 * maxD2 / Math.Max(maxRef2, 1.0E-9)).ToString("F3", ci) & " % of the largest V2 (" & maxRef2.ToString("F2", ci) & " kN)")
         Next
     End Sub
 End Module

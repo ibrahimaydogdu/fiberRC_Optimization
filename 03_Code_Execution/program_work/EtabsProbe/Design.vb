@@ -14,7 +14,8 @@ Imports RcCore
 'direction at a time) as ETABS applies it. ETABS: radial ray ratio OL/OC (CFD-ACI-318-14 Chap. 3.4.2.3). Environment: DESIGN=1.
 Module DesignProbe
     Dim ci As CultureInfo = CultureInfo.InvariantCulture
-    Const Dia As Double = 20.0, TieD As Double = 10.0, CoverTie As Double = 40.0
+    Const Dia As Double = 20.0, TieD As Double = 10.0, CoverTie As Double = 40.0, CoverCentroid As Double = 60.0
+    Dim Rho As Double = If(Environment.GetEnvironmentVariable("RHO") Is Nothing, 0.015, Double.Parse(Environment.GetEnvironmentVariable("RHO"), CultureInfo.InvariantCulture))     'production reinforcement ratio of the test columns
 
     Function BarsPerFace(group As String) As Integer
         Return If(group.EndsWith("_S12"), 5, 4)
@@ -85,11 +86,16 @@ Module DesignProbe
             Dim okSize As String = ""
             For Each s In fm.Sections
                 If Not s.Name.StartsWith("C") Then Continue For
-                Dim n As Integer = BarsPerFace(s.Name)
+                Dim dsec = defs(s.Name)
+                Dim nTot As Integer = ColumnDesign.BarCount(dsec.B, dsec.H, Rho, Dia)
+                Dim nW As Integer, nD As Integer
+                ColumnDesign.PerimeterCounts(dsec.B, dsec.H, nTot, nW, nD)
+                Dim nr3 As Integer = If(Environment.GetEnvironmentVariable("SWAPNR") = "1", nD, nW), nr2 As Integer = If(Environment.GetEnvironmentVariable("SWAPNR") = "1", nW, nD)
+                P("column " & s.Name & ": " & dsec.B & "x" & dsec.H & " N=" & nTot & " (width side " & nW & ", depth side " & nD & ") ETABS NR3=" & nr3 & " NR2=" & nr2)
                 Dim ret As Integer = -1
                 For Each rs In {"20", "#20", "Ø20", "20mm"}
                     For Each ts In {"10", "#10", "Ø10", "10mm"}
-                        ret = m.PropFrame.SetRebarColumn(s.Name, "R420", "R420", 1, 1, CoverTie / 1000.0, 0, n, n, rs, ts, 0.15, 2, 2, False)
+                        ret = m.PropFrame.SetRebarColumn(s.Name, "R420", "R420", 1, 1, CoverTie / 1000.0, 0, nr3, nr2, rs, ts, 0.15, 2, 2, False)
                         If ret = 0 Then okSize = rs & "/" & ts : Exit For
                     Next
                     If ret = 0 Then Exit For
@@ -117,6 +123,8 @@ Module DesignProbe
             Chk(m.Analyze.RunAnalysis(), "RunAnalysis")
             Chk(m.DesignConcrete.SetCode("ACI 318-14"), "DesignConcrete.SetCode")
             'Z8: dump of the ETABS design preferences (1-18) and the overwrites (1-13) of one column and one beam, as the program uses them (not changed by the probe)
+            If Environment.GetEnvironmentVariable("NPTS") <> Nothing Then Chk(m.DesignConcrete.ACI318_14.SetPreference(2, Double.Parse(Environment.GetEnvironmentVariable("NPTS"), ci)), "SetPreference interaction points")
+            If Environment.GetEnvironmentVariable("NCURV") <> Nothing Then Chk(m.DesignConcrete.ACI318_14.SetPreference(1, Double.Parse(Environment.GetEnvironmentVariable("NCURV"), ci)), "SetPreference interaction curves")
             Dim pv As Double, pdv As Boolean
             Dim pn() As String = {"", "Number of interaction curves", "Number of interaction points", "Consider minimum eccentricity", "Design for B/C capacity ratio", "Seismic design category", "Design system Omega0", "Design system Rho", "Design system Sds", "Consider ICC_ESR 2017", "Phi tension controlled", "Phi compression controlled tied", "Phi compression controlled spiral", "Phi shear and/or torsion", "Phi shear seismic", "Phi joint shear", "Pattern live load factor", "Utilization factor limit", "Multi-response case design"}
             For it As Integer = 1 To 18
@@ -131,11 +139,35 @@ Module DesignProbe
                     If m.DesignConcrete.ACI318_14.GetOverwrite(frames(ei2), it, pv, pd2) = 0 Then P("OVERWRITE " & fm.Elements(ei2).Name & " " & it & " " & ovn(it) & " = " & pv.ToString(ci) & If(pd2, " (program determined)", ""))
                 Next
             Next
+            'R3: same slenderness inputs in ETABS and in the program: unbraced length ratio = clear height / element length (ACI 6.2.5.1), K = 1, Cm = 1 (explicit overwrites)
+            For ei As Integer = 0 To fm.Elements.Count - 1
+                Dim ec = fm.Elements(ei)
+                If Not ec.Name.StartsWith("C") Then Continue For
+                Dim lr As Double = (ec.Length - ec.OffsetI - ec.OffsetJ) / ec.Length
+                If cracked Then Chk(m.DesignConcrete.ACI318_14.SetOverwrite(frames(ei), 1, 1.0, eItemType.Objects), "SetOverwrite column framing type special")
+                For item As Integer = 3 To 4 : Chk(m.DesignConcrete.ACI318_14.SetOverwrite(frames(ei), item, lr, eItemType.Objects), "SetOverwrite lu " & item) : Next
+                For item As Integer = 5 To 8 : Chk(m.DesignConcrete.ACI318_14.SetOverwrite(frames(ei), item, 1.0, eItemType.Objects), "SetOverwrite K/Cm " & item) : Next
+            Next
             If Environment.GetEnvironmentVariable("NOMAG") = "1" Then
                 'V2d diagnostic: switch off the non-sway / sway moment magnification (overwrite items 9-12 = 1) to isolate the slenderness effect
                 For ei As Integer = 0 To fm.Elements.Count - 1
                     If Not fm.Elements(ei).Name.StartsWith("C") Then Continue For
                     For item As Integer = 9 To 12 : Chk(m.DesignConcrete.ACI318_14.SetOverwrite(frames(ei), item, 1.0, eItemType.Objects), "SetOverwrite " & item) : Next
+                Next
+            End If
+            Dim jointMode As Boolean = Environment.GetEnvironmentVariable("JOINT") = "1"
+            Dim colRes As New Dictionary(Of String, ColumnGroupResult), beamRes As New Dictionary(Of String, BeamGroupResult), colSh As New Dictionary(Of String, ColumnShearResult)
+            If jointMode Then
+                For Each g In fa.Gross.BeamGroups
+                    Dim bdef = defs(g)
+                    beamRes(g) = BeamDesign.DesignGroup(fa, g, bdef.B, bdef.H, bdef.Fc, Nothing)
+                    P("beam group " & g & ": As top " & beamRes(g).AsTop.ToString("F0", ci) & " bot " & beamRes(g).AsBot.ToString("F0", ci) & " mm2 (provided to ETABS)")
+                    Chk(m.PropFrame.SetRebarBeam(g, "R420", "R420", CoverCentroid / 1000.0, CoverCentroid / 1000.0, beamRes(g).AsTop * 1.0E-6, beamRes(g).AsTop * 1.0E-6, beamRes(g).AsBot * 1.0E-6, beamRes(g).AsBot * 1.0E-6), "SetRebarBeam " & g)
+                Next
+                For Each g In fa.Gross.ColumnGroups
+                    Dim cdef = defs(g)
+                    colRes(g) = ColumnDesign.CheckGroup(fa, g, cdef.B, cdef.H, cdef.Fc, Rho, Dia)
+                    colSh(g) = ColumnShear.Design(fa, colRes(g), beamRes, Nothing)
                 Next
             End If
             Dim nc As Integer, names() As String = Nothing
@@ -151,9 +183,13 @@ Module DesignProbe
                 Dim rr As Integer = m.DesignConcrete.GetSummaryResultsColumn("All", nI, fn, opt, loc, pc, pa, pr, vc, av, vc2, av2, es, ws, eItemType.Group)
                 P("GetSummaryResultsColumn ret=" & rr & " items=" & nI)
                 Dim byFrame As New Dictionary(Of String, Double), byCombo As New Dictionary(Of String, String)
+                Dim byAv As New Dictionary(Of String, Double)
+                Dim sumAv0 As Double = 0, sumAv1 As Double = 0, minAv0 As Double = 1.0E9, maxAv0 As Double = 0, minAv1 As Double = 1.0E9, maxAv1 As Double = 0, nAv As Integer = 0
                 For i As Integer = 0 To nI - 1
                     If opt(i) <> 1 Then Continue For
                     If Not byFrame.ContainsKey(fn(i)) OrElse pr(i) > byFrame(fn(i)) Then byFrame(fn(i)) = pr(i) : byCombo(fn(i)) = pc(i)
+                    Dim avi As Double = Math.Max(av(i), av2(i)) * 1000.0           'm2/m -> mm2/mm
+                    If Not byAv.ContainsKey(fn(i)) OrElse avi > byAv(fn(i)) Then byAv(fn(i)) = avi
                 Next
                 Dim sumR0 As Double = 0, sumR1 As Double = 0, minR1 As Double = 1.0E9, maxR1 As Double = 0, n10 As Integer = 0
                 Dim wE As Double = 0, wP0 As Double = 0, wP1 As Double = 0, nCmp As Integer = 0, nCons As Integer = 0, nCons1 As Integer = 0
@@ -166,7 +202,9 @@ Module DesignProbe
                     If Not byFrame.ContainsKey(fr) Then Continue For
                     Dim sec = e.Section
                     Dim d = defs(sec.Name), nb As Integer = BarsPerFace(sec.Name)
-                    Dim sx = SymSection(d.B, d.H, d.Fc, nb), sy = SymSection(d.H, d.B, d.Fc, nb)
+                    Dim nTot2 As Integer = ColumnDesign.BarCount(d.B, d.H, Rho, Dia)
+                    Dim sx = ColumnDesign.MakeSection(d.B, d.H, d.Fc, nTot2, Dia), sy = ColumnDesign.MakeSection(d.H, d.B, d.Fc, nTot2, Dia, False, True)      'production layout (both directions from the same perimeter pattern)
+                    Dim cvx As New ColumnDesign.ColCurve(sx), cvy As New ColumnDesign.ColCurve(sy)
                     Dim cs = fa.Combos(c.ProgramIndex)
                     Dim p0 As Double = 0, p1 As Double = 0, p2 As Double = 0
                     Dim loads As New List(Of Double())      'pu N, m3, m2 N.mm
@@ -181,7 +219,11 @@ Module DesignProbe
                             For Each s1 In {-1.0, 1.0}
                                 For Each s2 In {-1.0, 1.0}
                                     For Each s3 In {-1.0, 1.0}
-                                        loads.Add({(gP + s1 * eP) * 1000.0, Math.Abs(g3 + s3 * e3) * 1.0E6, Math.Abs(g2 + s2 * e2) * 1.0E6, 1.0, 1.0})
+                                        Dim puS As Double = (gP + s1 * eP) * 1000.0
+                                        Dim luS As Double = (e.Length - e.OffsetI - e.OffsetJ) * 1000.0
+                                        Dim pgS As Double = (1.0 + fa.Ez) * fa.Rg.FaceForce(fm.PatternIndex("G"))(ei)(0) * 1000.0
+                                        Dim bS As Double = If(puS > 0.0, Math.Abs(pgS) / puS, 0.0)
+                                        loads.Add({puS, Math.Abs(g3 + s3 * e3) * 1.0E6, Math.Abs(g2 + s2 * e2) * 1.0E6, ColumnDesign.DeltaNs(d.Fc, d.H, d.B, luS, puS, bS, 1.0, 1.0), ColumnDesign.DeltaNs(d.Fc, d.B, d.H, luS, puS, bS, 1.0, 1.0)})
                                     Next
                                 Next
                             Next
@@ -189,7 +231,7 @@ Module DesignProbe
                             For k As Integer = 0 To cs.Forces.Count - 1
                                 Dim f = cs.Forces(k)(ei)
                                 Dim puN As Double = If(endI = 0, f(0), -f(6)) * 1000.0
-                                Dim lu As Double = ColumnDesign.LuRatio * e.Length * 1000.0
+                                Dim lu As Double = (e.Length - e.OffsetI - e.OffsetJ) * 1000.0
                                 Dim pgI As Double = 1.4 * fa.Rg.FaceForce(fm.PatternIndex("G"))(ei)(0) * 1000.0
                                 Dim beta As Double = If(puN > 0.0, Math.Abs(pgI) / puN, 0.0)
                                 loads.Add({puN, Math.Abs(If(endI = 0, f(5), f(11))) * 1.0E6, Math.Abs(If(endI = 0, f(4), f(10))) * 1.0E6, ColumnDesign.DeltaNs(d.Fc, d.H, d.B, lu, puN, beta, -f(5) * 1.0E6, f(11) * 1.0E6), ColumnDesign.DeltaNs(d.Fc, d.B, d.H, lu, puN, beta, -f(4) * 1.0E6, f(10) * 1.0E6)})
@@ -199,11 +241,30 @@ Module DesignProbe
                     For Each ld In loads
                         Dim pu As Double = ld(0), m3 As Double = ld(1), m2 As Double = ld(2)
                         p0 = Math.Max(p0, Radial(sx, sy, pu, m3, m2))
-                        p2 = Math.Max(p2, ColumnDesign.DcrWithEffects(sx, sy, pu, m3, m2, ld(3), ld(4)))        'production constraint (ColumnDesign.CheckGroup), no e_min, linear sum
+                        p2 = Math.Max(p2, ColumnDesign.DcrWithEffects(cvx, cvy, pu, m3, m2, ld(3), ld(4)))        'production constraint (ColumnDesign.CheckGroup), no e_min, linear sum
                         Dim emin As Double = If(pu > 0, pu * (15.24 + 0.03 * d.H), 0.0)
                         Dim emin2 As Double = If(pu > 0, pu * (15.24 + 0.03 * d.B), 0.0)
                         p1 = Math.Max(p1, Math.Max(Radial(sx, sy, pu, ld(3) * Math.Max(m3, emin), ld(4) * m2), Radial(sx, sy, pu, ld(3) * m3, ld(4) * Math.Max(m2, emin2))))
                     Next
+                    If c.ProgramIndex <> 0 AndAlso byAv.ContainsKey(fr) AndAlso byAv(fr) > 1.0E-6 Then
+                        'ACI 18.7.6: Ve = 2 Mpr / L (ETABS: overwritten length factor -> full span), Mpr at the worst of the combination axial forces, phi = 0.75; Vc = 0 when Pu < Ag f'c / 20
+                        Dim spr = ColumnDesign.MakeSection(d.B, d.H, d.Fc, nTot2, Dia) : spr.Fy = 1.25 * 420.0
+                        Dim pLo As Double = loads.Min(Function(x) x(0)), pHi As Double = loads.Max(Function(x) x(0))
+                        Dim mpr As Double = ColumnShear.MprMax(spr, pLo, pHi)
+                        Dim vE As Double = If(jointMode AndAlso colSh.ContainsKey(e.Group), Math.Max(colSh(e.Group).Ve(0), colSh(e.Group).Ve(1)) * ((e.Length - e.OffsetI - e.OffsetJ) / e.Length), 2.0 * mpr / (e.Length * 1000.0))      'production Ve (beam-limited, clear ln) converted to the full-span length ETABS uses with the overwritten length factor
+                        Dim agc As Double = d.B * d.H
+                        Dim vcz As Boolean = pLo < agc * d.Fc / 20.0
+                        Dim res2(1) As Double
+                        For vv As Integer = 0 To 1
+                            Dim dd2 As Double = If(vv = 0, d.H - 50.0, 0.8 * d.H)
+                            Dim vc2x As Double = If(vcz, 0.0, 0.17 * (1.0 + Math.Max(pLo, 0.0) / (14.0 * agc)) * Math.Sqrt(d.Fc) * d.B * dd2)
+                            res2(vv) = Math.Max(vE / 0.75 - vc2x, 0.0) / (420.0 * dd2)
+                        Next
+                        nAv += 1
+                        sumAv0 += res2(0) / byAv(fr) : sumAv1 += res2(1) / byAv(fr)
+                        minAv0 = Math.Min(minAv0, res2(0) / byAv(fr)) : maxAv0 = Math.Max(maxAv0, res2(0) / byAv(fr))
+                        minAv1 = Math.Min(minAv1, res2(1) / byAv(fr)) : maxAv1 = Math.Max(maxAv1, res2(1) / byAv(fr))
+                    End If
                     Dim er As Double = byFrame(fr)
                     rows.Add(e.Name.PadRight(14) & fr.PadRight(6) & " ETABS " & er.ToString("F3", ci) & " [" & byCombo(fr) & "]  program radial " & p0.ToString("F3", ci) & "  program+emin " & p1.ToString("F3", ci) & "  PRODUCTION(e_min+delta_ns) " & p2.ToString("F3", ci))
                     nCmp += 1
@@ -221,8 +282,60 @@ Module DesignProbe
                 For Each r In rows : P(r) : Next
                 P("SUMMARY " & c.Name & ": columns " & nCmp & ", max D/C ETABS " & wE.ToString("F3", ci) & ", program " & wP0.ToString("F3", ci) & ", program+emin " & wP1.ToString("F3", ci) & "; program >= ETABS in " & nCons & " / " & nCmp & " (with emin " & nCons1 & ")")
                 P("RATIO program/ETABS (columns with ETABS D/C>0.02): mean no-emin " & (sumR0 / Math.Max(nCmp, 1)).ToString("F3", ci) & ", mean with emin " & (sumR1 / Math.Max(nCmp, 1)).ToString("F3", ci) & ", min " & minR1.ToString("F3", ci) & ", max " & maxR1.ToString("F3", ci) & ", within +-10 % (emin): " & n10 & " / " & nCmp)
+                If nAv > 0 Then P("COLSHEAR " & c.Name & ": columns " & nAv & "; Av/s program(d = h - 50)/ETABS mean " & (sumAv0 / nAv).ToString("F3", ci) & " min " & minAv0.ToString("F3", ci) & " max " & maxAv0.ToString("F3", ci) & "; program(d = 0.8 h)/ETABS mean " & (sumAv1 / nAv).ToString("F3", ci) & " min " & minAv1.ToString("F3", ci) & " max " & maxAv1.ToString("F3", ci))
                 P("PRODUCTION " & c.Name & ": max D/C ETABS " & wE.ToString("F3", ci) & ", production " & wP2.ToString("F3", ci) & "; production >= ETABS in " & nCons2 & " / " & nCmp & "; ratio production/ETABS min " & minR2.ToString("F3", ci) & " max " & maxR2.ToString("F3", ci) & "; within +-10 % " & n10p & " / " & nCmp)
             Next
+            If jointMode AndAlso cracked Then
+                For Each nm In names : m.DesignConcrete.SetComboStrength(nm, True) : Next
+                Chk(m.DesignConcrete.StartDesign(), "StartDesign all seismic combos")
+                Dim nJ As Integer = 0
+                Dim jf As New List(Of String), js1 As New List(Of Double), js2 As New List(Of Double), bc1 As New List(Of Double), bc2 As New List(Of Double), lj1 As New List(Of String)
+                For ei0 As Integer = 0 To fm.Elements.Count - 1
+                    If Not fm.Elements(ei0).Name.StartsWith("C") Then Continue For
+                    Dim n1 As Integer, f1() As String = Nothing, a1() As String = Nothing, b1() As Double = Nothing, a2() As String = Nothing, b2() As Double = Nothing, a3() As String = Nothing, b3() As Double = Nothing, a4() As String = Nothing, b4() As Double = Nothing, e1() As String = Nothing, w1() As String = Nothing
+                    Dim rj1 As Integer = m.DesignConcrete.GetSummaryResultsJoint(frames(ei0), n1, f1, a1, b1, a2, b2, a3, b3, a4, b4, e1, w1, eItemType.Objects)
+                    If rj1 = 0 AndAlso n1 > 0 Then
+                        jf.Add(f1(0)) : js1.Add(b1(0)) : js2.Add(b2(0)) : bc1.Add(b3(0)) : bc2.Add(b4(0)) : lj1.Add(a1(0)) : nJ += 1
+                    End If
+                Next
+                P("GetSummaryResultsJoint (per column) items=" & nJ)
+                For Each tk In {"Concrete Column Shear Envelope - ACI 318-14", "Concrete Joint Design Summary - ACI 318-14", "Concrete Joint Envelope - ACI 318-14"}
+                    Dim fk() As String = {""}
+                    Dim tv As Integer = 0, fin() As String = Nothing, nrec As Integer = 0, tdat() As String = Nothing
+                    Dim rt As Integer = m.DatabaseTables.GetTableForDisplayArray(tk, fk, "All", tv, fin, nrec, tdat)
+                    P("DISPLAYTABLE " & tk & " ret=" & rt & " records=" & nrec & " fields=" & If(fin Is Nothing, "-", String.Join("|", fin)))
+                    If tdat IsNot Nothing AndAlso fin IsNot Nothing Then
+                        For i As Integer = 0 To Math.Min(nrec, 14) - 1
+                            P("   " & String.Join("|", tdat.Skip(i * fin.Length).Take(fin.Length)))
+                        Next
+                    End If
+                Next
+                Dim ntb As Integer, tkey() As String = Nothing, tnm() As String = Nothing, timp() As Integer = Nothing
+                m.DatabaseTables.GetAvailableTables(ntb, tkey, tnm, timp)
+                For ti As Integer = 0 To ntb - 1
+                    If tnm(ti).IndexOf("Joint", StringComparison.OrdinalIgnoreCase) >= 0 AndAlso tnm(ti).IndexOf("Concrete", StringComparison.OrdinalIgnoreCase) >= 0 Then P("TABLE " & tkey(ti) & " | " & tnm(ti))
+                    If tnm(ti).IndexOf("Concrete Column", StringComparison.OrdinalIgnoreCase) >= 0 OrElse tnm(ti).IndexOf("Beam/Column", StringComparison.OrdinalIgnoreCase) >= 0 Then P("TABLE " & tkey(ti) & " | " & tnm(ti))
+                Next
+                Dim jsProg = JointShear.Check(fa, spec, colRes, colSh, beamRes, Nothing)
+                Dim scProg = Checks.StrongColumn(fa, spec, colRes, beamRes, Nothing)
+                Dim nm2 As New Dictionary(Of String, Integer)
+                For ei As Integer = 0 To fm.Elements.Count - 1 : nm2(frames(ei)) = ei : Next
+                Dim wJsE As Double = 0, wJsP As Double = 0, wBcE As Double = 0, wBcP As Double = 0, cntJ As Integer = 0
+                For i As Integer = 0 To nJ - 1
+                    If Not nm2.ContainsKey(jf(i)) Then Continue For
+                    Dim en = fm.Elements(nm2(jf(i))).Name                      'C{i}{j}{k}: top joint = node (i, j, k)
+                    If Not en.StartsWith("C") OrElse en.Length < 4 Then Continue For
+                    Dim jn As String = "J" & en.Substring(1, 3)
+                    Dim pjx = jsProg.FirstOrDefault(Function(x) x.Name = jn & "x"), pjy = jsProg.FirstOrDefault(Function(x) x.Name = jn & "y")
+                    Dim pbx = scProg.FirstOrDefault(Function(x) x.Name = jn & "x"), pby = scProg.FirstOrDefault(Function(x) x.Name = jn & "y")
+                    Dim jsE As Double = Math.Max(js1(i), js2(i)), bcE As Double = Math.Max(bc1(i), bc2(i))
+                    Dim jsPv As Double = If(pjx Is Nothing, 0.0, Math.Max(pjx.G + 1.0, If(pjy Is Nothing, 0.0, pjy.G + 1.0)))
+                    Dim bcPv As Double = If(pbx Is Nothing, 0.0, Math.Max(pbx.G + 1.0, If(pby Is Nothing, 0.0, pby.G + 1.0)))
+                    P("JOINT " & en & " joint shear ratio ETABS " & jsE.ToString("F3", ci) & " [" & lj1(i) & "] program " & jsPv.ToString("F3", ci) & " | beam/column ratio ETABS " & bcE.ToString("F3", ci) & " program(1.2 Mnb/Mnc) " & bcPv.ToString("F3", ci))
+                    If pjx IsNot Nothing Then cntJ += 1 : wJsE = Math.Max(wJsE, jsE) : wJsP = Math.Max(wJsP, jsPv) : wBcE = Math.Max(wBcE, bcE) : wBcP = Math.Max(wBcP, bcPv)
+                Next
+                P("JOINTSUM columns " & cntJ & ": max joint shear ratio ETABS " & wJsE.ToString("F3", ci) & " program " & wJsP.ToString("F3", ci) & "; max beam/column ratio ETABS " & wBcE.ToString("F3", ci) & " program " & wBcP.ToString("F3", ci))
+            End If
         Catch ex As Exception
             P("EXCEPTION " & ex.GetType().Name & ": " & ex.Message & vbCrLf & ex.StackTrace)
         Finally

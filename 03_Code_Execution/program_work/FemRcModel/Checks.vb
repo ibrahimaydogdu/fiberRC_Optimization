@@ -3,7 +3,7 @@ Imports System.Collections.Generic
 Imports FemCore
 Imports RcCore
 
-'Global TBDY-2018 checks of the frame: storey drift (4.9.1, Eq. 4.33/4.34a) and strong-column weak-beam (7.3.5, Eq. 7.3).
+'Global checks of the frame: storey drift (TBDY-2018 4.9.1, Eq. 4.33/4.34a) and strong-column weak-beam (ACI 318M-14 18.7.3.2, Mnc >= 6/5 Mnb; decision IA 2026-10-30).
 Public Class DriftResult
     Public MaxRatio As Double          'lambda * delta / h, worst storey and direction
     Public Lambda As Double
@@ -46,10 +46,10 @@ Public Module Checks
         Return r
     End Function
 
-    'Strong column - weak beam at every joint below the roof, both frame directions (Eq. 7.3: sum Mr,col >= 1.2 sum Mr,beam).
-    'Mr of the columns: TS 500 strengths at the smallest compression Nd of the seismic combinations (TBDY 7.3.5.1); Mr of the beams from the provided steel.
-    'Beam side: both beams: Mr,top + Mr,bottom (one hogging, one sagging); one beam: larger of the two. Exemption: Nd <= 0.10 Ac fck in both columns (7.3.5 a).
-    Public Function StrongColumn(fa As FrameAnalysis, spec As FrameSpec, cols As Dictionary(Of String, ColumnGroupResult), beams As Dictionary(Of String, BeamGroupResult), fib As BeamFibre) As List(Of JointResult)
+    'Strong column - weak beam at every joint below the roof, both frame directions (ACI 18.7.3.2: sum Mnc >= 6/5 sum Mnb).
+    'Mnc: nominal strengths (f'c, fy, phi = 1) at the smallest axial compression of the seismic combinations (the direction of the lateral force giving the lowest strength); Mnb: nominal strength of the beams from the provided steel.
+    'Beam side: both beams: Mn,top + Mn,bottom (one hogging, one sagging); one beam: larger of the two. No exemption (ACI has none; 18.7.3.3 not used).
+    Public Function StrongColumn(fa As FrameAnalysis, spec As FrameSpec, cols As Dictionary(Of String, ColumnGroupResult), beams As Dictionary(Of String, BeamGroupResult), fibs As Dictionary(Of String, BeamFibre)) As List(Of JointResult)
         Dim res As New List(Of JointResult)
         Dim m = fa.Gross
         Dim mm = m.Model
@@ -80,7 +80,7 @@ Public Module Checks
                                 Next
                             Next
                             If ndMax > 0.1 * cg.B * cg.H * cg.Fc Then exemptA = False      'exemption only if even the largest Nd is small (conservative reading of 7.3.5 a)
-                            Dim sec = If(dir = 0, ColumnDesign.MakeSection(cg.B, cg.H, cg.Fc, cg.NBars, cg.BarDia, True), ColumnDesign.MakeSection(cg.H, cg.B, cg.Fc, cg.NBars, cg.BarDia, True))
+                            Dim sec = If(dir = 0, ColumnDesign.MakeSection(cg.B, cg.H, cg.Fc, cg.NBars, cg.BarDia, False), ColumnDesign.MakeSection(cg.H, cg.B, cg.Fc, cg.NBars, cg.BarDia, False, True))
                             jr.SumMrColumns += ColumnShear.MrAtP(sec, ndMin)
                         Next
                         Dim mrs As New List(Of Double)
@@ -91,9 +91,16 @@ Public Module Checks
                             Dim alongX As Boolean = Math.Abs(mm.Nodes(e.NJ).X - mm.Nodes(e.NI).X) > 0.001
                             If alongX <> (dir = 0) Then Continue For
                             Dim br = beams(e.Group)
-                            Dim fcd As Double = Ts500.Fcd(br.Fc), fyd As Double = Ts500.Fyd(420.0)
-                            Dim mrT As Double = AciBeam.Flexure(br.B, br.D, br.AsTop, fcd, fyd).Mn
-                            Dim mrB As Double = AciBeam.Flexure(br.B, br.D, br.AsBot, fcd, fyd).Mn
+                            Dim mrT As Double, mrB As Double                                    'nominal strengths f'c, fy (fibre part: gamma_F = 1)
+                            If fibs IsNot Nothing AndAlso fibs.ContainsKey(e.Group) AndAlso fibs(e.Group) IsNot Nothing AndAlso fibs(e.Group).Params IsNot Nothing Then
+                                Dim fp0 = fibs(e.Group).Params
+                                Dim q As New SfrcParams With {.FR1 = fp0.FR1, .FR3 = fp0.FR3, .GammaF = 1.0, .Linear = fp0.Linear, .EpsFu = fp0.EpsFu, .WMaxLimit = fp0.WMaxLimit, .Cmod3 = fp0.Cmod3, .WuOverride = fp0.WuOverride}
+                                mrT = SfrcBeam.Flexure(br.B, br.H, br.D, br.AsTop, br.Fc, 420.0, q, 0.7 * br.H).Mn
+                                mrB = SfrcBeam.Flexure(br.B, br.H, br.D, br.AsBot, br.Fc, 420.0, q, 0.7 * br.H).Mn
+                            Else
+                                mrT = AciBeam.Flexure(br.B, br.D, br.AsTop, br.Fc, 420.0).Mn
+                                mrB = AciBeam.Flexure(br.B, br.D, br.AsBot, br.Fc, 420.0).Mn
+                            End If
                             mrs.Add(mrT) : mrs.Add(mrB)
                         Next
                         If mrs.Count = 4 Then
@@ -102,8 +109,8 @@ Public Module Checks
                             jr.SumMrBeams = Math.Max(mrs(0), mrs(1))
                         End If
                         jr.Exempt = exemptA
-                        jr.G = If(exemptA OrElse jr.SumMrColumns <= 0.0, 0.0, 1.2 * jr.SumMrBeams / jr.SumMrColumns - 1.0)
-                        If jr.SumMrColumns <= 0.0 AndAlso Not exemptA Then jr.G = 1.0E6
+                        jr.Exempt = False
+                        jr.G = If(jr.SumMrColumns <= 0.0, 1.0E6, 1.2 * jr.SumMrBeams / jr.SumMrColumns - 1.0)
                         res.Add(jr)
                     Next
                 Next
@@ -113,17 +120,17 @@ Public Module Checks
     End Function
 End Module
 
-'Beam-column joint shear (TBDY-2018 7.5, Eq. 7.11-7.13; extraction G9 + A11 C1f).
+'Beam-column joint shear, ACI 318M-14 18.8.2.1 / 18.8.4 (decision IA 2026-10-30): Vu = 1.25 fy (As1 + As2) - Vcol, phi Vn with Vn = 1.7 / 1.2 / 1.0 sqrt(f'c) Aj (Table 18.8.4.1), phi = 0.85 (21.2.1).
 Public Class JointShearResult
     Public Name As String
-    Public Ve, Limit As Double          'N
+    Public Ve, Limit As Double          'N (Limit = phi Vn)
     Public Confined As Boolean
-    Public G As Double                  'Ve / limit - 1
+    Public G As Double                  'Vu / (phi Vn) - 1
 End Class
 
 Public Module JointShear
-    'Vkol = min(Va, Vu) of the columns below and above the joint: ASSUMPTION: the capacity-design shears Ve of 7.3.7 (ColumnShear); at the roof the column above is missing -> Vkol = 0 (conservative).
-    Public Function Check(fa As FrameAnalysis, spec As FrameSpec, cols As Dictionary(Of String, ColumnGroupResult), colShear As Dictionary(Of String, ColumnShearResult), beams As Dictionary(Of String, BeamGroupResult)) As List(Of JointShearResult)
+    'Column shear Vcol = (Mpr,L + Mpr,R) / H (ETABS CFD ACI 318-14 3.6.1, inflection points at mid-height of the columns above and below); at the roof the column above is missing -> Vcol = 0 (ETABS: shear from the top column taken as zero).
+    Public Function Check(fa As FrameAnalysis, spec As FrameSpec, cols As Dictionary(Of String, ColumnGroupResult), colShear As Dictionary(Of String, ColumnShearResult), beams As Dictionary(Of String, BeamGroupResult), fibs As Dictionary(Of String, BeamFibre)) As List(Of JointShearResult)
         Dim res As New List(Of JointShearResult)
         Dim m = fa.Gross
         Dim mm = m.Model
@@ -133,16 +140,15 @@ Public Module JointShear
                     Dim node As Integer = m.NodeAt(i, j, k)
                     For dir As Integer = 0 To 1
                         Dim r As New JointShearResult With {.Name = "J" & i & j & k & If(dir = 0, "x", "y")}
-                        Dim vBelow As Double = 0.0, vAbove As Double = 0.0
+                        Dim hasAbove As Boolean = False
                         Dim cg As ColumnGroupResult = Nothing
                         For ei As Integer = 0 To mm.Elements.Count - 1
                             Dim e = mm.Elements(ei)
                             If Math.Abs(e.Axes(0, 2)) <= 0.9 Then Continue For
-                            If e.NJ = node Then cg = cols(e.Group) : vBelow = colShear(e.Group).Ve(dir)
-                            If e.NI = node Then vAbove = colShear(e.Group).Ve(dir)
+                            If e.NJ = node Then cg = cols(e.Group)
+                            If e.NI = node Then hasAbove = True
                         Next
-                        Dim vkol As Double = Math.Min(vBelow, vAbove)
-                        Dim tops As New List(Of Double), bots As New List(Of Double), bws As New List(Of Double)
+                        Dim tops As New List(Of Double), bots As New List(Of Double), bws As New List(Of Double), mTop As New List(Of Double), mBot As New List(Of Double)
                         Dim nAllSides As Integer = 0
                         For ei As Integer = 0 To mm.Elements.Count - 1
                             Dim e = mm.Elements(ei)
@@ -153,18 +159,44 @@ Public Module JointShear
                             If alongX <> (dir = 0) Then Continue For
                             Dim br = beams(e.Group)
                             tops.Add(br.AsTop) : bots.Add(br.AsBot) : bws.Add(br.B)
+                            Dim fb As BeamFibre = If(fibs IsNot Nothing AndAlso fibs.ContainsKey(e.Group), fibs(e.Group), Nothing)
+                            mTop.Add(BeamShear.MrOf(br, br.AsTop, fb)) : mBot.Add(BeamShear.MrOf(br, br.AsBot, fb))
                         Next
-                        Dim as12 As Double
-                        If tops.Count = 2 Then as12 = Math.Max(tops(0) + bots(1), tops(1) + bots(0)) Else If tops.Count = 1 Then as12 = Math.Max(tops(0), bots(0))
+                        Dim as12 As Double, mpr12 As Double
+                        If tops.Count = 2 Then
+                            Dim p1 As Double = tops(0) + bots(1), p2 As Double = tops(1) + bots(0)
+                            as12 = Math.Max(p1, p2)
+                            mpr12 = If(p1 >= p2, mTop(0) + mBot(1), mTop(1) + mBot(0))
+                        ElseIf tops.Count = 1 Then
+                            as12 = Math.Max(tops(0), bots(0))
+                            mpr12 = Math.Max(mTop(0), mBot(0))
+                        End If
+                        Dim vkol As Double = If(hasAbove, mpr12 / (spec.StoryH * 1000.0), 0.0)
                         r.Ve = Math.Max(1.25 * 420.0 * as12 - vkol, 0.0)
                         'column dimensions: h along the beam direction (X: depth H, Y: width B), b perpendicular
                         Dim hC As Double = If(dir = 0, cg.H, cg.B), bC As Double = If(dir = 0, cg.B, cg.H)
                         Dim bwMax As Double = 0.0, bwMin As Double = Double.MaxValue
                         For Each w In bws : bwMax = Math.Max(bwMax, w) : bwMin = Math.Min(bwMin, w) : Next
-                        r.Confined = (nAllSides = 4) AndAlso bwMin >= 0.75 * bC
-                        Dim bj As Double = If(bwMax >= bC / 2.0, bC, 2.0 * Math.Min((bC - bwMax) / 2.0, (bC - bwMax) / 2.0))
-                        bj = Math.Min(bj, bwMax + hC)
-                        r.Limit = If(r.Confined, 1.7, 1.0) * bj * hC * Math.Sqrt(cg.Fc)
+                        'effective joint width 18.8.4.3: column width, not more than beam width + joint depth (centred beams: the second limit equals the column width)
+                        Dim bj As Double = Math.Min(bC, bwMax + hC)
+                        'confinement of the joint faces 18.8.4.2: a face is confined when the beam width >= 3/4 of the effective joint width
+                        Dim faceCountX As Integer = 0, faceCountY As Integer = 0
+                        For ei As Integer = 0 To mm.Elements.Count - 1
+                            Dim e2 = mm.Elements(ei)
+                            If Math.Abs(e2.Axes(0, 2)) > 0.9 OrElse e2.Story <> k Then Continue For
+                            If e2.NI <> node AndAlso e2.NJ <> node Then Continue For
+                            Dim bw2 As Double = beams(e2.Group).B
+                            Dim alongX2 As Boolean = Math.Abs(mm.Nodes(e2.NJ).X - mm.Nodes(e2.NI).X) > 0.001
+                            If alongX2 Then
+                                If bw2 >= 0.75 * cg.B Then faceCountX += 1
+                            Else
+                                If bw2 >= 0.75 * cg.H Then faceCountY += 1
+                            End If
+                        Next
+                        Dim nConf As Integer = faceCountX + faceCountY
+                        r.Confined = nConf = 4
+                        Dim coef As Double = If(nConf = 4, 1.7, If(nConf = 3 OrElse faceCountX = 2 OrElse faceCountY = 2, 1.2, 1.0))
+                        r.Limit = 0.85 * coef * Math.Sqrt(cg.Fc) * bj * hC
                         r.G = If(r.Limit > 0.0, r.Ve / r.Limit - 1.0, 1.0E6)
                         res.Add(r)
                     Next

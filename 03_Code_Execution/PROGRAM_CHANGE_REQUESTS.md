@@ -13,3 +13,10 @@ Uygulanan düzeltmeler (hata düzeltmesi, formülasyon değişikliği değil; De
 
 
 **PCR-1/2 uygulama notu (2026-10-30):** `ColumnDesign.vb`: `EminBase = 15,24 mm`, `DeltaNs`, `DcrWithEffects`, `LuRatio = 0,9`, `DcrCap = 10`. δns yalnız gravite birleşiminde (deprem birleşimlerinde sway/P-Δ varsayımı, ETABS ile aynı); e_min tüm birleşimlerde, her doğrultu ayrı. Parametreler ETABS davranışına hizalanmıştır (ETABS'in program belirlediği uzunluk oranı 0,9 ve Cm = 1); ACI 6.6.4.5.3'ün Cm = 0,6 + 0,4 M1/M2 ifadesi daha az muhafazakâr olurdu (300 mm kolonda ETABS'e göre %11 düşük kaldı). Bu seçim makalede varsayım olarak yazılır.
+
+**PCR-2 revizyon notu (2026-10-30, V2f; Critic V2e N1/A2 yanıtı):** δns artık (a) lu = net kat yüksekliği (ACI 6.2.5.1), (b) sismik birleşimlerde de (ETABS davranışı, muhafazakâr tüm-moment büyütmesi, βdns = (1+ez)G/Pu), (c) üretim donatı düzeni iki doğrultu için tutarlı (`PerimeterCounts`, `MakeSection(..., transposed)`). Önceki "lu = 0,9L" ETABS kopyası kaldırıldı. Birim testler 75/75.
+
+**PCR-3 açık karar (IA):** Kolon kısıtı (a) sabit-P moment oranı olarak kalsın, makalede tanım yazılsın (CD3 bilgi amaçlı), ya da (b) radyal orana çevrilsin (ETABS tanımı; hesap maliyeti artar). Öneri: (a) ile başla, radyal oranı yalnız raporlama için final tasarımlarda hesapla.
+
+**PCR-3 UYGULANDI (2026-10-30, IA kararı: radyal D/C):** `ColumnDesign.ColCurve/RadialDcr`; ETABS ile 5 konfigürasyon (V2h). **PCR-4 KARARA BAĞLANDI (IA yetkisiyle Claude):** kapasite tasarımı ACI 318M-14 Bölüm 18; TS 500 menüsü karşılaştırması gerekmiyor. **PCR-5 UYGULANDI:** ACI zinciri `BeamDesign.BeamShear` (Mpr 1,25 fy, 6 db), `ColumnShear.Design` (ΣMpr sınırı, Tablo 18.7.5.4), `Checks.StrongColumn` (ACI 18.7.3.2), `JointShear` (ACI 18.8.4); testler 76/76. Kayıt: `04_Results/VALIDATION_REPORT.md` V2h.
+

@@ -45,3 +45,10 @@ Bkz. `PROJECT_STATE.md` §4.
 
 ## 3f. Karar (2026-10-29, 5. tur)
 - **Şartname tabanı = A:** tüm örneklerde kesit kapasitesi ACI 318-14 + fib MC2010 (lif); Ö1'de TBDY yalnız yük/spektrum/A11 kısıtları ve kapasite tasarımı (Mr = fcd/fyd, φ yok; TBDY s.110 + TS 500 Denk. 6.2, Çizelge 7.1 doğrulandı). TBDY 7.2.4 (TS 500 zorunlu) sapması makalede beyan; Ö1 final optimumuna TS 500 Mr/Vc kontrol hesabı + ACI/TS 500 oran tablosu eklenir. Vc=0 anahtarı TBDY'deki gibi kodlanır (yumuşatma yok); lifli kirişte sarılma bölgesinde lif katkısı 0 (muhafazakâr, kaynak atfı aranacak). Varsayımlar tablosu (değer, madde, gerekçe, duyarlılık). Örtüler ACI 20.6.1.3.1: 40 mm → kiriş bar merkezi 60, kolon 60, etriye ekseni 45. Hakem görüşü: 06_Review_Audit/DECISION_CODE_BASIS_BRIEF.md.
+
+## 3g. Karar (2026-10-30, 6. tur: V2 doğrulaması)
+- **Kolon kısıtı radyal D/C** (ETABS OL/OC; `ColumnDesign.ColCurve/RadialDcr`); CD3 geçti.
+- **Kapasite tasarımı zinciri ACI 318M-14 Bölüm 18** (kiriş ve kolon kesmesi Mpr 1,25 fy, güçlü kolon ΣMnc ≥ 1,2 ΣMnb, birleşim kesmesi 1,7/1,2/1,0, Tablo 18.7.5.4 sarılma); TBDY yalnız yük/spektrum/boyut-oran sınırları/ötelenme/A11. Kolon kesmesi ΣMpr kirişlerle sınırlanır. IA: "ACI TBDY tercihini sen yap... S ile alacağın tüm kararları onaylıyorum" (yetki: Claude'un doğrulama/uygulama kararları, gerekçesiyle kayda geçirilir).
+- ETABS OAPI ile kolon kapasite kesmesi ve birleşim kontrolü devreye girmiyor ("Joint check not done"): bu bileşenler ETABS ile doğrulanamadı (sınırlama).
+- δns tüm birleşimlerde (ETABS davranışı), lu = net yükseklik, Cm = 1; PCR-1..3 uygulandı. S2 (SFRC deney) sonuçsuz: EN 14651 fR + silindir fc birlikte veren kiriş deneyi bulunamadı.
+

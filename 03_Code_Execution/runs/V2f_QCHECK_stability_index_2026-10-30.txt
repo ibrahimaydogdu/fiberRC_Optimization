@@ -1,0 +1,9 @@
+FemCore analysis of the trial design ... (no rigid zones = False)
+EX storey 1: sum Pu 8927 kN, Vus 305.1 kN, drift 1.322 mm, Q(Delta) 0.0129, Q(3 Delta) 0.0387
+EX storey 2: sum Pu 6451 kN, Vus 259.3 kN, drift 1.765 mm, Q(Delta) 0.0146, Q(3 Delta) 0.0439
+EX storey 3: sum Pu 4011 kN, Vus 203.7 kN, drift 1.734 mm, Q(Delta) 0.0114, Q(3 Delta) 0.0341
+EX storey 4: sum Pu 1645 kN, Vus 125.7 kN, drift 1.011 mm, Q(Delta) 0.0044, Q(3 Delta) 0.0132
+EY storey 1: sum Pu 8927 kN, Vus 294.0 kN, drift 1.424 mm, Q(Delta) 0.0144, Q(3 Delta) 0.0433
+EY storey 2: sum Pu 6451 kN, Vus 249.3 kN, drift 1.948 mm, Q(Delta) 0.0168, Q(3 Delta) 0.0504
+EY storey 3: sum Pu 4011 kN, Vus 196.4 kN, drift 1.915 mm, Q(Delta) 0.0130, Q(3 Delta) 0.0391
+EY storey 4: sum Pu 1645 kN, Vus 123.0 kN, drift 1.143 mm, Q(Delta) 0.0051, Q(3 Delta) 0.0153
