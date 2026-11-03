@@ -49,6 +49,14 @@ Public Module Optimizers
         Return x
     End Function
 
+    'PCR-7: optional start design x0 replaces the first random individual of the initial population (the random draw is still made, so without x0 the stream is unchanged); clipped to the bounds
+    Private Function WithStart(xi() As Integer, i As Integer, x0() As Integer, lb() As Integer, ub() As Integer) As Integer()
+        If i <> 0 OrElse x0 Is Nothing Then Return xi
+        Dim v(xi.Length - 1) As Integer
+        For j As Integer = 0 To xi.Length - 1 : v(j) = Math.Max(lb(j), Math.Min(ub(j), x0(j))) : Next
+        Return v
+    End Function
+
     Private Function Clamp(v As Double, lo As Integer, hi As Integer) As Integer
         Dim r As Integer = CInt(Math.Floor(v + 0.5))
         Return Math.Max(lo, Math.Min(hi, r))
@@ -59,14 +67,14 @@ Public Module Optimizers
     End Function
 
     'YAKO / ABC: sn food sources, limit trials, employed + onlooker + scout phases, one random dimension per move, greedy selection
-    Public Function Abc(obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional sn As Integer = 100, Optional limit As Integer = 50) As OptResult
+    Public Function Abc(obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional sn As Integer = 100, Optional limit As Integer = 50, Optional x0() As Integer = Nothing) As OptResult
         Dim rnd As New Random(seed)
         Dim b As New FeBudget(maxFEs, obj)
         Dim nd As Integer = lb.Length
         Dim x As New List(Of Integer())(), f As New List(Of Double)(), trial(sn - 1) As Integer
         For i As Integer = 0 To sn - 1
             If b.Exhausted Then Exit For
-            Dim xi = RandomX(lb, ub, rnd) : x.Add(xi) : f.Add(b.Eval(xi))
+            Dim xi = WithStart(RandomX(lb, ub, rnd), i, x0, lb, ub) : x.Add(xi) : f.Add(b.Eval(xi))
         Next
         If x.Count < sn Then Return Finish("YAKO", b)
         Dim tryMove = Sub(i As Integer)
@@ -119,14 +127,14 @@ Public Module Optimizers
     End Function
 
     'BTO / BBO: habitats ranked by cost each generation; mu_i = (N-i)/N, lambda_i = 1 - mu_i; immigration source by roulette on mu; mutation (uniform reset); greedy replacement
-    Public Function Bbo(obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional np As Integer = 100, Optional mutation As Double = 0.1) As OptResult
+    Public Function Bbo(obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional np As Integer = 100, Optional mutation As Double = 0.1, Optional x0() As Integer = Nothing) As OptResult
         Dim rnd As New Random(seed)
         Dim b As New FeBudget(maxFEs, obj)
         Dim nd As Integer = lb.Length
         Dim pop As New List(Of Tuple(Of Integer(), Double))()
         For i As Integer = 0 To np - 1
             If b.Exhausted Then Exit For
-            Dim xi = RandomX(lb, ub, rnd) : pop.Add(Tuple.Create(xi, b.Eval(xi)))
+            Dim xi = WithStart(RandomX(lb, ub, rnd), i, x0, lb, ub) : pop.Add(Tuple.Create(xi, b.Eval(xi)))
         Next
         If pop.Count < np Then Return Finish("BTO", b)
         Dim mu(np - 1) As Double
@@ -158,14 +166,14 @@ Public Module Optimizers
     End Function
 
     'ATO / TSA (Kiran 2015): each tree produces ns seeds (10-25 % of the population); every dimension of a seed moves towards the best tree (prob = search tendency) or a random tree; the best seed replaces the tree if better
-    Public Function Tsa(obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional np As Integer = 20, Optional st As Double = 0.5) As OptResult
+    Public Function Tsa(obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional np As Integer = 20, Optional st As Double = 0.5, Optional x0() As Integer = Nothing) As OptResult
         Dim rnd As New Random(seed)
         Dim b As New FeBudget(maxFEs, obj)
         Dim nd As Integer = lb.Length
         Dim x As New List(Of Integer())(), f As New List(Of Double)()
         For i As Integer = 0 To np - 1
             If b.Exhausted Then Exit For
-            Dim xi = RandomX(lb, ub, rnd) : x.Add(xi) : f.Add(b.Eval(xi))
+            Dim xi = WithStart(RandomX(lb, ub, rnd), i, x0, lb, ub) : x.Add(xi) : f.Add(b.Eval(xi))
         Next
         If x.Count < np Then Return Finish("ATO", b)
         Dim nLow As Integer = CInt(Math.Round(np * 0.1)), nHigh As Integer = CInt(Math.Round(np * 0.25))
@@ -200,11 +208,11 @@ Public Module Optimizers
         Return Finish("ATO", b)
     End Function
 
-    Public Function Run(method As String, obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer) As OptResult
+    Public Function Run(method As String, obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional x0() As Integer = Nothing) As OptResult
         Select Case method
-            Case "YAKO" : Return Abc(obj, lb, ub, maxFEs, seed)
-            Case "BTO" : Return Bbo(obj, lb, ub, maxFEs, seed)
-            Case "ATO" : Return Tsa(obj, lb, ub, maxFEs, seed)
+            Case "YAKO" : Return Abc(obj, lb, ub, maxFEs, seed, x0:=x0)
+            Case "BTO" : Return Bbo(obj, lb, ub, maxFEs, seed, x0:=x0)
+            Case "ATO" : Return Tsa(obj, lb, ub, maxFEs, seed, x0:=x0)
         End Select
         Throw New ArgumentException("unknown method " & method)
     End Function

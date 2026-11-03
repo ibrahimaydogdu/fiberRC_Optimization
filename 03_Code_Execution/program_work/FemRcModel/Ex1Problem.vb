@@ -38,6 +38,17 @@ Public Class Ex1Problem
         Next
     End Sub
 
+    'PCR-6: restrict the search to a box (per-variable index range) inside the full pool. The optimisers already honour lb <> 0; Decode uses the absolute index,
+    'so without a box (Lb = 0) the behaviour is identical to the frozen campaign (regression test). An empty intersection is an error (never silently widened).
+    Public Sub ApplyBox(lo() As Integer, hi() As Integer)
+        If lo.Length <> Lb.Length OrElse hi.Length <> Lb.Length Then Throw New ArgumentException("box length differs from the number of variables")
+        For i As Integer = 0 To Lb.Length - 1
+            Dim l As Integer = Math.Max(Lb(i), lo(i)), u As Integer = Math.Min(Ub(i), hi(i))
+            If l > u Then Throw New ArgumentException("empty box for variable " & i & ": [" & lo(i) & "," & hi(i) & "] outside the pool [" & Lb(i) & "," & Ub(i) & "]")
+            Lb(i) = l : Ub(i) = u
+        Next
+    End Sub
+
     Public ReadOnly Property NVars As Integer
         Get
             Return Lb.Length

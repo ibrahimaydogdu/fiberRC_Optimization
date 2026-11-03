@@ -43,6 +43,35 @@ Module Program
         Dim pr As New RcCore.PriceSet With {.Fibre = Double.Parse(Arg(args, "fibreprice", "90"), ci)}
         Dim prob As New Ex1Problem(spec, tp, dd3, pr, useFibre, fr)
 
+        'PCR-6: optional search box, text file with two lines of comma separated indices (lower bounds, upper bounds); the box is part of the run record
+        Dim boxFile As String = Arg(args, "box", "")
+        Dim boxTxt As String = ""
+        If boxFile <> "" Then
+            Dim bl = File.ReadAllLines(boxFile).Where(Function(s) s.Trim() <> "" AndAlso Not s.StartsWith("#")).ToArray()
+            Dim lo = bl(0).Split(","c).Select(Function(s) Integer.Parse(s.Trim())).ToArray()
+            Dim hi = bl(1).Split(","c).Select(Function(s) Integer.Parse(s.Trim())).ToArray()
+            prob.ApplyBox(lo, hi)
+            boxTxt = ",box," & Sha256Of(boxFile).Substring(0, 16)
+        End If
+        'PCR-7: --predesign 1 computes the (plain, deterministic) FSD/FUD pre-design, restricts every method to its box and starts it from x0 (fibre: x0 completed by the dose scan)
+        Dim x0 As Integer() = Nothing
+        Dim preTxt As String = ""
+        If Arg(args, "predesign", "0") = "1" Then
+            Dim sw0 = Diagnostics.Stopwatch.StartNew()
+            Dim pd = PreDesign.Run(prob)
+            Dim ev As Integer = pd.Evaluations
+            prob.ApplyBox(pd.Lo, pd.Hi)
+            x0 = pd.X
+            If useFibre Then
+                Dim ne As Integer
+                x0 = PreDesign.DoseScan(prob, pd.X, ne) : ev += ne
+            End If
+            File.WriteAllText(Path.Combine(outDir, "predesign_" & If(useFibre, "fibre", "plain") & ".txt"),
+                "# pre-design evaluations " & ev & ", cost " & pd.Cost.ToString("R", ci) & ", T " & pd.T.ToString("R", ci) & vbLf &
+                "# x0" & vbLf & String.Join(",", x0) & vbLf & "# box lo, hi" & vbLf & String.Join(",", pd.Lo) & vbLf & String.Join(",", pd.Hi) & vbLf & "# log" & vbLf & String.Join(vbLf, pd.Log) & vbLf)
+            preTxt = ",predesignEvals," & ev & ",x0cost," & pd.Cost.ToString("F0", ci)
+            Console.WriteLine("pre-design: " & ev & " evaluations, " & (sw0.ElapsedMilliseconds / 60000.0).ToString("F1", ci) & " min, cost " & pd.Cost.ToString("F0", ci) & " T " & pd.T.ToString("F4", ci))
+        End If
         Dim dll As String = GetType(Ex1Problem).Assembly.Location
         Dim ver As String = "FemRcModel.dll sha256=" & Sha256Of(dll) & " built=" & File.GetLastWriteTimeUtc(dll).ToString("s") & "Z"
         Dim tasks As New List(Of Tuple(Of String, Integer))
@@ -60,11 +89,11 @@ Module Program
                                           Dim path As String = System.IO.Path.Combine(outDir, name & ".csv")
                                           If File.Exists(path) Then Return
                                           Dim seed As Integer = seed0 + t.Item2
-                                          Dim res = Optimizers.Run(t.Item1, AddressOf prob.Objective, prob.Lb, prob.Ub, fes, seed)
+                                          Dim res = Optimizers.Run(t.Item1, AddressOf prob.Objective, prob.Lb, prob.Ub, fes, seed, x0)
                                           Dim ev = prob.Evaluate(res.BestX)
                                           Dim sb As New System.Text.StringBuilder
                                           sb.AppendLine("# " & ver)
-                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci))
+                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & boxTxt & preTxt)
                                           sb.AppendLine("Fpen," & res.BestF.ToString("R", ci) & ",cost," & ev.Cost.Total.ToString("R", ci) & ",T," & ev.T.ToString("R", ci) & ",concrete," & ev.Cost.Concrete.ToString("F2", ci) & ",rebar," & ev.Cost.Rebar.ToString("F2", ci) & ",formwork," & ev.Cost.Formwork.ToString("F2", ci) & ",fibreCost," & ev.Cost.Fibre.ToString("F2", ci) & ",steelKg," & ev.SteelKg.ToString("F2", ci) & ",fibreKg," & ev.FibreKg.ToString("F2", ci) & ",concreteM3," & ev.ConcreteM3.ToString("F3", ci))
                                           sb.AppendLine("x," & String.Join(",", res.BestX))
                                           sb.AppendLine("history_FE,best")

@@ -337,6 +337,29 @@ Module Program
         Dim ro = Optimizers.Run("ATO", AddressOf prob.Objective, prob.Lb, prob.Ub, 200, 5)
         Console.WriteLine("F12 ATO 200 FEs: best Fpen=" & ro.BestF.ToString("F0") & " (" & swO.ElapsedMilliseconds & " ms)")
         Check("F12 ATO used 200 FEs", ro.FEs, 200.0, 0.0)
+        'PCR-6 (F15): search box
+        Check("F15 without box Lb = 0 for all 44 variables", prob.Lb.Sum(), 0.0, 0.0)
+        Dim probB As New Ex1Problem(spec, tp, dd3, pr, True)
+        Dim boxLo(43) As Integer, boxHi(43) As Integer
+        For i As Integer = 0 To 43 : boxLo(i) = Math.Min(1, probB.Ub(i)) : boxHi(i) = Math.Min(probB.Ub(i), 3) : Next
+        probB.ApplyBox(boxLo, boxHi)
+        Dim inside As Boolean = True
+        For i As Integer = 0 To 43 : inside = inside AndAlso probB.Lb(i) = boxLo(i) AndAlso probB.Ub(i) = boxHi(i) : Next
+        Check("F15 box intersected with the pool (bounds equal the box)", If(inside, 1.0, 0.0), 1.0, 0.0)
+        Dim roB = Optimizers.Run("BTO", AddressOf probB.Objective, probB.Lb, probB.Ub, 100, 7)
+        Dim inBox As Boolean = True
+        For i As Integer = 0 To 43 : inBox = inBox AndAlso roB.BestX(i) >= boxLo(i) AndAlso roB.BestX(i) <= boxHi(i) : Next
+        Check("F15 BTO best design lies inside the box", If(inBox, 1.0, 0.0), 1.0, 0.0)
+        Dim thrown As Boolean = False
+        Try
+            Dim bad(43) As Integer, bad2(43) As Integer
+            For i As Integer = 0 To 43 : bad(i) = 100 : bad2(i) = 101 : Next
+            Dim pz As New Ex1Problem(spec, tp, dd3, pr, True)
+            pz.ApplyBox(bad, bad2)
+        Catch ex As ArgumentException
+            thrown = True
+        End Try
+        Check("F15 box outside the pool is rejected", If(thrown, 1.0, 0.0), 1.0, 0.0)
         'stage profile
         Dim defsP As New Dictionary(Of String, RcSectionDef)
         For Each kv In dsn.Columns : defsP(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next

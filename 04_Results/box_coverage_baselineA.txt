@@ -1,0 +1,14 @@
+== plain feasible 82 of 90 vars 44
+ top10 box mean width fraction 0.539 (narrowing 46%)
+   margin -0/+0: LOO coverage of best 10 = 3/10, box width fraction 0.539 (narrowing 46%)
+   margin -2/+3: LOO coverage of best 10 = 10/10, box width fraction 0.848 (narrowing 15%)
+ top30 box mean width fraction 0.635 (narrowing 36%)
+   margin -0/+0: LOO coverage of best 10 = 8/10, box width fraction 0.635 (narrowing 36%)
+   margin -2/+3: LOO coverage of best 10 = 10/10, box width fraction 0.897 (narrowing 10%)
+== fibre feasible 79 of 90 vars 44
+ top10 box mean width fraction 0.538 (narrowing 46%)
+   margin -0/+0: LOO coverage of best 10 = 3/10, box width fraction 0.538 (narrowing 46%)
+   margin -2/+3: LOO coverage of best 10 = 9/10, box width fraction 0.843 (narrowing 16%)
+ top30 box mean width fraction 0.650 (narrowing 35%)
+   margin -0/+0: LOO coverage of best 10 = 6/10, box width fraction 0.650 (narrowing 35%)
+   margin -2/+3: LOO coverage of best 10 = 10/10, box width fraction 0.898 (narrowing 10%)

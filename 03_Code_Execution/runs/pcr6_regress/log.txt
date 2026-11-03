@@ -1,0 +1,9 @@
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 6 runs, 1000 FEs, dop 6
+FemRcModel.dll sha256=42bcddbb10c68e5bfeda7009d37b546f7dd894de29f9038a15a41df985acb862 built=2026-11-02T09:21:47Z
+[1/6] YAKO_plain_fr1.00_run02 Fpen=1990731 T=0.000  4.2 min
+[2/6] YAKO_plain_fr1.00_run01 Fpen=1953293 T=0.005  4.2 min
+[3/6] ATO_plain_fr1.00_run02 Fpen=1911106 T=0.018  4.2 min
+[4/6] BTO_plain_fr1.00_run01 Fpen=1939683 T=0.000  4.2 min
+[5/6] ATO_plain_fr1.00_run01 Fpen=2061255 T=0.000  4.2 min
+[6/6] BTO_plain_fr1.00_run02 Fpen=1935007 T=0.000  4.2 min
+finished 6 new runs in 4.2 min
