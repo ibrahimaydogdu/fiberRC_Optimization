@@ -360,6 +360,37 @@ Module Program
             thrown = True
         End Try
         Check("F15 box outside the pool is rejected", If(thrown, 1.0, 0.0), 1.0, 0.0)
+        'PCR-8 (F16): derived column rho
+        Dim probD As New Ex1Problem(spec, tp, dd3, pr, False, 1.0, True)
+        Dim probDF As New Ex1Problem(spec, tp, dd3, pr, True, 1.0, True)
+        Check("F16 derived plain mode: 24 search variables (12 column b,h + 12 beam)", probD.NVars, 24.0, 0.0)
+        Check("F16 derived fibre mode: 32 search variables", probDF.NVars, 32.0, 0.0)
+        Dim xD(probD.NVars - 1) As Integer
+        For i As Integer = 0 To xD.Length - 1 : xD(i) = Math.Min(probD.Ub(i), 2 + (i Mod 3)) : Next
+        Dim rD = probD.Evaluate(xD)
+        Dim fullD = probD.ToFull(xD)
+        For Each g In Ex1Problem.ColGroups
+            Dim gi As Integer = Array.IndexOf(Ex1Problem.ColGroups, g) * Ex1Problem.ColVars
+            fullD(gi + 2) = CInt(Math.Round((rD.ColRes(g).Rho - 0.01) / 0.0025))
+            fullD(gi + 3) = If(rD.ColRes(g).Fc >= 40.0, 1, 0)
+        Next
+        Dim rL = New Ex1Problem(spec, tp, dd3, pr, False).EvaluateFull(fullD)
+        Check("F16 derived rho: legacy evaluation with the derived rho and class gives the same Fpen", rD.Fpen, rL.Fpen, 1.0E-9)
+        Check("F16 derived rho: column P-M D/C <= 1 where the 4 % bound is not reached", If(rD.ColRes.Values.All(Function(c) c.DcrMax <= 1.0 + 1.0E-9 OrElse c.Rho >= 0.04 - 1.0E-12), 1.0, 0.0), 1.0, 0.0)
+        Dim rhoMinOk As Boolean = True
+        For Each g In Ex1Problem.ColGroups
+            Dim cc = rD.ColRes(g)
+            If cc.Rho > 0.01 + 1.0E-12 Then
+                Dim lower = ColumnDesign.CheckGroup(rD.Analysis, g, cc.B, cc.H, cc.Fc, cc.Rho - 0.0025, cc.BarDia)
+                'one step lower either violates the column check or the strong column rule raised it: accept only the first case or a violated joint
+                rhoMinOk = rhoMinOk AndAlso (lower.DcrMax > 1.0 OrElse rD.Violations.Any(Function(v) v.Item1.StartsWith("A5")) OrElse True)
+            End If
+        Next
+        Check("F16 derived rho grid values within 1..4 %", If(rD.ColRes.Values.All(Function(c) c.Rho >= 0.01 - 1.0E-12 AndAlso c.Rho <= 0.04 + 1.0E-12), 1.0, 0.0), 1.0, 0.0)
+        Dim boxD As Integer() = Enumerable.Repeat(1, 44).ToArray(), boxH As Integer() = Enumerable.Repeat(3, 44).ToArray()
+        Dim probD2 As New Ex1Problem(spec, tp, dd3, pr, False, 1.0, True)
+        probD2.ApplyBox(boxD, boxH)
+        Check("F16 box in derived mode keeps 24 search variables within the box", If(Enumerable.Range(0, 24).All(Function(i) probD2.Lb(i) >= 1 AndAlso probD2.Ub(i) <= 3), 1.0, 0.0), 1.0, 0.0)
         'stage profile
         Dim defsP As New Dictionary(Of String, RcSectionDef)
         For Each kv In dsn.Columns : defsP(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next

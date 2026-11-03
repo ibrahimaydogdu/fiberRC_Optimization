@@ -52,3 +52,8 @@ Bkz. `PROJECT_STATE.md` §4.
 - ETABS OAPI ile kolon kapasite kesmesi ve birleşim kontrolü devreye girmiyor ("Joint check not done"): bu bileşenler ETABS ile doğrulanamadı (sınırlama).
 - δns tüm birleşimlerde (ETABS davranışı), lu = net yükseklik, Cm = 1; PCR-1..3 uygulandı. S2 (SFRC deney) sonuçsuz: EN 14651 fR + silindir fc birlikte veren kiriş deneyi bulunamadı.
 
+## 3h. Karar (2026-11-03, 7. tur: ön tasarım ve vizyon)
+- **Vizyon:** uygulamalı mühendislik optimizasyonu; FSD ön tasarımı çekirdek rehber (warm-start); hedef 1 000 FE'de hızlı yakınsama + 10 000 FE'de oturmuş durum; ön tasarım FE'si bütçeye dahil. YAKO/BTO/ATO rakip değil, doğrulama aracı (algoritma üstünlüğü yargısı yok). Ayrıntı: `PREDESIGN_PROTOCOL.md` §7, AGENTS.md kural 8.
+- **PCR-6/7/8/11 uygulandı:** havuz kutusu, ön tasarım (FSD kapsama testi ≥ 9/10 BAŞARISIZ: kutu optimumu kapsamıyor), kolon rho + beton sınıfı türetmesi (24/32 değişken), koşu günlüğü. Legacy mod Baseline-A ile birebir (regresyon 6/6). Hiyerarşi kuralı (PCR-9) ve geometrik ön koşul (PCR-10) yapılmadı (kaynak/bağımsız pilot gerekir).
+- **Ablasyon (Faz 1, 1 000 FE; kollar R, A, C, ABC; lifsiz + lifli; 30 koşu)** donmuş ikiliyle başlatıldı; sonuç Critic + IA onayı olmadan bulgular bölümüne girmez. Git yalnız Gemini (Claude commit etmez).
+

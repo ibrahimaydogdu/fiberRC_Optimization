@@ -1,0 +1,56 @@
+x0 = 6,6,0,0,3,3,0,0,6,6,0,0,3,3,0,0,6,6,0,0,3,3,0,0,1,4,0,0,0,1,3,0,0,0,1,5,0,0,0,1,2,0,0,0  cost 1554598  evals 63
+Base: drift ratio 0.00244 (storey 3) G=-0.695  Q=0.0493
+  CCorner_S12 b=600 h=600 rho=1.00 % DcrMax=0.189
+  CCorner_S34 b=450 h=450 rho=1.00 % DcrMax=0.375
+  CEdge_S12 b=600 h=600 rho=1.00 % DcrMax=0.196
+  CEdge_S34 b=450 h=450 rho=1.00 % DcrMax=0.329
+  CInter_S12 b=600 h=600 rho=1.00 % DcrMax=0.272
+  CInter_S34 b=450 h=450 rho=1.00 % DcrMax=0.217
+  base violation list: A1 col min dim 0.0000
+  base violation list: A2 col axial Nd/(0.4 fck Ac) 0.0000
+  base violation list: ACI 18.7.2.1(b) col aspect b/h >= 0.4 0.0000
+  base violation list: ACI 18.8.2.3 col dimension >= 20 db of the beam bars 0.0000
+  base violation list: A3 col rho >= 1 % 0.0000
+  base violation list: A3 col rho <= 4 % 0.0000
+  base violation list: P-M biaxial D/C 0.0000
+  base violation list: C1c col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2) 0.0000
+  base violation list: ACI 18.7.5.2(e) col hx <= 350 (200) 0.0000
+  base violation list: C1a col tie spacing >= 50 0.0000
+  base violation list: B1 beam bw >= 250 0.0000
+  base violation list: B2 beam h >= 300 0.0000
+  base violation list: B2 beam h <= 3.5 bw 0.0000
+  base violation list: B1 beam bw <= h + bc 0.0000
+  base violation list: B7 beam rho <= 2 % 0.0000
+  base violation list: B7 beam eps_t >= 0.004 / section capacity 0.0000
+  base violation list: C1e beam shear Vs <= 0.66 sqrt(fc) bw d (ACI 22.5.1.2) 0.0000
+  base violation list: C1d beam stirrup spacing >= 50 0.0000
+  base violation list: A5 strong column (ACI 18.7.3.2) 0.0000
+  base violation list: C1f joint shear (ACI 18.8.4) 0.0000
+  base violation list: C2 drift 0.0000
+  base violation list: ACI 6.6.4.3 stability index Q <= 0.05 0.0000
+CCorner_S12 b-1: cost 1550365 T=0.0000  feasible
+CCorner_S12 h-1: cost 1550335 T=0.0000  feasible
+CCorner_S12 rho-1: already at the lower bound
+CCorner_S34 b-1: cost 1540772 T=1.0044  VIOLATED: C1a col tie spacing >= 50 (1.000); ACI 6.6.4.3 stability index Q <= 0.05 (0.004)
+CCorner_S34 h-1: cost 1540805 T=1.0000  VIOLATED: C1a col tie spacing >= 50 (1.000)
+CCorner_S34 rho-1: already at the lower bound
+CEdge_S12 b-1: cost 1548353 T=0.0016  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.002)
+CEdge_S12 h-1: cost 1548495 T=0.0108  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.011)
+CEdge_S12 rho-1: already at the lower bound
+CEdge_S34 b-1: cost 1534815 T=1.2519  VIOLATED: C1a col tie spacing >= 50 (1.000); A5 strong column (ACI 18.7.3.2) (0.232); ACI 6.6.4.3 stability index Q <= 0.05 (0.020)
+CEdge_S34 h-1: cost 1534359 T=1.3065  VIOLATED: C1a col tie spacing >= 50 (1.000); A5 strong column (ACI 18.7.3.2) (0.306)
+CEdge_S34 rho-1: already at the lower bound
+CInter_S12 b-1: cost 1553278 T=0.0000  feasible
+CInter_S12 h-1: cost 1553294 T=0.0000  feasible
+CInter_S12 rho-1: already at the lower bound
+CInter_S34 b-1: cost 1548338 T=1.1369  VIOLATED: C1a col tie spacing >= 50 (1.000); A5 strong column (ACI 18.7.3.2) (0.137)
+CInter_S34 h-1: cost 1548397 T=1.2210  VIOLATED: C1a col tie spacing >= 50 (1.000); A5 strong column (ACI 18.7.3.2) (0.221)
+CInter_S34 rho-1: already at the lower bound
+Bx_S12 bw-1: cost 1537042 T=0.0583  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.058)
+Bx_S12 h-1: cost 1543354 T=0.1330  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.133)
+Bx_S34 bw-1: cost 1538603 T=0.0000  feasible
+Bx_S34 h-1: cost 1549041 T=0.0000  feasible
+By_S12 bw-1: cost 1538075 T=0.0512  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.051)
+By_S12 h-1: cost 1546479 T=0.1160  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.116)
+By_S34 bw-1: cost 1543155 T=0.0275  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.028)
+By_S34 h-1: cost 1553542 T=0.0950  VIOLATED: ACI 6.6.4.3 stability index Q <= 0.05 (0.095)

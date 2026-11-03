@@ -47,3 +47,25 @@ Kutu üretildikten sonra Baseline-A'nın (mevcut 360 koşu) en iyi uygun çözü
 2. Daraltma hedefini "%50–80" yerine "ölçülen daralma" olarak raporlamak (makale bunu önceden iddia etmez).
 3. Ek hedef: daralma yerine başlangıç noktası ve yakınsama hızı (23–25 kat başlangıç cezası) ön tasarımın asıl yararı olabilir.
 4. PCR-5 (havuz sınırı) ve PCR-6 (ön tasarım aracı) yazımına izin.
+
+---
+
+## 7. Kullanıcı kararı 2026-11-03 (IA direktifi; Critic: Review_Round_Restructure.md, Review_Round_Vision.md) — post-hoc protokol revizyonu, kayıtlıdır
+
+**Kapsam/felsefe.**
+1. Proje "algoritma yarıştırması" değil **uygulamalı mühendislik optimizasyonudur**; hedef, kabul edilebilir hesap bütçesinde ve hızlı yakınsamayla ekonomik çözüm. FSD ön tasarımı çekirdek yönlendirici (warm-start / rehber) olarak kalır; FSD'yi bırakma önerisi reddedildi.
+2. YAKO, BTO, ATO **rakip değil, doğrulama araçlarıdır (verifikatör)**: sonucun kalitesini farklı karakterli üç aramayla çapraz teyit eder. Makalede "X algoritması Y'den üstündür" yargısı yapılmaz; küçük farklar not olarak yazılabilir.
+3. 10 000 FE kampanyası **kalır**. Deneyler iki amaçla planlanır: (i) 1 000 FE'de hızlı yakınsama başarısı, (ii) 10 000 FE'de nihai oturmuş durum.
+4. Ön tasarım (FSD/FUD, lifli kolda doz taraması dahil) FE'leri **toplam bütçeye dahildir** (arama FE'si = toplam FE − ön tasarım FE'si).
+5. Bağımsız duyarlılık analizleri (lifli-kapasiteli x0 dahil) kabul edildi. Kolon beton sınıfı da türetilir (PCR-8 genişletmesi).
+6. YAKO/BTO/ATO'nun FSD noktasında takılması büyük sorun sayılmaz; ayar değişikliği ancak gerekirse ve kayda geçerek yapılır.
+
+**Donmuş ablasyon protokolü (sonuç görülmeden; ikili `03_Code_Execution/ablation_bin`).**
+- Kollar (her biri lifsiz ve lifli, fR × 1,00, 3 yöntem × 30 koşu, aynı tohumlar (1001–1030), eşleştirilmiş): **R** legacy 44 değişken, rastgele başlangıç, tam havuz; **A** türetilmiş rho + sınıf (24 / lifli 32 değişken), rastgele başlangıç, tam havuz; **C** A + ön tasarım x0 (kutusuz, tam havuz); **ABC** C + ön tasarım kutusu (−2/+3). (Hiyerarşi kuralı kolu **yok**: PCR-9 yapılmadı.)
+- **Faz 1: toplam 1 000 FE** (ön tasarım FE'si dahil). **Faz 2: 10 000 FE** yalnız Faz 1'de ön kayıtlı kuralla seçilen kol(lar)la: lifsiz ve lifli için, Faz 1'de en düşük medyan "en iyi uygun maliyet" veren kol (A, C, ABC arasından; R referanstır, 10 000 FE referansı Baseline-A'dır); kesin kural: yöntem × senaryo başına değil, **tüm yöntemlerin birleşik medyanı**.
+- Birincil ölçüt: toplam 1 000 FE sonunda en iyi uygun maliyet (TL). Uygun çözüm bulamayan koşu +∞ (sansürlü). İkincil: ilk 100 FE'de uygun oran, ilk uygun çözüm FE'si, FE-hedef eğrisi, başarı oranı (H1: Baseline-A'nın aynı yöntem için 10 000 FE medyanı; H2: en iyi bilinen +%5; H3: +%2; en iyi bilinen = bu çalışmada bulunmuş en ucuz uygun çözüm, 'optimum' değil), kısıt ihlal sayıları (PCR-11 günlüğü).
+- İstatistik: Mann–Whitney U + Holm (kollar arası, eşleştirilmiş tohumla Wilcoxon duyarlılık), etki büyüklüğü A12.
+- Lifli kolda ön tasarım lifsiz kapasiteyle yapılır; **lifli-kapasiteli x0 ile duyarlılık kolu** ayrı koşulur (Faz 1 sonrası).
+- Yapılabilir iddia: 'ön tasarım dahil 1 000 FE'de kol X, rastgele aramanın 10 000 FE medyanına ulaştı'. Yapılamaz: 'optimum', 'ön tasarım optimumu kaçırmaz', 'pratik optimum' (kaçırma miktarı raporlanır).
+- Kapsama testi (≥ 9/10) ABC kolunun kutusu için başarısız kaldı (§5); ABC kolu bu nedenle açıkça 'doğrulanmamış kutu' olarak etiketlenir.
+

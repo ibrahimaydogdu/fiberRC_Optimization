@@ -9,6 +9,8 @@ Imports RcCore
 Public Class ColumnDef
     Public B, H, Rho, Fc As Double      'mm, mm, -, MPa
     Public BarDia As Double = 20.0
+    Public FcDerived As Boolean         'PCR-8 (extension 2026-11-03): the concrete class is derived too (C30; C40 only if the column cannot be designed in C30 even at 4 % rho)
+    Public RhoDerived As Boolean        'PCR-8: Rho is set by the evaluator (smallest grid value that satisfies the column checks and the strong column rule)
 End Class
 
 Public Class BeamDef
@@ -44,12 +46,88 @@ Public Module Ex1Evaluator
         Return areaMm2 * 1.0E-6 * SteelDensity
     End Function
 
+    Public Const RhoSteps As Integer = 12          'grid 1 .. 4 % in 0.25 % steps (Ex1Problem)
+    Public Function RhoOfIdx(i As Integer) As Double
+        Return 0.01 + 0.0025 * i
+    End Function
+
+    'PCR-8: smallest grid rho with P-M D/C <= 1 (D/C is non-increasing in rho at fixed demands: bisection), then the strong column rule (ACI 18.7.3.2) raises, one step per pass,
+    'the columns of every violating joint until it holds or the 4 % bound is reached. The analysis does not depend on rho (gross sections), so only the member designs are repeated.
+    Private Sub DeriveColumnRho(fa As FrameAnalysis, spec As FrameSpec, d As Ex1Design, r As Ex1Result, fibs As Dictionary(Of String, BeamFibre))
+        Dim idx As New Dictionary(Of String, Integer)
+        Dim check = Function(g As String, i As Integer) As ColumnGroupResult
+                        Dim c = d.Columns(g)
+                        Return ColumnDesign.CheckGroup(fa, g, c.B, c.H, c.Fc, RhoOfIdx(i), c.BarDia)
+                    End Function
+        For Each g In fa.Gross.ColumnGroups
+            Dim lo As Integer = 0, hi As Integer = RhoSteps
+            If check(g, 0).DcrMax <= 1.0 Then
+                hi = 0
+            ElseIf check(g, RhoSteps).DcrMax > 1.0 Then
+                hi = RhoSteps
+            Else
+                While hi - lo > 1
+                    Dim mid As Integer = (lo + hi) \ 2
+                    If check(g, mid).DcrMax <= 1.0 Then hi = mid Else lo = mid
+                End While
+            End If
+            idx(g) = hi
+            r.ColRes(g) = check(g, idx(g))
+        Next
+        For pass As Integer = 1 To RhoSteps + 1
+            Dim raise As New HashSet(Of String)
+            For Each j In Checks.StrongColumn(fa, spec, r.ColRes, r.BeamRes, fibs)
+                If j.Exempt OrElse j.G <= 0.0 Then Continue For
+                For Each g In JointColumnGroups(fa, j.Name)
+                    If idx(g) < RhoSteps Then raise.Add(g)
+                Next
+            Next
+            If raise.Count = 0 Then Exit For
+            For Each g In raise
+                idx(g) += 1
+                r.ColRes(g) = check(g, idx(g))
+            Next
+        Next
+        For Each g In fa.Gross.ColumnGroups : d.Columns(g).Rho = RhoOfIdx(idx(g)) : Next
+    End Sub
+
+    'column groups meeting at a joint named J<i><j><k><dir> (Checks.StrongColumn)
+    Private Function JointColumnGroups(fa As FrameAnalysis, name As String) As List(Of String)
+        Dim res As New List(Of String)
+        Dim node As Integer = fa.Gross.NodeAt(CInt(name(1).ToString()), CInt(name(2).ToString()), CInt(name(3).ToString()))
+        Dim mm = fa.Gross.Model
+        For Each e In mm.Elements
+            If Math.Abs(e.Axes(0, 2)) <= 0.9 Then Continue For
+            If (e.NI = node OrElse e.NJ = node) AndAlso Not res.Contains(e.Group) Then res.Add(e.Group)
+        Next
+        Return res
+    End Function
+
     Public Function Evaluate(spec As FrameSpec, d As Ex1Design, tp As TbdyParams, dd3 As TbdyParams, prices As PriceSet) As Ex1Result
         Dim r As New Ex1Result
+        Dim fcDerive As Boolean = d.Columns.Values.Any(Function(c) c.FcDerived)
+        If fcDerive Then
+            For Each c In d.Columns.Values : c.Fc = Ex1Problem.Classes(0) : Next
+        End If
         Dim defs As New Dictionary(Of String, RcSectionDef)
-        For Each kv In d.Columns : defs(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next
-        For Each kv In d.Beams : defs(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next
+        Dim fillDefs = Sub()
+                           For Each kv In d.Columns : defs(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next
+                           For Each kv In d.Beams : defs(kv.Key) = New RcSectionDef With {.B = kv.Value.B, .H = kv.Value.H, .Fc = kv.Value.Fc} : Next
+                       End Sub
+        fillDefs()
         Dim fa = RcCombos.Analyze(spec, defs, tp)
+        If fcDerive Then
+            'class derivation: a column group that cannot satisfy P-M D/C <= 1 in C30 even at 4 % rho is made C40; the stiffness changes with the class, so the frame is analysed again only in that case
+            Dim switched As Boolean = False
+            For Each g In fa.Gross.ColumnGroups
+                Dim c = d.Columns(g)
+                If ColumnDesign.CheckGroup(fa, g, c.B, c.H, c.Fc, RhoOfIdx(RhoSteps), c.BarDia).DcrMax > 1.0 Then c.Fc = Ex1Problem.Classes(1) : switched = True
+            Next
+            If switched Then
+                fillDefs()
+                fa = RcCombos.Analyze(spec, defs, tp)
+            End If
+        End If
         r.Analysis = fa
         Dim m = fa.Gross.Model
 
@@ -61,10 +139,14 @@ Public Module Ex1Evaluator
             r.BeamRes(g) = BeamDesign.DesignGroup(fa, g, b.B, b.H, b.Fc, b.Fibre)
         Next
         Dim colShear As New Dictionary(Of String, ColumnShearResult)
-        For Each g In fa.Gross.ColumnGroups
-            Dim c = d.Columns(g)
-            r.ColRes(g) = ColumnDesign.CheckGroup(fa, g, c.B, c.H, c.Fc, c.Rho, c.BarDia)
-        Next
+        If d.Columns.Values.Any(Function(c) c.RhoDerived) Then
+            DeriveColumnRho(fa, spec, d, r, fibs)
+        Else
+            For Each g In fa.Gross.ColumnGroups
+                Dim c = d.Columns(g)
+                r.ColRes(g) = ColumnDesign.CheckGroup(fa, g, c.B, c.H, c.Fc, c.Rho, c.BarDia)
+            Next
+        End If
         For Each g In fa.Gross.ColumnGroups
             colShear(g) = ColumnShear.Design(fa, r.ColRes(g), r.ColRes, r.BeamRes, fibs)
         Next

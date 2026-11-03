@@ -32,10 +32,10 @@ Public Module PreDesign
     End Function
 
     Public Function Run(prob As Ex1Problem) As PreDesignResult
-        Dim plain As New Ex1Problem(prob.Spec, prob.Tp, prob.Dd3, prob.Prices, False)
+        Dim plain As New Ex1Problem(prob.Spec, prob.Tp, prob.Dd3, prob.Prices, False, 1.0, prob.DeriveRho)
         Dim res As New PreDesignResult
         Dim nCol As Integer = Ex1Problem.ColGroups.Length, nBeam As Integer = Ex1Problem.BeamGroups.Length
-        Dim x(plain.NVars - 1) As Integer
+        Dim x(plain.FullLb.Length - 1) As Integer
         For g As Integer = 0 To nCol - 1
             Dim k As Integer = ColIdx(g)
             x(k) = 6 : x(k + 1) = 6 : x(k + 2) = 4 : x(k + 3) = 0       '600 x 600, rho 2 %, C30
@@ -46,7 +46,7 @@ Public Module PreDesign
         Next
         Dim ev As Func(Of Integer(), Ex1Result) = Function(v)
                                                       res.Evaluations += 1
-                                                      Return plain.Evaluate(v)
+                                                      Return plain.EvaluateFull(v)
                                                   End Function
         Dim r = ev(x)
         'phase 1: restore feasibility
@@ -58,13 +58,13 @@ Public Module PreDesign
             For g As Integer = 0 To nCol - 1
                 Dim upper As Boolean = Ex1Problem.ColGroups(g).EndsWith("S34")
                 If stiff AndAlso (r.Drift.Story <= 2) = upper Then Continue For
-                For q As Integer = 0 To 1 : If x(ColIdx(g) + q) < plain.Ub(ColIdx(g) + q) Then x(ColIdx(g) + q) += 1 : changed = True
+                For q As Integer = 0 To 1 : If x(ColIdx(g) + q) < plain.FullUb(ColIdx(g) + q) Then x(ColIdx(g) + q) += 1 : changed = True
                 Next
             Next
             For g As Integer = 0 To nBeam - 1
                 Dim upper As Boolean = Ex1Problem.BeamGroups(g).EndsWith("S34")
                 If stiff AndAlso (r.Drift.Story <= 2) = upper Then Continue For
-                If x(BeamIdx(g) + 1) < plain.Ub(BeamIdx(g) + 1) Then x(BeamIdx(g) + 1) += 1 : changed = True
+                If x(BeamIdx(g) + 1) < plain.FullUb(BeamIdx(g) + 1) Then x(BeamIdx(g) + 1) += 1 : changed = True
             Next
             res.Log.Add("raise " & raises & (If(stiff, " (drift/Q, storey " & r.Drift.Story & ")", " (strength)")) & ": T=" & r.T.ToString("F4"))
             If Not changed Then Exit While
@@ -80,7 +80,7 @@ Public Module PreDesign
                     Dim br = r.BeamRes(Ex1Problem.BeamGroups(g))
                     Dim util As Double = Math.Max(br.AsTop, br.AsBot) / br.AsMaxRho
                     Dim k As Integer = BeamIdx(g) + 1
-                    If util >= BeamTrigger OrElse x(k) <= plain.Lb(k) Then frozenB(g) = True : Continue For
+                    If util >= BeamTrigger OrElse x(k) <= plain.FullLb(k) Then frozenB(g) = True : Continue For
                     x(k) -= 1
                     Dim r2 = ev(x)
                     If r2.T = 0.0 Then r = r2 : anyChg = True Else x(k) += 1 : frozenB(g) = True
@@ -91,11 +91,11 @@ Public Module PreDesign
                     Dim k As Integer = ColIdx(g)
                     If cr.DcrMax >= ColTrigger Then frozenC(g) = True : Continue For
                     Dim kk As Integer = -1
-                    If x(k + 2) > plain.Lb(k + 2) Then
+                    If Not plain.DeriveRho AndAlso x(k + 2) > plain.FullLb(k + 2) Then
                         kk = k + 2
-                    ElseIf x(k) >= x(k + 1) AndAlso x(k) > plain.Lb(k) Then
+                    ElseIf x(k) >= x(k + 1) AndAlso x(k) > plain.FullLb(k) Then
                         kk = k
-                    ElseIf x(k + 1) > plain.Lb(k + 1) Then
+                    ElseIf x(k + 1) > plain.FullLb(k + 1) Then
                         kk = k + 1
                     End If
                     If kk < 0 Then frozenC(g) = True : Continue For
@@ -111,10 +111,10 @@ Public Module PreDesign
         res.Cost = r.Cost.Total : res.Fpen = r.Fpen : res.T = r.T
         'box: b, h, rho (columns), bw, h (beams) narrowed; class, fibre type and dose keep the full pool
         ReDim res.Lo(x.Length - 1) : ReDim res.Hi(x.Length - 1)
-        For i As Integer = 0 To x.Length - 1 : res.Lo(i) = plain.Lb(i) : res.Hi(i) = prob.Ub(i) : Next
+        For i As Integer = 0 To x.Length - 1 : res.Lo(i) = plain.FullLb(i) : res.Hi(i) = prob.FullUb(i) : Next
         Dim narrow = Sub(i As Integer)
-                         res.Lo(i) = Math.Max(plain.Lb(i), x(i) - MarginDown)
-                         res.Hi(i) = Math.Min(prob.Ub(i), x(i) + MarginUp)
+                         res.Lo(i) = Math.Max(plain.FullLb(i), x(i) - MarginDown)
+                         res.Hi(i) = Math.Min(prob.FullUb(i), x(i) + MarginUp)
                      End Sub
         For g As Integer = 0 To nCol - 1 : For q As Integer = 0 To 2 : narrow(ColIdx(g) + q) : Next : Next
         For g As Integer = 0 To nBeam - 1 : narrow(BeamIdx(g)) : narrow(BeamIdx(g) + 1) : Next
@@ -125,12 +125,12 @@ Public Module PreDesign
     '(dose index 0 = plain is part of the scan, so the start can never be worse than the plain pre-design). Returns the evaluation count.
     Public Function DoseScan(fibreProb As Ex1Problem, x0() As Integer, ByRef evals As Integer) As Integer()
         Dim best = CType(x0.Clone(), Integer())
-        Dim bestF As Double = fibreProb.Objective(best) : evals = 1
+        Dim bestF As Double = fibreProb.EvaluateFull(best).Fpen : evals = 1
         For t As Integer = 0 To 1
             For d As Integer = 1 To Ex1Problem.Doses.Length - 1
                 Dim v = CType(x0.Clone(), Integer())
                 For g As Integer = 0 To Ex1Problem.BeamGroups.Length - 1 : v(BeamIdx(g) + 3) = t : v(BeamIdx(g) + 4) = d : Next
-                Dim f As Double = fibreProb.Objective(v) : evals += 1
+                Dim f As Double = fibreProb.EvaluateFull(v).Fpen : evals += 1
                 If f < bestF Then bestF = f : best = v
             Next
         Next
