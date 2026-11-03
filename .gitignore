@@ -21,6 +21,9 @@ Evidence/*
 03_Code_Execution/runs/**/*.bak
 03_Code_Execution/runs/**/ErrorLog.txt
 03_Code_Execution/results/*.parquet
+# Derlenmis ikili kopya klasorleri (pcr*_bin, pcr*_diag): git'e girmez
+03_Code_Execution/runs/pcr*_bin/
+03_Code_Execution/runs/pcr*_diag/
 # Dis YZ taramasi tam metinleri (buyuk, telifli)
 01_Literature/External_Scholar_*/PDFs/
 
