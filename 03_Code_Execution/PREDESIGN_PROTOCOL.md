@@ -69,3 +69,14 @@ Kutu üretildikten sonra Baseline-A'nın (mevcut 360 koşu) en iyi uygun çözü
 - Yapılabilir iddia: 'ön tasarım dahil 1 000 FE'de kol X, rastgele aramanın 10 000 FE medyanına ulaştı'. Yapılamaz: 'optimum', 'ön tasarım optimumu kaçırmaz', 'pratik optimum' (kaçırma miktarı raporlanır).
 - Kapsama testi (≥ 9/10) ABC kolunun kutusu için başarısız kaldı (§5); ABC kolu bu nedenle açıkça 'doğrulanmamış kutu' olarak etiketlenir.
 
+
+---
+
+## 8. Faz 2 protokolü (IA kararı 2026-11-04; Critic: koşullu onay, Faz 1 sonrası) — koşu başlamadan donduruldu
+
+- **Amaç:** MaxFE'yi belirlemek (FE-medyan eğrisi, düzleşme noktası = "oturduğu yer", optimum değil) ve sonra eşit koşullarda lifli/lifsiz karşılaştırması.
+- **Kollar:** ABC, A ve kutusuz C; lifsiz + lifli (fR × 1,00); 3 yöntem × 30 koşu (tohum 1001–1030) = 540 koşu × 10 000 FE (ön tasarım FE'si dahil). ABC kutusu "doğrulanmamış" etiketli (§5). Kolları IA onayladı (Critic önerisi ABC + A + kutusuz C).
+- **PCR-12 (IA kararı):** BTO ve ATO hamle başına **tek rastgele boyut** değiştirir (`--onedim 1`; YAKO zaten böyle). Gerekçe: x0 çevresinde exploitation. Parametre Faz 1 sonuçlarına göre ayarlanmadı (k = 1, YAKO ile tutarlılık). Varsayılan kapalı; kapalıyken Faz 1 ikilisiyle birebir (6/6 çıktı aynı). Faz 1 (tüm boyut) ile Faz 2 (tek boyut) BTO/ATO sayıları farklı sürümdür; tablolarda belirtilir. İkili: `phase2_bin`, SHA256SUMS_phase2_2026-11-04.txt (FemRcModel.dll a2b418c2…875b).
+- **Düzleşme ölçütü (donuk):** kontrol noktaları 1 000/2 000/3 000/5 000/10 000 FE; ardışık noktalar arası medyan iyileşmesi < %1 (bootstrap %95 GA ile); yöntem × senaryo × kol bazında.
+- **Raporlama kuralları (Critic):** H1 sansürlü ve x0'dan bağımsız (x0'dan iyileşme şartı) raporlanır, YAKO için H1 kanıt sayılmaz; lifli x0 = lifsiz x0 (1 664 921 TL) eşitliği açıklanır (ön tasarım lifsiz kapasiteyle); lifli-kapasiteli x0 duyarlılık kolu Faz 2 sonrası/yanında; S2 açık, ETABS V3 öncesi bulgular bölümüne girmez.
+- **Makale notu (kısa, dürüst):** "BTO ve ATO'da, YAKO ile tutarlı olarak, her harekette tek tasarım değişkeni güncellenir; bu, ön tasarım çevresinde sömürü (exploitation) kapasitesini artırır."

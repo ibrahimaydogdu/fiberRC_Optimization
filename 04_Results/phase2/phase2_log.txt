@@ -1,0 +1,4 @@
+=== plain arm ABC: --derive 1 --predesign 1 --usebox 1 --onedim 1 (Wed Nov  4 22:53:47 TST 2026)
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 90 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=a2b418c286945c1d4e4139884ae05de0650aadf9be947261e4c1972c9984875b built=2026-11-04T19:53:45Z

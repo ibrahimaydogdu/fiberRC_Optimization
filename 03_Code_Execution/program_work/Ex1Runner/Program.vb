@@ -54,6 +54,7 @@ Module Program
         Dim fes As Integer = Integer.Parse(Arg(args, "fes", "10000"))
         Dim fr As Double = Double.Parse(Arg(args, "fr", "1.0"), ci)
         Dim seed0 As Integer = Integer.Parse(Arg(args, "seed0", "1000"))
+        Optimizers.OneDimMove = (Arg(args, "onedim", "0") = "1")
         Dim dop As Integer = Integer.Parse(Arg(args, "dop", Environment.ProcessorCount.ToString()))
         Dim outDir As String = Arg(args, "out", "runs_out")
         Directory.CreateDirectory(outDir)
@@ -124,7 +125,7 @@ Module Program
                                           Dim ev = prob.Evaluate(res.BestX)
                                           Dim sb As New System.Text.StringBuilder
                                           sb.AppendLine("# " & ver)
-                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & boxTxt & preTxt & If(derive, ",derivedRho,1", ""))
+                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & boxTxt & preTxt & If(derive, ",derivedRho,1", "") & If(Optimizers.OneDimMove, ",oneDim,1", ""))
                                           sb.AppendLine("Fpen," & res.BestF.ToString("R", ci) & ",cost," & ev.Cost.Total.ToString("R", ci) & ",T," & ev.T.ToString("R", ci) & ",concrete," & ev.Cost.Concrete.ToString("F2", ci) & ",rebar," & ev.Cost.Rebar.ToString("F2", ci) & ",formwork," & ev.Cost.Formwork.ToString("F2", ci) & ",fibreCost," & ev.Cost.Fibre.ToString("F2", ci) & ",steelKg," & ev.SteelKg.ToString("F2", ci) & ",fibreKg," & ev.FibreKg.ToString("F2", ci) & ",concreteM3," & ev.ConcreteM3.ToString("F3", ci))
                                           sb.AppendLine("x," & String.Join(",", prob.ToFull(res.BestX)))
                                           sb.AppendLine("feas_summary,evals," & lg.Fe & ",feasibleEvals," & lg.NFeas & ",firstFeasibleFE," & lg.FirstFeas & ",feasibleInFirst100," & lg.Feas100 & ",bestFeasible," & If(Double.IsPositiveInfinity(lg.BestFeas), "none", lg.BestFeas.ToString("R", ci)) & ",totalFEs," & (res.FEs + preEvals))

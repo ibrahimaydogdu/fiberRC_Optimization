@@ -66,6 +66,9 @@ Public Module Optimizers
         Return New OptResult With {.Method = method, .BestX = b.BestX, .BestF = b.BestF, .FEs = b.Used, .History = b.Hist}
     End Function
 
+    'PCR-12: when True, BTO and ATO change ONE random dimension per move (as YAKO); default False = legacy behaviour (all dimensions)
+    Public OneDimMove As Boolean = False
+
     'YAKO / ABC: sn food sources, limit trials, employed + onlooker + scout phases, one random dimension per move, greedy selection
     Public Function Abc(obj As Func(Of Integer(), Double), lb() As Integer, ub() As Integer, maxFEs As Integer, seed As Integer, Optional sn As Integer = 100, Optional limit As Integer = 50, Optional x0() As Integer = Nothing) As OptResult
         Dim rnd As New Random(seed)
@@ -147,6 +150,19 @@ Public Module Optimizers
                 If b.Exhausted Then Exit For
                 Dim lam As Double = 1.0 - mu(i)
                 Dim v = CType(snapshot(i).Clone(), Integer())
+                If OneDimMove Then
+                    Dim j As Integer = rnd.Next(nd)
+                    If rnd.NextDouble() < lam Then
+                        Dim r As Double = rnd.NextDouble() * muSum, acc As Double = 0.0, src As Integer = np - 1
+                        For s As Integer = 0 To np - 1
+                            acc += mu(s)
+                            If r <= acc Then src = s : Exit For
+                        Next
+                        v(j) = snapshot(src)(j)
+                    End If
+                    If rnd.NextDouble() < mutation Then v(j) = rnd.Next(lb(j), ub(j) + 1)
+                    If v(j) = snapshot(i)(j) Then v(j) = Clamp(v(j) + If(rnd.Next(2) = 0, -1, 1), lb(j), ub(j))      'avoid null moves (as YAKO)
+                Else
                 For j As Integer = 0 To nd - 1
                     If rnd.NextDouble() < lam Then
                         Dim r As Double = rnd.NextDouble() * muSum, acc As Double = 0.0, src As Integer = np - 1
@@ -158,6 +174,7 @@ Public Module Optimizers
                     End If
                     If rnd.NextDouble() < mutation Then v(j) = rnd.Next(lb(j), ub(j) + 1)
                 Next
+                End If
                 Dim fv = b.Eval(v)
                 If fv < pop(i).Item2 Then pop(i) = Tuple.Create(v, fv)
             Next
@@ -191,13 +208,16 @@ Public Module Optimizers
                     Dim r As Integer
                     Do : r = rnd.Next(np) : Loop While r = i
                     Dim v = CType(x(i).Clone(), Integer())
-                    For j As Integer = 0 To nd - 1
+                    Dim j0 As Integer = 0, j1 As Integer = nd - 1
+                    If OneDimMove Then j0 = rnd.Next(nd) : j1 = j0
+                    For j As Integer = j0 To j1
                         Dim alpha As Double = rnd.NextDouble() * 2.0 - 1.0
                         If rnd.NextDouble() < st Then
                             v(j) = Clamp(x(i)(j) + alpha * (best(j) - x(r)(j)), lb(j), ub(j))
                         Else
                             v(j) = Clamp(x(i)(j) + alpha * (x(i)(j) - x(r)(j)), lb(j), ub(j))
                         End If
+                        If OneDimMove AndAlso v(j) = x(i)(j) Then v(j) = Clamp(v(j) + If(rnd.Next(2) = 0, -1, 1), lb(j), ub(j))
                     Next
                     Dim fv = b.Eval(v)
                     If fv < sF Then sF = fv : sBest = v

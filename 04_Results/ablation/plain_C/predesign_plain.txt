@@ -1,0 +1,16 @@
+# pre-design evaluations 33, cost 1664920.8975715379, T 0
+# x0
+5,6,4,0,3,3,4,0,5,6,4,0,6,6,4,0,6,6,4,0,2,2,4,0,1,4,0,0,0,1,4,0,0,0,1,5,0,0,0,1,5,0,0,0
+# box lo, hi
+3,4,2,0,1,1,2,0,3,4,2,0,4,4,2,0,4,4,2,0,0,0,2,0,0,2,0,0,0,0,2,0,0,0,0,3,0,0,0,0,3,0,0,0
+8,8,7,1,6,6,7,1,8,8,7,1,8,8,7,1,8,8,7,1,5,5,7,1,4,7,1,0,0,4,7,1,0,0,4,8,1,0,0,4,8,1,0,0
+# log
+FSD round 1: cost 1754245 evals 11
+FSD round 2: cost 1709946 evals 19
+FSD round 3: cost 1699200 evals 23
+FSD round 4: cost 1673188 evals 25
+FSD round 5: cost 1673301 evals 27
+FSD round 6: cost 1664922 evals 29
+FSD round 7: cost 1667180 evals 31
+FSD round 8: cost 1664921 evals 32
+FSD round 9: cost 1664921 evals 33
