@@ -82,11 +82,12 @@ Module Program
         Dim preEvals As Integer = 0
         If Arg(args, "predesign", "0") = "1" Then
             Dim sw0 = Diagnostics.Stopwatch.StartNew()
-            Dim pd = PreDesign.Run(prob)
+            Dim fibreX0 As Boolean = useFibre AndAlso Arg(args, "fibrex0", "0") = "1"      'PCR-13: scenario-specific pre-design (fibre capacity model, dose scan)
+            Dim pd = If(fibreX0, PreDesign.RunFibre(prob), PreDesign.Run(prob))
             Dim ev As Integer = pd.Evaluations
             If Arg(args, "usebox", "1") = "1" Then prob.ApplyBox(pd.Lo, pd.Hi)      'arm without box: x0 only, full pool
             x0 = pd.X
-            If useFibre Then
+            If useFibre AndAlso Not fibreX0 Then
                 Dim ne As Integer
                 x0 = PreDesign.DoseScan(prob, pd.X, ne) : ev += ne
             End If
@@ -94,7 +95,7 @@ Module Program
                 "# pre-design evaluations " & ev & ", cost " & pd.Cost.ToString("R", ci) & ", T " & pd.T.ToString("R", ci) & vbLf &
                 "# x0" & vbLf & String.Join(",", x0) & vbLf & "# box lo, hi" & vbLf & String.Join(",", pd.Lo) & vbLf & String.Join(",", pd.Hi) & vbLf & "# log" & vbLf & String.Join(vbLf, pd.Log) & vbLf)
             preEvals = ev
-            preTxt = ",predesignEvals," & ev & ",x0cost," & pd.Cost.ToString("F0", ci) & ",usebox," & Arg(args, "usebox", "1")
+            preTxt = ",predesignEvals," & ev & ",x0cost," & pd.Cost.ToString("F0", ci) & ",usebox," & Arg(args, "usebox", "1") & If(fibreX0, ",fibreX0,1", "")
             Console.WriteLine("pre-design: " & ev & " evaluations, " & (sw0.ElapsedMilliseconds / 60000.0).ToString("F1", ci) & " min, cost " & pd.Cost.ToString("F0", ci) & " T " & pd.T.ToString("F4", ci))
         End If
         Dim dll As String = GetType(Ex1Problem).Assembly.Location

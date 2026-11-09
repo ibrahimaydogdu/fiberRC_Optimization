@@ -32,3 +32,7 @@ Sources/
 bin/
 obj/
 Evidence/*.pdf
+
+# Gecici chat / prompt notlari
+Prompt_Chat.txt
+04_Results/Prompt.md

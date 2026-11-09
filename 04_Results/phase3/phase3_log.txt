@@ -1,0 +1,4 @@
+=== STAGE 1 (20 000 FE) Mon Nov  9 08:36:37 TST 2026
+--- cell ../../04_Results/phase3/20k/plain_A ATO pass 1 (0/10) Mon Nov  9 08:36:37 TST 2026
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z

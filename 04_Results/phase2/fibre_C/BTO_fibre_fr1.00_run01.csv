@@ -1,0 +1,14 @@
+# FemRcModel.dll sha256=a2b418c286945c1d4e4139884ae05de0650aadf9be947261e4c1972c9984875b built=2026-11-04T19:53:45Z
+method,BTO,run,1,seed,1001,FEs,9956,fibre,1,fRscale,1,fibreprice,90,predesignEvals,44,x0cost,1664921,usebox,0,derivedRho,1,oneDim,1
+Fpen,1597744.0749334916,cost,1597744.0749334916,T,0,concrete,288165.45,rebar,811720.17,formwork,497858.45,fibreCost,0.00,steelKg,11644.39,fibreKg,0.00,concreteM3,78.963
+x,5,6,0,0,3,3,0,0,5,6,0,0,6,4,0,0,6,6,0,0,3,2,0,0,1,4,0,0,0,0,4,0,0,0,1,5,0,0,0,0,5,0,0,0
+feas_summary,evals,9956,feasibleEvals,1293,firstFeasibleFE,1,feasibleInFirst100,2,bestFeasible,1597744.0749334916,totalFEs,10000
+violation_counts,A2 col axial Nd/(0.4 fck Ac)=240,A3 col rho <= 4 %=1779,A5 strong column (ACI 18.7.3.2)=1570,ACI 18.7.5.2(e) col hx <= 350 (200)=63,ACI 18.8.2.3 col dimension >= 20 db of the beam bars=7740,ACI 6.6.4.3 stability index Q <= 0.05=4693,C1a col tie spacing >= 50=1244,C1c col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2)=324,C1f joint shear (ACI 18.8.4)=708
+feasible_history,1:1664920.8975715379;101:1662283.3734405683;2501:1645740.6255274038;6001:1628307.081874137;6201:1622172.3969846559;9101:1597744.0749334916
+history_FE,best
+1,1664920.8975715379
+101,1662283.3734405683
+2501,1645740.6255274038
+6001,1628307.081874137
+6201,1622172.3969846559
+9101,1597744.0749334916

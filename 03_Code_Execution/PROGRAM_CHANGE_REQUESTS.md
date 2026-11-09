@@ -37,3 +37,5 @@ Uygulanan düzeltmeler (hata düzeltmesi, formülasyon değişikliği değil; De
 
 
 **PCR-12 UYGULANDI (2026-11-04, IA onayı):** `Optimizers.OneDimMove` (varsayılan False); True iken BTO/ATO hamle başına tek rastgele boyut; boş hamle ±1 ile önlenir (YAKO gibi). Runner: `--onedim 1`, CSV meta `oneDim,1`. Regresyon: kapalıyken ablation_bin ile 6/6 çıktı aynı. Birim testi eklenmedi (yalnız duman testi); ikili `phase2_bin`.
+
+**PCR-13 UYGULANDI (2026-11-09, IA kararı):** `PreDesign.Run(prob, fibreType, dose)` (lifli kapasiteli FSD, kiriş grupları sabit tip/doz), `PreDesign.RunFibre` (11 aday: lifsiz + 2 tip × 5 doz, en düşük cezalı olan x0, tüm FE bütçeye dahil), Runner `--fibrex0 1`, CSV meta `fibreX0,1`. Varsayılan davranış değişmedi (lifsiz senaryo 33 FE/1 664 921 TL aynı). Duman testi: lifli 363 FE, seçilen x0 lifsiz (doz 0). Birim testi yok. İkili `phase3_bin`.

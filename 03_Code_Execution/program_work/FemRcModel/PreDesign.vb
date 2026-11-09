@@ -31,8 +31,9 @@ Public Module PreDesign
         Return Ex1Problem.ColGroups.Length * Ex1Problem.ColVars + g * Ex1Problem.BeamVars
     End Function
 
-    Public Function Run(prob As Ex1Problem) As PreDesignResult
-        Dim plain As New Ex1Problem(prob.Spec, prob.Tp, prob.Dd3, prob.Prices, False, 1.0, prob.DeriveRho)
+    'PCR-13: fibreType >= 0 runs the FSD/FUD with the FIBRE capacity model and all beam groups fixed to (fibreType, dose); default (-1) = plain pre-design as in PCR-7
+    Public Function Run(prob As Ex1Problem, Optional fibreType As Integer = -1, Optional dose As Integer = 0) As PreDesignResult
+        Dim plain As Ex1Problem = If(fibreType >= 0, prob, New Ex1Problem(prob.Spec, prob.Tp, prob.Dd3, prob.Prices, False, 1.0, prob.DeriveRho))
         Dim res As New PreDesignResult
         Dim nCol As Integer = Ex1Problem.ColGroups.Length, nBeam As Integer = Ex1Problem.BeamGroups.Length
         Dim x(plain.FullLb.Length - 1) As Integer
@@ -43,6 +44,7 @@ Public Module PreDesign
         For g As Integer = 0 To nBeam - 1
             Dim k As Integer = BeamIdx(g)
             x(k) = 1 : x(k + 1) = 6 : x(k + 2) = 0                      '300 x 600, C30
+            If fibreType >= 0 Then x(k + 3) = fibreType : x(k + 4) = dose
         Next
         Dim ev As Func(Of Integer(), Ex1Result) = Function(v)
                                                       res.Evaluations += 1
@@ -119,6 +121,26 @@ Public Module PreDesign
         For g As Integer = 0 To nCol - 1 : For q As Integer = 0 To 2 : narrow(ColIdx(g) + q) : Next : Next
         For g As Integer = 0 To nBeam - 1 : narrow(BeamIdx(g)) : narrow(BeamIdx(g) + 1) : Next
         Return res
+    End Function
+
+    'PCR-13 (fibre scenario): scenario-specific pre-design. For every (type, dose) of the grid (all four beam groups share it) the FSD/FUD is run with the fibre capacity model; the plain pre-design is one more
+    'candidate (dose 0). The candidate with the lowest penalised cost is x0 (feasible preferred); all evaluations of all candidates are counted in the returned Evaluations (part of the total budget). Box from the chosen candidate.
+    Public Function RunFibre(prob As Ex1Problem) As PreDesignResult
+        Dim best As PreDesignResult = Run(prob)
+        Dim total As Integer = best.Evaluations
+        best.Log.Add("candidate plain: cost " & best.Cost.ToString("F0") & " Fpen " & best.Fpen.ToString("F0") & " evals " & best.Evaluations)
+        Dim log As New List(Of String)(best.Log)
+        For t As Integer = 0 To 1
+            For d As Integer = 1 To Ex1Problem.Doses.Length - 1
+                Dim r = Run(prob, t, d)
+                total += r.Evaluations
+                log.Add("candidate type " & t & " dose idx " & d & ": cost " & r.Cost.ToString("F0") & " Fpen " & r.Fpen.ToString("F0") & " T " & r.T.ToString("F4") & " evals " & r.Evaluations)
+                If r.Fpen < best.Fpen Then best = r
+            Next
+        Next
+        best.Evaluations = total
+        best.Log.Clear() : best.Log.AddRange(log)
+        Return best
     End Function
 
     'Fibre scenario only (protocol phase 3): the pre-design x0 (plain) is completed with one common fibre type and dose for all four beam groups, chosen by scanning the type x dose grid with the fibre evaluator
