@@ -1,0 +1,16 @@
+# settled cells: 2 of 8
+fibre A ATO n=10 med10k=1424465 med15k=1419680 med20k=1418829 impr10-20=0.40% impr15-20=0.06% CIup=1.78% settled=False
+fibre A YAKO n=10 med10k=1538676 med15k=1491419 med20k=1470848 impr10-20=4.41% impr15-20=1.38% CIup=6.28% settled=False
+fibre ABC ATO n=10 med10k=1475249 med15k=1461584 med20k=1453083 impr10-20=1.50% impr15-20=0.58% CIup=3.33% settled=False
+fibre ABC YAKO n=10 med10k=1532340 med15k=1502357 med20k=1480990 impr10-20=3.35% impr15-20=1.42% CIup=5.02% settled=False
+plain A ATO n=10 med10k=1441318 med15k=1437806 med20k=1437806 impr10-20=0.24% impr15-20=0.00% CIup=1.04% settled=True
+plain A YAKO n=10 med10k=1472247 med15k=1443006 med20k=1428665 impr10-20=2.96% impr15-20=0.99% CIup=4.33% settled=False
+plain ABC ATO n=10 med10k=1456583 med15k=1456583 med20k=1456583 impr10-20=0.00% impr15-20=0.00% CIup=0.00% settled=True
+plain ABC YAKO n=10 med10k=1466630 med15k=1457869 med20k=1452779 impr10-20=0.94% impr15-20=0.35% CIup=3.12% settled=False
+NOT_SETTLED
+RERUN fibre A ATO
+RERUN fibre A YAKO
+RERUN fibre ABC ATO
+RERUN fibre ABC YAKO
+RERUN plain A YAKO
+RERUN plain ABC YAKO

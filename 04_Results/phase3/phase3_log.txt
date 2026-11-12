@@ -2,3 +2,249 @@
 --- cell ../../04_Results/phase3/20k/plain_A ATO pass 1 (0/10) Mon Nov  9 08:36:37 TST 2026
 Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
 FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] ATO_plain_fr1.00_run02 Fpen=1410924 T=0.000  134.2 min
+[2/10] ATO_plain_fr1.00_run08 Fpen=1424452 T=0.000  135.6 min
+[3/10] ATO_plain_fr1.00_run03 Fpen=1456817 T=0.000  136.3 min
+[4/10] ATO_plain_fr1.00_run05 Fpen=1442009 T=0.001  137.3 min
+[5/10] ATO_plain_fr1.00_run01 Fpen=1440102 T=0.000  137.4 min
+[6/10] ATO_plain_fr1.00_run07 Fpen=1427640 T=0.000  138.8 min
+[7/10] ATO_plain_fr1.00_run04 Fpen=1488356 T=0.000  139.2 min
+[8/10] ATO_plain_fr1.00_run06 Fpen=1442204 T=0.001  139.7 min
+[9/10] ATO_plain_fr1.00_run09 Fpen=1435510 T=0.000  207.4 min
+[10/10] ATO_plain_fr1.00_run10 Fpen=1424053 T=0.000  208.4 min
+finished 10 new runs in 208.4 min
+--- cell ../../04_Results/phase3/20k/plain_A YAKO pass 1 (0/10) Mon Nov  9 12:05:00 TST 2026
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_plain_fr1.00_run01 Fpen=1460585 T=0.000  149.6 min
+[2/10] YAKO_plain_fr1.00_run02 Fpen=1416801 T=0.000  150.1 min
+[3/10] YAKO_plain_fr1.00_run05 Fpen=1423538 T=0.000  150.5 min
+[4/10] YAKO_plain_fr1.00_run03 Fpen=1430713 T=0.000  151.3 min
+[5/10] YAKO_plain_fr1.00_run07 Fpen=1410278 T=0.000  152.5 min
+[6/10] YAKO_plain_fr1.00_run06 Fpen=1441030 T=0.000  152.7 min
+[7/10] YAKO_plain_fr1.00_run08 Fpen=1435861 T=0.001  152.9 min
+[8/10] YAKO_plain_fr1.00_run04 Fpen=1426617 T=0.000  153.6 min
+[9/10] YAKO_plain_fr1.00_run10 Fpen=1451856 T=0.000  231.1 min
+[10/10] YAKO_plain_fr1.00_run09 Fpen=1413950 T=0.000  232.3 min
+finished 10 new runs in 232.3 min
+--- cell ../../04_Results/phase3/20k/plain_ABC ATO pass 1 (0/10) Mon Nov  9 15:57:20 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] ATO_plain_fr1.00_run01 Fpen=1457693 T=0.000  134.9 min
+[2/10] ATO_plain_fr1.00_run05 Fpen=1463095 T=0.000  135.3 min
+[3/10] ATO_plain_fr1.00_run02 Fpen=1451994 T=0.000  136.2 min
+[4/10] ATO_plain_fr1.00_run08 Fpen=1455790 T=0.000  136.7 min
+[5/10] ATO_plain_fr1.00_run07 Fpen=1475301 T=0.000  136.9 min
+[6/10] ATO_plain_fr1.00_run06 Fpen=1454927 T=0.001  137.2 min
+[7/10] ATO_plain_fr1.00_run04 Fpen=1486613 T=0.000  137.4 min
+[8/10] ATO_plain_fr1.00_run03 Fpen=1456695 T=0.000  138.6 min
+[9/10] ATO_plain_fr1.00_run09 Fpen=1451725 T=0.000  205.0 min
+[10/10] ATO_plain_fr1.00_run10 Fpen=1435844 T=0.000  205.7 min
+finished 10 new runs in 205.7 min
+--- cell ../../04_Results/phase3/20k/plain_ABC YAKO pass 1 (0/10) Mon Nov  9 19:23:10 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_plain_fr1.00_run01 Fpen=1448450 T=0.001  138.2 min
+[2/10] YAKO_plain_fr1.00_run02 Fpen=1434062 T=0.000  142.0 min
+[3/10] YAKO_plain_fr1.00_run06 Fpen=1457932 T=0.000  142.3 min
+[4/10] YAKO_plain_fr1.00_run08 Fpen=1467211 T=0.001  142.4 min
+[5/10] YAKO_plain_fr1.00_run04 Fpen=1456948 T=0.000  142.7 min
+[6/10] YAKO_plain_fr1.00_run05 Fpen=1446034 T=0.000  142.8 min
+[7/10] YAKO_plain_fr1.00_run07 Fpen=1439808 T=0.000  142.8 min
+[8/10] YAKO_plain_fr1.00_run03 Fpen=1457807 T=0.000  143.0 min
+[9/10] YAKO_plain_fr1.00_run09 Fpen=1431573 T=0.000  212.1 min
+=== STAGE 1 (20 000 FE) Tue Nov 10 09:42:07 TST 2026
+--- cell ../../04_Results/phase3/20k/plain_ABC YAKO pass 1 (9/10) Tue Nov 10 09:42:08 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_plain_fr1.00_run10 Fpen=1463284 T=0.000  65.2 min
+finished 1 new runs in 65.2 min
+--- cell ../../04_Results/phase3/20k/fibre_A ATO pass 1 (0/10) Tue Nov 10 10:47:30 TST 2026
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] ATO_fibre_fr1.00_run03 Fpen=1445284 T=0.000  148.7 min
+[2/10] ATO_fibre_fr1.00_run01 Fpen=1487254 T=0.000  148.8 min
+[3/10] ATO_fibre_fr1.00_run04 Fpen=1409605 T=0.000  149.3 min
+[4/10] ATO_fibre_fr1.00_run06 Fpen=1400212 T=0.000  149.6 min
+[5/10] ATO_fibre_fr1.00_run08 Fpen=1409243 T=0.000  150.6 min
+[6/10] ATO_fibre_fr1.00_run05 Fpen=1393165 T=0.000  150.8 min
+[7/10] ATO_fibre_fr1.00_run07 Fpen=1442587 T=0.000  151.9 min
+[8/10] ATO_fibre_fr1.00_run02 Fpen=1426864 T=0.000  152.8 min
+[9/10] ATO_fibre_fr1.00_run09 Fpen=1410794 T=0.000  224.8 min
+[10/10] ATO_fibre_fr1.00_run10 Fpen=1482365 T=0.000  225.4 min
+finished 10 new runs in 225.4 min
+--- cell ../../04_Results/phase3/20k/fibre_A YAKO pass 1 (0/10) Tue Nov 10 14:32:54 TST 2026
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+=== STAGE 1 (20 000 FE) Tue Nov 10 15:36:20 TST 2026
+--- cell ../../04_Results/phase3/20k/fibre_A YAKO pass 1 (0/10) Tue Nov 10 15:36:21 TST 2026
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_fibre_fr1.00_run04 Fpen=1500490 T=0.000  153.1 min
+[2/10] YAKO_fibre_fr1.00_run01 Fpen=1469984 T=0.000  153.4 min
+[3/10] YAKO_fibre_fr1.00_run07 Fpen=1471712 T=0.000  154.7 min
+[4/10] YAKO_fibre_fr1.00_run06 Fpen=1440870 T=0.000  154.7 min
+[5/10] YAKO_fibre_fr1.00_run03 Fpen=1435362 T=0.000  154.8 min
+[6/10] YAKO_fibre_fr1.00_run02 Fpen=1454526 T=0.000  155.2 min
+[7/10] YAKO_fibre_fr1.00_run08 Fpen=1490631 T=0.000  156.0 min
+[8/10] YAKO_fibre_fr1.00_run05 Fpen=1455949 T=0.000  156.6 min
+[9/10] YAKO_fibre_fr1.00_run10 Fpen=1477460 T=0.000  236.3 min
+[10/10] YAKO_fibre_fr1.00_run09 Fpen=1475518 T=0.000  239.9 min
+finished 10 new runs in 239.9 min
+--- cell ../../04_Results/phase3/20k/fibre_ABC ATO pass 1 (0/10) Tue Nov 10 19:36:18 TST 2026
+pre-design: 363 evaluations, 1.1 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] ATO_fibre_fr1.00_run03 Fpen=1445588 T=0.000  128.8 min
+[2/10] ATO_fibre_fr1.00_run01 Fpen=1450270 T=0.000  129.6 min
+[3/10] ATO_fibre_fr1.00_run04 Fpen=1464430 T=0.000  131.6 min
+[4/10] ATO_fibre_fr1.00_run05 Fpen=1466547 T=0.000  132.3 min
+[5/10] ATO_fibre_fr1.00_run02 Fpen=1429740 T=0.000  133.0 min
+[6/10] ATO_fibre_fr1.00_run06 Fpen=1473114 T=0.000  133.2 min
+[7/10] ATO_fibre_fr1.00_run08 Fpen=1433779 T=0.000  133.3 min
+[8/10] ATO_fibre_fr1.00_run07 Fpen=1424611 T=0.000  133.3 min
+[9/10] ATO_fibre_fr1.00_run09 Fpen=1455895 T=0.000  198.4 min
+[10/10] ATO_fibre_fr1.00_run10 Fpen=1483422 T=0.000  199.5 min
+finished 10 new runs in 199.5 min
+--- cell ../../04_Results/phase3/20k/fibre_ABC YAKO pass 1 (0/10) Tue Nov 10 22:56:57 TST 2026
+pre-design: 363 evaluations, 1.1 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 20000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_fibre_fr1.00_run03 Fpen=1486044 T=0.000  136.1 min
+[2/10] YAKO_fibre_fr1.00_run01 Fpen=1496602 T=0.000  136.7 min
+[3/10] YAKO_fibre_fr1.00_run07 Fpen=1497182 T=0.000  137.4 min
+[4/10] YAKO_fibre_fr1.00_run04 Fpen=1457479 T=0.000  137.7 min
+[5/10] YAKO_fibre_fr1.00_run05 Fpen=1477113 T=0.000  138.4 min
+[6/10] YAKO_fibre_fr1.00_run06 Fpen=1459106 T=0.000  138.6 min
+[7/10] YAKO_fibre_fr1.00_run02 Fpen=1484868 T=0.000  138.8 min
+[8/10] YAKO_fibre_fr1.00_run08 Fpen=1487537 T=0.000  139.4 min
+[9/10] YAKO_fibre_fr1.00_run09 Fpen=1451972 T=0.000  209.7 min
+[10/10] YAKO_fibre_fr1.00_run10 Fpen=1467514 T=0.000  209.8 min
+finished 10 new runs in 209.8 min
+=== STAGE 2 decision Wed Nov 11 02:27:51 TST 2026
+# settled cells: 2 of 8
+fibre A ATO n=10 med10k=1424465 med15k=1419680 med20k=1418829 impr10-20=0.40% impr15-20=0.06% CIup=1.78% settled=False
+fibre A YAKO n=10 med10k=1538676 med15k=1491419 med20k=1470848 impr10-20=4.41% impr15-20=1.38% CIup=6.28% settled=False
+fibre ABC ATO n=10 med10k=1475249 med15k=1461584 med20k=1453083 impr10-20=1.50% impr15-20=0.58% CIup=3.33% settled=False
+fibre ABC YAKO n=10 med10k=1532340 med15k=1502357 med20k=1480990 impr10-20=3.35% impr15-20=1.42% CIup=5.02% settled=False
+plain A ATO n=10 med10k=1441318 med15k=1437806 med20k=1437806 impr10-20=0.24% impr15-20=0.00% CIup=1.04% settled=True
+plain A YAKO n=10 med10k=1472247 med15k=1443006 med20k=1428665 impr10-20=2.96% impr15-20=0.99% CIup=4.33% settled=False
+plain ABC ATO n=10 med10k=1456583 med15k=1456583 med20k=1456583 impr10-20=0.00% impr15-20=0.00% CIup=0.00% settled=True
+plain ABC YAKO n=10 med10k=1466630 med15k=1457869 med20k=1452779 impr10-20=0.94% impr15-20=0.35% CIup=3.12% settled=False
+NOT_SETTLED
+RERUN fibre A ATO
+RERUN fibre A YAKO
+RERUN fibre ABC ATO
+RERUN fibre ABC YAKO
+RERUN plain A YAKO
+RERUN plain ABC YAKO
+=== STAGE 2b 30 000 FE for unsettled cells Wed Nov 11 02:27:53 TST 2026
+--- cell ../../04_Results/phase3/30k/fibre_A ATO pass 1 (0/10) Wed Nov 11 02:27:53 TST 2026
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 30000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] ATO_fibre_fr1.00_run01 Fpen=1476048 T=0.000  218.9 min
+[2/10] ATO_fibre_fr1.00_run03 Fpen=1445284 T=0.000  219.6 min
+[3/10] ATO_fibre_fr1.00_run04 Fpen=1409605 T=0.000  222.0 min
+[4/10] ATO_fibre_fr1.00_run06 Fpen=1400212 T=0.000  222.9 min
+[5/10] ATO_fibre_fr1.00_run05 Fpen=1393165 T=0.000  223.0 min
+[6/10] ATO_fibre_fr1.00_run08 Fpen=1409243 T=0.000  223.3 min
+[7/10] ATO_fibre_fr1.00_run07 Fpen=1442587 T=0.000  225.3 min
+[8/10] ATO_fibre_fr1.00_run02 Fpen=1426864 T=0.000  225.9 min
+[9/10] ATO_fibre_fr1.00_run09 Fpen=1410794 T=0.000  333.1 min
+[10/10] ATO_fibre_fr1.00_run10 Fpen=1466447 T=0.001  333.7 min
+finished 10 new runs in 333.7 min
+--- cell ../../04_Results/phase3/30k/fibre_A YAKO pass 1 (0/10) Wed Nov 11 08:01:39 TST 2026
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 30000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_fibre_fr1.00_run01 Fpen=1463328 T=0.000  227.4 min
+[2/10] YAKO_fibre_fr1.00_run04 Fpen=1454748 T=0.000  228.4 min
+[3/10] YAKO_fibre_fr1.00_run07 Fpen=1417995 T=0.000  231.8 min
+[4/10] YAKO_fibre_fr1.00_run02 Fpen=1424056 T=0.000  232.1 min
+[5/10] YAKO_fibre_fr1.00_run03 Fpen=1435362 T=0.000  232.8 min
+[6/10] YAKO_fibre_fr1.00_run06 Fpen=1431378 T=0.000  233.0 min
+[7/10] YAKO_fibre_fr1.00_run08 Fpen=1479009 T=0.000  234.0 min
+[8/10] YAKO_fibre_fr1.00_run05 Fpen=1455949 T=0.000  234.4 min
+[9/10] YAKO_fibre_fr1.00_run10 Fpen=1473241 T=0.000  354.7 min
+[10/10] YAKO_fibre_fr1.00_run09 Fpen=1455655 T=0.000  359.5 min
+finished 10 new runs in 359.5 min
+--- cell ../../04_Results/phase3/30k/fibre_ABC ATO pass 1 (0/10) Wed Nov 11 14:01:08 TST 2026
+pre-design: 363 evaluations, 1.2 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 30000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] ATO_fibre_fr1.00_run03 Fpen=1445588 T=0.000  196.9 min
+[2/10] ATO_fibre_fr1.00_run01 Fpen=1450270 T=0.000  197.3 min
+[3/10] ATO_fibre_fr1.00_run05 Fpen=1446427 T=0.000  200.5 min
+[4/10] ATO_fibre_fr1.00_run04 Fpen=1460048 T=0.000  200.8 min
+[5/10] ATO_fibre_fr1.00_run06 Fpen=1473114 T=0.000  201.8 min
+[6/10] ATO_fibre_fr1.00_run08 Fpen=1433779 T=0.000  202.3 min
+[7/10] ATO_fibre_fr1.00_run02 Fpen=1429740 T=0.000  202.6 min
+[8/10] ATO_fibre_fr1.00_run07 Fpen=1424611 T=0.000  202.8 min
+[9/10] ATO_fibre_fr1.00_run09 Fpen=1455895 T=0.000  300.9 min
+[10/10] ATO_fibre_fr1.00_run10 Fpen=1481772 T=0.000  301.4 min
+finished 10 new runs in 301.4 min
+--- cell ../../04_Results/phase3/30k/fibre_ABC YAKO pass 1 (0/10) Wed Nov 11 19:03:43 TST 2026
+pre-design: 363 evaluations, 1.1 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 10 runs, 30000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_fibre_fr1.00_run03 Fpen=1484983 T=0.000  200.8 min
+[2/10] YAKO_fibre_fr1.00_run04 Fpen=1445588 T=0.000  201.7 min
+[3/10] YAKO_fibre_fr1.00_run07 Fpen=1460119 T=0.001  201.8 min
+[4/10] YAKO_fibre_fr1.00_run01 Fpen=1477154 T=0.000  202.4 min
+[5/10] YAKO_fibre_fr1.00_run05 Fpen=1460510 T=0.003  202.6 min
+[6/10] YAKO_fibre_fr1.00_run02 Fpen=1466243 T=0.000  203.6 min
+[7/10] YAKO_fibre_fr1.00_run06 Fpen=1456142 T=0.000  203.8 min
+[8/10] YAKO_fibre_fr1.00_run08 Fpen=1487167 T=0.001  204.4 min
+--- cell ../../04_Results/phase3/30k/plain_A YAKO pass 1 (0/10) Thu Nov 12 00:14:37 TST 2026
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 30000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_plain_fr1.00_run01 Fpen=1459408 T=0.000  220.5 min
+[2/10] YAKO_plain_fr1.00_run02 Fpen=1390629 T=0.000  223.2 min
+[3/10] YAKO_plain_fr1.00_run03 Fpen=1417641 T=0.000  224.1 min
+[4/10] YAKO_plain_fr1.00_run05 Fpen=1423538 T=0.000  225.5 min
+[5/10] YAKO_plain_fr1.00_run06 Fpen=1430301 T=0.000  227.9 min
+[6/10] YAKO_plain_fr1.00_run07 Fpen=1410278 T=0.000  228.6 min
+[7/10] YAKO_plain_fr1.00_run08 Fpen=1426753 T=0.000  229.2 min
+[8/10] YAKO_plain_fr1.00_run04 Fpen=1426617 T=0.000  229.3 min
+[9/10] YAKO_plain_fr1.00_run10 Fpen=1436306 T=0.000  343.1 min
+[10/10] YAKO_plain_fr1.00_run09 Fpen=1413950 T=0.000  344.0 min
+finished 10 new runs in 344.0 min
+--- cell ../../04_Results/phase3/30k/plain_ABC YAKO pass 1 (0/10) Thu Nov 12 05:58:37 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 10 runs, 30000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/10] YAKO_plain_fr1.00_run01 Fpen=1448450 T=0.001  200.8 min
+[2/10] YAKO_plain_fr1.00_run05 Fpen=1446034 T=0.000  203.4 min
+[3/10] YAKO_plain_fr1.00_run08 Fpen=1467211 T=0.001  204.1 min
+[4/10] YAKO_plain_fr1.00_run06 Fpen=1457932 T=0.000  204.2 min
+[5/10] YAKO_plain_fr1.00_run07 Fpen=1439808 T=0.000  204.2 min
+[6/10] YAKO_plain_fr1.00_run03 Fpen=1456711 T=0.000  204.5 min
+[7/10] YAKO_plain_fr1.00_run04 Fpen=1451013 T=0.000  204.7 min
+[8/10] YAKO_plain_fr1.00_run02 Fpen=1428197 T=0.000  204.7 min
+[9/10] YAKO_plain_fr1.00_run09 Fpen=1431573 T=0.000  307.5 min
+[10/10] YAKO_plain_fr1.00_run10 Fpen=1442087 T=0.000  308.2 min
+finished 10 new runs in 308.2 min
+=== STAGE 1 (20 000 FE) Thu Nov 12 16:52:57 TST 2026
+=== STAGE 2 decision Thu Nov 12 16:52:59 TST 2026
+# settled cells: 2 of 8
+fibre A ATO n=10 med10k=1424465 med15k=1419680 med20k=1418829 impr10-20=0.40% impr15-20=0.06% CIup=1.78% settled=False
+fibre A YAKO n=10 med10k=1538676 med15k=1491419 med20k=1470848 impr10-20=4.41% impr15-20=1.38% CIup=6.28% settled=False
+fibre ABC ATO n=10 med10k=1475249 med15k=1461584 med20k=1453083 impr10-20=1.50% impr15-20=0.58% CIup=3.33% settled=False
+fibre ABC YAKO n=10 med10k=1532340 med15k=1502357 med20k=1480990 impr10-20=3.35% impr15-20=1.42% CIup=5.02% settled=False
+plain A ATO n=10 med10k=1441318 med15k=1437806 med20k=1437806 impr10-20=0.24% impr15-20=0.00% CIup=1.04% settled=True
+plain A YAKO n=10 med10k=1472247 med15k=1443006 med20k=1428665 impr10-20=2.96% impr15-20=0.99% CIup=4.33% settled=False
+plain ABC ATO n=10 med10k=1456583 med15k=1456583 med20k=1456583 impr10-20=0.00% impr15-20=0.00% CIup=0.00% settled=True
+plain ABC YAKO n=10 med10k=1466630 med15k=1457869 med20k=1452779 impr10-20=0.94% impr15-20=0.35% CIup=3.12% settled=False
+NOT_SETTLED
+RERUN fibre A ATO
+RERUN fibre A YAKO
+RERUN fibre ABC ATO
+RERUN fibre ABC YAKO
+RERUN plain A YAKO
+RERUN plain ABC YAKO
+=== STAGE 2b 30 000 FE for unsettled cells Thu Nov 12 16:53:01 TST 2026
+=== STAGE 3 BTO all-dimension control (supplementary) Thu Nov 12 16:53:03 TST 2026
+--- cell ../../04_Results/phase3/bto_alldim/plain_A BTO pass 1 (0/30) Thu Nov 12 16:53:03 TST 2026
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
