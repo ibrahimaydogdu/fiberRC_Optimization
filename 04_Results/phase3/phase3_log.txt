@@ -248,3 +248,441 @@ RERUN plain ABC YAKO
 --- cell ../../04_Results/phase3/bto_alldim/plain_A BTO pass 1 (0/30) Thu Nov 12 16:53:03 TST 2026
 Ex1Runner plain fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
 FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] BTO_plain_fr1.00_run01 Fpen=1401928 T=0.000  67.6 min
+[2/30] BTO_plain_fr1.00_run10 Fpen=1405029 T=0.000  69.1 min
+[3/30] BTO_plain_fr1.00_run22 Fpen=1400445 T=0.000  69.2 min
+[4/30] BTO_plain_fr1.00_run07 Fpen=1394415 T=0.000  69.2 min
+[5/30] BTO_plain_fr1.00_run16 Fpen=1395322 T=0.000  69.4 min
+[6/30] BTO_plain_fr1.00_run13 Fpen=1403828 T=0.000  69.6 min
+[7/30] BTO_plain_fr1.00_run04 Fpen=1411188 T=0.003  69.7 min
+[8/30] BTO_plain_fr1.00_run19 Fpen=1407026 T=0.000  70.2 min
+[9/30] BTO_plain_fr1.00_run02 Fpen=1419445 T=0.000  136.9 min
+[10/30] BTO_plain_fr1.00_run23 Fpen=1403932 T=0.000  138.7 min
+[11/30] BTO_plain_fr1.00_run20 Fpen=1417605 T=0.000  139.4 min
+[12/30] BTO_plain_fr1.00_run05 Fpen=1396762 T=0.000  139.4 min
+[13/30] BTO_plain_fr1.00_run17 Fpen=1398398 T=0.001  139.4 min
+[14/30] BTO_plain_fr1.00_run14 Fpen=1399844 T=0.000  139.4 min
+[15/30] BTO_plain_fr1.00_run08 Fpen=1396748 T=0.000  139.7 min
+[16/30] BTO_plain_fr1.00_run11 Fpen=1395521 T=0.000  140.3 min
+[17/30] BTO_plain_fr1.00_run03 Fpen=1400316 T=0.000  205.3 min
+[18/30] BTO_plain_fr1.00_run24 Fpen=1403504 T=0.002  207.0 min
+[19/30] BTO_plain_fr1.00_run15 Fpen=1397377 T=0.000  208.0 min
+[20/30] BTO_plain_fr1.00_run06 Fpen=1395777 T=0.000  208.0 min
+[21/30] BTO_plain_fr1.00_run18 Fpen=1405211 T=0.000  208.2 min
+[22/30] BTO_plain_fr1.00_run21 Fpen=1391279 T=0.000  208.6 min
+[23/30] BTO_plain_fr1.00_run09 Fpen=1402554 T=0.000  208.7 min
+[24/30] BTO_plain_fr1.00_run12 Fpen=1392240 T=0.000  209.7 min
+[25/30] BTO_plain_fr1.00_run28 Fpen=1400374 T=0.000  243.6 min
+[26/30] BTO_plain_fr1.00_run25 Fpen=1399600 T=0.000  244.0 min
+[27/30] BTO_plain_fr1.00_run29 Fpen=1386277 T=0.000  279.7 min
+[28/30] BTO_plain_fr1.00_run26 Fpen=1404056 T=0.000  280.8 min
+[29/30] BTO_plain_fr1.00_run30 Fpen=1397985 T=0.000  316.9 min
+[30/30] BTO_plain_fr1.00_run27 Fpen=1403210 T=0.000  318.6 min
+finished 30 new runs in 318.6 min
+--- cell ../../04_Results/phase3/bto_alldim/plain_C BTO pass 1 (0/30) Thu Nov 12 22:11:44 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] BTO_plain_fr1.00_run07 Fpen=1410710 T=0.000  66.8 min
+[2/30] BTO_plain_fr1.00_run04 Fpen=1418862 T=0.000  67.4 min
+[3/30] BTO_plain_fr1.00_run16 Fpen=1396103 T=0.000  67.8 min
+[4/30] BTO_plain_fr1.00_run01 Fpen=1394058 T=0.000  67.8 min
+[5/30] BTO_plain_fr1.00_run13 Fpen=1424060 T=0.000  67.9 min
+[6/30] BTO_plain_fr1.00_run22 Fpen=1405497 T=0.000  68.0 min
+[7/30] BTO_plain_fr1.00_run10 Fpen=1404603 T=0.000  68.1 min
+[8/30] BTO_plain_fr1.00_run19 Fpen=1392412 T=0.000  68.4 min
+[9/30] BTO_plain_fr1.00_run05 Fpen=1393406 T=0.000  134.5 min
+[10/30] BTO_plain_fr1.00_run02 Fpen=1415053 T=0.000  134.5 min
+[11/30] BTO_plain_fr1.00_run14 Fpen=1416021 T=0.000  135.2 min
+[12/30] BTO_plain_fr1.00_run08 Fpen=1402590 T=0.000  135.3 min
+[13/30] BTO_plain_fr1.00_run17 Fpen=1406765 T=0.000  135.4 min
+[14/30] BTO_plain_fr1.00_run11 Fpen=1403768 T=0.000  135.4 min
+[15/30] BTO_plain_fr1.00_run20 Fpen=1413775 T=0.000  135.6 min
+[16/30] BTO_plain_fr1.00_run23 Fpen=1412020 T=0.000  136.8 min
+[17/30] BTO_plain_fr1.00_run03 Fpen=1393464 T=0.000  202.5 min
+[18/30] BTO_plain_fr1.00_run09 Fpen=1408394 T=0.000  203.9 min
+[19/30] BTO_plain_fr1.00_run06 Fpen=1404563 T=0.000  204.3 min
+[20/30] BTO_plain_fr1.00_run18 Fpen=1399433 T=0.000  204.3 min
+[21/30] BTO_plain_fr1.00_run15 Fpen=1406874 T=0.000  204.3 min
+[22/30] BTO_plain_fr1.00_run12 Fpen=1401636 T=0.000  204.8 min
+[23/30] BTO_plain_fr1.00_run21 Fpen=1403547 T=0.001  204.9 min
+[24/30] BTO_plain_fr1.00_run24 Fpen=1392298 T=0.000  205.6 min
+[25/30] BTO_plain_fr1.00_run25 Fpen=1399410 T=0.000  240.0 min
+[26/30] BTO_plain_fr1.00_run28 Fpen=1395368 T=0.000  241.1 min
+[27/30] BTO_plain_fr1.00_run26 Fpen=1394753 T=0.000  276.6 min
+[28/30] BTO_plain_fr1.00_run29 Fpen=1397769 T=0.000  277.7 min
+[29/30] BTO_plain_fr1.00_run27 Fpen=1400402 T=0.000  313.6 min
+[30/30] BTO_plain_fr1.00_run30 Fpen=1403391 T=0.000  314.0 min
+finished 30 new runs in 314.0 min
+--- cell ../../04_Results/phase3/bto_alldim/fibre_A BTO pass 1 (0/30) Fri Nov 13 03:25:52 TST 2026
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] BTO_fibre_fr1.00_run07 Fpen=1401621 T=0.000  75.0 min
+[2/30] BTO_fibre_fr1.00_run16 Fpen=1405433 T=0.000  75.8 min
+[3/30] BTO_fibre_fr1.00_run01 Fpen=1416325 T=0.000  75.8 min
+[4/30] BTO_fibre_fr1.00_run10 Fpen=1406205 T=0.000  75.8 min
+[5/30] BTO_fibre_fr1.00_run04 Fpen=1406929 T=0.000  76.3 min
+[6/30] BTO_fibre_fr1.00_run19 Fpen=1397951 T=0.000  77.0 min
+[7/30] BTO_fibre_fr1.00_run22 Fpen=1398411 T=0.000  77.2 min
+[8/30] BTO_fibre_fr1.00_run13 Fpen=1399185 T=0.000  77.5 min
+[9/30] BTO_fibre_fr1.00_run02 Fpen=1419062 T=0.000  149.7 min
+[10/30] BTO_fibre_fr1.00_run17 Fpen=1414600 T=0.000  150.2 min
+[11/30] BTO_fibre_fr1.00_run08 Fpen=1404693 T=0.000  150.4 min
+[12/30] BTO_fibre_fr1.00_run11 Fpen=1400168 T=0.000  150.8 min
+[13/30] BTO_fibre_fr1.00_run20 Fpen=1411106 T=0.000  151.3 min
+[14/30] BTO_fibre_fr1.00_run05 Fpen=1411296 T=0.001  151.5 min
+[15/30] BTO_fibre_fr1.00_run23 Fpen=1415959 T=0.000  151.6 min
+[16/30] BTO_fibre_fr1.00_run14 Fpen=1409881 T=0.000  151.9 min
+[17/30] BTO_fibre_fr1.00_run03 Fpen=1405368 T=0.000  225.2 min
+[18/30] BTO_fibre_fr1.00_run09 Fpen=1405841 T=0.000  226.5 min
+[19/30] BTO_fibre_fr1.00_run06 Fpen=1408283 T=0.000  227.3 min
+[20/30] BTO_fibre_fr1.00_run21 Fpen=1408683 T=0.000  227.4 min
+[21/30] BTO_fibre_fr1.00_run12 Fpen=1406555 T=0.000  227.9 min
+[22/30] BTO_fibre_fr1.00_run15 Fpen=1398570 T=0.000  228.0 min
+[23/30] BTO_fibre_fr1.00_run18 Fpen=1399888 T=0.000  228.1 min
+[24/30] BTO_fibre_fr1.00_run24 Fpen=1416187 T=0.000  228.4 min
+[25/30] BTO_fibre_fr1.00_run25 Fpen=1400984 T=0.000  264.9 min
+[26/30] BTO_fibre_fr1.00_run28 Fpen=1403194 T=0.000  265.0 min
+[27/30] BTO_fibre_fr1.00_run29 Fpen=1407972 T=0.000  303.4 min
+[28/30] BTO_fibre_fr1.00_run26 Fpen=1409026 T=0.000  303.7 min
+[29/30] BTO_fibre_fr1.00_run27 Fpen=1411428 T=0.000  341.1 min
+[30/30] BTO_fibre_fr1.00_run30 Fpen=1406596 T=0.000  341.8 min
+finished 30 new runs in 341.8 min
+--- cell ../../04_Results/phase3/bto_alldim/fibre_C BTO pass 1 (0/30) Fri Nov 13 09:07:38 TST 2026
+pre-design: 44 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+=== STAGE 1 (20 000 FE) Fri Nov 13 10:45:15 TST 2026
+=== STAGE 2 decision Fri Nov 13 10:45:17 TST 2026
+# settled cells: 2 of 8
+fibre A ATO n=10 med10k=1424465 med15k=1419680 med20k=1418829 impr10-20=0.40% impr15-20=0.06% CIup=1.78% settled=False
+fibre A YAKO n=10 med10k=1538676 med15k=1491419 med20k=1470848 impr10-20=4.41% impr15-20=1.38% CIup=6.28% settled=False
+fibre ABC ATO n=10 med10k=1475249 med15k=1461584 med20k=1453083 impr10-20=1.50% impr15-20=0.58% CIup=3.33% settled=False
+fibre ABC YAKO n=10 med10k=1532340 med15k=1502357 med20k=1480990 impr10-20=3.35% impr15-20=1.42% CIup=5.02% settled=False
+plain A ATO n=10 med10k=1441318 med15k=1437806 med20k=1437806 impr10-20=0.24% impr15-20=0.00% CIup=1.04% settled=True
+plain A YAKO n=10 med10k=1472247 med15k=1443006 med20k=1428665 impr10-20=2.96% impr15-20=0.99% CIup=4.33% settled=False
+plain ABC ATO n=10 med10k=1456583 med15k=1456583 med20k=1456583 impr10-20=0.00% impr15-20=0.00% CIup=0.00% settled=True
+plain ABC YAKO n=10 med10k=1466630 med15k=1457869 med20k=1452779 impr10-20=0.94% impr15-20=0.35% CIup=3.12% settled=False
+NOT_SETTLED
+RERUN fibre A ATO
+RERUN fibre A YAKO
+RERUN fibre ABC ATO
+RERUN fibre ABC YAKO
+RERUN plain A YAKO
+RERUN plain ABC YAKO
+=== STAGE 2b 30 000 FE for unsettled cells Fri Nov 13 10:45:19 TST 2026
+=== STAGE 3 BTO all-dimension control (supplementary) Fri Nov 13 10:45:21 TST 2026
+--- cell ../../04_Results/phase3/bto_alldim/fibre_C BTO pass 1 (8/30) Fri Nov 13 10:45:22 TST 2026
+pre-design: 44 evaluations, 0.2 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] BTO_fibre_fr1.00_run23 Fpen=1407546 T=0.000  67.4 min
+[2/30] BTO_fibre_fr1.00_run11 Fpen=1409388 T=0.000  68.1 min
+[3/30] BTO_fibre_fr1.00_run05 Fpen=1406378 T=0.000  68.2 min
+[4/30] BTO_fibre_fr1.00_run20 Fpen=1414271 T=0.000  68.7 min
+[5/30] BTO_fibre_fr1.00_run14 Fpen=1410473 T=0.000  68.8 min
+[6/30] BTO_fibre_fr1.00_run02 Fpen=1404933 T=0.000  69.0 min
+[7/30] BTO_fibre_fr1.00_run17 Fpen=1413021 T=0.000  69.2 min
+[8/30] BTO_fibre_fr1.00_run08 Fpen=1408288 T=0.000  69.6 min
+[9/30] BTO_fibre_fr1.00_run24 Fpen=1391796 T=0.001  137.4 min
+[10/30] BTO_fibre_fr1.00_run12 Fpen=1396752 T=0.000  137.6 min
+[11/30] BTO_fibre_fr1.00_run21 Fpen=1411024 T=0.000  137.7 min
+[12/30] BTO_fibre_fr1.00_run03 Fpen=1405906 T=0.000  138.7 min
+[13/30] BTO_fibre_fr1.00_run06 Fpen=1404778 T=0.000  139.3 min
+[14/30] BTO_fibre_fr1.00_run15 Fpen=1402247 T=0.000  139.5 min
+[15/30] BTO_fibre_fr1.00_run09 Fpen=1408728 T=0.000  139.6 min
+[16/30] BTO_fibre_fr1.00_run18 Fpen=1403040 T=0.000  139.9 min
+[17/30] BTO_fibre_fr1.00_run25 Fpen=1410604 T=0.002  175.1 min
+[18/30] BTO_fibre_fr1.00_run28 Fpen=1399968 T=0.000  175.3 min
+[19/30] BTO_fibre_fr1.00_run26 Fpen=1414503 T=0.000  212.0 min
+[20/30] BTO_fibre_fr1.00_run29 Fpen=1404220 T=0.001  213.3 min
+[21/30] BTO_fibre_fr1.00_run27 Fpen=1420769 T=0.000  248.9 min
+[22/30] BTO_fibre_fr1.00_run30 Fpen=1403363 T=0.000  249.7 min
+finished 22 new runs in 249.7 min
+ALL DONE Fri Nov 13 14:55:17 TST 2026
+=== STAGE 3b ATO all-dimension control (supplementary) Fri Nov 13 14:55:44 TST 2026
+--- cell ../../04_Results/phase3/ato_alldim/plain_A ATO pass 1 (0/30) Fri Nov 13 14:55:45 TST 2026
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] ATO_plain_fr1.00_run01 Fpen=1441390 T=0.000  69.5 min
+[2/30] ATO_plain_fr1.00_run22 Fpen=1404368 T=0.000  69.6 min
+[3/30] ATO_plain_fr1.00_run16 Fpen=1420634 T=0.000  69.9 min
+[4/30] ATO_plain_fr1.00_run13 Fpen=1417839 T=0.000  70.5 min
+[5/30] ATO_plain_fr1.00_run10 Fpen=1431244 T=0.000  70.9 min
+[6/30] ATO_plain_fr1.00_run04 Fpen=1427526 T=0.000  70.9 min
+[7/30] ATO_plain_fr1.00_run19 Fpen=1416141 T=0.000  71.5 min
+[8/30] ATO_plain_fr1.00_run07 Fpen=1452743 T=0.000  71.8 min
+[9/30] ATO_plain_fr1.00_run02 Fpen=1427578 T=0.000  136.3 min
+[10/30] ATO_plain_fr1.00_run17 Fpen=1437851 T=0.000  137.9 min
+[11/30] ATO_plain_fr1.00_run23 Fpen=1429820 T=0.000  138.9 min
+[12/30] ATO_plain_fr1.00_run11 Fpen=1407103 T=0.000  139.2 min
+[13/30] ATO_plain_fr1.00_run14 Fpen=1431749 T=0.000  139.7 min
+[14/30] ATO_plain_fr1.00_run05 Fpen=1408852 T=0.000  140.2 min
+[15/30] ATO_plain_fr1.00_run20 Fpen=1457536 T=0.000  140.3 min
+[16/30] ATO_plain_fr1.00_run08 Fpen=1454981 T=0.000  140.8 min
+[17/30] ATO_plain_fr1.00_run03 Fpen=1441911 T=0.000  203.9 min
+[18/30] ATO_plain_fr1.00_run18 Fpen=1418913 T=0.000  204.8 min
+[19/30] ATO_plain_fr1.00_run15 Fpen=1433016 T=0.000  206.3 min
+[20/30] ATO_plain_fr1.00_run24 Fpen=1436590 T=0.000  206.4 min
+[21/30] ATO_plain_fr1.00_run12 Fpen=1419420 T=0.000  207.0 min
+[22/30] ATO_plain_fr1.00_run06 Fpen=1418170 T=0.000  207.1 min
+[23/30] ATO_plain_fr1.00_run21 Fpen=1418721 T=0.000  208.1 min
+[24/30] ATO_plain_fr1.00_run09 Fpen=1431743 T=0.000  208.5 min
+[25/30] ATO_plain_fr1.00_run25 Fpen=1430472 T=0.000  242.9 min
+[26/30] ATO_plain_fr1.00_run28 Fpen=1421872 T=0.000  243.7 min
+[27/30] ATO_plain_fr1.00_run29 Fpen=1412814 T=0.000  279.9 min
+[28/30] ATO_plain_fr1.00_run26 Fpen=1428274 T=0.000  280.0 min
+[29/30] ATO_plain_fr1.00_run30 Fpen=1420497 T=0.000  315.8 min
+[30/30] ATO_plain_fr1.00_run27 Fpen=1430840 T=0.000  316.3 min
+finished 30 new runs in 316.3 min
+--- cell ../../04_Results/phase3/ato_alldim/fibre_A ATO pass 1 (0/30) Fri Nov 13 20:12:04 TST 2026
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] ATO_fibre_fr1.00_run01 Fpen=1429501 T=0.000  68.3 min
+[2/30] ATO_fibre_fr1.00_run10 Fpen=1431976 T=0.000  68.6 min
+[3/30] ATO_fibre_fr1.00_run13 Fpen=1435771 T=0.000  68.7 min
+[4/30] ATO_fibre_fr1.00_run04 Fpen=1429524 T=0.000  68.9 min
+[5/30] ATO_fibre_fr1.00_run19 Fpen=1429927 T=0.000  69.1 min
+[6/30] ATO_fibre_fr1.00_run22 Fpen=1438068 T=0.000  69.2 min
+[7/30] ATO_fibre_fr1.00_run16 Fpen=1435350 T=0.000  69.3 min
+[8/30] ATO_fibre_fr1.00_run07 Fpen=1447355 T=0.000  71.3 min
+[9/30] ATO_fibre_fr1.00_run17 Fpen=1444924 T=0.000  138.1 min
+[10/30] ATO_fibre_fr1.00_run05 Fpen=1436011 T=0.000  138.6 min
+[11/30] ATO_fibre_fr1.00_run11 Fpen=1420428 T=0.003  138.9 min
+[12/30] ATO_fibre_fr1.00_run20 Fpen=1438049 T=0.000  139.0 min
+[13/30] ATO_fibre_fr1.00_run23 Fpen=1448546 T=0.000  139.1 min
+[14/30] ATO_fibre_fr1.00_run02 Fpen=1453385 T=0.000  139.1 min
+[15/30] ATO_fibre_fr1.00_run14 Fpen=1443711 T=0.000  139.2 min
+[16/30] ATO_fibre_fr1.00_run08 Fpen=1443296 T=0.000  141.0 min
+[17/30] ATO_fibre_fr1.00_run06 Fpen=1447160 T=0.000  207.0 min
+[18/30] ATO_fibre_fr1.00_run24 Fpen=1445367 T=0.000  207.3 min
+[19/30] ATO_fibre_fr1.00_run03 Fpen=1440400 T=0.000  207.5 min
+[20/30] ATO_fibre_fr1.00_run12 Fpen=1410547 T=0.000  207.8 min
+[21/30] ATO_fibre_fr1.00_run15 Fpen=1464544 T=0.001  207.9 min
+[22/30] ATO_fibre_fr1.00_run18 Fpen=1479606 T=0.000  208.2 min
+[23/30] ATO_fibre_fr1.00_run21 Fpen=1424994 T=0.000  208.9 min
+[24/30] ATO_fibre_fr1.00_run09 Fpen=1422217 T=0.000  209.4 min
+[25/30] ATO_fibre_fr1.00_run25 Fpen=1437589 T=0.000  245.0 min
+[26/30] ATO_fibre_fr1.00_run28 Fpen=1426765 T=0.000  245.5 min
+[27/30] ATO_fibre_fr1.00_run29 Fpen=1442325 T=0.005  282.7 min
+[28/30] ATO_fibre_fr1.00_run26 Fpen=1432772 T=0.000  283.6 min
+[29/30] ATO_fibre_fr1.00_run30 Fpen=1452633 T=0.000  321.1 min
+[30/30] ATO_fibre_fr1.00_run27 Fpen=1455188 T=0.000  321.6 min
+finished 30 new runs in 321.6 min
+ALL DONE 3b Sat Nov 14 01:33:41 TST 2026
+=== STAGE 3c all-dimension BTO ABC, ATO C and ABC Sat Nov 14 01:35:02 TST 2026
+--- cell ../../04_Results/phase3/ato_alldim/plain_C ATO pass 1 (0/30) Sat Nov 14 01:35:02 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] ATO_plain_fr1.00_run22 Fpen=1411758 T=0.000  69.6 min
+[2/30] ATO_plain_fr1.00_run19 Fpen=1415127 T=0.000  69.6 min
+[3/30] ATO_plain_fr1.00_run01 Fpen=1421018 T=0.000  70.4 min
+[4/30] ATO_plain_fr1.00_run16 Fpen=1421377 T=0.000  70.8 min
+[5/30] ATO_plain_fr1.00_run10 Fpen=1413481 T=0.000  71.1 min
+[6/30] ATO_plain_fr1.00_run04 Fpen=1428541 T=0.000  71.2 min
+[7/30] ATO_plain_fr1.00_run13 Fpen=1429128 T=0.000  72.7 min
+[8/30] ATO_plain_fr1.00_run07 Fpen=1441390 T=0.000  73.5 min
+[9/30] ATO_plain_fr1.00_run17 Fpen=1412319 T=0.000  141.0 min
+[10/30] ATO_plain_fr1.00_run02 Fpen=1414207 T=0.000  141.4 min
+[11/30] ATO_plain_fr1.00_run20 Fpen=1427551 T=0.000  141.6 min
+[12/30] ATO_plain_fr1.00_run23 Fpen=1424259 T=0.000  142.7 min
+[13/30] ATO_plain_fr1.00_run11 Fpen=1435732 T=0.000  143.0 min
+[14/30] ATO_plain_fr1.00_run05 Fpen=1445521 T=0.000  143.9 min
+[15/30] ATO_plain_fr1.00_run08 Fpen=1448750 T=0.004  146.2 min
+[16/30] ATO_plain_fr1.00_run14 Fpen=1432825 T=0.000  146.4 min
+[17/30] ATO_plain_fr1.00_run21 Fpen=1423711 T=0.003  211.3 min
+[18/30] ATO_plain_fr1.00_run18 Fpen=1423641 T=0.000  211.4 min
+[19/30] ATO_plain_fr1.00_run03 Fpen=1416382 T=0.000  212.0 min
+[20/30] ATO_plain_fr1.00_run12 Fpen=1428699 T=0.000  213.7 min
+[21/30] ATO_plain_fr1.00_run06 Fpen=1440962 T=0.000  214.0 min
+[22/30] ATO_plain_fr1.00_run24 Fpen=1435804 T=0.000  214.0 min
+[23/30] ATO_plain_fr1.00_run09 Fpen=1425131 T=0.000  215.0 min
+[24/30] ATO_plain_fr1.00_run15 Fpen=1417341 T=0.000  215.8 min
+[25/30] ATO_plain_fr1.00_run25 Fpen=1414228 T=0.000  248.8 min
+[26/30] ATO_plain_fr1.00_run28 Fpen=1409109 T=0.000  249.8 min
+[27/30] ATO_plain_fr1.00_run26 Fpen=1405361 T=0.000  284.8 min
+[28/30] ATO_plain_fr1.00_run29 Fpen=1419056 T=0.000  286.7 min
+[29/30] ATO_plain_fr1.00_run27 Fpen=1415160 T=0.000  321.3 min
+[30/30] ATO_plain_fr1.00_run30 Fpen=1425030 T=0.000  323.8 min
+finished 30 new runs in 323.8 min
+--- cell ../../04_Results/phase3/ato_alldim/plain_ABC ATO pass 1 (0/30) Sat Nov 14 06:58:55 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] ATO_plain_fr1.00_run01 Fpen=1424611 T=0.000  66.3 min
+[2/30] ATO_plain_fr1.00_run16 Fpen=1424611 T=0.000  67.3 min
+[3/30] ATO_plain_fr1.00_run19 Fpen=1424611 T=0.000  68.1 min
+[4/30] ATO_plain_fr1.00_run07 Fpen=1424611 T=0.000  68.3 min
+[5/30] ATO_plain_fr1.00_run22 Fpen=1424611 T=0.000  68.3 min
+[6/30] ATO_plain_fr1.00_run04 Fpen=1424611 T=0.000  68.5 min
+[7/30] ATO_plain_fr1.00_run10 Fpen=1426607 T=0.000  69.1 min
+[8/30] ATO_plain_fr1.00_run13 Fpen=1424611 T=0.000  69.2 min
+[9/30] ATO_plain_fr1.00_run02 Fpen=1428041 T=0.000  130.4 min
+[10/30] ATO_plain_fr1.00_run17 Fpen=1424611 T=0.000  132.2 min
+[11/30] ATO_plain_fr1.00_run20 Fpen=1428422 T=0.000  133.2 min
+[12/30] ATO_plain_fr1.00_run08 Fpen=1424611 T=0.000  133.8 min
+[13/30] ATO_plain_fr1.00_run05 Fpen=1427718 T=0.000  133.9 min
+[14/30] ATO_plain_fr1.00_run23 Fpen=1424611 T=0.000  134.0 min
+[15/30] ATO_plain_fr1.00_run11 Fpen=1424611 T=0.000  134.5 min
+[16/30] ATO_plain_fr1.00_run14 Fpen=1424611 T=0.000  134.8 min
+[17/30] ATO_plain_fr1.00_run03 Fpen=1424611 T=0.000  195.0 min
+[18/30] ATO_plain_fr1.00_run18 Fpen=1426110 T=0.000  197.5 min
+[19/30] ATO_plain_fr1.00_run24 Fpen=1424611 T=0.000  199.4 min
+[20/30] ATO_plain_fr1.00_run09 Fpen=1424611 T=0.000  199.5 min
+[21/30] ATO_plain_fr1.00_run21 Fpen=1424611 T=0.000  199.5 min
+[22/30] ATO_plain_fr1.00_run12 Fpen=1424611 T=0.000  199.7 min
+[23/30] ATO_plain_fr1.00_run06 Fpen=1427718 T=0.000  199.7 min
+[24/30] ATO_plain_fr1.00_run15 Fpen=1424611 T=0.000  200.0 min
+[25/30] ATO_plain_fr1.00_run25 Fpen=1424611 T=0.000  230.3 min
+[26/30] ATO_plain_fr1.00_run28 Fpen=1424611 T=0.000  231.4 min
+[27/30] ATO_plain_fr1.00_run26 Fpen=1424611 T=0.000  263.2 min
+[28/30] ATO_plain_fr1.00_run29 Fpen=1427718 T=0.000  264.3 min
+[29/30] ATO_plain_fr1.00_run27 Fpen=1424611 T=0.000  296.3 min
+[30/30] ATO_plain_fr1.00_run30 Fpen=1424611 T=0.000  297.0 min
+finished 30 new runs in 297.0 min
+--- cell ../../04_Results/phase3/bto_alldim/plain_ABC BTO pass 1 (0/30) Sat Nov 14 11:56:03 TST 2026
+pre-design: 33 evaluations, 0.1 min, cost 1664921 T 0.0000
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] BTO_plain_fr1.00_run01 Fpen=1431287 T=0.000  64.6 min
+[2/30] BTO_plain_fr1.00_run13 Fpen=1433519 T=0.000  65.0 min
+[3/30] BTO_plain_fr1.00_run16 Fpen=1424611 T=0.000  65.2 min
+[4/30] BTO_plain_fr1.00_run19 Fpen=1424611 T=0.000  65.2 min
+[5/30] BTO_plain_fr1.00_run07 Fpen=1427718 T=0.000  65.4 min
+[6/30] BTO_plain_fr1.00_run22 Fpen=1433519 T=0.000  65.5 min
+[7/30] BTO_plain_fr1.00_run04 Fpen=1437175 T=0.000  65.6 min
+[8/30] BTO_plain_fr1.00_run10 Fpen=1436061 T=0.000  65.7 min
+[9/30] BTO_plain_fr1.00_run02 Fpen=1427998 T=0.000  127.7 min
+[10/30] BTO_plain_fr1.00_run14 Fpen=1434910 T=0.000  128.8 min
+[11/30] BTO_plain_fr1.00_run08 Fpen=1424611 T=0.000  129.4 min
+[12/30] BTO_plain_fr1.00_run17 Fpen=1433536 T=0.000  129.5 min
+[13/30] BTO_plain_fr1.00_run23 Fpen=1424611 T=0.000  129.7 min
+[14/30] BTO_plain_fr1.00_run05 Fpen=1433567 T=0.000  129.8 min
+[15/30] BTO_plain_fr1.00_run20 Fpen=1436154 T=0.000  129.9 min
+[16/30] BTO_plain_fr1.00_run11 Fpen=1433750 T=0.000  130.1 min
+[17/30] BTO_plain_fr1.00_run03 Fpen=1424611 T=0.000  191.7 min
+[18/30] BTO_plain_fr1.00_run15 Fpen=1434026 T=0.000  193.1 min
+[19/30] BTO_plain_fr1.00_run09 Fpen=1442917 T=0.000  193.9 min
+[20/30] BTO_plain_fr1.00_run24 Fpen=1427998 T=0.000  194.2 min
+[21/30] BTO_plain_fr1.00_run06 Fpen=1435290 T=0.000  194.2 min
+[22/30] BTO_plain_fr1.00_run21 Fpen=1424611 T=0.000  194.3 min
+[23/30] BTO_plain_fr1.00_run18 Fpen=1424611 T=0.000  194.4 min
+[24/30] BTO_plain_fr1.00_run12 Fpen=1435290 T=0.000  194.6 min
+[25/30] BTO_plain_fr1.00_run25 Fpen=1431895 T=0.000  225.8 min
+[26/30] BTO_plain_fr1.00_run28 Fpen=1432998 T=0.000  226.7 min
+[27/30] BTO_plain_fr1.00_run26 Fpen=1431287 T=0.000  258.9 min
+[28/30] BTO_plain_fr1.00_run29 Fpen=1435274 T=0.000  259.7 min
+[29/30] BTO_plain_fr1.00_run27 Fpen=1424611 T=0.000  292.0 min
+[30/30] BTO_plain_fr1.00_run30 Fpen=1431458 T=0.000  292.6 min
+finished 30 new runs in 292.6 min
+--- cell ../../04_Results/phase3/ato_alldim/fibre_C ATO pass 1 (0/30) Sat Nov 14 16:48:46 TST 2026
+pre-design: 363 evaluations, 1.1 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] ATO_fibre_fr1.00_run01 Fpen=1431325 T=0.004  65.8 min
+[2/30] ATO_fibre_fr1.00_run16 Fpen=1422328 T=0.000  66.2 min
+[3/30] ATO_fibre_fr1.00_run10 Fpen=1434894 T=0.000  66.3 min
+[4/30] ATO_fibre_fr1.00_run22 Fpen=1448201 T=0.000  66.6 min
+[5/30] ATO_fibre_fr1.00_run19 Fpen=1456591 T=0.000  66.9 min
+[6/30] ATO_fibre_fr1.00_run13 Fpen=1436510 T=0.000  67.1 min
+[7/30] ATO_fibre_fr1.00_run07 Fpen=1454806 T=0.000  67.1 min
+[8/30] ATO_fibre_fr1.00_run04 Fpen=1434860 T=0.000  67.7 min
+[9/30] ATO_fibre_fr1.00_run17 Fpen=1426540 T=0.000  131.8 min
+[10/30] ATO_fibre_fr1.00_run02 Fpen=1485629 T=0.000  133.5 min
+[11/30] ATO_fibre_fr1.00_run11 Fpen=1419526 T=0.000  133.7 min
+[12/30] ATO_fibre_fr1.00_run23 Fpen=1438371 T=0.000  133.9 min
+[13/30] ATO_fibre_fr1.00_run14 Fpen=1446891 T=0.000  135.2 min
+[14/30] ATO_fibre_fr1.00_run05 Fpen=1433049 T=0.000  135.5 min
+[15/30] ATO_fibre_fr1.00_run20 Fpen=1450867 T=0.000  135.6 min
+[16/30] ATO_fibre_fr1.00_run08 Fpen=1436498 T=0.000  135.7 min
+[17/30] ATO_fibre_fr1.00_run18 Fpen=1443522 T=0.000  199.1 min
+[18/30] ATO_fibre_fr1.00_run24 Fpen=1455879 T=0.000  200.2 min
+[19/30] ATO_fibre_fr1.00_run12 Fpen=1458660 T=0.000  200.6 min
+[20/30] ATO_fibre_fr1.00_run03 Fpen=1476508 T=0.000  200.8 min
+[21/30] ATO_fibre_fr1.00_run15 Fpen=1439548 T=0.000  201.8 min
+[22/30] ATO_fibre_fr1.00_run06 Fpen=1453131 T=0.000  201.9 min
+[23/30] ATO_fibre_fr1.00_run09 Fpen=1472365 T=0.000  202.4 min
+[24/30] ATO_fibre_fr1.00_run21 Fpen=1449305 T=0.000  203.2 min
+[25/30] ATO_fibre_fr1.00_run25 Fpen=1461185 T=0.000  237.5 min
+[26/30] ATO_fibre_fr1.00_run28 Fpen=1436195 T=0.000  238.2 min
+[27/30] ATO_fibre_fr1.00_run26 Fpen=1436059 T=0.000  274.3 min
+[28/30] ATO_fibre_fr1.00_run29 Fpen=1446195 T=0.007  274.9 min
+[29/30] ATO_fibre_fr1.00_run27 Fpen=1415728 T=0.000  310.4 min
+[30/30] ATO_fibre_fr1.00_run30 Fpen=1464577 T=0.000  312.0 min
+finished 30 new runs in 312.0 min
+--- cell ../../04_Results/phase3/ato_alldim/fibre_ABC ATO pass 1 (0/30) Sat Nov 14 22:01:55 TST 2026
+pre-design: 363 evaluations, 1.1 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] ATO_fibre_fr1.00_run01 Fpen=1424611 T=0.000  62.0 min
+[2/30] ATO_fibre_fr1.00_run07 Fpen=1426607 T=0.000  62.9 min
+[3/30] ATO_fibre_fr1.00_run13 Fpen=1424611 T=0.000  63.0 min
+[4/30] ATO_fibre_fr1.00_run22 Fpen=1424611 T=0.000  63.0 min
+[5/30] ATO_fibre_fr1.00_run04 Fpen=1426838 T=0.000  63.0 min
+[6/30] ATO_fibre_fr1.00_run19 Fpen=1426838 T=0.000  63.3 min
+[7/30] ATO_fibre_fr1.00_run10 Fpen=1424611 T=0.000  63.5 min
+[8/30] ATO_fibre_fr1.00_run16 Fpen=1428041 T=0.000  64.0 min
+[9/30] ATO_fibre_fr1.00_run02 Fpen=1424611 T=0.000  123.4 min
+[10/30] ATO_fibre_fr1.00_run08 Fpen=1426110 T=0.000  125.9 min
+[11/30] ATO_fibre_fr1.00_run14 Fpen=1424611 T=0.000  126.4 min
+[12/30] ATO_fibre_fr1.00_run05 Fpen=1424611 T=0.000  126.6 min
+[13/30] ATO_fibre_fr1.00_run23 Fpen=1424611 T=0.000  126.7 min
+[14/30] ATO_fibre_fr1.00_run11 Fpen=1424611 T=0.000  126.8 min
+[15/30] ATO_fibre_fr1.00_run20 Fpen=1424611 T=0.000  127.1 min
+[16/30] ATO_fibre_fr1.00_run17 Fpen=1427998 T=0.000  127.4 min
+[17/30] ATO_fibre_fr1.00_run03 Fpen=1427718 T=0.000  186.8 min
+[18/30] ATO_fibre_fr1.00_run09 Fpen=1424611 T=0.000  189.3 min
+[19/30] ATO_fibre_fr1.00_run24 Fpen=1424611 T=0.000  190.0 min
+[20/30] ATO_fibre_fr1.00_run15 Fpen=1424611 T=0.000  190.3 min
+[21/30] ATO_fibre_fr1.00_run12 Fpen=1424611 T=0.000  190.7 min
+[22/30] ATO_fibre_fr1.00_run18 Fpen=1424611 T=0.000  190.8 min
+[23/30] ATO_fibre_fr1.00_run21 Fpen=1427718 T=0.000  190.9 min
+[24/30] ATO_fibre_fr1.00_run06 Fpen=1434250 T=0.000  191.3 min
+[25/30] ATO_fibre_fr1.00_run25 Fpen=1427718 T=0.000  221.5 min
+[26/30] ATO_fibre_fr1.00_run28 Fpen=1427718 T=0.000  222.7 min
+[27/30] ATO_fibre_fr1.00_run26 Fpen=1427718 T=0.000  253.6 min
+[28/30] ATO_fibre_fr1.00_run29 Fpen=1426110 T=0.000  254.9 min
+[29/30] ATO_fibre_fr1.00_run27 Fpen=1424611 T=0.000  286.2 min
+[30/30] ATO_fibre_fr1.00_run30 Fpen=1424611 T=0.000  287.2 min
+finished 30 new runs in 287.2 min
+--- cell ../../04_Results/phase3/bto_alldim/fibre_ABC BTO pass 1 (0/30) Sun Nov 15 02:50:14 TST 2026
+pre-design: 363 evaluations, 1.1 min, cost 1664921 T 0.0000
+Ex1Runner fibre fR x1 fibre price 90 TL/kg, 30 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/30] BTO_fibre_fr1.00_run16 Fpen=1438220 T=0.000  63.1 min
+[2/30] BTO_fibre_fr1.00_run01 Fpen=1426110 T=0.000  63.2 min
+[3/30] BTO_fibre_fr1.00_run04 Fpen=1434572 T=0.000  63.4 min
+[4/30] BTO_fibre_fr1.00_run13 Fpen=1433862 T=0.000  63.5 min
+[5/30] BTO_fibre_fr1.00_run19 Fpen=1437373 T=0.000  63.6 min
+[6/30] BTO_fibre_fr1.00_run07 Fpen=1437825 T=0.000  64.0 min
+[7/30] BTO_fibre_fr1.00_run22 Fpen=1434218 T=0.000  64.0 min
+[8/30] BTO_fibre_fr1.00_run10 Fpen=1435392 T=0.000  64.1 min
+[9/30] BTO_fibre_fr1.00_run02 Fpen=1426838 T=0.000  124.5 min
+[10/30] BTO_fibre_fr1.00_run17 Fpen=1442374 T=0.000  126.1 min
+[11/30] BTO_fibre_fr1.00_run14 Fpen=1443608 T=0.000  126.6 min
+[12/30] BTO_fibre_fr1.00_run11 Fpen=1427597 T=0.000  126.6 min
+[13/30] BTO_fibre_fr1.00_run05 Fpen=1426838 T=0.000  126.7 min
+[14/30] BTO_fibre_fr1.00_run20 Fpen=1436123 T=0.000  126.8 min
+[15/30] BTO_fibre_fr1.00_run08 Fpen=1428013 T=0.000  126.9 min
+[16/30] BTO_fibre_fr1.00_run23 Fpen=1427718 T=0.000  127.1 min
+[17/30] BTO_fibre_fr1.00_run03 Fpen=1440975 T=0.000  186.1 min
+[18/30] BTO_fibre_fr1.00_run06 Fpen=1424611 T=0.000  188.8 min
+[19/30] BTO_fibre_fr1.00_run18 Fpen=1427718 T=0.000  188.9 min
+[20/30] BTO_fibre_fr1.00_run15 Fpen=1430191 T=0.000  189.2 min
+[21/30] BTO_fibre_fr1.00_run21 Fpen=1434218 T=0.000  189.7 min
+[22/30] BTO_fibre_fr1.00_run12 Fpen=1428197 T=0.000  189.7 min
+[23/30] BTO_fibre_fr1.00_run09 Fpen=1437902 T=0.000  189.8 min
+[24/30] BTO_fibre_fr1.00_run24 Fpen=1424611 T=0.000  189.8 min
+[25/30] BTO_fibre_fr1.00_run25 Fpen=1435274 T=0.000  220.4 min
+[26/30] BTO_fibre_fr1.00_run28 Fpen=1434218 T=0.000  221.8 min
+[27/30] BTO_fibre_fr1.00_run26 Fpen=1432531 T=0.000  253.3 min
+[28/30] BTO_fibre_fr1.00_run29 Fpen=1440260 T=0.000  254.3 min
+[29/30] BTO_fibre_fr1.00_run27 Fpen=1434427 T=0.000  286.2 min
+[30/30] BTO_fibre_fr1.00_run30 Fpen=1431955 T=0.000  286.9 min
+finished 30 new runs in 286.9 min
+ALL DONE 3c Sun Nov 15 07:38:18 TST 2026
+=== FIBRE PRICE 0 experiment Mon Nov 16 09:53:13 TST 2026
+--- cell ../../04_Results/phase3/fibre_price0/fibre_A BTO price0 pass 1 (0/10) Mon Nov 16 09:53:14 TST 2026
+Ex1Runner fibre fR x1 fibre price 0 TL/kg, 10 runs, 10000 FEs, dop 8
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z

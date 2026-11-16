@@ -1,0 +1,4 @@
+Ex1Runner plain fR x1 fibre price 90 TL/kg, 1 runs, 10000 FEs, dop 1
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9 built=2026-11-09T05:36:30Z
+[1/1] BTO_plain_fr1.00_run01 Fpen=1486133 T=0.000  44.1 min
+finished 1 new runs in 44.1 min
