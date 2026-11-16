@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- PCR-18: Ex2 campaign driver. Frozen Ö1 DLLs as file references to ..\ref\ (no program_work project reference, spec 9.1). -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>Ex2Runner</RootNamespace>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <ServerGarbageCollector>true</ServerGarbageCollector>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <Deterministic>true</Deterministic>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex2Model\Ex2Model.vbproj" />
+    <Reference Include="FemCore"><HintPath>..\ref\FemCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="RcCore"><HintPath>..\ref\RcCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="FemRcModel"><HintPath>..\ref\FemRcModel.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="MathNet.Numerics"><HintPath>..\ref\MathNet.Numerics.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="System.ValueTuple"><HintPath>..\ref\System.ValueTuple.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+</Project>

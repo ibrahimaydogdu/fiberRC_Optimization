@@ -1,0 +1,13 @@
+# Ex2Model.dll sha256=d392bfce5167632a59fa9522bdf096af0277b432a4cf877322b234a8abd8cfd9; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-16T11:01:15Z
+method,BTO,run,1,seed,901,FEs,100,fibre,0,groups,9,fRscale,1,fibreprice,90,arm,A,shear,ACI 22.5.5.1 plain,wallSeconds,0.41
+Fpen,267063.37228624558,cost,267063.37228624558,T,0,concrete,46487.24,rebar,113874.40,formwork,106701.73,fibreCost,0.00,steelKg,1643.31,fibreKg,0.00,concreteM3,12.739
+x,1,0,1,0,1,0,1,5,1,6,4,1,0,5,4,3,0,5
+feas_summary,evals,100,feasibleEvals,27,firstFeasibleFE,6,feasibleInFirst100,27,bestFeasible,267063.37228624558,totalFEs,100
+violation_counts,g1 col P-M D/C (ACI 22.4; 6.6.4.5)=4,g2 col rho <= 4 % (grid bound)=4,g3 beam eps_t >= 0.004 (ACI 9.3.3.1)=70,g3 beam section capacity (As finite)=45,g4 beam shear Vs <= 0.66 sqrt(fc) bw d (ACI 22.5.1.2)=7
+feasible_history,6:325373.5007927554;8:284036.04368233017;45:267063.37228624558
+history_FE,best
+1,2546416.3463028432
+2,989111.25753195176
+6,325373.5007927554
+8,284036.04368233017
+45,267063.37228624558

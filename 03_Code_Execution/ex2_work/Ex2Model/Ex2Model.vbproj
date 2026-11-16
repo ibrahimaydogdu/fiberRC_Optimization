@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Ex2 (EX2_SPEC v2, PCR-14..18). Isolation (spec 9.1): NO project reference to program_work; the frozen Ö1 DLLs are
+       file references to ..\ref\ (copies of phase3_bin, SHA-256 in EX2_CODE_LOG.md). -->
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>Ex2Model</RootNamespace>
+    <AssemblyName>Ex2Model</AssemblyName>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <Deterministic>true</Deterministic>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FemCore"><HintPath>..\ref\FemCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="RcCore"><HintPath>..\ref\RcCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="FemRcModel"><HintPath>..\ref\FemRcModel.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="MathNet.Numerics"><HintPath>..\ref\MathNet.Numerics.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="System.ValueTuple"><HintPath>..\ref\System.ValueTuple.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+</Project>

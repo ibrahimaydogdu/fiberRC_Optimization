@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Ex2 unit tests (console runner, same style as Ö1 FemRcModel.Tests). V1 checkpoint (EX2_SPEC §10 V1), geometry, orientation, Decode bounds, Q17 block. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>Ex2ModelTests</RootNamespace>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <Deterministic>true</Deterministic>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex2Model\Ex2Model.vbproj" />
+    <Reference Include="FemCore"><HintPath>..\ref\FemCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="RcCore"><HintPath>..\ref\RcCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="FemRcModel"><HintPath>..\ref\FemRcModel.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="MathNet.Numerics"><HintPath>..\ref\MathNet.Numerics.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="System.ValueTuple"><HintPath>..\ref\System.ValueTuple.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+</Project>
