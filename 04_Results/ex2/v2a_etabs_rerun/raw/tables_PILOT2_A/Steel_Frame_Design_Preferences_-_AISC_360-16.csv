@@ -1,0 +1,2 @@
+MultiMethod,FrameType,SDC,ImpFactor,Rho,Sds,R,Omega0,Cd,DesProv,AnalMethod,SOM,SRedMethod,AddNotional,Beta,BetaOmega,PhiBend,PhiComp,PhiTY,PhiTF,PhiShear,PhiShSWRI,PhiTors,SeismicCode,SpSeisLoad,PlugWelded,WeldingType,RHSSSThick,CheckDefl,DLRat,SDLAndLLRat,LLRat,TotalRat,TotalCamber,PatLLF,DCLimit,MaxIter
+Step-by-Step - All,SMF,D,1,1,0.5,8,3,5.5,LRFD,Direct Analysis,General 2nd Order,Tau-b Fixed,No,1.3,1.6,0.9,0.9,0.9,0.75,0.9,1,0.9,No,No,Yes,ERW,No,Yes,120,120,360,240,240,0.75,0.95,1

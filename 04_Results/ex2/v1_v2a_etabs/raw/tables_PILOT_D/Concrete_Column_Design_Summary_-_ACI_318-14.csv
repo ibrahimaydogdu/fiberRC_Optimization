@@ -1,0 +1,37 @@
+Story,Label,UniqueName,DesignSect,Station,DesignOpt,Status,PMMRatio,PMMCombo,AsMin,As,BarAs,CornerBarAs,VMajCombo,VMajRebar,VMinCombo,VMinRebar,WarnMsg,ErrMsg
+Story3,C1,E15,C_Edge_S3,0,Check,No Message,0.594,U2,0.00105,0.001257,0.000314,0.000314,U2,0.00025,U2,0,No Message,No Message
+Story3,C1,E15,C_Edge_S3,1.65,Check,No Message,0.107,U2,0.00105,0.001257,0.000314,0.000314,U2,0.00025,U2,0,No Message,No Message
+Story3,C1,E15,C_Edge_S3,3.3,Check,No Message,0.755,U2,0.00105,0.001257,0.000314,0.000314,U2,0.00025,U2,0,No Message,No Message
+Story3,C2,E16,C_Inter_S3,0,Check,No Message,0.367,U2,0.000875,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story3,C2,E16,C_Inter_S3,1.65,Check,No Message,0.323,U2,0.000875,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story3,C2,E16,C_Inter_S3,3.3,Check,No Message,0.359,U2,0.000875,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story3,C3,E17,C_Inter_S3,0,Check,No Message,0.367,U2,0.000875,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story3,C3,E17,C_Inter_S3,1.65,Check,No Message,0.323,U2,0.000875,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story3,C3,E17,C_Inter_S3,3.3,Check,No Message,0.359,U2,0.000875,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story3,C4,E18,C_Edge_S3,0,Check,No Message,0.594,U2,0.00105,0.001257,0.000314,0.000314,U2,0.00025,U2,0,No Message,No Message
+Story3,C4,E18,C_Edge_S3,1.65,Check,No Message,0.107,U2,0.00105,0.001257,0.000314,0.000314,U2,0.00025,U2,0,No Message,No Message
+Story3,C4,E18,C_Edge_S3,3.3,Check,No Message,0.755,U2,0.00105,0.001257,0.000314,0.000314,U2,0.00025,U2,0,No Message,No Message
+Story2,C1,E8,C_Edge_S2,0,Check,No Message,0.517,U2,0.00105,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story2,C1,E8,C_Edge_S2,1.65,Check,No Message,0.206,U2,0.00105,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story2,C1,E8,C_Edge_S2,3.3,Check,No Message,0.488,U2,0.00105,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story2,C2,E9,C_Inter_S2,0,Check,See WarnMsg,0.546,U1,0.00075,0.001257,0.000314,0.000314,U2,0,U2,0,Delta_ns exceeds 1.4 (ACI 318-14 6.2.6; 6.6.4.5.1).,No Message
+Story2,C2,E9,C_Inter_S2,1.65,Check,See WarnMsg,0.528,U1,0.00075,0.001257,0.000314,0.000314,U2,0,U2,0,Delta_ns exceeds 1.4 (ACI 318-14 6.2.6; 6.6.4.5.1).,No Message
+Story2,C2,E9,C_Inter_S2,3.3,Check,See WarnMsg,0.538,U1,0.00075,0.001257,0.000314,0.000314,U2,0,U2,0,Delta_ns exceeds 1.4 (ACI 318-14 6.2.6; 6.6.4.5.1).,No Message
+Story2,C3,E10,C_Inter_S2,0,Check,See WarnMsg,0.546,U1,0.00075,0.001257,0.000314,0.000314,U2,0,U2,0,Delta_ns exceeds 1.4 (ACI 318-14 6.2.6; 6.6.4.5.1).,No Message
+Story2,C3,E10,C_Inter_S2,1.65,Check,See WarnMsg,0.528,U1,0.00075,0.001257,0.000314,0.000314,U2,0,U2,0,Delta_ns exceeds 1.4 (ACI 318-14 6.2.6; 6.6.4.5.1).,No Message
+Story2,C3,E10,C_Inter_S2,3.3,Check,See WarnMsg,0.538,U1,0.00075,0.001257,0.000314,0.000314,U2,0,U2,0,Delta_ns exceeds 1.4 (ACI 318-14 6.2.6; 6.6.4.5.1).,No Message
+Story2,C4,E11,C_Edge_S2,0,Check,No Message,0.517,U2,0.00105,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story2,C4,E11,C_Edge_S2,1.65,Check,No Message,0.206,U2,0.00105,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story2,C4,E11,C_Edge_S2,3.3,Check,No Message,0.488,U2,0.00105,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C1,E1,C_Edge_S1,0,Check,No Message,0.392,U2,0.0009,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C1,E1,C_Edge_S1,1.65,Check,No Message,0.365,U2,0.0009,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C1,E1,C_Edge_S1,3.3,Check,No Message,0.476,U2,0.0009,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C2,E2,C_Inter_S1,0,Check,No Message,0.6,U2,0.00135,0.001885,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C2,E2,C_Inter_S1,1.65,Check,No Message,0.595,U2,0.00135,0.001885,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C2,E2,C_Inter_S1,3.3,Check,No Message,0.593,U2,0.00135,0.001885,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C3,E3,C_Inter_S1,0,Check,No Message,0.6,U2,0.00135,0.001885,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C3,E3,C_Inter_S1,1.65,Check,No Message,0.595,U2,0.00135,0.001885,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C3,E3,C_Inter_S1,3.3,Check,No Message,0.593,U2,0.00135,0.001885,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C4,E4,C_Edge_S1,0,Check,No Message,0.392,U2,0.0009,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C4,E4,C_Edge_S1,1.65,Check,No Message,0.365,U2,0.0009,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message
+Story1,C4,E4,C_Edge_S1,3.3,Check,No Message,0.476,U2,0.0009,0.001257,0.000314,0.000314,U2,0,U2,0,No Message,No Message

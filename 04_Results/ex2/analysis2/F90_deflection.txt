@@ -1,0 +1,14 @@
+# Ex2Model.dll sha256=a61b0c6b4ee15114716cc437842a41a4225451b443bee512f57f3898c92c95d8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-17T15:34:03Z
+tool,deflection,fibre,1,groups,9,fRscale,1,fibreprice,90,shear,Q17 increment: Vc;ACI + max(0; VRdF(gc=1) - VRdF(0; gc=1)); rho_l=AsTop,qcheck,True,patterned,True,beamaxial,True,flexcheck,True
+# ACI 24.2 report (not a constraint): Ie 24.2.3.5/24.2.3.6 per group, lambda = 2.0 (rho' = 0), sustained = D, live transient; mm
+element,group,span_m,IeIg_D,IeIg_DL,dD,dDL,dL,dAfter=2dD+dL,lim_l480,ratio480,lim_l240(same quantity as l480; not likely damaged),ratio240,lim_l360(L),ratioL360
+E5,B_S1,5,0.5694,0.4010,1.55,3.30,1.75,4.84,10.42,0.4648,20.83,0.2324,13.89,0.1261
+E6,B_S1,6,0.5694,0.4010,2.39,5.39,3.00,7.78,12.50,0.6228,25.00,0.3114,16.67,0.1798
+E7,B_S1,5,0.5694,0.4010,1.55,3.30,1.75,4.84,10.42,0.4648,20.83,0.2324,13.89,0.1261
+E12,B_S2,5,0.6424,0.3915,1.01,2.39,1.38,3.40,10.42,0.3265,20.83,0.1632,13.89,0.0992
+E13,B_S2,6,0.6424,0.3915,1.79,4.56,2.78,6.35,12.50,0.5081,25.00,0.2541,16.67,0.1666
+E14,B_S2,5,0.6424,0.3915,1.01,2.39,1.38,3.40,10.42,0.3265,20.83,0.1632,13.89,0.0992
+E19,B_S3,5,0.6373,0.3900,1.22,2.89,1.67,4.12,10.42,0.3952,20.83,0.1976,13.89,0.1204
+E20,B_S3,6,0.6373,0.3900,1.80,4.58,2.79,6.38,12.50,0.5103,25.00,0.2551,16.67,0.1672
+E21,B_S3,5,0.6373,0.3900,1.22,2.89,1.67,4.12,10.42,0.3952,20.83,0.1976,13.89,0.1204
+worst_ratio,l480,0.6228,l240,0.3114,l360,0.1798,verdict_l480,OK

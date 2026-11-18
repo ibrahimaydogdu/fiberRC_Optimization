@@ -1,0 +1,30 @@
+# Ex2Model.dll sha256=a61b0c6b4ee15114716cc437842a41a4225451b443bee512f57f3898c92c95d8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-17T08:29:43Z
+tool,evalonly,fibre,1,groups,9,fRscale,1,fibreprice,0,shear,Q17 increment: Vc;ACI + max(0; VRdF(gc=1) - VRdF(0; gc=1)); rho_l=AsTop,qcheck,True,patterned,True,beamaxial,True,flexcheck,True
+x,1,0,0,0,0,0,2,1,0,2,0,0,0,4,0,5,0,4,1,5,0,3,1,4
+Fpen,240078.0373878582,cost,240078.0373878582,T,0
+concrete,34112.30,rebar,113494.40,formwork,92471.34,fibreCost,0.00
+concreteM3,9.3475,formworkM2,105.920,longKg,1296.60,tieKg,342.14
+beams_TL,total,146164.80,concrete,21166.23,long,60161.23,stirrup,13852.38,formwork,50984.95,fibre,0.00
+stability (Q ACI 6.6.4.4.1 limit 0.05; delta_s = 1/(1-Q) ACI 6.6.4.6.2(a), Q <= 1/3; drift = gravity storey drift (floor average) mm; Ms_max = largest sway-part column end moment from the net storey sway forces kNm),S1:Q=0.0738(SWAY);deltaS=1.0796;drift_mm=0.0262;Ms_max_kNm=0.1542,S2:Q=0.0775(SWAY);deltaS=1.0840;drift_mm=0.1693;Ms_max_kNm=2.6164,S3:Q=0.0560(SWAY);deltaS=1.0593;drift_mm=0.3340;Ms_max_kNm=2.5022
+g,g1 col P-M D/C (ACI 22.4; 6.6.4.5),0
+g,g6 col 2nd-order M <= 1.4 x 1st-order M (ACI 6.2.6),0
+g,g7 storey Q <= 1/3 (delta_s <= 1.5; ACI 6.6.4.6.2(a)),0
+g,g2 col rho >= 1 % (ACI 10.6.1.1),0
+g,g2 col rho <= 4 % (grid bound),0
+g,col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2),0
+g,col tie spacing >= 50,0
+g,g3 beam section capacity (As finite),0
+g,g3 beam eps_t >= 0.004 (ACI 9.3.3.1),0
+g,g8 beam flexure D/C <= 1 (ACI 9.5.1; envelope incl. ACI 6.4.2 patterns),0
+g,g4 beam shear Vs <= 0.66 sqrt(fc) bw d (ACI 22.5.1.2),0
+g,g4 beam stirrup spacing >= 50,0
+col,C_Edge_S1,b,300,h,300,rho,0.0100,nBars,4,DC,0.6965,Nd_max_kN,509.81,Vu_kN,16.79,Vc_kN,80.46,s,300.0,lu_mm,3050,sway,True,deltaS,1.0796,delta_ns_in,1.1669,delta_ns_out,1.1669,ACI6.2.6_ratio_in,1.1670,ACI6.2.6_ratio_out,1.1669,ACI6.2.6_ratio/1.4,0.8336,gov,ok
+col,C_Inter_S1,b,350,h,350,rho,0.0100,nBars,4,DC,0.7136,Nd_max_kN,1297.33,Vu_kN,13.62,Vc_kN,132.87,s,320.0,lu_mm,3050,sway,True,deltaS,1.0796,delta_ns_in,1.2456,delta_ns_out,1.2456,ACI6.2.6_ratio_in,1.2456,ACI6.2.6_ratio_out,1.2456,ACI6.2.6_ratio/1.4,0.8897,gov,ok
+col,C_Edge_S2,b,250,h,300,rho,0.0100,nBars,4,DC,0.8033,Nd_max_kN,339.57,Vu_kN,25.28,Vc_kN,64.59,s,120.0,lu_mm,2800,sway,True,deltaS,1.0840,delta_ns_in,1.1064,delta_ns_out,1.1607,ACI6.2.6_ratio_in,1.1086,ACI6.2.6_ratio_out,1.1607,ACI6.2.6_ratio/1.4,0.8291,gov,ok
+col,C_Inter_S2,b,250,h,400,rho,0.0100,nBars,4,DC,0.7299,Nd_max_kN,863.07,Vu_kN,26.98,Vc_kN,105.06,s,250.0,lu_mm,2800,sway,True,deltaS,1.0840,delta_ns_in,1.1155,delta_ns_out,1.3606,ACI6.2.6_ratio_in,1.1155,ACI6.2.6_ratio_out,1.3606,ACI6.2.6_ratio/1.4,0.9719,gov,ok
+col,C_Edge_S3,b,250,h,300,rho,0.0175,nBars,6,DC,0.9084,Nd_max_kN,167.28,Vu_kN,34.13,Vc_kN,59.73,s,120.0,lu_mm,2825,sway,True,deltaS,1.0593,delta_ns_in,1.0504,delta_ns_out,1.0742,ACI6.2.6_ratio_in,1.0504,ACI6.2.6_ratio_out,1.0742,ACI6.2.6_ratio/1.4,0.7673,gov,ok
+col,C_Inter_S3,b,250,h,300,rho,0.0100,nBars,4,DC,0.7335,Nd_max_kN,438.02,Vu_kN,19.55,Vc_kN,67.76,s,250.0,lu_mm,2825,sway,True,deltaS,1.0593,delta_ns_in,1.1443,delta_ns_out,1.2219,ACI6.2.6_ratio_in,1.1443,ACI6.2.6_ratio_out,1.2219,ACI6.2.6_ratio/1.4,0.8728,gov,ok
+beam,B_S1,b,250,h,500,MuTop,219.17,MuBot,125.24,Nt_kN,20.35,VcAxialFactor,0.9535,AsTop,1404.3,AsBot,807.5,DCflex,1.0000,Vu_d,188.61,VcACI,97.66,Vcf,212.78,dVF,115.12,Vcf/VcACI,2.1788,VRdF0(gc1)/VcACI,1.1441,vminBindsDose0,False,AvMin,True,AvS_strength,0.20939,AvS_min,0.20833,AvS_required,0.20939,AvS_provided,0.71400,smax,220.0,s,220.0,stirrupGov,smax(Av/s by strength),DCshear,0.7295,dose,40,fR1,4.700,fR3,5.700,fR3/fR1>0.5,True,g5_info(l/18.5|l/21;not a constraint),-0.4286,gov,ok/ok
+beam,B_S2,b,250,h,500,MuTop,217.49,MuBot,129.70,Nt_kN,17.15,VcAxialFactor,0.9608,AsTop,1393.2,AsBot,832.3,DCflex,1.0000,Vu_d,189.07,VcACI,98.41,Vcf,211.00,dVF,112.59,Vcf/VcACI,2.1441,VRdF0(gc1)/VcACI,1.1325,vminBindsDose0,False,AvMin,True,AvS_strength,0.22232,AvS_min,0.20833,AvS_required,0.22232,AvS_provided,0.71400,smax,220.0,s,220.0,stirrupGov,smax(Av/s by strength),DCshear,0.7351,dose,35,fR1,4.100,fR3,5.600,fR3/fR1>0.5,True,g5_info(l/18.5|l/21;not a constraint),-0.4286,gov,ok/ok
+beam,B_S3,b,250,h,450,MuTop,216.45,MuBot,136.10,Nt_kN,0.00,VcAxialFactor,1.0000,AsTop,1563.5,AsBot,953.0,DCflex,1.0000,Vu_d,192.96,VcACI,90.79,Vcf,201.45,dVF,110.67,Vcf/VcACI,2.2190,VRdF0(gc1)/VcACI,1.2066,vminBindsDose0,False,AvMin,True,AvS_strength,0.34083,AvS_min,0.20833,AvS_required,0.34083,AvS_provided,0.80554,smax,195.0,s,195.0,stirrupGov,smax(Av/s by strength),DCshear,0.7717,dose,35,fR1,4.100,fR3,5.600,fR3/fR1>0.5,True,g5_info(l/18.5|l/21;not a constraint),-0.3651,gov,ok/ok
+pilot_check,T,0,maxDCbeamFlex,1.0000,maxDCbeamShear,0.7717,maxDCcolPM,0.9084,maxACI6.2.6ratio,1.3606(limit 1.4),requiredAvS_byStrength(AvS_strength>=AvS_min),True,spacingGovernedByStrength(s<smax),False,verdict,UYARI: T>0 or a critical D/C < 0.8

@@ -1,0 +1,11 @@
+# Ex2Model.dll sha256=a61b0c6b4ee15114716cc437842a41a4225451b443bee512f57f3898c92c95d8; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef
+# single-design break-even fibre price b = (P - nonFibreCost) / fibreKg over 44 distinct campaign-2 fp0 final vectors (90 runs) and all subsets of their fibre groups (others dose 0, sections fixed, steel re-derived); P = 236456.22 TL (cheapest plain design found; plain cost independent of fR and format). Feasible (T = 0) designs only. LOWER bound of the true break-even (no re-optimisation).
+format,fRscale,maxBreakEven_allSubsets_TLkg,argmax,maxBreakEven_fullVectors_TLkg,argmax_full,evaluations
+delta,0.6,5.4035,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,5.4035,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304
+delta,0.8,8.1064,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,8.1064,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304
+delta,1,11.7262,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S3,11.0382,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304
+delta,1.2,15.6558,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S3,14.2096,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304
+mc2010,0.6,5.4035,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,5.4035,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304
+mc2010,0.8,8.1064,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,8.1064,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304
+mc2010,1,11.7262,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S3,11.0382,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304
+mc2010,1.2,15.6558,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S3,14.2096,EX2_BTO_fibre_g9_fr1.00_fp0_run02.csv keep B_S1+B_S2+B_S3,304

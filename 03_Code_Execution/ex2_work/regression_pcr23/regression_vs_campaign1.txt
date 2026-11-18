@@ -1,0 +1,10 @@
+EX2_ATO_plain_g9_fr1.00_fp90_run01.csv,IDENTICAL
+EX2_ATO_plain_g9_fr1.00_fp90_run02.csv,IDENTICAL
+EX2_ATO_plain_g9_fr1.00_fp90_run03.csv,IDENTICAL
+EX2_BTO_plain_g9_fr1.00_fp90_run01.csv,IDENTICAL
+EX2_BTO_plain_g9_fr1.00_fp90_run02.csv,IDENTICAL
+EX2_BTO_plain_g9_fr1.00_fp90_run03.csv,IDENTICAL
+EX2_YAKO_plain_g9_fr1.00_fp90_run01.csv,IDENTICAL
+EX2_YAKO_plain_g9_fr1.00_fp90_run02.csv,IDENTICAL
+EX2_YAKO_plain_g9_fr1.00_fp90_run03.csv,IDENTICAL
+identical 9 of 9 (binary ex2_campaign2_bin a61b0c6b; --patterned 0 --beamaxial 0 --flexcheck 0; compared without line 1 and wallSeconds)

@@ -8,11 +8,15 @@ Imports FemRcModel
 Imports Ex2Model
 
 'PCR-18 (EX2_SPEC v2 §9, §11): Ex2 campaign driver, Ö1 Ex1Runner flags and PCR-11 run log.
+'PCR-23/24/25 (2026-11-17, campaign2): --patterned 1 (default; ACI 6.4.2 patterns in the design envelope) --beamaxial 1 (default; beam axial tension);
+'  --flexcheck 1 (default; g8 + plain RequiredAs consistency); --patterned 0 --beamaxial 0 --flexcheck 0 reproduces the rules of the pre-registered campaign 1 (with the PCR-23 SFRC flexure fix).
 'Usage: Ex2Runner --method YAKO|BTO|ATO|ALL --fibre 0|1 --runs 30 --fes 10000 --fr 1.0 --fibreprice 90 --seed0 1000 --dop 8 --out <dir> [--groups 9|5] [--shearformat delta|o1]
 '       Ex2Runner --evalonly <file> [--groups 9|5] [--fibre 0|1] [--fr 1.0] [--fibreprice 90] [--shearformat delta|o1]   (file: one line, comma separated design vector)
 'Arm A only (Q9): random start, full pool, no pre-design, no box. BTO / ATO full-dimension moves (no --onedim).
-'Fibre shear (IA 2026-11-16): main = Q17 increment rule (--shearformat delta, default); --shearformat o1 = Ö1 format (gammaC = 1.5 + phi) sensitivity.
-'fR sensitivity (Q18): --fr 0.8 scales fR1 and fR3 (FibreTable.MakeBeamFibre fRScale).
+'Fibre shear (IA 2026-11-16): main = Q17 increment rule (--shearformat delta, default); deterministic variants --shearformat mc2010 (MC2010-local) and o1 (Ö1 formula).
+'fR sensitivity (Q18): --fr 0.8 / 0.6 scales fR1 and fR3 for flexure AND shear together (FibreTable.MakeBeamFibre fRScale).
+'Stability: --qcheck 1 (default) storey Q (ACI 6.6.4.4.1) and the storey slenderness limit; --qcheck 0 = all storeys non-sway.
+'Deterministic tools (one design-vector file): --evalonly, --marginal (plain vector; Q21), --scan (Q22), --patterns (ACI 6.4.2), --zerofibre, --deflection (ACI 24.2).
 Class RunLog
     Public Fe As Integer, NFeas As Integer, FirstFeas As Integer, Feas100 As Integer
     Public BestFeas As Double = Double.PositiveInfinity
@@ -63,47 +67,40 @@ Module Program
         Dim fr As Double = Double.Parse(Arg(args, "fr", "1.0"), ci)
         Dim pr As New RcCore.PriceSet With {.Fibre = Double.Parse(Arg(args, "fibreprice", "90"), ci)}
         Dim spec As New FrameSpec2D With {.Groups = Integer.Parse(Arg(args, "groups", "9"))}
-        'shear model: plain runs ACI 22.5.5.1; fibre runs Q17 increment rule (main) or, with --shearformat o1, the Ö1 format (sensitivity only, spec §5.2)
+        'shear model: plain runs ACI 22.5.5.1; fibre runs Q17 increment rule (main), --shearformat mc2010 / o1 = deterministic variants (spec §5.2)
         Dim shearFormat As String = Arg(args, "shearformat", "delta").ToLowerInvariant()
-        If shearFormat <> "delta" AndAlso shearFormat <> "o1" Then
-            Console.Error.WriteLine("--shearformat must be delta or o1")
-            Return 2
-        End If
         Dim shear As IBeamShear
-        If Not useFibre Then
-            shear = New AciPlainShear()
-        ElseIf shearFormat = "o1" Then
-            shear = New FibreShearO1Format()
-        Else
-            shear = New FibreShearIncrementQ17()
-        End If
+        Try
+            shear = ShearModels.ByName(shearFormat, useFibre)
+        Catch ex As ArgumentException
+            Console.Error.WriteLine(ex.Message)
+            Return 2
+        End Try
         Dim prob As New Ex2Problem(spec, pr, useFibre, shear, fr)
+        prob.Opts.QCheck = Arg(args, "qcheck", "1") = "1"
+        prob.Opts.Patterned = Arg(args, "patterned", "1") = "1"           'PCR-25: patterns in the design envelope (default since campaign2); 0 = campaign 1
+        prob.Opts.BeamAxial = Arg(args, "beamaxial", "1") = "1"           'PCR-24: beam axial tension (default since campaign2); 0 = campaign 1
+        prob.Opts.FlexCheck = Arg(args, "flexcheck", "1") = "1"           'PCR-23(3): g8 + plain RequiredAs consistency (default since campaign2); 0 = campaign 1
+        prob.Opts.DeflCheck = Arg(args, "deflcheck", "0") = "1"           'PCR-26 (IA 2026-11-18, option A): g5 = l/480 deflection constraint (campaign 3); default 0 = campaign 1/2 rules
         Dim ver As String = VersionLine()
 
-        Dim evalFile As String = Arg(args, "evalonly", "")
-        If evalFile <> "" Then
-            Dim line = File.ReadAllLines(evalFile).First(Function(s) s.Trim() <> "" AndAlso Not s.StartsWith("#"))
-            Dim x = line.Split(","c).Select(Function(s) Integer.Parse(s.Trim())).ToArray()
-            Dim ev = prob.Evaluate(x)
+        'deterministic tools (no optimisation): one design vector file each
+        For Each tool In {"evalonly", "marginal", "scan", "patterns", "zerofibre", "deflection"}
+            Dim f As String = Arg(args, tool, "")
+            If f = "" Then Continue For
             Console.WriteLine("# " & ver)
-            Console.WriteLine("fibre," & If(useFibre, 1, 0) & ",groups," & spec.Groups & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & ",shear," & prob.Shear.Name.Replace(",", ";"))
-            Console.WriteLine("x," & String.Join(",", x))
-            Console.WriteLine("Fpen," & ev.Fpen.ToString("R", ci) & ",cost," & ev.Cost.Total.ToString("R", ci) & ",T," & ev.T.ToString("R", ci))
-            Console.WriteLine("concrete," & ev.Cost.Concrete.ToString("F2", ci) & ",rebar," & ev.Cost.Rebar.ToString("F2", ci) & ",formwork," & ev.Cost.Formwork.ToString("F2", ci) & ",fibreCost," & ev.Cost.Fibre.ToString("F2", ci))
-            Console.WriteLine("concreteM3," & ev.ConcreteM3.ToString("F4", ci) & ",formworkM2," & ev.FormworkM2.ToString("F3", ci) & ",longKg," & ev.LongKg.ToString("F2", ci) & ",tieKg," & ev.TieKg.ToString("F2", ci))
-            For Each v In ev.Violations : Console.WriteLine("g," & v.Item1.Replace(",", ";") & "," & v.Item2.ToString("R", ci)) : Next
-            For Each kv In ev.ColRes
-                Console.WriteLine("col," & kv.Key & ",b," & kv.Value.B & ",h," & kv.Value.H & ",rho," & kv.Value.Rho.ToString("F4", ci) & ",nBars," & kv.Value.NBars & ",DC," & kv.Value.DcrMax.ToString("F4", ci) & ",s," & kv.Value.S.ToString("F1", ci))
-            Next
-            Dim dsg = prob.Decode(x)
-            For Each kv In ev.BeamRes
-                Dim s = ev.BeamShr(kv.Key)
-                Dim bf = dsg.Beams(kv.Key).Fibre
-                Dim fibTxt As String = If(bf IsNot Nothing AndAlso bf.Params IsNot Nothing, "dose," & bf.DoseKgM3.ToString(ci) & ",fR1," & bf.Params.FR1.ToString("F3", ci) & ",fR3," & bf.Params.FR3.ToString("F3", ci), "dose,0,fR1,0,fR3,0")
-                Console.WriteLine("beam," & kv.Key & ",b," & kv.Value.B & ",h," & kv.Value.H & ",MuTop," & (kv.Value.MuTop / 1.0E6).ToString("F2", ci) & ",MuBot," & (kv.Value.MuBot / 1.0E6).ToString("F2", ci) & ",AsTop," & kv.Value.AsTop.ToString("F1", ci) & ",AsBot," & kv.Value.AsBot.ToString("F1", ci) & ",Vu_d," & (s.Vu / 1000.0).ToString("F2", ci) & ",VcACI," & (s.VcPlain / 1000.0).ToString("F2", ci) & ",Vcf," & (s.Vcf / 1000.0).ToString("F2", ci) & ",dVF," & (s.DeltaVF / 1000.0).ToString("F2", ci) & ",AvMin," & s.AvMinApplied & ",s," & s.S.ToString("F1", ci) & "," & fibTxt & ",gov," & kv.Value.Governing & "/" & s.Governing)
-            Next
+            Console.WriteLine("tool," & tool & ",fibre," & If(useFibre, 1, 0) & ",groups," & spec.Groups & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & ",shear," & prob.Shear.Name.Replace(",", ";") & ",qcheck," & prob.Opts.QCheck & ",patterned," & prob.Opts.Patterned & ",beamaxial," & prob.Opts.BeamAxial & ",flexcheck," & prob.Opts.FlexCheck)
+            Dim x = Tools.ReadX(f)
+            Select Case tool
+                Case "evalonly" : Tools.EvalOnly(prob, x)
+                Case "marginal" : Tools.Marginal(spec, pr, fr, shearFormat, prob.Opts, x)
+                Case "scan" : Tools.Scan(prob, x)
+                Case "patterns" : Tools.Patterns(prob, x)
+                Case "zerofibre" : Tools.ZeroFibre(prob, x)
+                Case "deflection" : Tools.Deflection(prob, x)
+            End Select
             Return 0
-        End If
+        Next
 
         Dim methods As String() = If(Arg(args, "method", "ALL") = "ALL", {"YAKO", "BTO", "ATO"}, {Arg(args, "method", "ATO")})
         Dim runs As Integer = Integer.Parse(Arg(args, "runs", "30"))
@@ -117,8 +114,8 @@ Module Program
         For Each m In methods
             For r As Integer = 1 To runs : tasks.Add(Tuple.Create(m, r)) : Next
         Next
-        Dim tag As String = If(useFibre, If(shearFormat = "o1", "fibreO1", "fibre"), "plain")
-        Console.WriteLine("Ex2Runner " & tag & " groups " & spec.Groups & " nvars " & prob.NVars & " fR x" & fr.ToString(ci) & " fibre price " & pr.Fibre.ToString(ci) & " TL/kg, " & tasks.Count & " runs, " & fes & " FEs, dop " & dop)
+        Dim tag As String = If(useFibre, If(shearFormat = "delta", "fibre", "fibre" & shearFormat.ToUpperInvariant()), "plain") & If(prob.Opts.QCheck, "", "_noQ")
+        Console.WriteLine("Ex2Runner " & tag & " patterned " & prob.Opts.Patterned & " beamaxial " & prob.Opts.BeamAxial & " flexcheck " & prob.Opts.FlexCheck & " deflcheck " & prob.Opts.DeflCheck & " groups " & spec.Groups & " nvars " & prob.NVars & " fR x" & fr.ToString(ci) & " fibre price " & pr.Fibre.ToString(ci) & " TL/kg, " & tasks.Count & " runs, " & fes & " FEs, dop " & dop)
         Console.WriteLine(ver)
         Dim sw = Diagnostics.Stopwatch.StartNew()
         Dim done As Integer = 0
@@ -140,9 +137,11 @@ Module Program
                                           Dim ev = prob.Evaluate(res.BestX)
                                           Dim sb As New System.Text.StringBuilder
                                           sb.AppendLine("# " & ver)
-                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",groups," & spec.Groups & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & ",arm,A,shear," & prob.Shear.Name.Replace(",", ";") & ",wallSeconds," & secs.ToString("F2", ci))
+                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",groups," & spec.Groups & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & ",arm,A,shear," & prob.Shear.Name.Replace(",", ";") & ",qcheck," & prob.Opts.QCheck & ",storeyQ," & If(ev.StoreyQ Is Nothing, "na", String.Join(";", ev.StoreyQ.Skip(1).Select(Function(q) q.ToString("F4", ci)))) & ",wallSeconds," & secs.ToString("F2", ci) & ",patterned," & prob.Opts.Patterned & ",beamaxial," & prob.Opts.BeamAxial & ",flexcheck," & prob.Opts.FlexCheck & ",deflcheck," & prob.Opts.DeflCheck)
                                           sb.AppendLine("Fpen," & res.BestF.ToString("R", ci) & ",cost," & ev.Cost.Total.ToString("R", ci) & ",T," & ev.T.ToString("R", ci) & ",concrete," & ev.Cost.Concrete.ToString("F2", ci) & ",rebar," & ev.Cost.Rebar.ToString("F2", ci) & ",formwork," & ev.Cost.Formwork.ToString("F2", ci) & ",fibreCost," & ev.Cost.Fibre.ToString("F2", ci) & ",steelKg," & ev.SteelKg.ToString("F2", ci) & ",fibreKg," & ev.FibreKg.ToString("F2", ci) & ",concreteM3," & ev.ConcreteM3.ToString("F3", ci))
                                           sb.AppendLine("x," & String.Join(",", res.BestX))
+                                          sb.AppendLine(Tools.StabilityLine(ev))      'PCR-22: Q, delta_s, gravity drift, M_s per storey
+                                          sb.AppendLine("columns_ACI6.2.6 (ratio limit 1.4; lu mm; delta_ns in/out)," & String.Join(",", ev.ColRes.Select(Function(kv) kv.Key & ":ratio=" & kv.Value.Ratio626.ToString("F4", ci) & ";DC=" & kv.Value.DcrMax.ToString("F4", ci) & ";lu=" & kv.Value.LuMin.ToString("F0", ci) & ";d3=" & kv.Value.Delta3Max.ToString("F4", ci) & ";d2=" & kv.Value.Delta2Max.ToString("F4", ci) & ";dS=" & kv.Value.DeltaSMax.ToString("F4", ci))))
                                           sb.AppendLine("feas_summary,evals," & lg.Fe & ",feasibleEvals," & lg.NFeas & ",firstFeasibleFE," & lg.FirstFeas & ",feasibleInFirst100," & lg.Feas100 & ",bestFeasible," & If(Double.IsPositiveInfinity(lg.BestFeas), "none", lg.BestFeas.ToString("R", ci)) & ",totalFEs," & res.FEs)
                                           sb.AppendLine("violation_counts," & String.Join(",", lg.Viol.Select(Function(kv) kv.Key.Replace(",", ";") & "=" & kv.Value)))
                                           sb.AppendLine("feasible_history," & String.Join(";", lg.FeasHist.Select(Function(h) h.Item1 & ":" & h.Item2.ToString("R", ci))))

@@ -1,0 +1,7 @@
+# Ex2Model.dll sha256=b30a2aad984032f107f10dc281da29bd7d120f952e7b1828f9cc63eb30d2e998; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-16T16:55:12Z
+tool,zerofibre,fibre,1,groups,9,fRscale,1,fibreprice,90,shear,Q17 increment: Vc;ACI + max(0; VRdF(gc=1) - VRdF(0; gc=1)); rho_l=AsTop,qcheck,True,patterned,False
+base,cost,234095.45,nonFibre,234095.45,fibre,0.00,T,0
+group,dose,T_zeroed,cost_zeroed,dCost,dNonFibre,label
+B_S1,0,-,-,-,-,no fibre
+B_S2,0,-,-,-,-,no fibre
+B_S3,0,-,-,-,-,no fibre

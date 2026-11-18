@@ -1,0 +1,16 @@
+# Ex2Model.dll sha256=d0514e2f1e270f368333cb15c733cd90478d1bbcf7e66e341106ff122b82c6b3; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-16T20:36:58Z
+tool,patterns,fibre,1,groups,9,fRscale,1,fibreprice,0,shear,Q17 increment: Vc;ACI + max(0; VRdF(gc=1) - VRdF(0; gc=1)); rho_l=AsTop,qcheck,True,patterned,False
+patterned_stability (Q ACI 6.6.4.4.1 limit 0.05; delta_s = 1/(1-Q) ACI 6.6.4.6.2(a), Q <= 1/3; drift = gravity storey drift (floor average) mm; Ms_max = largest sway-part column end moment from the net storey sway forces kNm),S1:Q=0.0689(SWAY);deltaS=1.0740;drift_mm=0.1225;Ms_max_kNm=2.4624,S2:Q=0.0942(SWAY);deltaS=1.1040;drift_mm=0.1478;Ms_max_kNm=1.3552,S3:Q=0.0542(SWAY);deltaS=1.0573;drift_mm=0.2878;Ms_max_kNm=1.8947
+patterned_combos,26 (1.4D, 1.2D+1.6L all spans, 24 ACI 6.4.1/6.4.2 patterns)
+base,cost,228294.22,T,0
+beam,B_S1,MuTop_single,210.77,MuTop_pattern,219.71,MuBot_single,112.10,MuBot_pattern,126.20,DCflex_asDesigned,1.1374,Vu_single,183.68,Vu_pattern,188.96,DCshear_asDesigned,0.7256
+beam,B_S2,MuTop_single,206.81,MuTop_pattern,216.10,MuBot_single,116.07,MuBot_pattern,133.75,DCflex_asDesigned,1.1523,Vu_single,183.68,Vu_pattern,189.50,DCshear_asDesigned,0.7292
+beam,B_S3,MuTop_single,207.48,MuTop_pattern,217.20,MuBot_single,115.40,MuBot_pattern,139.50,DCflex_asDesigned,1.2088,Vu_single,183.68,Vu_pattern,190.75,DCshear_asDesigned,0.7338
+col,C_Edge_S1,DC_single,0.7561,DC_pattern_asDesigned,0.8192,ACI6.2.6_ratio_single,1.3130,ACI6.2.6_ratio_pattern,1.3254,deltaS_pattern,1.0740
+col,C_Inter_S1,DC_single,0.7566,DC_pattern_asDesigned,0.7876,ACI6.2.6_ratio_single,1.3757,ACI6.2.6_ratio_pattern,1.3800,deltaS_pattern,1.0740
+col,C_Edge_S2,DC_single,0.7589,DC_pattern_asDesigned,0.8086,ACI6.2.6_ratio_single,1.1545,ACI6.2.6_ratio_pattern,1.1603,deltaS_pattern,1.1040
+col,C_Inter_S2,DC_single,0.6683,DC_pattern_asDesigned,0.7426,ACI6.2.6_ratio_single,1.2562,ACI6.2.6_ratio_pattern,1.2591,deltaS_pattern,1.1040
+col,C_Edge_S3,DC_single,0.8197,DC_pattern_asDesigned,0.9024,ACI6.2.6_ratio_single,1.0697,ACI6.2.6_ratio_pattern,1.0725,deltaS_pattern,1.0573
+col,C_Inter_S3,DC_single,0.4458,DC_pattern_asDesigned,0.6774,ACI6.2.6_ratio_single,1.2159,ACI6.2.6_ratio_pattern,1.2200,deltaS_pattern,1.0573
+checks_over_1_asDesigned,3
+redesign_with_patterns,cost,234144.28,dCost,5850.06,dCost%,2.56,T,0

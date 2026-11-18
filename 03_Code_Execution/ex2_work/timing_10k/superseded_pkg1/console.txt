@@ -1,0 +1,12 @@
+Ex2Runner plain groups 9 nvars 18 fR x1 fibre price 90 TL/kg, 3 runs, 10000 FEs, dop 1
+Ex2Model.dll sha256=ee5b1478ebbb30675e01f73a4ceda42583209669783bc09e7174da80499c907d; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-16T16:44:20Z
+[1/3] EX2_YAKO_plain_g9_fr1.00_fp90_run01 Fpen=228882 T=0.000 25.22 s (2.52 ms/FE)
+[2/3] EX2_BTO_plain_g9_fr1.00_fp90_run01 Fpen=228882 T=0.000 26.97 s (2.70 ms/FE)
+[3/3] EX2_ATO_plain_g9_fr1.00_fp90_run01 Fpen=228882 T=0.000 26.21 s (2.62 ms/FE)
+finished 3 new runs in 78.71 s
+Ex2Runner fibre groups 9 nvars 24 fR x1 fibre price 90 TL/kg, 3 runs, 10000 FEs, dop 1
+Ex2Model.dll sha256=ee5b1478ebbb30675e01f73a4ceda42583209669783bc09e7174da80499c907d; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-16T16:44:20Z
+[1/3] EX2_YAKO_fibre_g9_fr1.00_fp90_run01 Fpen=233909 T=0.000 41.37 s (4.14 ms/FE)
+[2/3] EX2_BTO_fibre_g9_fr1.00_fp90_run01 Fpen=228882 T=0.000 30.46 s (3.05 ms/FE)
+[3/3] EX2_ATO_fibre_g9_fr1.00_fp90_run01 Fpen=228882 T=0.000 26.69 s (2.67 ms/FE)
+finished 3 new runs in 98.62 s

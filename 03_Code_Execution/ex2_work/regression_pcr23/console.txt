@@ -1,0 +1,12 @@
+Ex2Runner plain patterned False beamaxial False flexcheck False groups 9 nvars 18 fR x1 fibre price 90 TL/kg, 9 runs, 10000 FEs, dop 8
+Ex2Model.dll sha256=a61b0c6b4ee15114716cc437842a41a4225451b443bee512f57f3898c92c95d8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-17T08:29:43Z
+[1/9] EX2_YAKO_plain_g9_fr1.00_fp90_run01 Fpen=231962 T=0.000 223.57 s (22.36 ms/FE)
+[2/9] EX2_YAKO_plain_g9_fr1.00_fp90_run02 Fpen=230806 T=0.000 231.83 s (23.18 ms/FE)
+[3/9] EX2_YAKO_plain_g9_fr1.00_fp90_run03 Fpen=230429 T=0.000 234.96 s (23.50 ms/FE)
+[4/9] EX2_BTO_plain_g9_fr1.00_fp90_run01 Fpen=230308 T=0.000 239.11 s (23.91 ms/FE)
+[5/9] EX2_BTO_plain_g9_fr1.00_fp90_run02 Fpen=230308 T=0.000 240.23 s (24.02 ms/FE)
+[6/9] EX2_BTO_plain_g9_fr1.00_fp90_run03 Fpen=230308 T=0.000 241.11 s (24.11 ms/FE)
+[7/9] EX2_ATO_plain_g9_fr1.00_fp90_run02 Fpen=230308 T=0.000 241.51 s (24.15 ms/FE)
+[8/9] EX2_ATO_plain_g9_fr1.00_fp90_run01 Fpen=230308 T=0.000 241.64 s (24.16 ms/FE)
+[9/9] EX2_ATO_plain_g9_fr1.00_fp90_run03 Fpen=230308 T=0.000 60.07 s (6.01 ms/FE)
+finished 9 new runs in 283.78 s

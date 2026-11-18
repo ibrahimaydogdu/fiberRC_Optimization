@@ -1,2 +1,1 @@
-# Q20 V2-a pilot design (plain, 9 groups, ATO, 1000 FE, seed 9001); order: C_Edge_S1..S3 (b,h), C_Inter_S1..S3 (b,h), B_S1..S3 (b,h) pool indices
-0,0,2,1,0,0,2,1,0,0,0,1,0,4,0,4,0,4
+x,1,0,2,0,1,1,4,0,0,0,0,1,0,5,0,5,0,5

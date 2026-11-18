@@ -1,0 +1,5 @@
+# Ex2Model.dll sha256=a61b0c6b4ee15114716cc437842a41a4225451b443bee512f57f3898c92c95d8; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef
+tool,scan2 (two-coordinate: every pair of variables i<j, every value pair with both values changed; single-coordinate moves are in *_scan.txt),fibre,0,fibreprice,90,fRscale,1,patterned,True,beamaxial,True,flexcheck,True
+base,cost,236456.22,T,0,x,0;0;0;0;1;0;1;2;1;0;0;0;0;5;0;6;0;6
+evaluations,3816,feasible,2791,infeasible,1025,feasibleCheaper,0,feasibleNotCheaperWithin0.1%,2
+two_coordinate_local_best,YES

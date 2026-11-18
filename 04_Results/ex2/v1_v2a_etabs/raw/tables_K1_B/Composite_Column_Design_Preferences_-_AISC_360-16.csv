@@ -1,0 +1,2 @@
+MultiMethod,DesProv,AnalMethod,SOM,SRedMethod,PhiBend,PhiComp,PhiTY,PhiTF,PhiShear,PhiShSWRI,PhiTors,SeismicCode,SpSeisLoad,PlugWelded,WeldingType,RHSSSThick,PatLLF,DCLimit,MaxIter
+Step-by-Step - All,LRFD,Direct Analysis,General 2nd Order,Tau-b Fixed,0.9,0.75,0.9,0.75,0.9,1,0.9,No,No,Yes,ERW,No,0.75,0.95,1

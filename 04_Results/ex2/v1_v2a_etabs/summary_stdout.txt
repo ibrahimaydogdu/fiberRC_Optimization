@@ -1,0 +1,54 @@
+V1(b) reactions (kN):
+  T1 | SW | 201.6750 | 201.6750 | 0.00000
+  T1 | G | 1440.0000 | 1440.0000 | 0.00000
+  T1 | Q | 960.0000 | 960.0000 | 0.00000
+  T1 | U1 | 2298.3450 | 2298.3450 | 0.00000
+  T1 | U2 | 3506.0100 | 3506.0100 | 0.00000
+  PILOT | SW | 263.5875 | 263.5875 | 0.00000
+  PILOT | G | 1440.0000 | 1440.0000 | 0.00000
+  PILOT | Q | 960.0000 | 960.0000 | 0.00000
+  PILOT | U1 | 2385.0225 | 2385.0225 | 0.00000
+  PILOT | U2 | 3580.3050 | 3580.3050 | 0.00000
+  K1 | SW | 248.5875 | 248.5875 | 0.00000
+  K1 | G | 1440.0000 | 1440.0000 | 0.00000
+  K1 | Q | 960.0000 | 960.0000 | 0.00000
+  K1 | U1 | 2364.0225 | 2364.0225 | 0.00000
+  K1 | U2 | 3562.3050 | 3562.3050 | 0.00000
+V2-a forces: 90 (design, case, member type, quantity) cells; worst relative difference 9.70e-04 % (['T1', 'SW', 'beam', 'V2'])
+V2-a forces: largest end-force relative difference (|FEM| > 1 kN or kNm): 0.00e+00 %
+V2-a beams (B1 = program/ETABS required As; B2 = program/ETABS Av/s):
+  PILOT PatLLF=0 (main)              B_S1 B1top 0.9853 B1bot 0.9697 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0 (main)              B_S2 B1top 0.9821 B1bot 0.9663 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0 (main)              B_S3 B1top 1.0000 B1bot 1.0000 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0.75 (ETABS default)  B_S1 B1top 0.9853 B1bot 0.6383 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0.75 (ETABS default)  B_S2 B1top 0.9821 B1bot 0.6558 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0.75 (ETABS default)  B_S3 B1top 1.0000 B1bot 0.6688 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0, SDC B              B_S1 B1top 0.9853 B1bot 0.9697 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0, SDC B              B_S2 B1top 0.9821 B1bot 0.9663 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  PILOT PatLLF=0, SDC B              B_S3 B1top 1.0000 B1bot 1.0000 | B2 node 0.7082 at d 0.9650 harmonised 1.0000 | smax s=245.0
+  K1 PatLLF=0 (main)              B_S1 B1top 0.9869 B1bot 0.9714 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0 (main)              B_S2 B1top 0.9838 B1bot 0.9672 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0 (main)              B_S3 B1top 1.0000 B1bot 1.0000 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0.75 (ETABS default)  B_S1 B1top 0.9869 B1bot 0.6326 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0.75 (ETABS default)  B_S2 B1top 0.9838 B1bot 0.6455 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0.75 (ETABS default)  B_S3 B1top 1.0000 B1bot 0.6574 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0, SDC B              B_S1 B1top 0.9869 B1bot 0.9714 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0, SDC B              B_S2 B1top 0.9838 B1bot 0.9672 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+  K1 PatLLF=0, SDC B              B_S3 B1top 1.0000 B1bot 1.0000 | B2 node 0.7507 at d 0.9689 harmonised 1.0000 | strength s=203.7
+ETABS beam shear fit (main run): Vu/phi = Vc + (Av/s) fyt d over the stations with Av/s > Av,min:
+  PILOT: n=48, intercept Vc = 111.426 kN (program 0.17 sqrt(fc) bw d = 114.063; 2 sqrt(fc psi) bw d = 111.426), slope/d = fyt 413.69 MPa (60 ksi = 413.69), max residual 0.0012 kN
+  PILOT: ETABS top-steel moment vs FEM Mu: largest |diff| without axial 4.08 kNm (E13 x=0.5, N=17.29 kN tension+); with Mu + N_t (d - h/2): largest |diff| 0.37 kNm
+  K1: n=54, intercept Vc = 100.055 kN (program 0.17 sqrt(fc) bw d = 102.424; 2 sqrt(fc psi) bw d = 100.056), slope/d = fyt 413.69 MPa (60 ksi = 413.69), max residual 0.0010 kN
+  K1: ETABS top-steel moment vs FEM Mu: largest |diff| without axial 3.85 kNm (E13 x=0.5, N=18.73 kN tension+); with Mu + N_t (d - h/2): largest |diff| 0.57 kNm
+COLUMNS PILOT A_nonsway           : CD1=2 (O/S 2: E9,E10), CD2 min 0.9400 max 1.1010 (n=10), CD3 max ETABS (non-O/S) 0.7881 vs program 0.9275 -> unsafe-side 0.00 %
+COLUMNS PILOT A_nonsway_vs_code   : CD1=2 (O/S 2: E9,E10), CD2 min 0.9809 max 1.1402 (n=10), CD3 max ETABS (non-O/S) 0.7881 vs program 0.9739 -> unsafe-side 0.00 %
+COLUMNS PILOT B_swayQ             : CD1=2 (O/S 2: E9,E10), CD2 min 0.9809 max 1.1402 (n=10), CD3 max ETABS (non-O/S) 0.7881 vs program 0.9739 -> unsafe-side 0.00 %
+COLUMNS PILOT C_nomag             : CD1=0 (O/S 0: ), CD2 min 0.9916 max 1.1145 (n=12), CD3 max ETABS (non-O/S) 0.7541 vs program 0.7985 -> unsafe-side 0.00 %
+COLUMNS PILOT D_etabsdefaults     : CD1=2 (O/S 2: E9,E10), CD2 min 0.9862 max 1.1358 (n=10), CD3 max ETABS (non-O/S) 0.7546 vs program 0.9275 -> unsafe-side 0.00 %
+COLUMNS PILOT S_sdcB              : CD1=2 (O/S 2: E9,E10), CD2 min 0.9400 max 1.1010 (n=10), CD3 max ETABS (non-O/S) 0.7881 vs program 0.9275 -> unsafe-side 0.00 %
+COLUMNS K1 A_nonsway           : CD1=2 (O/S 2: E9,E10), CD2 min 0.9407 max 1.0985 (n=10), CD3 max ETABS (non-O/S) 0.8958 vs program 0.9306 -> unsafe-side 0.00 %
+COLUMNS K1 A_nonsway_vs_code   : CD1=2 (O/S 2: E9,E10), CD2 min 0.9804 max 1.1458 (n=10), CD3 max ETABS (non-O/S) 0.8958 vs program 0.9841 -> unsafe-side 0.00 %
+COLUMNS K1 B_swayQ             : CD1=2 (O/S 2: E9,E10), CD2 min 0.9804 max 1.1458 (n=10), CD3 max ETABS (non-O/S) 0.8958 vs program 0.9841 -> unsafe-side 0.00 %
+COLUMNS K1 C_nomag             : CD1=0 (O/S 0: ), CD2 min 0.9917 max 1.1335 (n=12), CD3 max ETABS (non-O/S) 0.8581 vs program 0.9027 -> unsafe-side 0.00 %
+COLUMNS K1 D_etabsdefaults     : CD1=2 (O/S 2: E9,E10), CD2 min 0.9907 max 1.1380 (n=10), CD3 max ETABS (non-O/S) 0.8587 vs program 0.9306 -> unsafe-side 0.00 %
+COLUMNS K1 S_sdcB              : CD1=2 (O/S 2: E9,E10), CD2 min 0.9407 max 1.0985 (n=10), CD3 max ETABS (non-O/S) 0.8958 vs program 0.9306 -> unsafe-side 0.00 %

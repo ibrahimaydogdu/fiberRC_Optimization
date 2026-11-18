@@ -1,0 +1,25 @@
+# Ex2Model.dll sha256=ee5b1478ebbb30675e01f73a4ceda42583209669783bc09e7174da80499c907d; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-16T16:44:20Z
+fibre,0,groups,9,fRscale,1,fibreprice,90,shear,ACI 22.5.5.1 plain
+x,0,0,2,1,0,0,2,1,0,0,0,1,0,4,0,4,0,4
+Fpen,235306.36565910868,cost,235306.36565910868,T,0
+concrete,35323.88,rebar,105538.10,formwork,94444.39,fibreCost,0.00
+concreteM3,9.6795,formworkM2,108.180,longKg,1192.01,tieKg,331.49
+g,g1 col P-M D/C (ACI 22.4; 6.6.4.5),0
+g,g2 col rho >= 1 % (ACI 10.6.1.1),0
+g,g2 col rho <= 4 % (grid bound),0
+g,col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2),0
+g,col tie spacing >= 50,0
+g,g3 beam section capacity (As finite),0
+g,g3 beam eps_t >= 0.004 (ACI 9.3.3.1),0
+g,g4 beam shear Vs <= 0.66 sqrt(fc) bw d (ACI 22.5.1.2),0
+g,g4 beam stirrup spacing >= 50,0
+g,g5 beam h >= l/18.5 or l/21 (ACI Table 9.3.1.1),0
+col,C_Edge_S1,b,250,h,300,rho,0.0100,nBars,4,DC,0.6343,s,250.0
+col,C_Inter_S1,b,350,h,350,rho,0.0100,nBars,4,DC,0.7108,s,320.0
+col,C_Edge_S2,b,350,h,350,rho,0.0100,nBars,4,DC,0.5485,s,320.0
+col,C_Inter_S2,b,250,h,300,rho,0.0100,nBars,4,DC,0.9417,s,250.0
+col,C_Edge_S3,b,250,h,300,rho,0.0100,nBars,4,DC,0.7687,s,120.0
+col,C_Inter_S3,b,250,h,350,rho,0.0100,nBars,4,DC,0.4271,s,250.0
+beam,B_S1,b,250,h,500,MuTop,208.68,MuBot,114.20,AsTop,1401.8,AsBot,726.1,Vu_d,183.68,VcACI,102.42,Vcf,102.42,dVF,0.00,AvMin,True,s,203.7,dose,0,fR1,0,fR3,0,gov,ok/ok
+beam,B_S2,b,250,h,500,MuTop,204.84,MuBot,118.03,AsTop,1372.7,AsBot,752.0,Vu_d,183.68,VcACI,102.42,Vcf,102.42,dVF,0.00,AvMin,True,s,203.7,dose,0,fR1,0,fR3,0,gov,ok/ok
+beam,B_S3,b,250,h,500,MuTop,208.62,MuBot,114.25,AsTop,1401.4,AsBot,726.5,Vu_d,183.68,VcACI,102.42,Vcf,102.42,dVF,0.00,AvMin,True,s,203.7,dose,0,fR1,0,fR3,0,gov,ok/ok

@@ -1,0 +1,380 @@
+EtabsEx2Rerun start 2026-11-16T20:57:03
+Ex2Model.dll sha256=d0514e2f1e270f368333cb15c733cd90478d1bbcf7e66e341106ff122b82c6b3
+FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8
+RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef
+FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9
+PILOT2: x = 0,0,0,0,2,0,4,0,2,0,1,0,0,5,0,4,0,4; program cost 239557.02 TL, T = 0; storey Q = 0.0795 / 0.0849 / 0.0483
+   col C_Edge_S1 250x300 bars 4 D/C 0.6937 lu 3025-3025 6.2.6 1.3105 (in 1.1969, out 1.3105) sway True gov ok
+   col C_Inter_S1 450x300 bars 6 D/C 0.6112 lu 3025-3025 6.2.6 1.3164 (in 1.3164, out 1.1196) sway True gov ok
+   col C_Edge_S2 250x300 bars 4 D/C 0.6942 lu 2775-2775 6.2.6 1.1551 (in 1.1029, out 1.1551) sway True gov ok
+   col C_Inter_S2 350x300 bars 4 D/C 0.5588 lu 2775-2775 6.2.6 1.2074 (in 1.2074, out 1.1444) sway True gov ok
+   col C_Edge_S3 350x300 bars 4 D/C 0.8762 lu 2800-2800 6.2.6 1.0253 (in 1.0000, out 1.0253) sway False gov ok
+   col C_Inter_S3 300x300 bars 4 D/C 0.3577 lu 2800-2800 6.2.6 1.1144 (in 1.0000, out 1.1144) sway False gov ok
+   violations: g1 col P-M D/C (ACI 22.4, 6.6.4.5)=0; g6 col 2nd-order M <= 1.4 x 1st-order M (ACI 6.2.6)=0; g7 storey Q <= 1/3 (delta_s <= 1.5; ACI 6.6.4.6.2(a))=0; g2 col rho >= 1 % (ACI 10.6.1.1)=0; g2 col rho <= 4 % (grid bound)=0; col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2)=0; col tie spacing >= 50=0; g3 beam section capacity (As finite)=0; g3 beam eps_t >= 0.004 (ACI 9.3.3.1)=0; g4 beam shear Vs <= 0.66 sqrt(fc) bw d (ACI 22.5.1.2)=0; g4 beam stirrup spacing >= 50=0
+   beam B_S1 250x550 AsTop 1248.3 AsBot 636.0 | shear Vu(d) 181.03 Av/s 0.6186 s 245.0 smax(Av/s by strength)
+   beam B_S2 250x500 AsTop 1393.1 AsBot 733.8 | shear Vu(d) 183.68 Av/s 0.7710 s 203.7 strength
+   beam B_S3 250x500 AsTop 1391.7 AsBot 735.1 | shear Vu(d) 183.68 Av/s 0.7710 s 203.7 strength
+K1: x = 1,0,2,0,1,1,4,0,0,0,0,1,0,4,0,4,0,4; program cost 240522.97 TL, T = 0.09348; storey Q = 0.0816 / 0.0945 / 0.0442
+   col C_Edge_S1 300x300 bars 4 D/C 0.6259 lu 3050-3050 6.2.6 1.1694 (in 1.1694, out 1.1694) sway True gov ok
+   col C_Inter_S1 450x300 bars 6 D/C 0.6016 lu 3050-3050 6.2.6 1.3162 (in 1.3162, out 1.1195) sway True gov ok
+   col C_Edge_S2 350x300 bars 4 D/C 0.6078 lu 2800-2800 6.2.6 1.0760 (in 1.0760, out 1.0547) sway True gov ok
+   col C_Inter_S2 250x300 bars 4 D/C 0.8676 lu 2800-2800 6.2.6 1.5309 (in 1.3172, out 1.5309) sway True gov 2nd-order M > 1.4 x 1st-order (ACI 6.2.6)
+   col C_Edge_S3 300x350 bars 4 D/C 0.9051 lu 2800-2800 6.2.6 1.0357 (in 1.0000, out 1.0357) sway False gov ok
+   col C_Inter_S3 250x350 bars 4 D/C 0.4206 lu 2800-2800 6.2.6 1.1770 (in 1.0000, out 1.1770) sway False gov ok
+   violations: g1 col P-M D/C (ACI 22.4, 6.6.4.5)=0; g6 col 2nd-order M <= 1.4 x 1st-order M (ACI 6.2.6)=0.09348; g7 storey Q <= 1/3 (delta_s <= 1.5; ACI 6.6.4.6.2(a))=0; g2 col rho >= 1 % (ACI 10.6.1.1)=0; g2 col rho <= 4 % (grid bound)=0; col shear Vs <= 0.66 sqrt(fc) b d (ACI 22.5.1.2)=0; col tie spacing >= 50=0; g3 beam section capacity (As finite)=0; g3 beam eps_t >= 0.004 (ACI 9.3.3.1)=0; g4 beam shear Vs <= 0.66 sqrt(fc) bw d (ACI 22.5.1.2)=0; g4 beam stirrup spacing >= 50=0
+   beam B_S1 250x500 AsTop 1406.0 AsBot 722.3 | shear Vu(d) 183.68 Av/s 0.7710 s 203.7 strength
+   beam B_S2 250x500 AsTop 1374.4 AsBot 750.4 | shear Vu(d) 183.68 Av/s 0.7710 s 203.7 strength
+   beam B_S3 250x500 AsTop 1377.8 AsBot 747.4 | shear Vu(d) 183.68 Av/s 0.7710 s 203.7 strength
+ETABS version 22.6.0 (0)
+================ case PILOT2 ================
+column section C_Edge_S1: b x h = 250 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Edge_S2: b x h = 250 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Edge_S3: b x h = 350 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Inter_S1: b x h = 450 x 300 mm, bars 6 (NR3 = 3 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Inter_S2: b x h = 350 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Inter_S3: b x h = 300 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+V1(a) PILOT2: ETABS points 16, frames 21 (FEM nodes 16, elements 21); max coordinate difference 1.33E-15 m
+V1(b) PILOT2 reaction SW: ETABS Fz 251.525 kN, FEM 251.525 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) PILOT2 reaction G: ETABS Fz 1440.000 kN, FEM 1440.000 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) PILOT2 reaction Q: ETABS Fz 960.000 kN, FEM 960.000 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) PILOT2 reaction U1: ETABS Fz 2368.135 kN, FEM 2368.135 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) PILOT2 reaction U2: ETABS Fz 3565.830 kN, FEM 3565.830 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V2-a forces PILOT2 SW: P max 84.02 maxdiff 0.0000 (0.0000 % of max; E4 x=0.00) | V2 max 10.31 maxdiff 0.0000 (0.0000 % of max; E5 x=5.00) | M3 max 10.12 maxdiff 0.0000 (0.0000 % of max; E5 x=5.00)
+V2-a forces PILOT2 G: P max 526.51 maxdiff 0.0000 (0.0000 % of max; E1 x=0.00) | V2 max 90.00 maxdiff 0.0000 (0.0000 % of max; E7 x=1.50) | M3 max 88.08 maxdiff 0.0000 (0.0000 % of max; E7 x=0.00)
+V2-a forces PILOT2 Q: P max 351.01 maxdiff 0.0000 (0.0000 % of max; E2 x=0.00) | V2 max 60.00 maxdiff 0.0000 (0.0000 % of max; E7 x=0.00) | M3 max 58.72 maxdiff 0.0000 (0.0000 % of max; E7 x=0.00)
+V2-a forces PILOT2 U1: P max 854.75 maxdiff 0.0000 (0.0000 % of max; E4 x=0.00) | V2 max 140.44 maxdiff 0.0000 (0.0000 % of max; E7 x=0.00) | M3 max 137.49 maxdiff 0.0000 (0.0000 % of max; E7 x=0.00)
+V2-a forces PILOT2 U2: P max 1294.26 maxdiff 0.0000 (0.0000 % of max; E2 x=0.00) | V2 max 216.38 maxdiff 0.0000 (0.0000 % of max; E7 x=1.50) | M3 max 211.80 maxdiff 0.0000 (0.0000 % of max; E7 x=0.00)
+design combinations in model: U1, U2
+PREF PILOT2_default 1 Number of interaction curves = 24
+PREF PILOT2_default 2 Number of interaction points = 11
+PREF PILOT2_default 3 Consider minimum eccentricity = 1
+PREF PILOT2_default 4 Design for B/C capacity ratio = 2
+PREF PILOT2_default 5 Seismic design category = 4
+PREF PILOT2_default 6 Design system Omega0 = 2
+PREF PILOT2_default 7 Design system Rho = 1
+PREF PILOT2_default 8 Design system Sds = 0.5
+PREF PILOT2_default 9 Consider ICC_ESR 2017 = 1
+PREF PILOT2_default 10 Phi tension controlled = 0.9
+PREF PILOT2_default 11 Phi compression controlled tied = 0.65
+PREF PILOT2_default 12 Phi compression controlled spiral = 0.75
+PREF PILOT2_default 13 Phi shear and/or torsion = 0.75
+PREF PILOT2_default 14 Phi shear seismic = 0.6
+PREF PILOT2_default 15 Phi joint shear = 0.85
+PREF PILOT2_default 16 Pattern live load factor = 0.75
+PREF PILOT2_default 17 Utilization factor limit = 1
+PREF PILOT2_default 18 Multi-response case design = 5
+OVERWRITES PILOT2_default E1: 
+OVERWRITES PILOT2_default E9: 
+OVERWRITES PILOT2_default E15: 
+OVERWRITES PILOT2_default E5: 
+OVERWRITES PILOT2_default E6: 
+PREF PILOT2_runA 1 Number of interaction curves = 24
+PREF PILOT2_runA 2 Number of interaction points = 11
+PREF PILOT2_runA 3 Consider minimum eccentricity = 1
+PREF PILOT2_runA 4 Design for B/C capacity ratio = 2
+PREF PILOT2_runA 5 Seismic design category = 4
+PREF PILOT2_runA 6 Design system Omega0 = 2
+PREF PILOT2_runA 7 Design system Rho = 1
+PREF PILOT2_runA 8 Design system Sds = 0.5
+PREF PILOT2_runA 9 Consider ICC_ESR 2017 = 1
+PREF PILOT2_runA 10 Phi tension controlled = 0.9
+PREF PILOT2_runA 11 Phi compression controlled tied = 0.65
+PREF PILOT2_runA 12 Phi compression controlled spiral = 0.75
+PREF PILOT2_runA 13 Phi shear and/or torsion = 0.75
+PREF PILOT2_runA 14 Phi shear seismic = 0.6
+PREF PILOT2_runA 15 Phi joint shear = 0.85
+PREF PILOT2_runA 16 Pattern live load factor = 0
+PREF PILOT2_runA 17 Utilization factor limit = 1
+PREF PILOT2_runA 18 Multi-response case design = 5
+OVERWRITES PILOT2_runA E1: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.916666666666667; Unbraced length ratio minor=0.916666666666667; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=0(prog); Db minor=0(prog); Ds major=0(prog); Ds minor=0(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runA E9: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.840909090909091; Unbraced length ratio minor=0.840909090909091; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=0(prog); Db minor=0(prog); Ds major=0(prog); Ds minor=0(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runA E15: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.848484848484849; Unbraced length ratio minor=0.848484848484849; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=0(prog); Db minor=0(prog); Ds major=0(prog); Ds minor=0(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runA E5: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runA E6: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+StartDesign A ret=0
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+COLUMNS PILOT2 run A_nonsway_vs_code (program mode code): compared 12, ETABS O/S 0; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 0]; CD2 min ratio program/ETABS = 0.9758 (max 1.1552); noex mode min 0.9758 max 1.1552; CD3 max D/C (non-O/S) ETABS 0.8779 program 0.8762 -> unsafe-side difference 0.20 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 12/12
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+COLUMNS PILOT2 run A_nonsway_vs_noex (program mode noex): compared 12, ETABS O/S 0; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 0]; CD2 min ratio program/ETABS = 0.9758 (max 1.1552); noex mode min 0.9758 max 1.1552; CD3 max D/C (non-O/S) ETABS 0.8779 program 0.9119 -> unsafe-side difference 0.00 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 12/12
+GetSummaryResultsBeam_2 ret=0 rows=105
+BEAMS PILOT2 B_S1: B1 top 0.9869 bot 0.9722 (axial-adj top 1.0015 bot 0.9978, N_t max 13.20 kN) | B2 Av/s program 0.6186 / ETABS node 0.8736 = 0.7082, / ETABS at d 0.6411 = 0.9650; ETABS-const program 0.6411 -> 1.0000 | stirrups smax(Av/s by strength) s=245.0
+BEAMS PILOT2 B_S2: B1 top 0.9879 bot 0.9743 (axial-adj top 1.0024 bot 0.9985, N_t max 14.19 kN) | B2 Av/s program 0.7710 / ETABS node 1.0270 = 0.7507, / ETABS at d 0.7958 = 0.9689; ETABS-const program 0.7958 -> 1.0000 | stirrups strength s=203.7
+BEAMS PILOT2 B_S3: B1 top 1.0000 bot 1.0000 (axial-adj top 1.0000 bot 1.0000, N_t max 0.00 kN) | B2 Av/s program 0.7710 / ETABS node 1.0270 = 0.7507, / ETABS at d 0.7958 = 0.9689; ETABS-const program 0.7958 -> 1.0000 | stirrups strength s=203.7
+   table dumped: Composite Beam Design Preferences - AISC 360-16 (1 records)
+   table dumped: Composite Column Design Preferences - AISC 360-16 (1 records)
+   table dumped: Concrete Beam Design Summary - ACI 318-14 (105 records)
+   table dumped: Concrete Beam Flexure Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Beam Overwrites - ACI 318-14 (9 records)
+   table dumped: Concrete Beam Shear Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Column Design Summary - ACI 318-14 (36 records)
+   table dumped: Concrete Column Overwrites - ACI 318-14 (12 records)
+   table dumped: Concrete Column PMM Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Column Shear Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Frame Design Load Combination Data (2 records)
+   table dumped: Concrete Frame Design Preferences - ACI 318-14 (1 records)
+   table dumped: Concrete Joint Design Summary - ACI 318-14 (12 records)
+   table dumped: Concrete Joint Envelope - ACI 318-14 (12 records)
+   table dumped: Concrete Slab Design Overwrites - Punching Shear - General (16 records)
+   table dumped: Concrete Slab Design Preferences - ACI 318-19 (1 records)
+   table dumped: Preferences - Graphics (1 records)
+   table dumped: Preferences - Tolerance (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 318-19 (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 530-11 Masonry (1 records)
+   table dumped: Shear Wall Design Preferences - AISC 360-22 Composite (1 records)
+   table dumped: Steel Frame Design Preferences - AISC 360-16 (1 records)
+   table dumped: Steel Joist Design Preferences - SJI-2010 (1 records)
+StartDesign B ret=0
+PREF PILOT2_runB 1 Number of interaction curves = 24
+PREF PILOT2_runB 2 Number of interaction points = 11
+PREF PILOT2_runB 3 Consider minimum eccentricity = 1
+PREF PILOT2_runB 4 Design for B/C capacity ratio = 2
+PREF PILOT2_runB 5 Seismic design category = 4
+PREF PILOT2_runB 6 Design system Omega0 = 2
+PREF PILOT2_runB 7 Design system Rho = 1
+PREF PILOT2_runB 8 Design system Sds = 0.5
+PREF PILOT2_runB 9 Consider ICC_ESR 2017 = 1
+PREF PILOT2_runB 10 Phi tension controlled = 0.9
+PREF PILOT2_runB 11 Phi compression controlled tied = 0.65
+PREF PILOT2_runB 12 Phi compression controlled spiral = 0.75
+PREF PILOT2_runB 13 Phi shear and/or torsion = 0.75
+PREF PILOT2_runB 14 Phi shear seismic = 0.6
+PREF PILOT2_runB 15 Phi joint shear = 0.85
+PREF PILOT2_runB 16 Pattern live load factor = 0
+PREF PILOT2_runB 17 Utilization factor limit = 1
+PREF PILOT2_runB 18 Multi-response case design = 5
+OVERWRITES PILOT2_runB E1: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=0.916666666666667; Unbraced length ratio minor=0.916666666666667; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runB E9: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=0.840909090909091; Unbraced length ratio minor=0.840909090909091; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runB E15: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.848484848484849; Unbraced length ratio minor=0.848484848484849; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runB E5: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES PILOT2_runB E6: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+COLUMNS PILOT2 run B_swayQ_vs_code (program mode code): compared 12, ETABS O/S 0; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 0]; CD2 min ratio program/ETABS = 0.9758 (max 1.1552); noex mode min 0.9758 max 1.1552; CD3 max D/C (non-O/S) ETABS 0.8779 program 0.8762 -> unsafe-side difference 0.20 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 12/12
+   table dumped: Composite Beam Design Preferences - AISC 360-16 (1 records)
+   table dumped: Composite Column Design Preferences - AISC 360-16 (1 records)
+   table dumped: Concrete Beam Design Summary - ACI 318-14 (105 records)
+   table dumped: Concrete Beam Flexure Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Beam Overwrites - ACI 318-14 (9 records)
+   table dumped: Concrete Beam Shear Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Column Design Summary - ACI 318-14 (36 records)
+   table dumped: Concrete Column Overwrites - ACI 318-14 (12 records)
+   table dumped: Concrete Column PMM Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Column Shear Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Frame Design Load Combination Data (2 records)
+   table dumped: Concrete Frame Design Preferences - ACI 318-14 (1 records)
+   table dumped: Concrete Joint Design Summary - ACI 318-14 (12 records)
+   table dumped: Concrete Joint Envelope - ACI 318-14 (12 records)
+   table dumped: Concrete Slab Design Overwrites - Punching Shear - General (16 records)
+   table dumped: Concrete Slab Design Preferences - ACI 318-19 (1 records)
+   table dumped: Preferences - Graphics (1 records)
+   table dumped: Preferences - Tolerance (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 318-19 (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 530-11 Masonry (1 records)
+   table dumped: Shear Wall Design Preferences - AISC 360-22 Composite (1 records)
+   table dumped: Steel Frame Design Preferences - AISC 360-16 (1 records)
+   table dumped: Steel Joist Design Preferences - SJI-2010 (1 records)
+StartDesign C ret=0
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+COLUMNS PILOT2 run C_nomag (program mode nomag): compared 12, ETABS O/S 0; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 0]; CD2 min ratio program/ETABS = 0.9916 (max 1.1229); noex mode min 1.0194 max 1.3230; CD3 max D/C (non-O/S) ETABS 0.8431 program 0.8748 -> unsafe-side difference 0.00 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 12/12
+   table dumped: Composite Beam Design Preferences - AISC 360-16 (1 records)
+   table dumped: Composite Column Design Preferences - AISC 360-16 (1 records)
+   table dumped: Concrete Beam Design Summary - ACI 318-14 (105 records)
+   table dumped: Concrete Beam Flexure Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Beam Overwrites - ACI 318-14 (9 records)
+   table dumped: Concrete Beam Shear Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Column Design Summary - ACI 318-14 (36 records)
+   table dumped: Concrete Column Overwrites - ACI 318-14 (12 records)
+   table dumped: Concrete Column PMM Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Column Shear Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Frame Design Load Combination Data (2 records)
+   table dumped: Concrete Frame Design Preferences - ACI 318-14 (1 records)
+   table dumped: Concrete Joint Design Summary - ACI 318-14 (12 records)
+   table dumped: Concrete Joint Envelope - ACI 318-14 (12 records)
+   table dumped: Concrete Slab Design Overwrites - Punching Shear - General (16 records)
+   table dumped: Concrete Slab Design Preferences - ACI 318-19 (1 records)
+   table dumped: Preferences - Graphics (1 records)
+   table dumped: Preferences - Tolerance (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 318-19 (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 530-11 Masonry (1 records)
+   table dumped: Shear Wall Design Preferences - AISC 360-22 Composite (1 records)
+   table dumped: Steel Frame Design Preferences - AISC 360-16 (1 records)
+   table dumped: Steel Joist Design Preferences - SJI-2010 (1 records)
+StartDesign A (final, saved) ret=0
+================ case K1 ================
+column section C_Edge_S1: b x h = 300 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Edge_S2: b x h = 350 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Edge_S3: b x h = 300 x 350 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Inter_S1: b x h = 450 x 300 mm, bars 6 (NR3 = 3 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Inter_S2: b x h = 250 x 300 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+column section C_Inter_S3: b x h = 250 x 350 mm, bars 4 (NR3 = 2 on the faces along b, NR2 = 2 along h), size 20/10
+V1(a) K1: ETABS points 16, frames 21 (FEM nodes 16, elements 21); max coordinate difference 1.33E-15 m
+V1(b) K1 reaction SW: ETABS Fz 248.588 kN, FEM 248.588 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) K1 reaction G: ETABS Fz 1440.000 kN, FEM 1440.000 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) K1 reaction Q: ETABS Fz 960.000 kN, FEM 960.000 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) K1 reaction U1: ETABS Fz 2364.023 kN, FEM 2364.023 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V1(b) K1 reaction U2: ETABS Fz 3562.305 kN, FEM 3562.305 kN, diff 0.0000 %  (Fx 0.000, Fy 0.000)
+V2-a forces K1 SW: P max 78.83 maxdiff 0.0000 (0.0000 % of max; E20 x=0.00) | V2 max 9.38 maxdiff 0.0000 (0.0000 % of max; E18 x=0.00) | M3 max 9.14 maxdiff 0.0000 (0.0000 % of max; E14 x=5.00)
+V2-a forces K1 G: P max 520.32 maxdiff 0.0000 (0.0000 % of max; E20 x=0.00) | V2 max 90.00 maxdiff 0.0000 (0.0000 % of max; E18 x=0.00) | M3 max 87.47 maxdiff 0.0000 (0.0000 % of max; E14 x=5.00)
+V2-a forces K1 Q: P max 346.88 maxdiff 0.0000 (0.0000 % of max; E20 x=0.00) | V2 max 60.00 maxdiff 0.0000 (0.0000 % of max; E18 x=0.00) | M3 max 58.31 maxdiff 0.0000 (0.0000 % of max; E14 x=5.00)
+V2-a forces K1 U1: P max 838.82 maxdiff 0.0000 (0.0000 % of max; E20 x=0.00) | V2 max 139.13 maxdiff 0.0000 (0.0000 % of max; E18 x=0.00) | M3 max 135.25 maxdiff 0.0000 (0.0000 % of max; E14 x=5.00)
+V2-a forces K1 U2: P max 1273.99 maxdiff 0.0000 (0.0000 % of max; E20 x=0.00) | V2 max 215.25 maxdiff 0.0000 (0.0000 % of max; E18 x=0.00) | M3 max 209.23 maxdiff 0.0000 (0.0000 % of max; E14 x=5.00)
+design combinations in model: U1, U2
+PREF K1_default 1 Number of interaction curves = 24
+PREF K1_default 2 Number of interaction points = 11
+PREF K1_default 3 Consider minimum eccentricity = 1
+PREF K1_default 4 Design for B/C capacity ratio = 2
+PREF K1_default 5 Seismic design category = 4
+PREF K1_default 6 Design system Omega0 = 2
+PREF K1_default 7 Design system Rho = 1
+PREF K1_default 8 Design system Sds = 0.5
+PREF K1_default 9 Consider ICC_ESR 2017 = 1
+PREF K1_default 10 Phi tension controlled = 0.9
+PREF K1_default 11 Phi compression controlled tied = 0.65
+PREF K1_default 12 Phi compression controlled spiral = 0.75
+PREF K1_default 13 Phi shear and/or torsion = 0.75
+PREF K1_default 14 Phi shear seismic = 0.6
+PREF K1_default 15 Phi joint shear = 0.85
+PREF K1_default 16 Pattern live load factor = 0.75
+PREF K1_default 17 Utilization factor limit = 1
+PREF K1_default 18 Multi-response case design = 5
+OVERWRITES K1_default E1: 
+OVERWRITES K1_default E9: 
+OVERWRITES K1_default E15: 
+OVERWRITES K1_default E5: 
+OVERWRITES K1_default E6: 
+PREF K1_runA 1 Number of interaction curves = 24
+PREF K1_runA 2 Number of interaction points = 11
+PREF K1_runA 3 Consider minimum eccentricity = 1
+PREF K1_runA 4 Design for B/C capacity ratio = 2
+PREF K1_runA 5 Seismic design category = 4
+PREF K1_runA 6 Design system Omega0 = 2
+PREF K1_runA 7 Design system Rho = 1
+PREF K1_runA 8 Design system Sds = 0.5
+PREF K1_runA 9 Consider ICC_ESR 2017 = 1
+PREF K1_runA 10 Phi tension controlled = 0.9
+PREF K1_runA 11 Phi compression controlled tied = 0.65
+PREF K1_runA 12 Phi compression controlled spiral = 0.75
+PREF K1_runA 13 Phi shear and/or torsion = 0.75
+PREF K1_runA 14 Phi shear seismic = 0.6
+PREF K1_runA 15 Phi joint shear = 0.85
+PREF K1_runA 16 Pattern live load factor = 0
+PREF K1_runA 17 Utilization factor limit = 1
+PREF K1_runA 18 Multi-response case design = 5
+OVERWRITES K1_runA E1: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.924242424242424; Unbraced length ratio minor=0.924242424242424; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=0(prog); Db minor=0(prog); Ds major=0(prog); Ds minor=0(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runA E9: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.848484848484849; Unbraced length ratio minor=0.848484848484849; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=0(prog); Db minor=0(prog); Ds major=0(prog); Ds minor=0(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runA E15: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.848484848484849; Unbraced length ratio minor=0.848484848484849; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=0(prog); Db minor=0(prog); Ds major=0(prog); Ds minor=0(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runA E5: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runA E6: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+StartDesign A ret=0
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+   ETABS column E9 warning: Delta_ns exceeds 1.4 (ACI 318-14 6.2.6, 6.6.4.5.1).
+   ETABS column E10 warning: Delta_ns exceeds 1.4 (ACI 318-14 6.2.6, 6.6.4.5.1).
+COLUMNS K1 run A_nonsway_vs_code (program mode code): compared 10, ETABS O/S 2; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 2]; CD2 min ratio program/ETABS = 0.9758 (max 1.1404); noex mode min 0.9758 max 1.1404; CD3 max D/C (non-O/S) ETABS 0.8850 program 0.9051 -> unsafe-side difference 0.00 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 12/12
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+   ETABS column E9 warning: Delta_ns exceeds 1.4 (ACI 318-14 6.2.6, 6.6.4.5.1).
+   ETABS column E10 warning: Delta_ns exceeds 1.4 (ACI 318-14 6.2.6, 6.6.4.5.1).
+COLUMNS K1 run A_nonsway_vs_noex (program mode noex): compared 10, ETABS O/S 2; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 2]; CD2 min ratio program/ETABS = 0.9758 (max 1.1404); noex mode min 0.9758 max 1.1404; CD3 max D/C (non-O/S) ETABS 0.8850 program 0.9327 -> unsafe-side difference 0.00 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 12/12
+GetSummaryResultsBeam_2 ret=0 rows=105
+BEAMS K1 B_S1: B1 top 0.9869 bot 0.9714 (axial-adj top 1.0027 bot 0.9982, N_t max 15.57 kN) | B2 Av/s program 0.7710 / ETABS node 1.0270 = 0.7507, / ETABS at d 0.7958 = 0.9689; ETABS-const program 0.7958 -> 1.0000 | stirrups strength s=203.7
+BEAMS K1 B_S2: B1 top 0.9838 bot 0.9672 (axial-adj top 1.0031 bot 0.9983, N_t max 18.73 kN) | B2 Av/s program 0.7710 / ETABS node 1.0270 = 0.7507, / ETABS at d 0.7958 = 0.9689; ETABS-const program 0.7958 -> 1.0000 | stirrups strength s=203.7
+BEAMS K1 B_S3: B1 top 1.0000 bot 1.0000 (axial-adj top 1.0000 bot 1.0000, N_t max 0.00 kN) | B2 Av/s program 0.7710 / ETABS node 1.0270 = 0.7507, / ETABS at d 0.7958 = 0.9689; ETABS-const program 0.7958 -> 1.0000 | stirrups strength s=203.7
+   table dumped: Composite Beam Design Preferences - AISC 360-16 (1 records)
+   table dumped: Composite Column Design Preferences - AISC 360-16 (1 records)
+   table dumped: Concrete Beam Design Summary - ACI 318-14 (105 records)
+   table dumped: Concrete Beam Flexure Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Beam Overwrites - ACI 318-14 (9 records)
+   table dumped: Concrete Beam Shear Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Column Design Summary - ACI 318-14 (36 records)
+   table dumped: Concrete Column Overwrites - ACI 318-14 (12 records)
+   table dumped: Concrete Column PMM Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Column Shear Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Frame Design Load Combination Data (2 records)
+   table dumped: Concrete Frame Design Preferences - ACI 318-14 (1 records)
+   table dumped: Concrete Joint Design Summary - ACI 318-14 (12 records)
+   table dumped: Concrete Joint Envelope - ACI 318-14 (12 records)
+   table dumped: Concrete Slab Design Overwrites - Punching Shear - General (16 records)
+   table dumped: Concrete Slab Design Preferences - ACI 318-19 (1 records)
+   table dumped: Preferences - Graphics (1 records)
+   table dumped: Preferences - Tolerance (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 318-19 (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 530-11 Masonry (1 records)
+   table dumped: Shear Wall Design Preferences - AISC 360-22 Composite (1 records)
+   table dumped: Steel Frame Design Preferences - AISC 360-16 (1 records)
+   table dumped: Steel Joist Design Preferences - SJI-2010 (1 records)
+StartDesign B ret=0
+PREF K1_runB 1 Number of interaction curves = 24
+PREF K1_runB 2 Number of interaction points = 11
+PREF K1_runB 3 Consider minimum eccentricity = 1
+PREF K1_runB 4 Design for B/C capacity ratio = 2
+PREF K1_runB 5 Seismic design category = 4
+PREF K1_runB 6 Design system Omega0 = 2
+PREF K1_runB 7 Design system Rho = 1
+PREF K1_runB 8 Design system Sds = 0.5
+PREF K1_runB 9 Consider ICC_ESR 2017 = 1
+PREF K1_runB 10 Phi tension controlled = 0.9
+PREF K1_runB 11 Phi compression controlled tied = 0.65
+PREF K1_runB 12 Phi compression controlled spiral = 0.75
+PREF K1_runB 13 Phi shear and/or torsion = 0.75
+PREF K1_runB 14 Phi shear seismic = 0.6
+PREF K1_runB 15 Phi joint shear = 0.85
+PREF K1_runB 16 Pattern live load factor = 0
+PREF K1_runB 17 Utilization factor limit = 1
+PREF K1_runB 18 Multi-response case design = 5
+OVERWRITES K1_runB E1: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=0.924242424242424; Unbraced length ratio minor=0.924242424242424; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runB E9: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=0.848484848484849; Unbraced length ratio minor=0.848484848484849; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runB E15: Framing type=4; Live load reduction factor=1(prog); Unbraced length ratio major=0.848484848484849; Unbraced length ratio minor=0.848484848484849; K major=1; K minor=1; Cm major=1; Cm minor=1; Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runB E5: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+OVERWRITES K1_runB E6: Framing type=3; Live load reduction factor=1(prog); Unbraced length ratio major=1(prog); Unbraced length ratio minor=1(prog); K major=1(prog); K minor=1(prog); Cm major=1(prog); Cm minor=1(prog); Db major=1(prog); Db minor=1(prog); Ds major=1(prog); Ds minor=1(prog); Consider minimum eccentricity=1(prog)
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+   ETABS column E9 warning: Delta_ns exceeds 1.4 (ACI 318-14 6.2.6, 6.6.4.5.1).
+   ETABS column E10 warning: Delta_ns exceeds 1.4 (ACI 318-14 6.2.6, 6.6.4.5.1).
+COLUMNS K1 run B_swayQ_vs_code (program mode code): compared 10, ETABS O/S 2; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 2]; CD2 min ratio program/ETABS = 0.9758 (max 1.1404); noex mode min 0.9758 max 1.1404; CD3 max D/C (non-O/S) ETABS 0.8850 program 0.9051 -> unsafe-side difference 0.00 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 12/12
+   table dumped: Composite Beam Design Preferences - AISC 360-16 (1 records)
+   table dumped: Composite Column Design Preferences - AISC 360-16 (1 records)
+   table dumped: Concrete Beam Design Summary - ACI 318-14 (105 records)
+   table dumped: Concrete Beam Flexure Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Beam Overwrites - ACI 318-14 (9 records)
+   table dumped: Concrete Beam Shear Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Column Design Summary - ACI 318-14 (36 records)
+   table dumped: Concrete Column Overwrites - ACI 318-14 (12 records)
+   table dumped: Concrete Column PMM Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Column Shear Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Frame Design Load Combination Data (2 records)
+   table dumped: Concrete Frame Design Preferences - ACI 318-14 (1 records)
+   table dumped: Concrete Joint Design Summary - ACI 318-14 (12 records)
+   table dumped: Concrete Joint Envelope - ACI 318-14 (12 records)
+   table dumped: Concrete Slab Design Overwrites - Punching Shear - General (16 records)
+   table dumped: Concrete Slab Design Preferences - ACI 318-19 (1 records)
+   table dumped: Preferences - Graphics (1 records)
+   table dumped: Preferences - Tolerance (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 318-19 (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 530-11 Masonry (1 records)
+   table dumped: Shear Wall Design Preferences - AISC 360-22 Composite (1 records)
+   table dumped: Steel Frame Design Preferences - AISC 360-16 (1 records)
+   table dumped: Steel Joist Design Preferences - SJI-2010 (1 records)
+StartDesign C ret=0
+GetSummaryResultsColumn ret=0 items=36 option(0)=1
+COLUMNS K1 run C_nomag (program mode nomag): compared 12, ETABS O/S 0; CD1 (ETABS>1 or O/S while program OK incl. 6.2.6) = 0 [formula-only (D/C<=1) 0]; CD2 min ratio program/ETABS = 0.9916 (max 1.1334); noex mode min 1.0193 max 1.2619; CD3 max D/C (non-O/S) ETABS 0.8581 program 0.9027 -> unsafe-side difference 0.00 %; 6.2.6 agreement (ETABS O/S == program ratio > 1.4) 10/12
+   table dumped: Composite Beam Design Preferences - AISC 360-16 (1 records)
+   table dumped: Composite Column Design Preferences - AISC 360-16 (1 records)
+   table dumped: Concrete Beam Design Summary - ACI 318-14 (105 records)
+   table dumped: Concrete Beam Flexure Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Beam Overwrites - ACI 318-14 (9 records)
+   table dumped: Concrete Beam Shear Envelope - ACI 318-14 (27 records)
+   table dumped: Concrete Column Design Summary - ACI 318-14 (36 records)
+   table dumped: Concrete Column Overwrites - ACI 318-14 (12 records)
+   table dumped: Concrete Column PMM Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Column Shear Envelope - ACI 318-14 (24 records)
+   table dumped: Concrete Frame Design Load Combination Data (2 records)
+   table dumped: Concrete Frame Design Preferences - ACI 318-14 (1 records)
+   table dumped: Concrete Joint Design Summary - ACI 318-14 (12 records)
+   table dumped: Concrete Joint Envelope - ACI 318-14 (12 records)
+   table dumped: Concrete Slab Design Overwrites - Punching Shear - General (16 records)
+   table dumped: Concrete Slab Design Preferences - ACI 318-19 (1 records)
+   table dumped: Preferences - Graphics (1 records)
+   table dumped: Preferences - Tolerance (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 318-19 (1 records)
+   table dumped: Shear Wall Design Preferences - ACI 530-11 Masonry (1 records)
+   table dumped: Shear Wall Design Preferences - AISC 360-22 Composite (1 records)
+   table dumped: Steel Frame Design Preferences - AISC 360-16 (1 records)
+   table dumped: Steel Joist Design Preferences - SJI-2010 (1 records)
+StartDesign A (final, saved) ret=0

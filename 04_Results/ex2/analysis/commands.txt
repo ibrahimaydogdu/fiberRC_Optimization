@@ -1,0 +1,37 @@
+P_evalonly: --fibre 0 --evalonly 04_Results/ex2/analysis/x/P.txt
+P_scan: --fibre 0 --scan 04_Results/ex2/analysis/x/P.txt
+P_patterns: --fibre 0 --patterns 04_Results/ex2/analysis/x/P.txt
+P_deflection: --fibre 0 --deflection 04_Results/ex2/analysis/x/P.txt
+P_marginal_main: --fibre 0 --fibreprice 90 --shearformat delta --fr 1.0 --marginal 04_Results/ex2/analysis/x/P.txt
+P_marginal_mc2010: --fibre 0 --fibreprice 90 --shearformat mc2010 --fr 1.0 --marginal 04_Results/ex2/analysis/x/P.txt
+P_marginal_o1: --fibre 0 --fibreprice 90 --shearformat o1 --fr 1.0 --marginal 04_Results/ex2/analysis/x/P.txt
+P_marginal_fr0.8: --fibre 0 --fibreprice 90 --shearformat delta --fr 0.8 --marginal 04_Results/ex2/analysis/x/P.txt
+P_marginal_fr0.6: --fibre 0 --fibreprice 90 --shearformat delta --fr 0.6 --marginal 04_Results/ex2/analysis/x/P.txt
+P_marginal_fr1.2: --fibre 0 --fibreprice 90 --shearformat delta --fr 1.2 --marginal 04_Results/ex2/analysis/x/P.txt
+PY_marginal_main: --fibre 0 --fibreprice 90 --shearformat delta --fr 1.0 --marginal 04_Results/ex2/analysis/x/PY.txt
+F90_evalonly: --fibre 1 --fibreprice 90 --evalonly 04_Results/ex2/analysis/x/F90.txt
+F90_scan: --fibre 1 --fibreprice 90 --scan 04_Results/ex2/analysis/x/F90.txt
+F90_patterns: --fibre 1 --fibreprice 90 --patterns 04_Results/ex2/analysis/x/F90.txt
+F90_deflection: --fibre 1 --fibreprice 90 --deflection 04_Results/ex2/analysis/x/F90.txt
+F90_zerofibre: --fibre 1 --fibreprice 90 --zerofibre 04_Results/ex2/analysis/x/F90.txt
+F0_evalonly: --fibre 1 --fibreprice 0 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_scan: --fibre 1 --fibreprice 0 --scan 04_Results/ex2/analysis/x/F0.txt
+F0_patterns: --fibre 1 --fibreprice 0 --patterns 04_Results/ex2/analysis/x/F0.txt
+F0_deflection: --fibre 1 --fibreprice 0 --deflection 04_Results/ex2/analysis/x/F0.txt
+F0_zerofibre: --fibre 1 --fibreprice 0 --zerofibre 04_Results/ex2/analysis/x/F0.txt
+F0Z_evalonly: --fibre 1 --fibreprice 0 --evalonly 04_Results/ex2/analysis/x/F0Z.txt
+F0_evalonly_mc2010_fr1.0: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 1.0 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_zerofibre_mc2010_fr1.0: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 1.0 --zerofibre 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_o1_fr1.0: --fibre 1 --fibreprice 0 --shearformat o1 --fr 1.0 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_zerofibre_o1_fr1.0: --fibre 1 --fibreprice 0 --shearformat o1 --fr 1.0 --zerofibre 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_delta_fr0.8: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.8 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_zerofibre_delta_fr0.8: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.8 --zerofibre 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_delta_fr0.6: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.6 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_zerofibre_delta_fr0.6: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.6 --zerofibre 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_delta_fr1.2: --fibre 1 --fibreprice 0 --shearformat delta --fr 1.2 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_zerofibre_delta_fr1.2: --fibre 1 --fibreprice 0 --shearformat delta --fr 1.2 --zerofibre 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_fp45: --fibre 1 --fibreprice 45 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_fp90: --fibre 1 --fibreprice 90 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_fp135: --fibre 1 --fibreprice 135 --evalonly 04_Results/ex2/analysis/x/F0.txt
+F0_evalonly_fp180: --fibre 1 --fibreprice 180 --evalonly 04_Results/ex2/analysis/x/F0.txt
+done Mon Nov 16 23:40:18 TST 2026

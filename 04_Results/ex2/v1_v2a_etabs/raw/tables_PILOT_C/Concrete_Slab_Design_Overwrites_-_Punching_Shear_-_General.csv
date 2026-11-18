@@ -1,0 +1,17 @@
+Story,Label,UniqueName,CheckPunchingShear,LocationType,Perimeter,EffDepthType,OpeningDef,RebarType
+Story3,1,13,Program Determined,Auto,Auto,Auto,Auto,None
+Story3,2,14,Program Determined,Auto,Auto,Auto,Auto,None
+Story3,3,15,Program Determined,Auto,Auto,Auto,Auto,None
+Story3,4,16,Program Determined,Auto,Auto,Auto,Auto,None
+Story2,1,9,Program Determined,Auto,Auto,Auto,Auto,None
+Story2,2,10,Program Determined,Auto,Auto,Auto,Auto,None
+Story2,3,11,Program Determined,Auto,Auto,Auto,Auto,None
+Story2,4,12,Program Determined,Auto,Auto,Auto,Auto,None
+Story1,1,2,Program Determined,Auto,Auto,Auto,Auto,None
+Story1,2,4,Program Determined,Auto,Auto,Auto,Auto,None
+Story1,3,6,Program Determined,Auto,Auto,Auto,Auto,None
+Story1,4,8,Program Determined,Auto,Auto,Auto,Auto,None
+Base,1,1,Program Determined,Auto,Auto,Auto,Auto,None
+Base,2,3,Program Determined,Auto,Auto,Auto,Auto,None
+Base,3,5,Program Determined,Auto,Auto,Auto,Auto,None
+Base,4,7,Program Determined,Auto,Auto,Auto,Auto,None

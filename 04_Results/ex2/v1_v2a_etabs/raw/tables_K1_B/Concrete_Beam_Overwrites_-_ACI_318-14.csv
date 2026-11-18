@@ -1,0 +1,10 @@
+Story,Label,UniqueName,Type,DesignSect,FrameType,LLRF,LMajor,LMinor,Torsion,IgnorePu
+Story3,B1,E19,Beam,Program Determined,Non Sway,0,0,0,Program Determined,Program Determined
+Story3,B2,E20,Beam,Program Determined,Non Sway,0,0,0,Program Determined,Program Determined
+Story3,B3,E21,Beam,Program Determined,Non Sway,0,0,0,Program Determined,Program Determined
+Story2,B1,E12,Beam,Program Determined,Sway Ordinary,0,0,0,Program Determined,Program Determined
+Story2,B2,E13,Beam,Program Determined,Sway Ordinary,0,0,0,Program Determined,Program Determined
+Story2,B3,E14,Beam,Program Determined,Sway Ordinary,0,0,0,Program Determined,Program Determined
+Story1,B1,E5,Beam,Program Determined,Sway Ordinary,0,0,0,Program Determined,Program Determined
+Story1,B2,E6,Beam,Program Determined,Sway Ordinary,0,0,0,Program Determined,Program Determined
+Story1,B3,E7,Beam,Program Determined,Sway Ordinary,0,0,0,Program Determined,Program Determined

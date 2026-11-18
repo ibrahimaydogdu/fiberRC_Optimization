@@ -1,0 +1,7 @@
+scenario,method,n,median_cost,min_cost,max_cost,feasible(T=0),runs_with_fibre_dose>0,median_fibreKg
+fibre_fp0,BTO,5,228333.82,228294.22,228340.77,5/5,5,240.00
+fibre_fp0,ATO,5,228294.22,228294.22,228333.82,5/5,5,240.00
+fibre_fp90,BTO,5,230321.77,230308.35,230325.40,5/5,0,0.00
+fibre_fp90,ATO,5,230308.35,230308.35,230308.35,5/5,0,0.00
+plain,BTO,5,230308.35,230308.35,230325.40,5/5,n/a,0.00
+plain,ATO,5,230308.35,230308.35,230308.35,5/5,n/a,0.00

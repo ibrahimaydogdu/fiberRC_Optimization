@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- READ-ONLY audit of the Ö1 SFRC "stale lcs" pattern (FemRcModel.BeamDesign.Required, lines 44-51; iç Critic A1). Not part of Ex2.sln.
+       Ö1 is NOT modified: the frozen Ö1 DLLs are loaded from ..\ref\ (= phase3_bin) or from a copy of phase2_bin placed next to the exe.
+       The consistent SFRC capacity is the PCR-23 function of Ex2Model (BeamDesignGravity.FlexFixed / PhiMn / RequiredFace, Fy = 420 as in Ö1). -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>O1RequiredAudit</RootNamespace>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <Deterministic>true</Deterministic>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex2Model\Ex2Model.vbproj" />
+    <Reference Include="FemCore"><HintPath>..\ref\FemCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="RcCore"><HintPath>..\ref\RcCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="FemRcModel"><HintPath>..\ref\FemRcModel.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="MathNet.Numerics"><HintPath>..\ref\MathNet.Numerics.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="System.ValueTuple"><HintPath>..\ref\System.ValueTuple.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+</Project>

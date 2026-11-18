@@ -19,6 +19,7 @@ Public Class Ex2Problem
     Public ReadOnly ColGroups As String(), BeamGroups As String()
     Public ReadOnly Lb() As Integer, Ub() As Integer
     Public ReadOnly BeamVars As Integer
+    Public Opts As New Ex2Options                 'QCheck on by default; Patterned only for the deterministic tool
 
     Public Sub New(spec As FrameSpec2D, prices As PriceSet, useFibre As Boolean, shear As IBeamShear, Optional fRScale As Double = 1.0)
         Me.Spec = spec : Me.Prices = prices : Me.UseFibre = useFibre : Me.Shear = shear : Me.FRScale = fRScale
@@ -90,7 +91,7 @@ Public Class Ex2Problem
     End Function
 
     Public Function Evaluate(x() As Integer) As Ex2Result
-        Return Ex2Evaluator.Evaluate(Spec, Decode(x), Prices, Shear)
+        Return Ex2Evaluator.Evaluate(Spec, Decode(x), Prices, Shear, Opts)
     End Function
 
     'Fixed design from explicit sizes (V1 / V2-a / evalonly): sizes(group) = (b, h) mm; columns rho derived unless rho > 0 is given

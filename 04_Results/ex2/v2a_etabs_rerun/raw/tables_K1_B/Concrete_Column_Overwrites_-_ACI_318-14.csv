@@ -1,0 +1,13 @@
+Story,Label,UniqueName,Type,DesignSect,FrameType,LLRF,LMajor,LMinor,KMajor,KMinor,CmMajor,CmMinor,DnsMajor,DnsMinor,DsMajor,DsMinor,MinEcc
+Story3,C1,E15,Column,Program Determined,Non Sway,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story3,C2,E16,Column,Program Determined,Non Sway,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story3,C3,E17,Column,Program Determined,Non Sway,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story3,C4,E18,Column,Program Determined,Non Sway,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story2,C1,E8,Column,Program Determined,Sway Ordinary,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story2,C2,E9,Column,Program Determined,Sway Ordinary,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story2,C3,E10,Column,Program Determined,Sway Ordinary,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story2,C4,E11,Column,Program Determined,Sway Ordinary,0,0.848485,0.848485,1,1,1,1,0,0,0,0,Program Determined
+Story1,C1,E1,Column,Program Determined,Sway Ordinary,0,0.924242,0.924242,1,1,1,1,0,0,0,0,Program Determined
+Story1,C2,E2,Column,Program Determined,Sway Ordinary,0,0.924242,0.924242,1,1,1,1,0,0,0,0,Program Determined
+Story1,C3,E3,Column,Program Determined,Sway Ordinary,0,0.924242,0.924242,1,1,1,1,0,0,0,0,Program Determined
+Story1,C4,E4,Column,Program Determined,Sway Ordinary,0,0.924242,0.924242,1,1,1,1,0,0,0,0,Program Determined

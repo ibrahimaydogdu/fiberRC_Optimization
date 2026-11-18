@@ -1,0 +1,8 @@
+# Ex2Model.dll sha256=a61b0c6b4ee15114716cc437842a41a4225451b443bee512f57f3898c92c95d8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-17T15:34:03Z
+tool,zerofibre,fibre,1,groups,9,fRscale,1,fibreprice,0,shear,Q17 increment: Vc;ACI + max(0; VRdF(gc=1) - VRdF(0; gc=1)); rho_l=AsTop,qcheck,True,patterned,True,beamaxial,True,flexcheck,True
+base,cost,233916.61,nonFibre,233916.61,fibre,0.00,T,0
+group,dose,T_zeroed,cost_zeroed,dCost,dNonFibre,label
+B_S1,40,0,235697.81,1781.21,1781.21,useful (fibre saves 1781.21 TL of non-fibre cost)
+B_S2,40,0,234692.24,775.64,775.64,useful (fibre saves 775.64 TL of non-fibre cost)
+B_S3,40,0,235743.89,1827.28,1827.28,useful (fibre saves 1827.28 TL of non-fibre cost)
+ALL,-,0,238300.73,4384.12,4384.12,useful (fibre saves 4384.12 TL of non-fibre cost)

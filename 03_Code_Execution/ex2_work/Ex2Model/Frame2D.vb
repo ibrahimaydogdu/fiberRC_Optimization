@@ -1,5 +1,6 @@
 Imports System
 Imports System.Collections.Generic
+Imports System.Linq
 Imports FemCore
 Imports FemRcModel
 
@@ -128,6 +129,8 @@ Public Class Combo2D
     Public Name As String
     Public FSW, FG, FQ As Double
     Public Main As Boolean                       'True: design envelope (1.4D, 1.2D+1.6L); False: V2-b information variants
+    Public QOn As List(Of Integer)               'ACI 6.4.2 live-load pattern (deterministic tool only): element indices of the loaded beams; factor FQP on their Q_E patterns
+    Public FQP As Double
 End Class
 
 Public Class Analysis2D
@@ -139,6 +142,7 @@ Public Class Analysis2D
     Public StationX As Double()()                       '[element] station distances from the start of the clear span (m)
     Public Station As New List(Of Double()()())         '[combo][element][station](6): N, V2, V3, T, M2, M3 (M3 sagging positive for beams)
     Public SustainedAxial As New List(Of Double())      '[combo][element]: axial force of the dead part of the combination at end I (kN, compression +)
+    Public WithVariants As Boolean, Patterned As Boolean, Braced As Boolean     'flags of Analyze (Braced: sway prevented, PCR-22; faces only, no stations)
 
     'sum of the vertical reactions (kN, upward +) of a pattern
     Public Function VerticalReaction(pattern As String) As Double
@@ -148,6 +152,17 @@ Public Class Analysis2D
             s += R.Reaction(p)(i * 6 + 2)
         Next
         Return s
+    End Function
+
+    'pattern factors of a combination (SW, G, Q and the per-beam live patterns Q_E<n> of the ACI 6.4.2 tool)
+    Public Function Factors(c As Combo2D) As Double()
+        Dim m = Frame.Model
+        Dim fac(m.Patterns.Count - 1) As Double
+        fac(m.PatternIndex("SW")) = c.FSW : fac(m.PatternIndex("G")) = c.FG : fac(m.PatternIndex("Q")) = c.FQ
+        If c.QOn IsNot Nothing Then
+            For Each ei In c.QOn : fac(m.PatternIndex("Q_E" & ei)) += c.FQP : Next
+        End If
+        Return fac
     End Function
 
     Public Function VerticalReaction(c As Combo2D) As Double
@@ -180,42 +195,86 @@ Public Module RcCombos2D
         Return d
     End Function
 
-    'Linear static analysis (gross sections) and the combination forces. withVariants adds the V2-b combinations (not used by the optimisation).
-    Public Function Analyze(spec As FrameSpec2D, defs As Dictionary(Of String, RcSectionDef), Optional withVariants As Boolean = False) As Analysis2D
-        Dim a As New Analysis2D
+    'ACI 6.4.1 / 6.4.2 live-load patterns (deterministic tool only, NOT an optimisation constraint: decision [K b]); 1.2D + 1.6 L_pattern.
+    'Per storey (6.4.1: L only on the level under consideration) and on all storeys: bay sets {1,3}, {2} (6.4.2(a) span + alternate spans), {1,2}, {2,3}
+    '(6.4.2(b) adjacent spans), {1}, {3} (exterior support). Bays 0-based.
+    Public Function PatternCombos(fm As FrameModel2D) As List(Of Combo2D)
+        Dim sets()() As Integer = {New Integer() {0, 2}, New Integer() {1}, New Integer() {0, 1}, New Integer() {1, 2}, New Integer() {0}, New Integer() {2}}
+        Dim spec = fm.Spec, m = fm.Model
+        Dim res As New List(Of Combo2D)
+        For lev As Integer = 0 To spec.NStory
+            For Each st In sets
+                Dim onB As New List(Of Integer)
+                For ei As Integer = 0 To m.Elements.Count - 1
+                    If fm.IsColumn(ei) Then Continue For
+                    Dim e = m.Elements(ei)
+                    If lev > 0 AndAlso e.Story <> lev Then Continue For
+                    Dim bay As Integer = Array.IndexOf(Enumerable.Range(0, spec.Bays.Length).Select(Function(i) spec.XOf(i)).ToArray(), m.Nodes(e.NI).X)
+                    If st.Contains(bay) Then onB.Add(ei)
+                Next
+                res.Add(New Combo2D With {.Name = "P " & If(lev = 0, "all", "S" & lev) & " bays " & String.Join("", st.Select(Function(b) (b + 1).ToString())), .FSW = 1.2, .FG = 1.2, .FQ = 0.0, .FQP = 1.6, .QOn = onB, .Main = True})
+            Next
+        Next
+        Return res
+    End Function
+
+    'Linear static analysis (gross sections) and the combination forces. withVariants adds the V2-b combinations (not used by the optimisation);
+    'patterned adds one live pattern per beam (Q_E<n>) and the ACI 6.4.2 pattern combinations to the design envelope (deterministic tool only).
+    'braced (PCR-22, 2026-11-16): the same model with the lateral translation U1 restrained at every floor node (sway prevented); used only for the
+    'restraint reactions -> net storey sway forces (Stability2D.Assess); face forces only (no station forces).
+    Public Function Analyze(spec As FrameSpec2D, defs As Dictionary(Of String, RcSectionDef), Optional withVariants As Boolean = False, Optional patterned As Boolean = False, Optional braced As Boolean = False) As Analysis2D
+        Dim a As New Analysis2D With {.WithVariants = withVariants, .Patterned = patterned, .Braced = braced}
         a.Frame = RcFrameBuilder2D.Build(spec, MakeSections(spec, defs))
         Dim m = a.Frame.Model
+        If braced Then
+            For lev As Integer = 1 To spec.NStory
+                For i As Integer = 0 To spec.NCols - 1 : m.Nodes(a.Frame.NodeAt(i, lev)).Restraint(0) = True : Next
+            Next
+        End If
+        If patterned Then
+            For ei As Integer = 0 To m.Elements.Count - 1
+                If a.Frame.IsColumn(ei) Then Continue For
+                Dim pe As New FemPattern With {.Name = "Q_E" & ei, .SelfWeightMultiplier = 0.0}
+                pe.DistLoads.Add(New FemDistLoad With {.Element = ei, .Dir = 10, .IsGlobal = True, .Relative = True, .D1 = 0.0, .D2 = 1.0, .V1 = spec.LiveLine, .V2 = spec.LiveLine})
+                m.Patterns.Add(pe)
+            Next
+        End If
         a.Fs = New FemStatic(m)
         a.R = a.Fs.Solve()
         If a.R.Failed Then Throw New InvalidOperationException("Ex2 frame: " & a.R.Message)
         a.Combos.AddRange(MainCombos())
         If withVariants Then a.Combos.AddRange(VariantCombos())
+        If patterned Then a.Combos.AddRange(PatternCombos(a.Frame))
         Dim ne As Integer = m.Elements.Count
+        Dim np As Integer = m.Patterns.Count
         Dim pIdx() As Integer = {m.PatternIndex("SW"), m.PatternIndex("G"), m.PatternIndex("Q")}
         'station forces per pattern (computed once), then combined
         ReDim a.StationX(ne - 1)
-        Dim patSt(2)()()() As Double
-        For q As Integer = 0 To 2 : patSt(q) = New Double(ne - 1)()() {} : Next
+        Dim patSt(np - 1)()()() As Double
+        For q As Integer = 0 To np - 1 : patSt(q) = New Double(ne - 1)()() {} : Next
         For ei As Integer = 0 To ne - 1
+            If braced Then a.StationX(ei) = New Double() {} : Continue For
             a.StationX(ei) = a.Fs.StationLocations(ei)
-            For q As Integer = 0 To 2
-                patSt(q)(ei) = a.Fs.StationForces(a.R, pIdx(q), ei, a.StationX(ei))
+            For q As Integer = 0 To np - 1
+                patSt(q)(ei) = a.Fs.StationForces(a.R, q, ei, a.StationX(ei))
             Next
         Next
         For Each c In a.Combos
-            Dim fac() As Double = {c.FSW, c.FG, c.FQ}
+            Dim fac = a.Factors(c)
             Dim face(ne - 1)() As Double, st(ne - 1)()() As Double, sus(ne - 1) As Double
             For ei As Integer = 0 To ne - 1
                 face(ei) = New Double(11) {}
-                For q As Integer = 0 To 2
-                    Dim f = a.R.FaceForce(pIdx(q))(ei)
+                For q As Integer = 0 To np - 1
+                    If fac(q) = 0.0 Then Continue For
+                    Dim f = a.R.FaceForce(q)(ei)
                     For k As Integer = 0 To 11 : face(ei)(k) += fac(q) * f(k) : Next
                 Next
                 Dim ns As Integer = a.StationX(ei).Length
                 st(ei) = New Double(ns - 1)() {}
                 For j As Integer = 0 To ns - 1
                     st(ei)(j) = New Double(5) {}
-                    For q As Integer = 0 To 2
+                    For q As Integer = 0 To np - 1
+                        If fac(q) = 0.0 Then Continue For
                         For k As Integer = 0 To 5 : st(ei)(j)(k) += fac(q) * patSt(q)(ei)(j)(k) : Next
                     Next
                 Next

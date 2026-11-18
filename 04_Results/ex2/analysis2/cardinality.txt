@@ -1,0 +1,4 @@
+﻿# Ex2Model.dll sha256=a61b0c6b4ee15114716cc437842a41a4225451b443bee512f57f3898c92c95d8; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef
+plain,nVars,18,raw_cardinality,7.8816E+013,ranges,5;7;5;7;5;7;5;7;5;7;5;7;5;7;5;7;5;7
+fibre,nVars,24,raw_cardinality,1.3619E+017,ranges,5;7;5;7;5;7;5;7;5;7;5;7;5;7;2;6;5;7;2;6;5;7;2;6
+

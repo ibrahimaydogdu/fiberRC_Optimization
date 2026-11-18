@@ -1,5 +1,7 @@
 # 📍 PROJECT_STATE.md
 
+**Güncel durum (2026-11-17):** Ö1 (3B 116 eleman) kampanyaları Faz 1–3c bitti (`04_Results/phase3_stats.md`); fiyat=0 deneyi bitti. **Ö2 (2B 21 eleman, yalnız yerçekimi)** ayrı çözümde (`03_Code_Execution/ex2_work/`): spec v2.3 (`EX2_SPEC.md`), ETABS V1/V2-a geçti (`EX2_VALIDATION_REPORT.md`), kampanya 1 (post-hoc öncesi) + **kampanya 2** (PCR-23/24/25, ikili `ex2_campaign2_bin`, 270/270) bitti; analiz `04_Results/ex2_stats_campaign2.md`, `ex2_analysis_campaign2.md`. **Sehim kararı (IA 2026-11-18): A** — ℓ/480 bağlayıcı kısıt g5 (PCR-26, EX2_SPEC §11.3); **kampanya 3** (270 koşu, `ex2_campaign3_bin`, `04_Results/ex2/campaign3/`) 14:28'de başladı, ≈2,5 saat. Açık: V3 ETABS (Ö1, Ö2), S2, Ö3 spec (Negrin & Chagoyén 2022), Ö1 bayat-lcs PCR kararı, Maliyet_Metraj.xlsx, makale metni. Bulgular bölümüne giriş için Critic + IA onayı yok. Aşağıdaki başlıklar eski kayıtlardır.
+
 **Aşama (2026-10-30):** 3 — program doğrulama V2 büyük ölçüde tamam (FemCore ↔ ETABS, kolon radyal D/C, kiriş, ACI Bölüm 18 zinciri); **Ö1 kampanyası başladı** (3 algoritma × 30 koşu × 10 000 FE; lifsiz + lifli fR 1,00/0,85/0,70), bkz. `04_Results/VALIDATION_REPORT.md` V2i, `03_Code_Execution/run_campaign.sh`. Açık: S2 (SFRC deney kıyası), R2 (D/C 0,8–1,2 örneklemi, ikinci yapı), Ö2/Ö3, Maliyet_Metraj.xlsx, ETABS final doğrulama (V3), makale metni. Aşağıdaki §1–§4 Aşama 0 envanteridir (eski).
 
 ## 1. Kaynak envanteri (`Sources/`, salt-okunur)

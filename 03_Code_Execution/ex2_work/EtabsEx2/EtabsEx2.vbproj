@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Ex2 V1 / V2-a ETABS 22 comparison (read-only use of Ex2Model.dll and the frozen ref DLLs; file references, nothing in ex2_work is rebuilt). -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>EtabsEx2</RootNamespace>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ETABSv1"><HintPath>C:\Program Files\Computers and Structures\ETABS 22\ETABSv1.dll</HintPath><Private>True</Private></Reference>
+    <Reference Include="Ex2Model"><HintPath>..\Ex2Model\bin\Release\net472\Ex2Model.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="FemCore"><HintPath>..\ref\FemCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="RcCore"><HintPath>..\ref\RcCore.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="FemRcModel"><HintPath>..\ref\FemRcModel.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="MathNet.Numerics"><HintPath>..\ref\MathNet.Numerics.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="System.ValueTuple"><HintPath>..\ref\System.ValueTuple.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+</Project>

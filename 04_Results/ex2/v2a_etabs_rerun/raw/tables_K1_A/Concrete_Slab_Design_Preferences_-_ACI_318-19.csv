@@ -1,0 +1,2 @@
+PhiTen,PhiComp,PhiShear,IncreaseFlexRebar,OverwriteShearLambdas,IgnorePu,PatLLF,CoverTop,CoverBot,BarSize,InnerLayer,PTCGSTop,PTCGSBotExt,PTCGSBotInt,SlabType,UserStress,InitConcRat,LLFraction
+0.9,0.65,0.75,No,Yes,Yes,0.75,0.015,0.015,18,Layer B,0.025,0.04,0.025,Two Way,No,0.8,0.5

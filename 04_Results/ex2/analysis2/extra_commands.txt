@@ -1,0 +1,4 @@
+powershell -NoProfile -ExecutionPolicy Bypass -File 03_Code_Execution/tools/ex2_analysis2_extra.ps1 <scratchpad copy of ex2_campaign2_bin (sha256sum -c 8/8 OK, sha_check.txt)> 04_Results/ex2/analysis2 04_Results/ex2/campaign2
+  -> cardinality.txt, {P,F0,F0Z}_deflection_patterned.txt, breakeven_designs.csv, breakeven_summary.txt, {P,F0,F90}_scan2.txt (run 2026-11-17, 80.6 s)
+python -I 03_Code_Execution/tools/ex2_stats.py 04_Results/ex2/campaign2 04_Results/ex2_stats_campaign2.md 04_Results/ex2/analysis2/ex2_runs_campaign2.csv "kampanya 2 = post-hoc §11.2 (PCR-23/24/25), ikili Ex2Model a61b0c6b…"
+python -I 03_Code_Execution/tools/ex2_compare_campaigns.py 04_Results/ex2/analysis/ex2_runs.csv 04_Results/ex2/analysis2/ex2_runs_campaign2.csv 04_Results/ex2/analysis2/campaign1_vs_campaign2.md

@@ -1,0 +1,143 @@
+PASS T1 16 nodes  [16]
+PASS T1 21 elements (12 columns + 9 beams)
+PASS T1 column numbers 1-4, 8-11, 15-18 (Sekil 2)  [1,2,3,4,8,9,10,11,15,16,17,18]
+PASS T1 beam spans 5-6-5 m per storey  [5,6,5,5,6,5,5,6,5]
+PASS T1 column height 3.3 m
+PASS T1 nodes N1 (0,0,0) and N16 (16,0,9.9)
+PASS T1 fixed base N1-N4
+PASS T1 no rigid end zones
+PASS T2 column E1 local 2 = global X (in-plane)
+PASS T2 column E1 depth (local 2) = h = 0.30 m, width b = 0.25 m
+PASS T2 column E1 I33 = b h^3/12 (in-plane bending)
+PASS T2 beam E5 local 2 = global Z, depth 0.35 m
+PASS T3 sum V = 8.067 m3 (FEM sections)  [actual 8.067, expected 8.067, rel.err 0.00E+000]
+PASS T3 SW reaction = 25 x 8.067 = 201.675 kN  [actual 201.67499999999998, expected 201.675, rel.err 1.41E-016]
+PASS T3 G reaction = 1 440 kN  [actual 1440.0000000000002, expected 1440, rel.err 1.58E-016]
+PASS T3 Q reaction = 960 kN  [actual 960.00000000000023, expected 960, rel.err 2.37E-016]
+PASS T3 1.2D+1.6L reaction = 3 506.01 kN  [actual 3506.0100000000007, expected 3506.01, rel.err 1.30E-016]
+PASS T3 1.4D reaction = 2 298.345 kN  [actual 2298.3450000000003, expected 2298.345, rel.err 1.98E-016]
+PASS T3 1.4D not governing (reaction)
+INFO V2-b reaction V 1.0G+1.0Q +SW = 2601.675 kN
+INFO V2-b reaction V 1.0G+1.0Q noSW = 2400.000 kN
+INFO V2-b reaction V 1.4G+1.6Q +SW = 3834.345 kN
+INFO V2-b reaction V 1.4G+1.6Q noSW = 3552.000 kN
+PASS T4 E13 end shears sum = 421.5 kN  [actual 421.5, expected 421.5, rel.err 0.00E+000]
+PASS T4 symmetry: axial E1 = axial E4  [actual 503.05843495185258, expected 503.058434951853, rel.err 7.91E-016]
+PASS T5 evaluator concrete volume = 8.067 m3  [actual 8.0669999999999984, expected 8.067, rel.err 2.20E-016]
+PASS T5 source price check 8.067 x 240 = 1 936.08 TL  [actual 1936.0799999999997, expected 1936.08, rel.err 1.17E-016]
+PASS T5 concrete cost = 8.067 x 3 649.35 TL (€SIDB 15.150.1006)  [actual 29439.306449999996, expected 29439.30645, rel.err 1.24E-016]
+INFO Table 1 sections (V2-b information, own model, 1.4D / 1.2D+1.6L): cost 224511.28 TL, T 2.1336
+INFO   violated: g6 col 2nd-order M <= 1.4 x 1st-order M (ACI 6.2.6) = 0.1336
+INFO   violated: g3 beam section capacity (As finite) = 1.0000
+INFO   violated: g3 beam eps_t >= 0.004 (ACI 9.3.3.1) = 1.0000
+INFO   C_Edge rho 2.75 % D/C 0.929 Nd,max 503.1 kN
+INFO   C_Inter rho 2.25 % D/C 0.944 Nd,max 1249.9 kN
+INFO   B_S1 Mu- 207.3 Mu+ 110.5 kNm, section too small, Vu 191.4 kN, s 73 mm
+INFO   B_S2 Mu- 206.8 Mu+ 109.3 kNm, section too small, Vu 193.9 kN, s 60 mm
+INFO   B_S3 Mu- 207.7 Mu+ 116.8 kNm, ok, Vu 181.0 kN, s 245 mm
+PASS T6 9 groups: 18 plain / 24 fibre variables (spec 4)  [18/24]
+PASS T6 5 groups: 10 plain / 16 fibre variables  [10/16]
+PASS T6 plain space 35^9  [actual 78815638671875, expected 78815638671875, rel.err 0.00E+000]
+PASS T6 Decode(lb): 250 x 300 everywhere, C30
+PASS T6 Decode(ub): 450 x 600 everywhere
+PASS T6 Decode rejects out-of-bound index
+PASS T7 repair 5D 20 -> 25, 40 -> 35, 4D 20 -> 20, 0 -> 0
+PASS T9 deterministic evaluation  [288810.766578938]
+INFO mid-pool design: cost 288810.77 TL, T 0.0000
+PASS T8 dose 0 in fibre mode: Fpen = plain Fpen (same sections)  [288810.766578938 vs 288810.766578938]
+PASS T8 dose 0: Vc,f = Vc,ACI in every beam group
+PASS T8 Q17 model, plain beam: = AciBeam.Vc  [actual 122908.94190415928, expected 122908.94190415928, rel.err 0.00E+000]
+PASS T8 fibre (4D, 30 kg/m3) evaluates; dVF > 0 in every beam group  [125.81;125.78;125.33]
+PASS T8 fibre cost item = dose x beam volume x 90  [20412.00]
+PASS T8 fibre evaluation not blocked
+PASS T10 increment dVF >= 0 (all sections, rho_l, types, doses)
+PASS T10 dVF non-decreasing in dose (4D 20-40, 5D 25-35)
+PASS T10 fR x 0.8 gives dVF <= fR x 1.0
+PASS T10 O1 format = VRdF(gammaC = 1.5) for SFRC  [actual 139851.46152612189, expected 139851.46152612189, rel.err 0.00E+000]
+PASS T10 O1 format, plain beam = AciBeam.Vc  [actual 122908.94190415928, expected 122908.94190415928, rel.err 0.00E+000]
+INFO 300x500 (d 440), As 900, 4D 30 kg/m3: Vc,ACI 122.91 kN, dVF 100.99 kN, O1 VRdF(1.5) 139.85 kN
+PASS T11 station shear at x = 0 equals face shear (E13)  [actual 210.75, expected 210.75, rel.err 0.00E+000]
+PASS T11 |V(0)| - |V(d)| = w d (E13, 1.2D+1.6L)  [actual 16.860000000000014, expected 16.86, rel.err 8.43E-016]
+PASS T11 group B_S2 Vu = max node shear - w d (UDL, 1.2D+1.6L governs)  [actual 193.89000000000004, expected 193.89000000000004, rel.err 0.00E+000]
+PASS T12 non-sway limit: single curvature equal moments = 22
+PASS T12 non-sway limit: double curvature M1/M2 = +1 -> min(46, 40) = 40
+PASS T12 non-sway limit: double curvature M1/M2 = +0.5 -> 40
+PASS T12 non-sway limit: single curvature M1/M2 = -0.5 -> 28
+PASS T12 delta_ns = 1 for lu/r 36.7 in double curvature
+PASS T12 delta_ns = frozen DeltaNs in single curvature  [actual 1.1887032267642177, expected 1.1887032267642177, rel.err 0.00E+000]
+PASS T13 column tie spacing <= 25.7.2.1 and 10.7.6.5.2 limits
+PASS T14 main uses rho_l = AsTop  [actual 242644.07029885997, expected 242644.07029885997, rel.err 0.00E+000]
+PASS T14 O1 variant uses AsBot (™1 BeamDesign.VcOf one-to-one)  [actual 122171.50475404019, expected 122171.50475404019, rel.err 0.00E+000]
+PASS T14 MC2010-local = Vc + dVF(gc=1.5) / phi  [actual 229340.16714389325, expected 229340.16714389325, rel.err 0.00E+000]
+PASS T14 ordering main >= MC2010-local (fibre term)
+PASS T14 fR3/fR1 <= 0.5 -> dVF = 0 (MC2010 5.6-3)
+PASS T14 every C30 grid point satisfies fR3/fR1 > 0.5
+PASS T14 fR x 0.6 scales fR1 and fR3
+PASS T14 fR x 0.6: lower flexural strength and lower dVF (flexure and shear together)
+PASS T14 fR x 0.6 problem: dVF smaller in every beam group
+PASS T15 ACI 9.3.1.1 not in the constraint list (IA servis (a))
+PASS T16 storey Q computed (3 storeys, > 0)  [0.0404;0.0522;0.0335]
+PASS T16 larger columns -> smaller Q (every storey)  [small 0.1089;0.0990;0.0518 big 0.0208;0.0326;0.0259]
+INFO Q mid-pool 0.0404;0.0522;0.0335, 250x300 columns 0.1089;0.0990;0.0518
+PASS T16 --qcheck 0: no Q, all storeys non-sway
+PASS T17 patterned envelope: 2 main + 4 x 6 pattern combinations  [26]
+PASS T17 sum of per-beam live patterns = Q reaction 960 kN  [actual 960, expected 960, rel.err 0.00E+000]
+PASS T17 patterned MuBot >= single-pattern MuBot (B_S2)  [109.34 -> 116.14]
+PASS T18 Hermite mid-span deflection = 5 w L^4 / (384 EI) (simply supported FEM beam)  [actual 0.0020976608585304246, expected 0.0020976608585304237, rel.err 4.13E-016]
+PASS T18 deflection report: 9 beams, all deflections > 0, Ie/Ig in (0, 1]
+PASS T19 lu storey 1 = 3.3 - 0.55/2 = 3.025 m (base end 0)  [actual 3.025, expected 3.025, rel.err 0.00E+000]
+PASS T19 lu storey 2 = 3.3 - 0.55 = 2.75 m (beams 550 above and below)  [actual 2.75, expected 2.75, rel.err 0.00E+000]
+PASS T19 column result reports lu = 2 750 mm (C_Inter_S2)  [actual 2750, expected 2750, rel.err 0.00E+000]
+PASS T19 Critic example: 300 column, 550 beams: lu/r = 2750/90 = 30.56  [actual 30.555555555555557, expected 30.5556, rel.err 1.45E-006]
+PASS T19 lu/r 30.6 < 40: delta_ns = 1 in double curvature (non-sway limit)
+PASS T19 lu/r 30.6 > 22: magnified in single curvature equal moments
+PASS T19 net lu gives a smaller delta than the axis length 3.3 m
+PASS T20 ratio = delta when the moment governs  [actual 1.95, expected 1.95, rel.err 0.00E+000]
+PASS T20 ratio = delta when e_min governs (M = 0)  [actual 1.6, expected 1.6, rel.err 0.00E+000]
+PASS T20 ratio with delta_s: delta_ns |Mns + ds Ms| / |M|  [actual 1.5, expected 1.5, rel.err 0.00E+000]
+PASS T20 ratio capped (buckling, delta infinite)
+PASS T20 g6 in the constraint list
+PASS T20 g6 violation = max(0, max ratio / 1.4 - 1) (pilot)  [actual 1.0792766395842435, expected 1.0792766395842435, rel.err 0.00E+000]
+PASS T20 pilot C_Inter_S2 (250 x 300) out-of-plane ratio = delta_2 (e_min only)  [actual 1.5109872954179409, expected 1.5109872954179409, rel.err 0.00E+000]
+INFO pilot (old Q20 vector) with PCR-20/21/22: cost 239057.11 T 0.0793; C_Inter_S2 ratio in/out 1.3069/1.5110, D/C 0.8509
+PASS T20 violation example: all 250 x 300 -> some ratio > 1.4, g6 > 0, T > 0  [max ratio 2.6974]
+PASS T21 DeltaNsNoExemption = frozen DeltaNs above lu/r 22  [actual 1.1887032267642177, expected 1.1887032267642177, rel.err 0.00E+000]
+PASS T21 no exemption: lu/r = 2750/180 = 15.3 < 22 still magnified (> 1)
+PASS T21 all-250 x 300 design has a sway storey (Q > 0.05)  [0.1774;0.2298;0.1474]
+PASS T21 delta_s = 1/(1-Q) in sway storeys, 1 in non-sway storeys
+PASS T21 braced analysis built when a storey is sway
+PASS T21 symmetric frame and load: M2s ~ 0 and gravity drift ~ 0 (reported)  [3.32E-015;4.44E-015;8.35E-016 / 1.41E-015;2.24E-015;1.68E-015]
+PASS T21 sway-storey columns: delta_ns > 1 (exemption not used), delta_s recorded
+PASS T21 g7 = max(0, 3 Qmax - 1)  [actual 1, expected 1, rel.err 0.00E+000]
+PASS T21 patterned envelope: some sway storey with M2s > 0  [1.407;1.808;2.364]
+PASS T21 net storey forces reproduce the floor-average sway of the unbraced frame (sign; within 10 %)  [max rel diff 0.0066, max |u| 0.881 mm]
+PASS T21 delta_s on M2s is applied (patterns: D/C changes, rises in some group)
+PASS T21 --qcheck 0: g7 inactive, no delta_s
+PASS T22 AvPerS = max(AvS_strength, AvS_min)  [actual 0.6186351347564748, expected 0.6186351347564748, rel.err 0.00E+000]
+PASS T22 AvS_provided = 2 x pi 10^2/4 / s  [actual 0.641141357875468, expected 0.641141357875468, rel.err 0.00E+000]
+PASS T22 spacing label names the source of the required Av/s  [smax(Av/s by strength)]
+PASS T23 SFRC: Mu / phiMn(Required(Mu)) <= 1 + 1e-9 over the scan (470 finite cases, 30 section-too-small)  [max 0.99999999999999734]
+PASS T23 SFRC: Required is minimal (1 ppm less steel -> D/C > 1) over the scan  [min 1.0000000569693737]
+PASS T23 SFRC: the capacity uses its own fixed-point lcs = max(h - c, 0.2 h)
+PASS T23 F0 B_S1 bottom (250 x 500, 4D/40, Mu 112.10 kN m): As = 694.8 +- 0.5 mm2 (stale-lcs code gave 687.5)  [694.75]
+PASS T23 plain path unchanged: RequiredFace(Nt = 0) = AciBeam.RequiredAs  [actual 972.71206597234357, expected 972.71206597234357, rel.err 0.00E+000]
+PASS T23 plain FlexCheck: Mu / phiMn(As) <= 1 + 1e-12 where eps_t >= 0.004 (5532 cases; frozen RequiredAs max 1.000392)  [1]
+PASS T24 plain: As(Mu, Nt) = As(Mu - Nt (d - h/2)) + Nt / (phi fy)  [actual 785.71561288967473, expected 785.71561288967473, rel.err 0.00E+000]
+PASS T24 plain: tension raises As (Nt 15 kN)  [765.36 -> 785.72]
+PASS T24 plain: face D/C = 1 at the required steel (axial)  [actual 0.99999999999999967, expected 1, rel.err 3.33E-016]
+PASS T24 SFRC: face D/C <= 1 + 1e-6 at the required steel (axial), As above the Nt = 0 value  [716.35]
+PASS T24 plain: moment equilibrium about the centroid with Pn = Nt/phi (yielding steel)  [actual 120000000.00000004, expected 120000000, rel.err 3.73E-016]
+PASS T24 station N tension-positive: storey beams in tension, roof beams in compression (ETABS V2-a)  [14.69;17.29;0.00]
+PASS T24 axial on: AsBot, AsTop >= axial off; Vc factor < 1 where in tension
+PASS T24 ACI 22.5.7.1 factor = 1 - Nt / (3.5 b h)  [actual 0.9694690133163465, expected 0.9694690133163465, rel.err 0.00E+000]
+PASS T24 axial off: Vc factor exactly 1
+PASS T25 default options = campaign 2 (patterns on, beam axial on, g8/FlexCheck on, Q on); Campaign1() all off
+PASS T25 patterned evaluation: 26 design combinations  [26]
+PASS T25 patterned MuBot / MuTop >= single-pattern (every beam group)  [114.5->132.9;120.0->137.3;119.5->141.3]
+PASS T25 g8 in the constraint list and 0 for a designed (finite) section
+PASS T25 g8 absent under the campaign-1 rules (FlexCheck off)
+PASS T25 random designs (60 plain + 60 fibre, patterns + axial): flexural D/C <= 1 + 1e-6 in every beam group with eps_t >= 0.004, g8 never active without a g3 violation  [259 groups, max D/C 1.0000000000000002; eps_t < 0.004 groups (g3 violated, steel may not yield): 37, max D/C 1.2033]
+PASS T25 columns checked under the patterned envelope (C_Inter_S1 D/C or rho differs from single pattern)  [0.6073 -> 0.6159]
+INFO pilot vector, campaign-2 rules: cost 244900.32 TL, T 0.0837 (campaign-1 rules 239057.11)
+
+passed 123, failed 0
