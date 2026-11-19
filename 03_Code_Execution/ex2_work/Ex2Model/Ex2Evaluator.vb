@@ -50,6 +50,9 @@ Public Class Ex2Options
     'attachment of non-structural elements likely to be damaged) as constraint g5, computed by Deflection2D.Report (unchanged since the report-only version).
     'Default False so that campaign-1/2 rules and all earlier tests stay bit-identical; campaign 3 runs with --deflcheck 1.
     Public DeflCheck As Boolean = False
+    'PCR-26b (IA 2026-11-19, "Ie env"): with DeflCheck, g5 is evaluated under the ACI 6.4.2 live-load patterns with the envelope Ie
+    '(Deflection2D.PatternedEnvelope; conservative, >= the all-loaded Report); needs Patterned = True. False = PCR-26 all-loaded g5 (campaign 3).
+    Public DeflPatterned As Boolean = False
     Public QCheck As Boolean = True            'ACI 6.6.4.3(b): storey Q from a unit lateral load; Q > 0.05 -> sway slenderness limit 22 for that storey
 
     'options of the pre-registered campaign (ex2_campaign_bin, 2026-11-16): no patterns, no beam axial force (PCR-23 alone keeps the plain path bit-identical)
@@ -64,7 +67,8 @@ Public Module Ex2Evaluator
     Public Const HookLen As Double = 12.0              'x tie diameter, per hook (Ö1 assumption)
     Public Const BarDia As Double = 20.0               'column bar diameter (Ö1)
     Public Const RhoSteps As Integer = 12              'column rho grid 1 .. 4 % in 0.25 % steps (PCR-8, Q7)
-    Public Const DcTol As Double = 0.000001            'g8 tolerance on the beam flexural D/C (fixed-point iterations)
+    Public Const G5PatternName As String = "g5 beam deflection after attachment <= l/480 (ACI 24.2, Table 24.2.2; live-load patterns, Ie envelope)"
+    Public Const DcTol As Double = 0.000001           'g8 tolerance on the beam flexural D/C (fixed-point iterations)
 
     Public Function RhoOfIdx(i As Integer) As Double
         Return 0.01 + 0.0025 * i
@@ -179,11 +183,15 @@ Public Module Ex2Evaluator
             Dim sectionsOk As Boolean = bl.All(Function(x) x.SectionOk AndAlso x.EpsTOk)
             Dim vals As IEnumerable(Of Double)
             If sectionsOk Then
-                vals = Deflection2D.Report(spec, d, r).Select(Function(rw) If(Double.IsNaN(rw.DeltaAfter) OrElse Double.IsInfinity(rw.DeltaAfter), 10.0, Math.Min(rw.DeltaAfter / rw.LimAfter480 - 1.0, 10.0))).ToList()
+                If opts.DeflPatterned AndAlso opts.Patterned Then
+                    vals = Deflection2D.PatternedEnvelope(spec, d, r).Select(Function(q) If(Double.IsNaN(q) OrElse Double.IsInfinity(q), 10.0, Math.Min(q - 1.0, 10.0))).ToList()
+                Else
+                    vals = Deflection2D.Report(spec, d, r).Select(Function(rw) If(Double.IsNaN(rw.DeltaAfter) OrElse Double.IsInfinity(rw.DeltaAfter), 10.0, Math.Min(rw.DeltaAfter / rw.LimAfter480 - 1.0, 10.0))).ToList()
+                End If
             Else
                 vals = New Double() {-1.0}
             End If
-            add("g5 beam deflection after attachment <= l/480 (ACI 24.2, Table 24.2.2)", vals)
+            add(If(opts.DeflPatterned AndAlso opts.Patterned, G5PatternName, "g5 beam deflection after attachment <= l/480 (ACI 24.2, Table 24.2.2)"), vals)
         End If
         For i As Integer = 0 To viol.Count - 1
             r.Violations.Add(Tuple.Create(names(i), Penalty.GroupViolation(viol(i))))

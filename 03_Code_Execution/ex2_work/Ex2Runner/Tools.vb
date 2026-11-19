@@ -106,9 +106,9 @@ Module Tools
 
     Sub Marginal(spec As FrameSpec2D, pr As RcCore.PriceSet, fr As Double, fmt As String, o As Ex2Options, xPlain As Integer())
         Dim pf As New Ex2Problem(spec, pr, True, ShearModels.ByName(fmt, True), fr)
-        pf.Opts.QCheck = o.QCheck : pf.Opts.Patterned = o.Patterned : pf.Opts.BeamAxial = o.BeamAxial : pf.Opts.FlexCheck = o.FlexCheck : pf.Opts.DeflCheck = o.DeflCheck
+        pf.Opts.QCheck = o.QCheck : pf.Opts.Patterned = o.Patterned : pf.Opts.BeamAxial = o.BeamAxial : pf.Opts.FlexCheck = o.FlexCheck : pf.Opts.DeflCheck = o.DeflCheck : pf.Opts.DeflPatterned = o.DeflPatterned
         Dim pp As New Ex2Problem(spec, pr, False, New AciPlainShear())
-        pp.Opts.QCheck = o.QCheck : pp.Opts.Patterned = o.Patterned : pp.Opts.BeamAxial = o.BeamAxial : pp.Opts.FlexCheck = o.FlexCheck : pp.Opts.DeflCheck = o.DeflCheck
+        pp.Opts.QCheck = o.QCheck : pp.Opts.Patterned = o.Patterned : pp.Opts.BeamAxial = o.BeamAxial : pp.Opts.FlexCheck = o.FlexCheck : pp.Opts.DeflCheck = o.DeflCheck : pp.Opts.DeflPatterned = o.DeflPatterned
         If xPlain.Length <> pp.NVars Then Throw New ArgumentException("--marginal expects a plain design vector (" & pp.NVars & " values)")
         Dim basePlain = pp.Evaluate(xPlain)
         Dim base = pf.Evaluate(ToFibreVector(pf, xPlain, 0, 0, {}))

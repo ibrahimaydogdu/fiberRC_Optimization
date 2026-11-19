@@ -1,0 +1,20 @@
+=== EX2 CAMPAIGN4 start Thu Nov 19 08:07:39 TST 2026
+Ex2Model.dll: OK
+Ex2Runner.exe: OK
+FemCore.dll: OK
+FemRcModel.dll: OK
+RcCore.dll: OK
+MathNet.Numerics.dll: OK
+System.ValueTuple.dll: OK
+Ex2Runner.exe.config: OK
+--- cell plain pass 1 (0/90) Thu Nov 19 08:07:39 TST 2026
+Ex2Runner plain patterned True beamaxial True flexcheck True deflcheck True deflpattern True groups 9 nvars 18 fR x1 fibre price 90 TL/kg, 90 runs, 10000 FEs, dop 8
+Ex2Model.dll sha256=f7207d660edbf8f1542d2671bc0b9b33ee72d2ba83bc9f21cb122fcf23c666bb; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-19T05:07:15Z
+[1/90] EX2_YAKO_plain_g9_fr1.00_fp90_run12 Fpen=237580 T=0.000 872.00 s (87.20 ms/FE)
+[2/90] EX2_YAKO_plain_g9_fr1.00_fp90_run01 Fpen=237679 T=0.000 873.77 s (87.38 ms/FE)
+[3/90] EX2_YAKO_plain_g9_fr1.00_fp90_run23 Fpen=237579 T=0.000 877.56 s (87.76 ms/FE)
+[4/90] EX2_BTO_plain_g9_fr1.00_fp90_run15 Fpen=236469 T=0.000 930.13 s (93.01 ms/FE)
+[5/90] EX2_BTO_plain_g9_fr1.00_fp90_run04 Fpen=236456 T=0.000 933.65 s (93.37 ms/FE)
+[6/90] EX2_BTO_plain_g9_fr1.00_fp90_run26 Fpen=236456 T=0.000 936.45 s (93.65 ms/FE)
+[7/90] EX2_ATO_plain_g9_fr1.00_fp90_run07 Fpen=236456 T=0.000 940.48 s (94.05 ms/FE)
+[8/90] EX2_ATO_plain_g9_fr1.00_fp90_run18 Fpen=236456 T=0.000 947.67 s (94.77 ms/FE)

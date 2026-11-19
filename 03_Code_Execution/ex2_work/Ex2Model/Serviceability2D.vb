@@ -265,6 +265,97 @@ Public Module Deflection2D
         Return rows
     End Function
 
+    'PCR-26b (IA 2026-11-19, "Ie env"): ACI 24.2 deflection under the ACI 6.4.2 live-load patterns (all spans + RcCombos2D.PatternCombos) with ONE Ie/Ig per beam
+    'group = the smallest Ie/Ig of the group over all load cases (envelope variant of ex2_analysis2_extra.ps1 DeflPat; conservative, >= the Report quantity).
+    'Live-load patterns by superposition of per-element unit patterns (one extra factorisation). Returns, per beam element (model order), the worst
+    'dAfter / (l/480) over all cases; dAfter = 2 dD + dL (dD: SW + G with the D-state Ie).
+    Public Function PatternedEnvelope(spec As FrameSpec2D, d As Ex2Design, res As Ex2Result) As List(Of Double)
+        Dim a = res.Analysis, m = a.Frame.Model
+        Dim beamEls As New List(Of Integer)
+        For ei As Integer = 0 To m.Elements.Count - 1
+            If Not a.Frame.IsColumn(ei) Then beamEls.Add(ei)
+        Next
+        Dim pSW As Integer = m.PatternIndex("SW"), pG As Integer = m.PatternIndex("G")
+        Dim mBase As New Dictionary(Of Integer, Double()), mQ As New Dictionary(Of Long, Double())
+        For Each ei In beamEls
+            Dim xs = a.StationX(ei)
+            Dim s0 = a.Fs.StationForces(a.R, pSW, ei, xs), s1 = a.Fs.StationForces(a.R, pG, ei, xs)
+            Dim b(xs.Length - 1) As Double
+            For j As Integer = 0 To xs.Length - 1 : b(j) = s0(j)(5) + s1(j)(5) : Next
+            mBase(ei) = b
+            For Each e2 In beamEls
+                Dim sq = a.Fs.StationForces(a.R, m.PatternIndex("Q_E" & e2), ei, xs)
+                Dim q(xs.Length - 1) As Double
+                For j As Integer = 0 To xs.Length - 1 : q(j) = sq(j)(5) : Next
+                mQ(CLng(ei) * 100000L + e2) = q
+            Next
+        Next
+        Dim cases As New List(Of List(Of Integer))
+        cases.Add(New List(Of Integer)(beamEls))
+        For Each c In RcCombos2D.PatternCombos(a.Frame) : cases.Add(New List(Of Integer)(c.QOn)) : Next
+        Dim ratioOf = Function(g As String, qon As List(Of Integer)) As Double
+                          Dim bd = d.Beams(g), br = res.BeamRes(g)
+                          Dim neg As Double = 0.0, pos As Double = 0.0
+                          For Each ei In beamEls
+                              If m.Elements(ei).Group <> g Then Continue For
+                              Dim b = mBase(ei)
+                              For j As Integer = 0 To b.Length - 1
+                                  Dim m3 As Double = b(j)
+                                  For Each e2 In qon : m3 += mQ(CLng(ei) * 100000L + e2)(j) : Next
+                                  neg = Math.Max(neg, -m3) : pos = Math.Max(pos, m3)
+                              Next
+                          Next
+                          Dim igL As Double = bd.B * bd.H ^ 3 / 12.0
+                          Return 0.5 * (Ie(bd.B, bd.H, br.D, br.AsTop, bd.Fc, neg * 1.0E6) + Ie(bd.B, bd.H, br.D, br.AsBot, bd.Fc, pos * 1.0E6)) / igL
+                      End Function
+        Dim rD As New Dictionary(Of String, Double), rEnv As New Dictionary(Of String, Double)
+        For Each g In a.Frame.BeamGroups
+            rD(g) = ratioOf(g, New List(Of Integer))
+            Dim mn As Double = Double.MaxValue
+            For Each cs In cases : mn = Math.Min(mn, ratioOf(g, cs)) : Next
+            rEnv(g) = mn
+        Next
+        Dim fmD As FrameModel2D = Nothing
+        Dim rrD = Run(spec, d, rD, 1, 1, 0, fmD)
+        Dim uD()() As Double = {Combine(rrD.U, fmD.Model.PatternIndex("SW"), fmD.Model.PatternIndex("G"), -1, fmD.Model)}
+        'envelope-Ie model with one unit live pattern per beam element
+        Dim secs As New Dictionary(Of String, FemSection)
+        For Each kv In d.Columns : secs(kv.Key) = RcFrameBuilder.MakeSection(kv.Key, kv.Value.B, kv.Value.H, kv.Value.Fc, spec.ConcreteUnitWeight, 1.0) : Next
+        For Each kv In d.Beams : secs(kv.Key) = RcFrameBuilder.MakeSection(kv.Key, kv.Value.B, kv.Value.H, kv.Value.Fc, spec.ConcreteUnitWeight, rEnv(kv.Key)) : Next
+        Dim fmE = RcFrameBuilder2D.Build(spec, secs)
+        For Each ei In beamEls
+            Dim pq As New FemPattern With {.Name = "QD_E" & ei, .SelfWeightMultiplier = 0.0}
+            pq.DistLoads.Add(New FemDistLoad With {.Element = ei, .Dir = 10, .IsGlobal = True, .Relative = True, .D1 = 0, .D2 = 1, .V1 = spec.LiveLine, .V2 = spec.LiveLine})
+            fmE.Model.Patterns.Add(pq)
+        Next
+        Dim rrE = New FemStatic(fmE.Model).Solve()
+        If rrE.Failed Then Throw New InvalidOperationException("deflection envelope model failed")
+        Dim iSW As Integer = fmE.Model.PatternIndex("SW"), iG As Integer = fmE.Model.PatternIndex("G")
+        Dim worst As New Dictionary(Of Integer, Double)
+        For Each ei In beamEls : worst(ei) = Double.NegativeInfinity : Next
+        For Each cs In cases
+            Dim n As Integer = rrE.U(iSW).Length
+            Dim u(n - 1) As Double
+            For k As Integer = 0 To n - 1 : u(k) = rrE.U(iSW)(k) + rrE.U(iG)(k) : Next
+            For Each e2 In cs
+                Dim uq = rrE.U(fmE.Model.PatternIndex("QD_E" & e2))
+                For k As Integer = 0 To n - 1 : u(k) += uq(k) : Next
+            Next
+            Dim uL()() As Double = {u}
+            For Each ei In beamEls
+                Dim e = m.Elements(ei), bd = d.Beams(e.Group)
+                Dim ecm As Double = 4700.0 * Math.Sqrt(bd.Fc) * 1000.0
+                Dim igE As Double = bd.B * bd.H ^ 3 / 12.0 * 1.0E-12
+                Dim wSW As Double = spec.ConcreteUnitWeight * bd.B * bd.H * 1.0E-6
+                Dim dD As Double = MidspanDeflection(uD, fmD, ei, wSW + spec.DeadLine, ecm * igE * rD(e.Group)) * 1000.0
+                Dim dDL As Double = MidspanDeflection(uL, fmE, ei, wSW + spec.DeadLine + If(cs.Contains(ei), spec.LiveLine, 0.0), ecm * igE * rEnv(e.Group)) * 1000.0
+                Dim dA As Double = Xi * dD + (dDL - dD)
+                worst(ei) = Math.Max(worst(ei), dA / (e.Length * 1000.0 / 480.0))
+            Next
+        Next
+        Return beamEls.Select(Function(ei) worst(ei)).ToList()
+    End Function
+
     'sum of pattern displacement vectors (patterns SW, G and optionally Q, factor 1)
     Private Function Combine(u()() As Double, iSW As Integer, iG As Integer, iQ As Integer, m As FemModel) As Double()
         Dim n As Integer = u(iSW).Length

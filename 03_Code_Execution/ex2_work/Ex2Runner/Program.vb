@@ -82,6 +82,7 @@ Module Program
         prob.Opts.BeamAxial = Arg(args, "beamaxial", "1") = "1"           'PCR-24: beam axial tension (default since campaign2); 0 = campaign 1
         prob.Opts.FlexCheck = Arg(args, "flexcheck", "1") = "1"           'PCR-23(3): g8 + plain RequiredAs consistency (default since campaign2); 0 = campaign 1
         prob.Opts.DeflCheck = Arg(args, "deflcheck", "0") = "1"           'PCR-26 (IA 2026-11-18, option A): g5 = l/480 deflection constraint (campaign 3); default 0 = campaign 1/2 rules
+        prob.Opts.DeflPatterned = Arg(args, "deflpattern", "0") = "1"     'PCR-26b (IA 2026-11-19): g5 under live-load patterns, envelope Ie (needs --deflcheck 1 --patterned 1)
         Dim ver As String = VersionLine()
 
         'deterministic tools (no optimisation): one design vector file each
@@ -115,7 +116,7 @@ Module Program
             For r As Integer = 1 To runs : tasks.Add(Tuple.Create(m, r)) : Next
         Next
         Dim tag As String = If(useFibre, If(shearFormat = "delta", "fibre", "fibre" & shearFormat.ToUpperInvariant()), "plain") & If(prob.Opts.QCheck, "", "_noQ")
-        Console.WriteLine("Ex2Runner " & tag & " patterned " & prob.Opts.Patterned & " beamaxial " & prob.Opts.BeamAxial & " flexcheck " & prob.Opts.FlexCheck & " deflcheck " & prob.Opts.DeflCheck & " groups " & spec.Groups & " nvars " & prob.NVars & " fR x" & fr.ToString(ci) & " fibre price " & pr.Fibre.ToString(ci) & " TL/kg, " & tasks.Count & " runs, " & fes & " FEs, dop " & dop)
+        Console.WriteLine("Ex2Runner " & tag & " patterned " & prob.Opts.Patterned & " beamaxial " & prob.Opts.BeamAxial & " flexcheck " & prob.Opts.FlexCheck & " deflcheck " & prob.Opts.DeflCheck & " deflpattern " & prob.Opts.DeflPatterned & " groups " & spec.Groups & " nvars " & prob.NVars & " fR x" & fr.ToString(ci) & " fibre price " & pr.Fibre.ToString(ci) & " TL/kg, " & tasks.Count & " runs, " & fes & " FEs, dop " & dop)
         Console.WriteLine(ver)
         Dim sw = Diagnostics.Stopwatch.StartNew()
         Dim done As Integer = 0
@@ -137,7 +138,7 @@ Module Program
                                           Dim ev = prob.Evaluate(res.BestX)
                                           Dim sb As New System.Text.StringBuilder
                                           sb.AppendLine("# " & ver)
-                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",groups," & spec.Groups & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & ",arm,A,shear," & prob.Shear.Name.Replace(",", ";") & ",qcheck," & prob.Opts.QCheck & ",storeyQ," & If(ev.StoreyQ Is Nothing, "na", String.Join(";", ev.StoreyQ.Skip(1).Select(Function(q) q.ToString("F4", ci)))) & ",wallSeconds," & secs.ToString("F2", ci) & ",patterned," & prob.Opts.Patterned & ",beamaxial," & prob.Opts.BeamAxial & ",flexcheck," & prob.Opts.FlexCheck & ",deflcheck," & prob.Opts.DeflCheck)
+                                          sb.AppendLine("method," & t.Item1 & ",run," & t.Item2 & ",seed," & seed & ",FEs," & res.FEs & ",fibre," & If(useFibre, 1, 0) & ",groups," & spec.Groups & ",fRscale," & fr.ToString(ci) & ",fibreprice," & pr.Fibre.ToString(ci) & ",arm,A,shear," & prob.Shear.Name.Replace(",", ";") & ",qcheck," & prob.Opts.QCheck & ",storeyQ," & If(ev.StoreyQ Is Nothing, "na", String.Join(";", ev.StoreyQ.Skip(1).Select(Function(q) q.ToString("F4", ci)))) & ",wallSeconds," & secs.ToString("F2", ci) & ",patterned," & prob.Opts.Patterned & ",beamaxial," & prob.Opts.BeamAxial & ",flexcheck," & prob.Opts.FlexCheck & ",deflcheck," & prob.Opts.DeflCheck & ",deflpattern," & prob.Opts.DeflPatterned)
                                           sb.AppendLine("Fpen," & res.BestF.ToString("R", ci) & ",cost," & ev.Cost.Total.ToString("R", ci) & ",T," & ev.T.ToString("R", ci) & ",concrete," & ev.Cost.Concrete.ToString("F2", ci) & ",rebar," & ev.Cost.Rebar.ToString("F2", ci) & ",formwork," & ev.Cost.Formwork.ToString("F2", ci) & ",fibreCost," & ev.Cost.Fibre.ToString("F2", ci) & ",steelKg," & ev.SteelKg.ToString("F2", ci) & ",fibreKg," & ev.FibreKg.ToString("F2", ci) & ",concreteM3," & ev.ConcreteM3.ToString("F3", ci))
                                           sb.AppendLine("x," & String.Join(",", res.BestX))
                                           sb.AppendLine(Tools.StabilityLine(ev))      'PCR-22: Q, delta_s, gravity drift, M_s per storey

@@ -492,6 +492,15 @@ Module Program
         Check("T26 DeflCheck default off; g5 absent by default, present when on", Not New Ex2Options().DeflCheck AndAlso Not Ex2Options.Campaign1().DeflCheck AndAlso Not rNew.Violations.Any(Function(v) v.Item1 = g5Name) AndAlso rDef.Violations.Any(Function(v) v.Item1 = g5Name))
         Near("T26 g5 violation = max(0, worst l/480 ratio - 1) of Deflection2D.Report (same quantity as the report)", rDef.Violations.First(Function(v) v.Item1 = g5Name).Item2, Math.Max(0.0, worstRep - 1.0), 1.0E-9)
         Check("T26 DeflCheck changes only the constraint list: cost identical", rDef.Cost.Total = rNew.Cost.Total, rDef.Cost.Total.ToString("F2", ci))
+        '--- T27 PCR-26b: g5 under live-load patterns with envelope Ie. Campaign-2 F0 vector (fibre 0 TL/kg lowest): all-loaded 0.8808, patterned 'case' Ie 1.0379 (ex2/analysis2)
+        Dim xF0 As Integer() = {0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 4, 0, 5, 0, 5, 0, 5, 0, 4, 0, 5}
+        Dim pEnv As New Ex2Problem(spec9, pr, True, New FibreShearIncrementQ17())
+        pEnv.Opts.DeflCheck = True : pEnv.Opts.DeflPatterned = True
+        Dim rEnvF0 = pEnv.Evaluate(xF0)
+        Dim envWorst As Double = Deflection2D.PatternedEnvelope(spec9, pEnv.Decode(xF0), rEnvF0).Max()
+        Dim repWorst As Double = Deflection2D.Report(spec9, pEnv.Decode(xF0), rEnvF0).Max(Function(rw) rw.DeltaAfter / rw.LimAfter480)
+        Check("T27 F0 vector: envelope-Ie patterned ratio >= 'case' value 1.0379 - 1e-3 and >= all-loaded Report", envWorst >= 1.0379 - 0.001 AndAlso envWorst >= repWorst - 1.0E-9, "env " & envWorst.ToString("F4", ci) & ", report " & repWorst.ToString("F4", ci))
+        Check("T27 g5 (pattern name) present and active for the F0 vector, Report-only g5 absent", rEnvF0.Violations.Any(Function(v) v.Item1 = Ex2Evaluator.G5PatternName AndAlso v.Item2 > 0.0) AndAlso Not rEnvF0.Violations.Any(Function(v) v.Item1 = g5Name))
         Console.WriteLine("INFO pilot vector l/480 worst ratio " & worstRep.ToString("F4", ci) & ", g5 " & rDef.Violations.First(Function(v) v.Item1 = g5Name).Item2.ToString("F4", ci))
         Console.WriteLine("INFO pilot vector, campaign-2 rules: cost " & rNew.Cost.Total.ToString("F2", ci) & " TL, T " & rNew.T.ToString("F4", ci) & " (campaign-1 rules " & rNo.Cost.Total.ToString("F2", ci) & ")")
 
