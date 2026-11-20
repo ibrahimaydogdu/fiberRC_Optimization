@@ -20,6 +20,8 @@ Tüm yollar proje köküne göredir. Her koşu dosyası program sürümünü (DL
 | Pilot koşular | `04_Results/ex2/v2a_pilot/`, `v2a_pilot2/` |
 | Ö1 doğrulama raporu | `04_Results/VALIDATION_REPORT.md` |
 
+V3 (Ö2 en iyi tasarımların ETABS yeniden analizi) için **plan taslağı:** `03_Code_Execution/EX2_V3_PLAN.md` (2026-11-20; IA onayı bekler, koşulmadı).
+
 ## C. Ö2 optimizasyon kampanyaları (270 koşu / kampanya; 30 tohum; 10 000 FE)
 | Kampanya | Kural seti | Yol | İstatistik |
 |---|---|---|---|
