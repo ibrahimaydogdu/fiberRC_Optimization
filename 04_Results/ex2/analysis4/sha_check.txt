@@ -1,0 +1,8 @@
+Ex2Model.dll: OK
+Ex2Runner.exe: OK
+FemCore.dll: OK
+FemRcModel.dll: OK
+RcCore.dll: OK
+MathNet.Numerics.dll: OK
+System.ValueTuple.dll: OK
+Ex2Runner.exe.config: OK

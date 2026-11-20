@@ -77,4 +77,5 @@ Bkz. `PROJECT_STATE.md` §4.
 
 ## 3l. Karar (2026-11-18/19, 11. tur: Ö2 sehim)
 - **Sehim:** IA seçenek A (ℓ/480 bağlayıcı). Kampanya 3 (g5 tüm-yüklü) en iyileri değiştirmedi (desenli aşım 1,0379 sürdü) → IA "Ie env": PCR-26b, g5 desenli yük + Ie zarfı, kampanya 4 (`ex2_campaign4_bin`, `04_Results/ex2/campaign4/`, EX2_SPEC §11.4). Kampanyalar 1–4 birlikte raporlanır.
+- **Konumlandırma (IA 2026-11-19, seçenek 1):** Ö2'de 0 TL/kg lifli sonuç ve F0 yalnız ek materyalde (sehim-varsayımı tablosuyla); ana metinde lifsiz P + 90 TL/kg; kampanya 5 yok. Sıradaki: V3 ETABS (P, F0), S2.
 - **Ek materyal (IA 2026-11-19):** yaptığımız tüm test/doğrulama/duyarlılık sonuçları ek materyalde sunulabilir; dizin `05_Drafts/SUPPLEMENTARY_INDEX.md` (her yeni sonuç oraya eklenir). Ana metne giriş kapıları değişmedi.

@@ -1,0 +1,6 @@
+﻿# Ex2Model.dll sha256=f7207d660edbf8f1542d2671bc0b9b33ee72d2ba83bc9f21cb122fcf23c666bb; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef
+# code <-> tool match (K4 item 4): Deflection2D.PatternedEnvelope (superposition engine, frozen DLL) vs tool V0 (per-case solves), tolerance 1e-9
+P,library_PatternedEnvelope_max,0.696163517782907,tool_V0_per_case_solves,0.696163517782907,abs_diff,0.000E+000,MATCH (<=1e-9)
+F0,library_PatternedEnvelope_max,0.98467426953351289,tool_V0_per_case_solves,0.98467426953351289,abs_diff,0.000E+000,MATCH (<=1e-9)
+F0Z,library_PatternedEnvelope_max,0.95482255576832042,tool_V0_per_case_solves,0.95482255576832042,abs_diff,0.000E+000,MATCH (<=1e-9)
+F0_c2 (campaign-2 vector),library_PatternedEnvelope_max,1.0379386204194279,tool_V0_per_case_solves,1.0379386204194279,abs_diff,0.000E+000,MATCH (<=1e-9)

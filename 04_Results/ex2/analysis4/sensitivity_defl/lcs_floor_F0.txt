@@ -1,0 +1,6 @@
+﻿# Ex2Model.dll sha256=f7207d660edbf8f1542d2671bc0b9b33ee72d2ba83bc9f21cb122fcf23c666bb; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef
+# SFRC flexure lcs = max(h - c, 0.2 h): is the 0.2 h floor active on the provided steel of the F0 beams?
+F0,B_S1,h,550,0.2h,110.0,lcs_top_face,435.58,lcs_bottom_face,484.33,floor_active_top,False,floor_active_bottom,False
+F0,B_S2,h,500,0.2h,100.0,lcs_top_face,374.31,lcs_bottom_face,423.79,floor_active_top,False,floor_active_bottom,False
+F0,B_S3,h,550,0.2h,110.0,lcs_top_face,439.71,lcs_bottom_face,479.29,floor_active_top,False,floor_active_bottom,False
+

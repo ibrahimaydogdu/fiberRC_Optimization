@@ -1,0 +1,5 @@
+# Ex2Model.dll sha256=f7207d660edbf8f1542d2671bc0b9b33ee72d2ba83bc9f21cb122fcf23c666bb; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; Ex2Model built=2026-11-19T17:33:35Z
+tool,scan,fibre,1,groups,9,fRscale,1,fibreprice,0,shear,Q17 increment: Vc;ACI + max(0; VRdF(gc=1) - VRdF(0; gc=1)); rho_l=AsTop,qcheck,True,patterned,True,beamaxial,True,flexcheck,True
+base,cost,234190.76,T,0
+evaluations,123,feasibleCheaper,0,feasibleCheaper_pm1,0
+one_step_pm1_local_best,YES,coordinate_scan_local_best,YES

@@ -1,0 +1,9 @@
+﻿# Ex2Model.dll sha256=f7207d660edbf8f1542d2671bc0b9b33ee72d2ba83bc9f21cb122fcf23c666bb; FemCore.dll sha256=8da9dfd2e9d6f74e992c0ccbf4dbc5b742500ba1876725623db4503a11c9c0c8; FemRcModel.dll sha256=c1a95951560715777d137be63ebf313102f69dd6e772265eb42ff850b228f5a9; RcCore.dll sha256=14f84b7552de4020dd653cde19a5e7ccf258b0afa491f6f0be476751a6bdbeef
+# Fibre mass floor from the smallest FEASIBLE fibre-beam section (g3 eps_t, g8, shear, g5 ...), others at the P sections; NOT the shallowest pool beam
+base (P sections, all doses 0 in the fibre problem): cost,236456.22,T,0
+B_S1,smallest_feasible_section_with_fibre_4D/20,250x500,fibre_kg,40.00
+B_S2,smallest_feasible_section_with_fibre_4D/20,250x500,fibre_kg,40.00
+B_S3,smallest_feasible_section_with_fibre_4D/20,250x550,fibre_kg,44.00
+m_min_fibre_kg,40.00,at,B_S1 250x500
+rough scale (P - C_ref) / m_min with C_ref = 234190.76 (best fp0 design found; NOT a proven minimum of the non-fibre cost): 56.64 TL/kg
+

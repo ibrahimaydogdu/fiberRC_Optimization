@@ -130,3 +130,12 @@ Belge: `Evidence/DesignGuides/FIBBUL-0056-...-vol2.pdf` (SHA-256 58c0e9a1…3511
 7. **Tablo 6.6.3.1.1(b)** alternatif I denklemleri render edilmedi (A28); yalnız 6.6.3.1.1(a) ve 6.6.3.1.2 kullanılacaksa gerekmez.
 8. **fib 5.6.4 lineer model wu, CMOD3 ilişkisi**: metin gövdesi "wu=CMOD3" (rijit-plastik) ve lineer modelde wu = lcs·εFu (en çok 2.5 mm) veriyor; kodda wu seçimi (CMOD3 vs lcs·εFu) tasarım kararı olarak kullanıcıdan onay istenmeli.
 9. ACI 20.2.2.4 (fy/fyt sınırları, A15) değeri bu raporda aranmadı.
+
+### 2c. Hakem turu k4 (2026-11-19): R26.4.1.5 / fiber ve lcs kanıtı
+
+Kaynak PDF'ler (Evidence/DesignGuides/): `ACI 318M_14.pdf` SHA-256 d2b49f8827a32fa5979a566ee3d5428d607966cb32c22b264972f152916d037d (8 906 558 bayt; basılı = PDF − 2); `FibModelCode2010.pdf` SHA-256 25cfa96e65235731415431388e96adeb4ed8742fc6c871e92b163fbfe1e1e0b8 (357 sayfa). Metin katmanı PyMuPDF ile arandı.
+
+| ID | Madde | Sayfa | Birebir alıntı (≤25 sözcük) | Durum | Not |
+|---|---|---|---|---|---|
+| A62 | ACI 318M-14 R26.4.1.5 / R26.4.1.5.1(a) (çelik lif), R26.4.2.1(a)(11) (lif kesme) | PDF 459 (R26.4.1.5) ve PDF 460 / basılı 458 (R26.4.2.1(a)(11) yorumu) | "For structural applications, the Code only addresses the use of discontinuous deformed steel fibers in resisting shear." (PDF 460) | DOĞRULANDI | R26.4.1.5 (PDF 459) yalnız lif geometri/mekanik ankraj ("Deformations in steel fibers enhance mechanical anchorage with the concrete") ve korozyon notunu verir; "ACI lifi yapısal olarak yalnız kesmede tanır" ifadesinin kaynağı R26.4.2.1(a)(11) (PDF 460), R26.4.1.5 değil. Hakem istemi "R26.4.1.5 birebir alıntı": bu satır karşılar; makale atfı "ACI 318M-14 R26.4.2.1(a)(11) ve 26.4.1.5.1(a), 26.4.2.2(d)". Eğilmede lif kredisi bu nedenle ACI dışıdır (fib MC2010). |
+| A63 | fib Model Code 2010, Denk. 5.6-8 (lcs) | PDF 281 | "lcs = min{srm, y}" (srm: ortalama çatlak aralığı; y: tarafsız eksen–çekme lifi mesafesi) | KISMEN | Kodda lcs = max(h − c(lcs), 0,2 h): h − c ≈ y; **0,2 h alt sınırı kaynakta YOK** (yazarların sayısal sınırı; makalede "authors' numerical lower bound" olarak beyan edilecek). F0 kirişlerinde (`analysis4/sensitivity_defl/lcs_floor_F0.txt`) lcs = 374–484 mm ≫ 0,2 h = 100–110 mm: alt sınır **etkin değil**. min{srm, y} içindeki srm kolu kodda uygulanmaz (lcs = h − c); etkisi sayısallaştırılmadı (sınırlama, makalede beyan). |

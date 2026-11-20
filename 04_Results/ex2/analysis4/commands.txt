@@ -1,0 +1,44 @@
+P_evalonly: --fibre 0 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_scan: --fibre 0 --scan /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_patterns: --fibre 0 --patterns /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_deflection: --fibre 0 --deflection /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_marginal_main: --fibre 0 --fibreprice 90 --shearformat delta --fr 1.0 --marginal /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_marginal_mc2010: --fibre 0 --fibreprice 90 --shearformat mc2010 --fr 1.0 --marginal /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_marginal_o1: --fibre 0 --fibreprice 90 --shearformat o1 --fr 1.0 --marginal /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_marginal_fr0.8: --fibre 0 --fibreprice 90 --shearformat delta --fr 0.8 --marginal /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_marginal_fr0.6: --fibre 0 --fibreprice 90 --shearformat delta --fr 0.6 --marginal /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+P_marginal_fr1.2: --fibre 0 --fibreprice 90 --shearformat delta --fr 1.2 --marginal /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/P.txt
+PY_evalonly: --fibre 0 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/PY.txt
+PY_marginal_main: --fibre 0 --fibreprice 90 --shearformat delta --fr 1.0 --marginal /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/PY.txt
+F90_evalonly: --fibre 1 --fibreprice 90 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F90.txt
+F90_scan: --fibre 1 --fibreprice 90 --scan /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F90.txt
+F90_patterns: --fibre 1 --fibreprice 90 --patterns /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F90.txt
+F90_deflection: --fibre 1 --fibreprice 90 --deflection /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F90.txt
+F90_zerofibre: --fibre 1 --fibreprice 90 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F90.txt
+F0_evalonly: --fibre 1 --fibreprice 0 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_scan: --fibre 1 --fibreprice 0 --scan /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_patterns: --fibre 1 --fibreprice 0 --patterns /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_deflection: --fibre 1 --fibreprice 0 --deflection /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre: --fibre 1 --fibreprice 0 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0Z_evalonly: --fibre 1 --fibreprice 0 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0Z.txt
+F0Z_deflection: --fibre 1 --fibreprice 0 --deflection /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0Z.txt
+F0_evalonly_mc2010_fr1.0: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 1.0 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre_mc2010_fr1.0: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 1.0 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_o1_fr1.0: --fibre 1 --fibreprice 0 --shearformat o1 --fr 1.0 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre_o1_fr1.0: --fibre 1 --fibreprice 0 --shearformat o1 --fr 1.0 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_delta_fr0.8: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.8 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre_delta_fr0.8: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.8 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_delta_fr0.6: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.6 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre_delta_fr0.6: --fibre 1 --fibreprice 0 --shearformat delta --fr 0.6 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_delta_fr1.2: --fibre 1 --fibreprice 0 --shearformat delta --fr 1.2 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre_delta_fr1.2: --fibre 1 --fibreprice 0 --shearformat delta --fr 1.2 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_mc2010_fr0.8: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 0.8 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre_mc2010_fr0.8: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 0.8 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_mc2010_fr1.2: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 1.2 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_zerofibre_mc2010_fr1.2: --fibre 1 --fibreprice 0 --shearformat mc2010 --fr 1.2 --zerofibre /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_fp45: --fibre 1 --fibreprice 45 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_fp90: --fibre 1 --fibreprice 90 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_fp135: --fibre 1 --fibreprice 135 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+F0_evalonly_fp180: --fibre 1 --fibreprice 180 --evalonly /f/My Drive/MyProjects/Makale Çalışmaları/2027/SedaDoktora3/04_Results/ex2/analysis4/x/F0.txt
+done Thu Nov 19 20:34:14 TST 2026
+F0c2_evalonly_c4rules: --fibre 1 --fibreprice 0 --evalonly x/F0_campaign2.txt (campaign-2 F0 vector under campaign-4 rules)

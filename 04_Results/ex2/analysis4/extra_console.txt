@@ -1,0 +1,5 @@
+﻿deflpat done 0.7872561
+breakeven done 14.3890072
+scan2 P done 32.4362284
+scan2 F0 done 64.5301963
+scan2 F90 done 89.3391804
